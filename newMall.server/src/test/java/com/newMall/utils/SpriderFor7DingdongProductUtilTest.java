@@ -2,7 +2,6 @@ package com.newMall.utils;
 
 import com.google.common.collect.Maps;
 import com.newMall.NewMall_Application;
-import org.junit.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,7 +29,6 @@ public class SpriderFor7DingdongProductUtilTest {
         TEST();
     }
 
-    @Test
     public static void TEST(){
         Map<String, Object> paramMap = Maps.newHashMap();
         //获取所有企叮咚的商品
