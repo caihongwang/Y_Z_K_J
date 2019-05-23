@@ -1,0 +1,146 @@
+package com.oilStationMap.handler;
+
+import com.oilStationMap.code.OilStationMapCode;
+import com.oilStationMap.dto.ResultMapDTO;
+import com.oilStationMap.service.WX_CustomMenuService;
+import com.oilStationMap.utils.MapUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+/**
+ * 自定义菜单Handler
+ */
+@Component
+public class WX_CustomMenuHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(WX_CustomMenuHandler.class);
+
+    @Autowired
+    private WX_CustomMenuService wxCustomMenuService;
+
+    /**
+     * 获取公众号自定义菜单
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO getCustomMenu(Map<String, String> paramMap) {
+        logger.info("在hanlder中获取公众号自定义菜单-getCustomMenu,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = wxCustomMenuService.createCustomMenu(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在hanlder中获取公众号自定义菜单-getCustomMenu is error, paramMap : " + paramMap + ", e : " + e);
+        }
+        logger.info("在hanlder中获取公众号自定义菜单-getCustomMenu,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 创建公众号自定义菜单
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO createCustomMenu(Map<String, String> paramMap) {
+        logger.info("在hanlder中创建公众号自定义菜单-createCustomMenu,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = wxCustomMenuService.createCustomMenu(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在hanlder中创建公众号自定义菜单-createCustomMenu is error, paramMap : " + paramMap + ", e : " + e);
+        }
+        logger.info("在hanlder中创建公众号自定义菜单-createCustomMenu,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 删除公众号自定义菜单
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO deleteCustomMenu(Map<String, String> paramMap) {
+        logger.info("在hanlder中删除公众号自定义菜单-deleteCustomMenu,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = wxCustomMenuService.deleteCustomMenu(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在hanlder中删除公众号自定义菜单-deleteCustomMenu is error, paramMap : " + paramMap + ", e : " + e);
+        }
+        logger.info("在hanlder中删除公众号自定义菜单-deleteCustomMenu,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 创建公众号个性化菜单
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO createPersonalMenu(Map<String, String> paramMap) {
+        logger.info("在hanlder中创建公众号个性化菜单-createPersonalMenu,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = wxCustomMenuService.createPersonalMenu(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在hanlder中创建公众号个性化菜单-createPersonalMenu is error, paramMap : " + paramMap + ", e : " + e);
+        }
+        logger.info("在hanlder中创建公众号个性化菜单-createPersonalMenu,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 删除公众号个性化菜单
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO deletePersonalMenu(Map<String, String> paramMap) {
+        logger.info("在hanlder中删除公众号个性化菜单-deletePersonalMenu,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = wxCustomMenuService.deletePersonalMenu(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在hanlder中删除公众号个性化菜单-deletePersonalMenu is error, paramMap : " + paramMap + ", e : " + e);
+        }
+        logger.info("在hanlder中删除公众号个性化菜单-deletePersonalMenu,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 获取公众号自定义菜单配置接口
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO getCurrentSelfMenuInfo(Map<String, String> paramMap) {
+        logger.info("在hanlder中获取公众号自定义菜单配置接口-getCurrentSelfMenuInfo,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = wxCustomMenuService.getCurrentSelfMenuInfo(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在hanlder中获取公众号自定义菜单配置接口-getCurrentSelfMenuInfo is error, paramMap : " + paramMap + ", e : " + e);
+        }
+        logger.info("在hanlder中获取公众号自定义菜单配置接口-getCurrentSelfMenuInfo,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+}

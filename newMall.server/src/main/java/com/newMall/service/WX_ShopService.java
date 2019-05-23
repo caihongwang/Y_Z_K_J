@@ -1,0 +1,52 @@
+package com.newMall.service;
+
+import com.newMall.dto.BoolDTO;
+import com.newMall.dto.ResultDTO;
+import com.newMall.dto.ResultMapDTO;
+
+import java.util.Map;
+
+/**
+ * @Description 店铺Service
+ * @author caihongwang
+ */
+public interface WX_ShopService {
+
+    /**
+     * 获取订单排序类型
+     * @param paramMap
+     * @return
+     */
+    ResultDTO getOrderSortTypeList(Map<String, Object> paramMap);
+
+    /**
+     * 根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序吗
+     */
+    ResultMapDTO getShopMiniProgramCode(Map<String, Object> paramMap);
+
+
+    /**
+     * 根据条件查询店铺相关信息
+     */
+    ResultDTO getShopByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询店铺信息
+     */
+    ResultDTO getSimpleShopByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 添加或者修改店铺信息
+     */
+    BoolDTO addShop(Map<String, Object> paramMap);
+
+    /**
+     * 修改店铺信息
+     */
+    BoolDTO updateShop(Map<String, Object> paramMap);
+
+    /**
+     * 删除店铺信息
+     */
+    BoolDTO deleteShop(Map<String, Object> paramMap);
+}

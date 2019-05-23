@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.yzkj</groupId>
+    <artifactId>yzkj</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <org.mapstruct.version>1.1.0.Final</org.mapstruct.version>
+    </properties>
+
+    <!--模块名-->
+    <modules>
+        <module>eureka.server</module>
+        <module>zuul.server</module>
+        <module>oilStationMap.server</module>
+        <module>newMall.server</module>
+    </modules>
+
+
+    <repositories>
+        <repository>
+            <id>91caihongwang</id>
+            <url>
+                http://www.91caihongwang.com:8081/nexus/content/repositories/releases/
+            </url>
+        </repository>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    <distributionManagement>
+        <repository>
+            <id>91caihongwang_release</id>
+            <name>91caihongwang Release Repository</name>
+            <url>
+                http://www.91caihongwang.com:8081/nexus/content/repositories/releases/
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>91caihongwang_snapshots</id>
+            <name>91caihongwang Snapshot Repository</name>
+            <url>
+                http://www.91caihongwang.com:8081/nexus/content/repositories/releases/
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>

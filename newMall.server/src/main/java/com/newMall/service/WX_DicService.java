@@ -1,0 +1,39 @@
+package com.newMall.service;
+
+import com.newMall.dto.BoolDTO;
+import com.newMall.dto.ResultDTO;
+import com.newMall.dto.ResultMapDTO;
+
+import java.util.Map;
+
+/**
+ * @Description 字典Service
+ * @author caihongwang
+ */
+public interface WX_DicService {
+
+    /**
+     * 根据条件查询字典信息
+     */
+    ResultDTO getSimpleDicByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询字典信息(支持同时查询多个字典)
+     */
+    ResultMapDTO getMoreDicByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 添加或者修改字典信息
+     */
+    BoolDTO addDic(Map<String, Object> paramMap);
+
+    /**
+     * 修改字典信息
+     */
+    BoolDTO updateDic(Map<String, Object> paramMap);
+
+    /**
+     * 删除字典信息
+     */
+    BoolDTO deleteDic(Map<String, Object> paramMap);
+}

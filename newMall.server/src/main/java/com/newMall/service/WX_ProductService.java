@@ -1,0 +1,53 @@
+package com.newMall.service;
+
+import com.newMall.dto.BoolDTO;
+import com.newMall.dto.ResultDTO;
+import com.newMall.dto.ResultMapDTO;
+
+import java.util.Map;
+
+/**
+ * @Description 商品Service
+ * @author caihongwang
+ */
+public interface WX_ProductService {
+    /**
+     * 从企叮咚获取或者更新商品信息
+     */
+    ResultDTO getOrUpdateProductFrom7Dingdong(Map<String, Object> paramMap);
+
+    /**
+     * 获取商品类型列表
+     */
+    ResultDTO getProductTypeList(Map<String, Object> paramMap);
+
+    /**
+     * 获取商品详情
+     */
+    ResultMapDTO getProductDetail(Map<String, Object> paramMap);
+
+    /**
+     * 获取商品列表
+     */
+    ResultDTO getProductList(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询商品信息
+     */
+    ResultDTO getSimpleProductByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 添加或者修改商品信息
+     */
+    BoolDTO addProduct(Map<String, Object> paramMap);
+
+    /**
+     * 修改商品信息
+     */
+    BoolDTO updateProduct(Map<String, Object> paramMap);
+
+    /**
+     * 删除商品信息
+     */
+    BoolDTO deleteProduct(Map<String, Object> paramMap);
+}

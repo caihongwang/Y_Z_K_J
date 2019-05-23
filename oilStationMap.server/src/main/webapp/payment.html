@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>打赏</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700"
+          rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- jquery-ui.css -->
+    <link href="lib/jqueryUI/jquery-ui.css" rel="stylesheet">
+    <link href="lib/jqueryUI/jquery-ui.min.css" rel="stylesheet">
+
+    <style>
+        .toggler { width: 320px; height: 20px; border:0px red solid;}
+        input::-webkit-input-placeholder {
+            text-align:center;
+            color:#09BB07;
+            font-weight:bold;
+            font-size:20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<section id="intro">
+    <div class="intro-container">
+        <div id="introCarousel" class="carousel  slide carousel-fade"
+             data-ride="carousel">
+            <div class="carousel-inner" role="listbox"
+                 style="border: 0px red solid;">
+
+                <!--扫码付款-->
+                <div id="paymentCodeItem" class="carousel-item active">
+                    <div class="carousel-container">
+                        <div class="allPaymentDiv">
+                            <!--存放二维码-->
+                            <div class="paymentCodeDiv">
+                                <img id="paymentCodeImg"
+                                     class="paymentCodeImg"/>
+                            </div>
+                            <!--点击码图，长按识别图中二维码进行付款-->
+                            <div class="paymentCodeDescDiv">
+                                <p id="paymentCodeDescText"
+                                   class="paymentCodeDescText">
+                                    点击码图，长按识别图中二维码进行付款</p>
+                            </div>
+                            <!--或-->
+                            <div class="orDiv">
+                                <p id="orText" class="orText">或</p>
+                            </div>
+                            <!--点击扫一扫-->
+                            <div class="scanButtonDiv">
+                                <button type="button" id="scanButtonBtn"
+                                        class="btn btn_primary scanButtonBtn">
+                                    扫一扫
+                                </button>
+                            </div>
+                            <!--查看您的付款记录-->
+                            <div class="paymentRecordDiv">
+                                <p id="paymentRecordText"
+                                   class="paymentRecordText">查看您的付款记录</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--扫码打赏-->
+                <div id="appreciateCodeItem" class="carousel-item">
+                    <div class="carousel-container">
+                        <div class="allAppreciateDiv">
+                            <!--存放二维码-->
+                            <div class="appreciateCodeDiv">
+                                <img id="appreciateCodeImg"
+                                     class="appreciateCodeImg"
+                                     src="https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg"/>
+                            </div>
+                            <!--点击码图，长按识别图中二维码进行付款-->
+                            <div class="appreciateCodeDescDiv">
+                                <p id="appreciateCodeDescText"
+                                   class="appreciateCodeDescText">
+                                    点击码图，长按识别图中二维码进行付款</p>
+                            </div>
+                            <!--或-->
+                            <div class="orDiv">
+                                <p id="orText" class="orText">或</p>
+                            </div>
+                            <!--点击打赏-->
+                            <div class="appreciateButtonDiv">
+                                <input type="button" id="appreciateButtonBtn"
+                                       class="btn btn_primary appreciateButtonBtn" value="点击打赏" />
+                            </div>
+                            <!--查看您的打赏记录-->
+                            <div class="appreciateRecordDiv">
+                                <p id="appreciateRecordText"
+                                   class="appreciateRecordText">查看您的打赏记录</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="carousel-control-prev" href="#introCarousel" role="button"
+               data-slide="prev">
+                <span class="carousel-control-prev-icon ion-chevron-left"
+                      aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+
+            <a class="carousel-control-next" href="#introCarousel" role="button"
+               data-slide="next">
+                <span class="carousel-control-next-icon ion-chevron-right"
+                      aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<main id="main">
+
+    <section id="featured-services">
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- JavaScript Libraries -->
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/jquery/jquery-migrate.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/superfish/hoverIntent.js"></script>
+<script src="lib/superfish/superfish.min.js"></script>
+<script src="lib/wow/wow.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/counterup/counterup.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/isotope/isotope.pkgd.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+<script src="lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+
+<!-- Contact Form JavaScript File -->
+<script src="contactform/contactform.js"></script>
+
+<!-- Template Main Javascript File -->
+<script src="js/main.js"></script>
+
+<!--weixin public num file-->
+<script src="js/jquery.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+
+<!-- jquery-ui -->
+<script src="lib/jqueryUI/jquery-ui.js"></script>
+
+<div id="appreciateDialogDiv" style="display:none;width:320px;height:600px;" title="向[小程序开发者]打赏">
+    <div>
+        <input id="payMoneyInput"
+               placeholder="点击此处，打赏几个铜板."
+               style="width:320px;text-align:center;color:#09BB07;font-weight:bold;font-size:20px;border: 1px;"
+        />
+        <div class="toggler" style="display: none;">
+            <div id="tipsDiv"
+                 style="text-align: center;margin-top: 10px;">
+                请输入正确金额，比如整数或者小数.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //全局变量
+    var openId = "";
+//    var urlPre = "http://172.30.5.55:9030/oilStationMap";
+    var urlPre = "https://www.91caihongwang.com/oilStationMap";
+
+    $(function () {
+        $("input").blur();
+        initParam();
+        init();
+    });
+
+    //0.初始化参数
+    function initParam() {
+        openId = getQueryString("openId");
+    }
+
+    //1.初始化方法,获取签名，构建JS端调用微信API的环境
+    function init() {
+        //更新二维码，初始化时间
+//        updateOilStationWxPaymentCodeImgUrl();
+        /*
+         * 注意：
+         * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+         * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+         * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+         *
+         * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+         * 邮箱地址：weixin-open@qq.com
+         * 邮件主题：【微信JS-SDK反馈】具体问题
+         * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+         */
+        $.ajax({
+            type: "POST",
+            url: urlPre + "/wxCommon/getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber",
+            data: {
+                uid: "1",
+                requestPageUrl: window.location.href
+            },
+            success: function (data) {
+                console.log("data.data.appId = " + data.data.appId);
+                console.log("data.data.timestamp = " + data.data.timestamp);
+                console.log("data.data.nonceStr = " + data.data.nonceStr);
+                console.log("data.data.signature = " + data.data.signature);
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: data.data.appId, // 必填，公众号的唯一标识
+                    timestamp: data.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: data.data.nonceStr, // 必填，生成签名的随机串
+                    signature: data.data.signature,// 必填，签名，见附录1
+                    jsApiList: [
+                        'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+                        'onMenuShareQZone',
+                        'hideMenuItems',
+                        'showMenuItems',
+                        'hideAllNonBaseMenuItem',
+                        'showAllNonBaseMenuItem',
+                        'translateVoice',
+                        'startRecord',
+                        'stopRecord',
+                        'onVoiceRecordEnd',
+                        'playVoice',
+                        'onVoicePlayEnd',
+                        'pauseVoice',
+                        'stopVoice',
+                        'uploadVoice',
+                        'downloadVoice',
+                        'chooseImage',
+                        'previewImage',
+                        'uploadImage',
+                        'downloadImage',
+                        'getNetworkType',
+                        'openLocation',
+                        'getLocation',
+                        'hideOptionMenu',
+                        'showOptionMenu',
+                        'closeWindow',
+                        'scanQRCode',
+                        'chooseWXPay',
+                        'openProductSpecificView',
+                        'addCard',
+                        'chooseCard',
+                        'openCard'
+                    ]
+                });
+//                alert("wx.config【微信扫一扫】被自动调起.");
+//                setTimeout(function () {
+//                    wx.scanQRCode();
+//                },10000);
+            },
+            error: function () {
+                //获取验签失败
+                console.log("获取验签失败");
+//                $("#paymentCodeImg").attr("src", "https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_payment.jpeg");
+            },
+            complete: function () {
+                console.log("complete:获取付款页面请求已完成.");
+                updateOilStationWxPaymentCodeImgUrl();
+            }
+        });
+    }
+
+    //2.获取浏览器参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    //3.更新二维码收款信息
+    function updateOilStationWxPaymentCodeImgUrl() {
+        //获取参数
+        var lon = getQueryString("lon");
+        var lat = getQueryString("lat");
+        var oilStationName = getQueryString("oilStationName");
+        var oilStationWxPaymentCodeImgUrl = getQueryString("oilStationWxPaymentCodeImgUrl");
+        console.log("lon = " + lon + " , lat = " + lat + " , oilStationName = " + oilStationName + " , oilStationWxPaymentCodeImgUrl = " + oilStationWxPaymentCodeImgUrl);
+        if (typeof oilStationName != "undefined" && oilStationName != null && oilStationName != "") {
+            oilStationName = decodeURI(decodeURI(oilStationName));
+            $(document).attr("title", oilStationName);
+        }
+
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收款二维码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        if (typeof oilStationWxPaymentCodeImgUrl != "undefined" &&
+            oilStationWxPaymentCodeImgUrl != null &&
+            oilStationWxPaymentCodeImgUrl != "") {
+            //更换收款二维码图片
+            $("#paymentCodeImg").attr("src", oilStationWxPaymentCodeImgUrl);
+            //绑定收款二维码
+            $("#paymentCodeImg").click(function () {
+                console.log("【收款二维码】按钮被点击了， oilStationWxPaymentCodeImgUrl = " + oilStationWxPaymentCodeImgUrl);
+                wx.previewImage({
+                    current: oilStationWxPaymentCodeImgUrl,
+                    urls: [
+                        oilStationWxPaymentCodeImgUrl
+                    ]
+                });
+            });
+            //绑定扫一扫事件
+            $("#scanButtonBtn").click(function () {
+                console.log("【扫一扫】按钮被点击了");
+                wx.scanQRCode();
+            });
+            $(document).attr("title","付款");
+        } else {
+            //移除付款二维码Item, 显示赞赏二维码Item, 修改标题为“打赏”
+            $("#paymentCodeItem").remove();
+            $("#appreciateCodeItem").addClass("active");
+        }
+
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>打赏二维码<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        //绑定打赏二维码
+        $("#appreciateCodeImg").click(function () {
+            console.log("【打赏二维码】按钮被点击了");
+            wx.previewImage({
+                current: "https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg",
+                urls: [
+                    "https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg"
+                ]
+            });
+        });
+
+        //绑定点击打赏事件
+        if(window.__wxjs_environment === 'miniprogram'){        //在小程序内部
+//            alert("小程序内部" + " , window.__wxjs_environment = " + window.__wxjs_environment);
+            $("#appreciateButtonBtn").val("长按上面码图打赏");
+        } else {                                                //在小程序外部
+//            alert("小程序外部" + " , window.__wxjs_environment = " + window.__wxjs_environment);
+            $("#appreciateButtonBtn").click(function () {
+                console.log("【点击打赏】按钮被点击了");
+                WX_Pay_appreciate();
+            });
+        }
+    }
+
+    /**
+     * 使用统一订单方式进行微信支付
+     * 微信支付打赏
+     * @constructor
+     */
+    function WX_Pay_appreciate() {
+        console.log("使用统一订单的方式进行下订单，发起微信支付....");
+        //1.弹窗填写金额
+        var appreciateDialog = $("#appreciateDialogDiv").dialog({
+            modal: true,
+            autoOpen: false,
+            width: 360,
+            maxHeight: 360,
+            buttons: {
+                '残忍离去': function () {
+                    $(this).dialog("close");
+                },
+                '打赏': function () {
+                    //2.确认支付
+                    var payMoney = $("#payMoneyInput").val().trim();
+                    console.log("payMoney = " + payMoney);
+                    //判断输入金额的是否合法
+                    var reg = /^[0-9]+([.]{1}[0-9]{1,2})?$/;
+                    if(!reg.test(payMoney)){
+                        showTips();
+                    } else {
+                        $.ajax({
+                            type: "POST",
+                            url: urlPre + "/wxPay/unifiedOrderPay",
+                            data: {
+                                openId: openId,             //获取到微信公众号对应的openId
+                                payMoney: payMoney
+                            },
+                            success: function (data) {
+                                console.log("openId=" + openId +
+                                    "，timeStamp=" + data.data.timeStamp +
+                                    "，nonceStr=" + data.data.nonceStr +
+                                    "，package=" + data.data.package +
+                                    "，signType=" + data.data.signType +
+                                    "，paySign=" + data.data.paySign);
+
+                                //暂不支持在小程序内部使用JSSDK的微信支付接口，在微信生态内部正常使用.
+                                wx.chooseWXPay({
+                                    timestamp: data.data.timeStamp,
+                                    nonceStr: data.data.nonceStr,
+                                    package: data.data.package,
+                                    signType: data.data.signType, // 注意：新版支付接口使用 MD5 加密
+                                    paySign: data.data.paySign
+                                });
+//                                wx.requestPayment({
+//                                    timestamp: data.data.timeStamp,
+//                                    nonceStr: data.data.nonceStr,
+//                                    package: data.data.package,
+//                                    signType: data.data.signType, // 注意：新版支付接口使用 MD5 加密
+//                                    paySign: data.data.paySign
+//                                });
+                            },
+                            error: function () {
+                                console.log("支付失败或者被取消.");
+                            },
+                            complete: function () {
+                                console.log("complete:使用统一订单方式进行微信支付请求已完成.");
+                            }
+                        });
+                    }
+                }
+            },
+            open: function() {
+                $("#payMoneyInput").val("");
+                var buttonPane = $(this).next();
+                $(buttonPane).find('button:first').addClass('accept').addClass('ui-priority-primary');
+                $(buttonPane).find('button:last').css({
+                    "color": "#09BB07"
+                });
+            },
+            close: function() {
+                $("#payMoneyInput").val("点击此处，打赏几个铜板.");
+            }
+        });
+        appreciateDialog.dialog("open");
+    }
+
+    // 显示提示框
+    function showTips() {
+        // 从中获取特效类型
+        var selectedEffect = "shake";
+        $( ".toggler").css({
+            "display": "block"
+        });
+        // 大多数的特效类型默认不需要传递选项
+        var options = {};
+        // 一些特效带有必需的参数
+        if ( selectedEffect === "scale" ) {
+            options = { percent: 100 };
+        } else if ( selectedEffect === "size" ) {
+            options = { to: { width: 280, height: 185 } };
+        }
+        // 运行特效
+        $("#tipsDiv").show( selectedEffect, options, 500, callback );
+    };
+
+    // 回调函数
+    function callback() {
+        setTimeout(function() {
+            $("#tipsDiv").fadeOut();
+            $(".toggler").hide();
+        }, 3000 );
+    };
+
+</script>
+
+</body>
+</html>
