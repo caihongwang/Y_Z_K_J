@@ -495,7 +495,7 @@ public class WX_UserServiceImpl implements WX_UserService {
 
     /**
      * 根据用户uid创建其用户的小程序码
-     * /opt/oilStationMap_tomcat/webapps/resourceOfOilStationMap/user/
+     * /opt/resourceOfOilStationMap/user/
      * @param paramMap
      * @return
      */
@@ -510,15 +510,15 @@ public class WX_UserServiceImpl implements WX_UserService {
             String scene = "recommendUid=" + recommendUid;
             logger.info("整合之前 userMiniProgramCodePath = " + userMiniProgramCodePath);
             String filaPath = userMiniProgramCodePath + "uid_" + recommendUid + "_miniProgramCode.jpg";
-            logger.info("整合之后 filaPath = " + filaPath);
-            logger.info("用户uid = {}", "已将创建 个人小程序码，路径 filaPath = {}", recommendUid, filaPath);
+            logger.info("整合之后 filaPath = {}" + filaPath);
+            logger.info("用户uid = {}", recommendUid, " ,已创建 个人小程序码，路径 filaPath = {}", filaPath);
             //1.检测 需要创建的 个人小程序码 是否被创建过
             File userMiniProgramCodeFile = new File(filaPath);
             //2.创建 个人小程序吗
             logger.info("userMiniProgramCodeFile.exists() = " + userMiniProgramCodeFile.exists());
             logger.info("!userMiniProgramCodeFile.exists() = " + !userMiniProgramCodeFile.exists());
             if (!userMiniProgramCodeFile.exists()) {
-                logger.info("个人小程序吗不存在，所以我被执行了.");
+                logger.info("个人小程序码不存在，所以我被执行了.");
                 String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
                 Map<String, Object> accountMap = wxAccountService.getWxAccount(accountId);
                 String appid = accountMap.get("customMessageAccountAppId").toString();
@@ -530,7 +530,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                         scene,
                         filaPath);
             } else {
-                filaPath = filaPath.substring(34);
+                filaPath = filaPath.substring(4);
                 String miniProgramCodeUrl = OilStationMapCode.THE_DOMAIN + filaPath;
                 resultMap.put("miniProgramCodeUrl", miniProgramCodeUrl);
             }
