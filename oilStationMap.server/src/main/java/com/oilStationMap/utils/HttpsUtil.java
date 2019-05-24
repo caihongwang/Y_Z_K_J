@@ -96,7 +96,7 @@ public class HttpsUtil {
                     .setConnectTimeout(15000).setSocketTimeout(15000).build();
             httpPost.setConfig(requestConfig);
 
-            logger.info(currentTime + " 开始发送 请求：url={}, param={}", url, JSONObject.toJSONString(param));
+            logger.info(currentTime + " 开始发送 请求：url="+url+" , param="+JSONObject.toJSONString(param));
             response = getConnection().execute(httpPost);
             int status = response.getStatusLine().getStatusCode();
             if (status >= 200 && status < 300) {
@@ -105,16 +105,16 @@ public class HttpsUtil {
                 if (entity != null) {
                     resopnse = EntityUtils.toString(entity, "utf-8");
                 }
-                logger.info(currentTime + " 接收响应：url={}" + url + " , status={}" + status + " , content = {}" + resopnse);
+                logger.info(currentTime + " 接收响应：url=" + url + " , status=" + status + " , content=" + resopnse);
                 return entity != null ? resopnse : null;
             } else {
                 HttpEntity entity = response.getEntity();
-                logger.info(currentTime + " 接收响应：url={}" + url + " , status={}" + status + " , resopnse={}" + EntityUtils.toString(entity, "utf-8"));
-                throw new ClientProtocolException("Unexpected response status {}" + status);
+                logger.info(currentTime + " 接收响应：url=" + url + " , status=" + status + " , resopnse=" + EntityUtils.toString(entity, "utf-8"));
+                throw new ClientProtocolException("Unexpected response status=" + status);
             }
         } catch (Exception e) {
             httpPost.abort();
-            logger.error("发送请求异常：url={} , param={} , Exception={}", url, JSONObject.toJSONString(param), e);
+            logger.error("发送请求异常：url="+url+" , param="+JSONObject.toJSONString(param)+" , Exception="+e.getMessage());
         } finally {
             if (response != null) {
                 try {
