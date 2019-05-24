@@ -8,6 +8,7 @@ import com.oilStationMap.dto.MessageDTO;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.WX_AccountService;
+import com.oilStationMap.service.WX_CommonService;
 import com.oilStationMap.service.WX_OilStationOperatorService;
 import com.oilStationMap.service.WX_UserService;
 import com.oilStationMap.utils.HttpsUtil;
@@ -45,6 +46,9 @@ public class WX_UserServiceImpl implements WX_UserService {
     private WX_UserDao wxUserDao;
 
     @Autowired
+    private WX_CommonService wxCommonService;
+
+    @Autowired
     private WX_AccountService wxAccountService;
 
     @Value("${oilStationMap.user.miniProgramCode}")
@@ -74,13 +78,10 @@ public class WX_UserServiceImpl implements WX_UserService {
         paramMap.put("grayStatus", "0");
         String code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
         if (!"".equals(code)) {
-            Map<String, Object> wx_resultMap = getOpenIdAndSessionKeyForWX(paramMap);
-
-            wx_resultMap = Maps.newHashMap();
-            wx_resultMap.put("openid", "o8-g249hJL8mmxq6MGsxIAAz4ZaM");
-            wx_resultMap.put("session_key", "f345a2a7-35f6-4c51-8cd6-8977de9ade2c");
-
-            if (wx_resultMap.size() > 0) {
+//            Map<String, Object> wx_resultMap = getOpenIdAndSessionKeyForWX(paramMap);
+            Map<String, String> wx_resultMap =
+                    wxCommonService.getOpenIdAndSessionKeyForWX(paramMap).getResultMap();
+            if (wx_resultMap != null && wx_resultMap.size() > 0) {
                 if (wx_resultMap.get("openid") != null && !"".equals(wx_resultMap.get("openid").toString())) {
                     //获取session,如果没有则创一个有效的session
                     String session_key = wx_resultMap.get("session_key").toString();
@@ -202,31 +203,31 @@ public class WX_UserServiceImpl implements WX_UserService {
      * @param paramMap
      * @return
      */
-    public Map<String, Object> getOpenIdAndSessionKeyForWX(Map<String, Object> paramMap) {
-        Map<String, String> map = Maps.newHashMap();
-        Map<String, Object> resultMap = Maps.newHashMap();
-
-        String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
-        Map<String, Object> accountMap = wxAccountService.getWxAccount(accountId);
-        String appid = accountMap.get("customMessageAccountAppId").toString();
-        String secret = accountMap.get("customMessageAccountSecret").toString();
-
-        String js_code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
-        String grant_type = OilStationMapCode.WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID;
-        if (!"".equals(appid) && !"".equals(secret)
-                && !"".equals(js_code) && !"".equals(grant_type)) {
-            map.put("appid", appid);
-            map.put("secret", secret);
-            map.put("js_code", js_code);
-            map.put("grant_type", grant_type);
-            String res = httpsUtil.post(
-                    "https://weixin.qq.com/sns/jscode2session",
-                    map);
-            logger.info("向微信服务器发送请求，获取响应的is {}", res);
-            resultMap = JSON.parseObject(res, Map.class);
-        }
-        return resultMap;
-    }
+//    public Map<String, Object> getOpenIdAndSessionKeyForWX(Map<String, Object> paramMap) {
+//        Map<String, String> map = Maps.newHashMap();
+//        Map<String, Object> resultMap = Maps.newHashMap();
+//
+//        String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
+//        Map<String, Object> accountMap = wxAccountService.getWxAccount(accountId);
+//        String appid = accountMap.get("customMessageAccountAppId").toString();
+//        String secret = accountMap.get("customMessageAccountSecret").toString();
+//
+//        String js_code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
+//        String grant_type = OilStationMapCode.WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID;
+//        if (!"".equals(appid) && !"".equals(secret)
+//                && !"".equals(js_code) && !"".equals(grant_type)) {
+//            map.put("appid", appid);
+//            map.put("secret", secret);
+//            map.put("js_code", js_code);
+//            map.put("grant_type", grant_type);
+//            String res = httpsUtil.post(
+//                    "https://weixin.qq.com/sns/jscode2session",
+//                    map);
+//            logger.info("向微信服务器发送请求，获取响应的is {}", res);
+//            resultMap = JSON.parseObject(res, Map.class);
+//        }
+//        return resultMap;
+//    }
 
 
     /**

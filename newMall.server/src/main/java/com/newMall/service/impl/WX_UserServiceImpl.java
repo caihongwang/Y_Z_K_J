@@ -86,10 +86,6 @@ public class WX_UserServiceImpl implements WX_UserService {
             paramMap.put("secret", NewMallCode.WX_MINI_PROGRAM_SECRET);
             Map<String, Object> wx_resultMap = WX_PublicNumberUtil.getMiniOpenIdAndSessionKeyForWX(paramMap);
 
-            wx_resultMap = Maps.newHashMap();
-            wx_resultMap.put("openid", "o8-g249hJL8mmxq6MGsxIAAz4ZaM");
-            wx_resultMap.put("session_key", "f345a2a7-35f6-4c51-8cd6-8977de9ade2c");
-
             if (wx_resultMap.size() > 0) {
                 //获取session,如果没有则创一个有效的session
                 String session_key = wx_resultMap.get("session_key").toString();
