@@ -96,8 +96,7 @@ public class HttpsUtil {
                     .setConnectTimeout(15000).setSocketTimeout(15000).build();
             httpPost.setConfig(requestConfig);
 
-            logger.info(currentTime + " 开始发送 请求：url {}, \n请求参数: {}", url, JSONObject.toJSONString(param));
-//          httpPost.setHeader("prepub", "1");//todo 正式环境一定要去掉
+            logger.info(currentTime + " 开始发送 请求：url={}, param={}", url, JSONObject.toJSONString(param));
             response = getConnection().execute(httpPost);
             int status = response.getStatusLine().getStatusCode();
             if (status >= 200 && status < 300) {
@@ -106,16 +105,16 @@ public class HttpsUtil {
                 if (entity != null) {
                     resopnse = EntityUtils.toString(entity, "utf-8");
                 }
-                logger.info(currentTime + " 接收响应：url" + url + " status=" + status + " content : " + resopnse);
+                logger.info(currentTime + " 接收响应：url={}" + url + " , status={}" + status + " , content = {}" + resopnse);
                 return entity != null ? resopnse : null;
             } else {
                 HttpEntity entity = response.getEntity();
-                logger.info(currentTime + " 接收响应：url" + url + " status=" + status + " resopnse=" + EntityUtils.toString(entity, "utf-8"));
-                throw new ClientProtocolException("Unexpected response status: " + status);
+                logger.info(currentTime + " 接收响应：url={}" + url + " , status={}" + status + " , resopnse={}" + EntityUtils.toString(entity, "utf-8"));
+                throw new ClientProtocolException("Unexpected response status {}" + status);
             }
         } catch (Exception e) {
             httpPost.abort();
-            logger.error("发送请求异常：url {}, \n请求参数: {}", url, JSONObject.toJSONString(param) + " Exception" + e.toString());
+            logger.error("发送请求异常：url={} , param={} , Exception={}", url, JSONObject.toJSONString(param), e);
         } finally {
             if (response != null) {
                 try {
