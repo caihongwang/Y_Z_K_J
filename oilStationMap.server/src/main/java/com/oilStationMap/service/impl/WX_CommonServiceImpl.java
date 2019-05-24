@@ -378,8 +378,11 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                 map.put("secret", secret);
                 map.put("js_code", js_code);
                 map.put("grant_type", grant_type);
-                String res = httpsUtil.post(
-                        "https://weixin.qq.com/sns/jscode2session",
+//                String res = httpsUtil.post(
+//                        "https://weixin.qq.com/sns/jscode2session",
+//                        map);
+                String res = httpsUtil.get(
+                        "https://api.weixin.qq.com/sns/jscode2session",
                         map);
                 logger.info("向微信服务器发送请求，获取响应的is {}", res);
                 resultMap = JSON.parseObject(res, Map.class);
