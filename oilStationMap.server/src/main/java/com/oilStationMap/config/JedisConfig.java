@@ -31,6 +31,9 @@ public class JedisConfig extends CachingConfigurerSupport {
     @Value("${spring.redis.port}")
     private int port;
 
+    @Value("${spring.redis.database}")
+    private int database;
+
     @Value("${spring.redis.timeout}")
     private int timeout;
 
@@ -53,10 +56,8 @@ public class JedisConfig extends CachingConfigurerSupport {
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         jedisPoolConfig.setMaxTotal(maxActive);
         jedisPoolConfig.setMinIdle(minIdle);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,timeout,null);
-
-        logger.info("JedisPool注入成功！");
-        logger.info("redis地址：" + host + ":" + port);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,timeout,null,database);
+        logger.info("JedisPool注入成功！redis地址：" + host + ":" + port);
         return  jedisPool;
     }
 
