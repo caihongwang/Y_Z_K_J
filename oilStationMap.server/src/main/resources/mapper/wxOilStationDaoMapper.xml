@@ -6,6 +6,7 @@
     <sql id="columnList">    <!-- 字段 -->
         id,
         oil_station_code,
+        oil_station_owner_uid,
         oil_station_name,
         oil_station_area_spell,
         oil_station_area_name,
@@ -29,6 +30,7 @@
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
         oos.id as "id",
         oos.oil_station_code as "oilStationCode",
+        oos.oil_station_owner_uid as "oilStationOwnerUid",
         oos.oil_station_name as "oilStationName",
         oos.oil_station_area_spell as "oilStationAreaSpell",
         oos.oil_station_area_name as "oilStationAreaName",
@@ -59,6 +61,9 @@
             </if>
             <if test="oilStationCode != null and oilStationCode != ''">
                 AND oos.oil_station_code = #{oilStationCode}
+            </if>
+            <if test="oilStationOwnerUid != null and oilStationOwnerUid != ''">
+                AND oos.oil_station_owner_uid = #{oilStationOwnerUid}
             </if>
             <if test="oilStationName != null and oilStationName != ''">
                 AND oos.oil_station_name = #{oilStationName}
@@ -103,6 +108,7 @@
         ) values (
         #{id},
         #{oilStationCode},
+        #{oilStationOwnerUid},
         #{oilStationName},
         #{oilStationAreaSpell},
         #{oilStationAreaName},

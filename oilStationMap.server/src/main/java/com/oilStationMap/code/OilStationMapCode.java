@@ -82,6 +82,7 @@ public class OilStationMapCode {
     public static OilStationMapCode OIL_STATION_EXIST_AND_UPDATE = new OilStationMapCode(130003, "加油站已存在，并更新。");
     public static OilStationMapCode OIL_STATION_PARAM_IS_NOT_NULL = new OilStationMapCode(130004, "加油站必填参数不允许为空,相关参数请查看文档。");
     public static OilStationMapCode SHOP_UID_PAGE_SCENE_FILEPATH_IS_NOT_NULL = new OilStationMapCode(210005, "用户小程序码的用户uid或者小程序页面或者小程序码存放路径不能为空.");
+    public static OilStationMapCode IS_NOT_OIL_STATION_OWNER_UID = new OilStationMapCode(210006, "你不是当前加油站的业主，当前修改无效，请联系加油站的业主或者我的客服.");
 
 
     //微信的form_id
