@@ -145,7 +145,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                         }
                         paramJSONObject.put("data", dataJSONObject);
                         String bodys = paramJSONObject.toJSONString();
-                        String host = "https://weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=" + accessToken;
+                        String host = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=" + accessToken;
                         HttpResponse response = ALiYunHttpUtils.doPost(host, "", method, headers, querys, bodys);
                         HttpEntity entity = response.getEntity();
                         String res = EntityUtils.toString(entity, "utf-8");
@@ -216,7 +216,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                     JSONObject dataJSONObject = JSONObject.parseObject(data);
                     paramJSONObject.put("data", dataJSONObject);
                     String bodys = paramJSONObject.toJSONString();
-                    String host = "https://weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken;
+                    String host = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken;
                     HttpResponse response = ALiYunHttpUtils.doPost(host, "", method, headers, querys, bodys);
                     HttpEntity entity = response.getEntity();
                     String res = EntityUtils.toString(entity, "utf-8");
@@ -417,7 +417,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                 headers.put("Content-Type", "application/json; charset=UTF-8");
                 Map<String, String> querys = Maps.newHashMap();
                 String bodys = JSONObject.toJSONString(map);
-                String host = "https://weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + accessToken;
+                String host = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + accessToken;
                 HttpResponse res = ALiYunHttpUtils.doPost(host, "", method, headers, querys, bodys);
                 logger.info("向微信服务器发送请求获取，获取响应的is {}", res);
                 //处理返回的图片
