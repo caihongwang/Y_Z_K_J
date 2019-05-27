@@ -4,7 +4,7 @@ my:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:9010/eureka/
+      defaultZone: http://112.74.177.170:9010/eureka/
 
 server:
   port: 9030
