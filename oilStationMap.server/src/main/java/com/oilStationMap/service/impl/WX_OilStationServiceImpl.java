@@ -119,6 +119,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("source", "baiduMap");
+                        paramMap.put("oilStationOwnerUid", "baiduMap");
                         try {
 //                            Thread.sleep(1000);//在添加或者更新加油站是沉睡1秒，防止数据变更过快数据库无法commit
                             this.addOrUpdateOilStation(paramMap);
@@ -204,7 +205,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
     @Override
     public BoolDTO addOrUpdateOilStationByTencetMap(Map<String, Object> paramMap) {
         Map<String, Object> dicMap = Maps.newHashMap();
-        dicMap.put("dicType", "city");
+        dicMap.put("dicType", "region");
         ResultDTO cityResultDTO = wxDicService.getSimpleDicByCondition(dicMap);
         if (cityResultDTO.getResultList() != null
                 && cityResultDTO.getResultList().size() > 0) {
@@ -254,6 +255,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("source", "tencentMap");
+                        paramMap.put("oilStationOwnerUid", "tencentMap");
                         try {
                             Thread.sleep(1000);//在添加或者更新加油站是沉睡1秒，防止数据变更过快数据库无法commit
                             this.addOrUpdateOilStation(paramMap);

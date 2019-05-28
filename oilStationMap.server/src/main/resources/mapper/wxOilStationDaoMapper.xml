@@ -146,6 +146,9 @@
             <if test="oilStationName != null and oilStationName != ''">
                 oos.oil_station_name = #{oilStationName},
             </if>
+            <if test="oilStationOwnerUid != null and oilStationOwnerUid != ''">
+                oos.oil_station_owner_uid = #{oilStationOwnerUid},
+            </if>
             <if test="oilStationAreaSpell != null and oilStationAreaSpell != ''">
                 oos.oil_station_area_spell = #{oilStationAreaSpell},
             </if>
@@ -197,6 +200,7 @@
         <if test="oilStationCode != null and oilStationCode != ''">
             and oos.oil_station_code = #{oilStationCode}
         </if>
+        ;COMMIT;
     </update>
 
     <update id="updateOilStationPrice">

@@ -302,7 +302,8 @@ public class TimeTaskOfQuartz {
         Map<String, Object> paramMap = Maps.newHashMap();
         try {
             //从百度地图获取
-            WXOilStationService.addOrUpdateOilStationByBaiduMap(paramMap);
+            //暂时停止从百度地图获取数据，因为百度地图的坐标与腾讯地图的坐标存在不兼容性
+            //WXOilStationService.addOrUpdateOilStationByBaiduMap(paramMap);
         } catch (Exception e) {
             logger.error(">>>>>>>>>>>>>>>>>>>定时获取最新的全国加油站数据<<<<<<<<<<<<<<<<<<<<<<");
             logger.error(">>>>>>>>>>>>>>>>>>>定时获取最新的全国加油站数据<<<<<<<<<<<<<<<<<<<<<<");
