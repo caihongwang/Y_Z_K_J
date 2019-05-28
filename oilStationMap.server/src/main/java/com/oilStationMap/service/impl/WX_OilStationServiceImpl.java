@@ -27,6 +27,7 @@ import redis.clients.jedis.JedisPool;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * 加油站service
@@ -118,10 +119,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationPrice", "[{\"oilModelLabel\":\"0\",\"oilNameLabel\":\"柴油\",\"oilPriceLabel\":\"7.43\"},{\"oilModelLabel\":\"92\",\"oilNameLabel\":\"汽油\",\"oilPriceLabel\":\"7.65\"},{\"oilModelLabel\":\"95\",\"oilNameLabel\":\"汽油\",\"oilPriceLabel\":\"8.28\"}]");
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
-                        paramMap.put("source", "baiduMap");
                         paramMap.put("oilStationOwnerUid", "baiduMap");
                         try {
-//                            Thread.sleep(1000);//在添加或者更新加油站是沉睡1秒，防止数据变更过快数据库无法commit
                             this.addOrUpdateOilStation(paramMap);
                         } catch (Exception e) {
                             logger.error("=============添加或者更新加油站失败============");
@@ -212,7 +211,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             List<Map<String, String>> cityList = cityResultDTO.getResultList();
             for (int j = 0; j < cityList.size(); j++) {
                 Map<String, String> cityMap = cityList.get(j);
-                String cityName = cityMap.get("cityName");
+//                String cityName = cityMap.get("cityName");
+                String cityName = cityMap.get("regionName");
                 String keyWord = "加油站";
                 Integer pageSize = 20;
                 Integer pageIndex = 1;
@@ -254,10 +254,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationPrice", "[{\"oilModelLabel\":\"0\",\"oilNameLabel\":\"柴油\",\"oilPriceLabel\":\"7.43\"},{\"oilModelLabel\":\"92\",\"oilNameLabel\":\"汽油\",\"oilPriceLabel\":\"7.65\"},{\"oilModelLabel\":\"95\",\"oilNameLabel\":\"汽油\",\"oilPriceLabel\":\"8.28\"}]");
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
-                        paramMap.put("source", "tencentMap");
                         paramMap.put("oilStationOwnerUid", "tencentMap");
                         try {
-                            Thread.sleep(1000);//在添加或者更新加油站是沉睡1秒，防止数据变更过快数据库无法commit
                             this.addOrUpdateOilStation(paramMap);
                         } catch (Exception e) {
                             logger.error("=============添加或者更新加油站失败============");
@@ -732,12 +730,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         String oilStationLat = paramMap.get("oilStationLat") != null ? paramMap.get("oilStationLat").toString() : "";
         String oilStationPrice = paramMap.get("oilStationPrice") != null ? paramMap.get("oilStationPrice").toString() : "";
         String oilStationType = paramMap.get("oilStationType") != null ? paramMap.get("oilStationType").toString() : "民营";
-        String oilStationOwnerUid = paramMap.get("oilStationOwnerUid") != null ? paramMap.get("oilStationOwnerUid").toString() : "";
         paramMap.put("oilStationType", oilStationType);
         paramMap.put("isManualModify", 1);
 
         //如果数据添加或更改来源是百度地图或者腾讯地图，则不需要校验用户是否是加油站业主
-        String source = paramMap.get("source") != null ? paramMap.get("source").toString() : "";
+        String oilStationOwnerUid = paramMap.get("oilStationOwnerUid") != null ? paramMap.get("oilStationOwnerUid").toString() : "";
 
         if (!"".equals(oilStationName) && !"".equals(oilStationAdress) &&
                 !"".equals(oilStationLat) && !"".equals(oilStationLon) &&
@@ -799,19 +796,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                     }
                 } else {
-                    if(!"baiduMap".equals(source)){
-                        if(!"".equals(oilStationOwnerUid)
-                                && !oilStationOwnerUid.equals(uid)){     //加油站的业主uid与当前用户不一致则不允许修改
-                            logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
-                            //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
-                            boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
-                            boolDTO.setMessage(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getMessage());
-                            return boolDTO;
-                        }
+                    if("baiduMap".equals(oilStationOwnerUid)){      //百度地图的数据不更新坐标
+                        paramMap.remove("oilStationPosition");
+                        paramMap.remove("oilStationLon");
+                        paramMap.remove("oilStationLat");
                     }
-                    if(!"".equals(oilStationOwnerUid)
-                            && !"tencentMap".equals(source)){
-                        if(!oilStationOwnerUid.equals(uid)){     //加油站的业主uid与当前用户不一致则不允许修改
+                    if(!"".equals(oilStationOwnerUid)){
+                        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+                        //oilStationOwnerUid是数字，且与用户的uid相等时才可以修改
+                        if(pattern.matcher(oilStationOwnerUid).matches()
+                                && oilStationOwnerUid.equals(uid)){
                             logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
                             //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
                             boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
@@ -902,15 +896,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         Map<String, Object> existOilStation = existOilStationList.get(0);
                         paramMap.put("oilStationCode", existOilStation.get("oilStationCode"));
                         logger.info("开始更新 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
-                        if("baiduMap".equals(source)){
+                        if("baiduMap".equals(oilStationOwnerUid)){      //百度地图的数据不更新坐标
                             paramMap.remove("oilStationPosition");
                             paramMap.remove("oilStationLon");
                             paramMap.remove("oilStationLat");
                         }
-
-                        if(!"baiduMap".equals(source)){
-                            if(!"".equals(oilStationOwnerUid)
-                                    && !oilStationOwnerUid.equals(uid)){     //加油站的业主uid与当前用户不一致则不允许修改
+                        if(!"".equals(oilStationOwnerUid)){
+                            Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+                            //oilStationOwnerUid是数字，且与用户的uid相等时才可以修改
+                            if(pattern.matcher(oilStationOwnerUid).matches()
+                                    && oilStationOwnerUid.equals(uid)){
                                 logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
                                 //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
                                 boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
@@ -918,17 +913,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                                 return boolDTO;
                             }
                         }
-                        if(!"".equals(oilStationOwnerUid)
-                                && !"tencentMap".equals(source)){
-                            if(!oilStationOwnerUid.equals(uid)){     //加油站的业主uid与当前用户不一致则不允许修改
-                                logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
-                                //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
-                                boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
-                                boolDTO.setMessage(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getMessage());
-                                return boolDTO;
-                            }
-                        }
-
                         oilStationCode = existOilStation.get("oilStationCode")!=null?existOilStation.get("oilStationCode").toString():"";
                         boolean updateFlag = false;
                         if ("117578".equals(oilStationCode)) {

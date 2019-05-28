@@ -43,7 +43,7 @@ public class WX_OilStationHandler {
                 Map<String, Object> objectParamMap = Maps.newHashMap();
                 try {
                     wxOilStationService.addOrUpdateOilStationByTencetMap(objectParamMap);
-                    wxOilStationService.addOrUpdateOilStationByBaiduMap(objectParamMap);
+//                    wxOilStationService.addOrUpdateOilStationByBaiduMap(objectParamMap);
                 } catch (Exception e) {
                     boolDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
                     boolDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());

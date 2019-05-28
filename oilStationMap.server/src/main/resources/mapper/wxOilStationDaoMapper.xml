@@ -200,7 +200,7 @@
         <if test="oilStationCode != null and oilStationCode != ''">
             and oos.oil_station_code = #{oilStationCode}
         </if>
-        ;COMMIT;
+        ;commit;
     </update>
 
     <update id="updateOilStationPrice">
