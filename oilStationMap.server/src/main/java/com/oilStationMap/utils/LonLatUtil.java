@@ -713,6 +713,7 @@ public class LonLatUtil {
                             callDetailAddressNum = 0;
                         }
                         logger.info("根据【城市】和【关键词名称】获取【所属城市的关键词详细地址】, 第 >>> " + callDetailAddressNum + " <<< 次");
+                        Thread.sleep(1000);
                         resultMapList.addAll(getDetailAddressByCityAndKeyWord(city, keyWord, pageSize, pageIndex, orderby));
                     } else {
                         //停止递归
