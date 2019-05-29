@@ -74,7 +74,30 @@ public class WX_PublicNumberUtil {
     private static String getFollowers_uri = "https://api.weixin.qq.com/cgi-bin/user/get";
     //图文，文本的消息发送
     private static String messageSend_uri = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=";
+    //动态消息：创建被分享动态消息的 activity_id
+    private static String createActivityId_uri = "https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create";
 
+    /**
+     * 小程序使用
+     * 创建被分享动态消息的 activity_id
+     * @return
+     */
+    public static Map<String, Object> createActivityId(String appId, String secret) {
+        HttpsUtil httpsUtil = new HttpsUtil();
+        Map<String, String> paramMap = Maps.newHashMap();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        Map<String, Object> accessTokenMap = getAccessToken(appId, secret);
+        if (accessTokenMap != null && accessTokenMap.size() > 0) {
+            String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
+            paramMap.put("access_token", accessToken);
+            String resultJson = httpsUtil.get(createActivityId_uri, paramMap);
+            resultMap = JSONObject.parseObject(resultJson, Map.class);
+        } else {
+            //获取access_token失败
+            logger.error("获取access_token失败");
+        }
+        return resultMap;
+    }
     /**
      * 获取自定义菜单配置接口
      * 本接口将会提供公众号当前使用的自定义菜单的配置，如果公众号是通过API调用设置的菜单，则返回菜单的开发配置，而如果公众号是在公众平台官网通过网站功能发布菜单，则本接口返回运营者设置的菜单配置。
