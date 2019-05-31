@@ -50,6 +50,8 @@ public class OilStationMapCode {
     public static final String REDIS_MSG_PREFIX = REDIS_PREFIX + "getVerificationCode:";//财富名片夹的短信在redis中的前缀
     public static final int USER_SESSION_EXPIRED_TIME = 86400;    //session失效时间：1天
     public static final String USER_SESSION_PREFIX = "user:session:";//财富名片夹的短信在redis中的前缀
+    public static final String CURRENT_LON_UID = "current:lon:uid:";  //用户当前的坐标
+    public static final String CURRENT_LAT_UID = "current:lat:uid:";  //用户当前的坐标
 
     //申请财富名片夹--短信验证码
     public static OilStationMapCode USER_EXIST = new OilStationMapCode(0, "用户已经存在，请直接使用。");

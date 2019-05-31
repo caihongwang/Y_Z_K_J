@@ -38,14 +38,14 @@ public class WX_MessageServiceImplTest extends MySuperTest {
     @Autowired
     private WX_CommonService WXCommonService;
 
-    @Test
-    public void Test() throws Exception{
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        dailyMessageSend(paramMap);
-
+//    @Test
+//    public void Test() throws Exception{
+////        Map<String, Object> paramMap = Maps.newHashMap();
+////        dailyMessageSend(paramMap);
+//
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        redActivityMessageSend(paramMap);
-    }
+//    }
 
     public ResultMapDTO redActivityMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();

@@ -405,17 +405,15 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         if (!"".equals(lon.toString()) && !"".equals(lat.toString()) &&
                 !"".equals(page.toString()) && !"".equals(r.toString())) {
 
-            //限定 管理员的小号 和 看看油价中艳雪 只能访问redis中的某个经纬度的加油站
-            if("2867".equals(uid) || "3613".equals(uid)){
-                try (Jedis jedis = jedisPool.getResource()) {
-                    String currentLon = jedis.get("currentLon");
-                    String currentLat = jedis.get("currentLat");
-                    logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
-                    if(currentLon != null && !"".equals(currentLon)
-                            && currentLat != null && !"".equals(currentLat)){
-                        lon = Double.parseDouble(currentLon);
-                        lat = Double.parseDouble(currentLat);
-                    }
+            //限定 运营人员 可以访问redis中的某个经纬度的加油站
+            try (Jedis jedis = jedisPool.getResource()) {
+                String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
+                String currentLat = jedis.get(OilStationMapCode.CURRENT_LAT_UID + uid);
+                logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
+                if(currentLon != null && !"".equals(currentLon)
+                        && currentLat != null && !"".equals(currentLat)){
+                    lon = Double.parseDouble(currentLon);
+                    lat = Double.parseDouble(currentLat);
                 }
             }
 
@@ -576,17 +574,15 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         if (!"".equals(oilStationName) ||
                 (!"".equals(lon) && !"".equals(lat))) {
 
-            //限定 管理员的小号 和 看看油价中艳雪 只能访问redis中的某个经纬度的加油站
-            if("2867".equals(uid) || "3613".equals(uid)){
-                try (Jedis jedis = jedisPool.getResource()) {
-                    String currentLon = jedis.get("currentLon");
-                    String currentLat = jedis.get("currentLat");
-                    logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
-                    if(currentLon != null && !"".equals(currentLon)
-                            && currentLat != null && !"".equals(currentLat)){
-                        lon = Double.parseDouble(currentLon);
-                        lat = Double.parseDouble(currentLat);
-                    }
+            //限定 运营人员 可以访问redis中的某个经纬度的加油站
+            try (Jedis jedis = jedisPool.getResource()) {
+                String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
+                String currentLat = jedis.get(OilStationMapCode.CURRENT_LAT_UID + uid);
+                logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
+                if(currentLon != null && !"".equals(currentLon)
+                        && currentLat != null && !"".equals(currentLat)){
+                    lon = Double.parseDouble(currentLon);
+                    lat = Double.parseDouble(currentLat);
                 }
             }
 

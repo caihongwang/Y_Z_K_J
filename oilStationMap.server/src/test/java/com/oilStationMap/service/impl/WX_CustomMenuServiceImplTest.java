@@ -19,25 +19,25 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_CommonServiceImpl.class);
 
-    @Test
-    public void TEST() throws Exception {
-
+//    @Test
+//    public void TEST() throws Exception {
+//
 //        //油价地图的菜单
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        this.createCustomMenu(paramMap);
-
-
-//        //像素战舰的菜单
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        this.createCustomMenu_For_XSXJ(paramMap);
-
-
-
-//        getWxUserInfo(
-//                "o8-g249hJL8mmxq6MGsxIAAz4ZaM",
-//                "wx07cf52be1444e4b7",
-//                "d6de12032cfe660253b96d5f2868a06c");
-    }
+//
+//
+////        //像素战舰的菜单
+////        Map<String, Object> paramMap = Maps.newHashMap();
+////        this.createCustomMenu_For_XSXJ(paramMap);
+//
+//
+//
+////        getWxUserInfo(
+////                "o8-g249hJL8mmxq6MGsxIAAz4ZaM",
+////                "wx07cf52be1444e4b7",
+////                "d6de12032cfe660253b96d5f2868a06c");
+//    }
 
     /**
      * 创建自定义菜单

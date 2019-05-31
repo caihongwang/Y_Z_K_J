@@ -49,18 +49,18 @@ public class WX_OilStationOperatorServiceImplTest extends MySuperTest {
     private WX_RedPacketHistoryService wxRedPacketHistoryService;
 
 
-    @Test
-    public void TEST() throws Exception {
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("uid", 1);
-//        paramMap.put("oilStationCode", "61210");
-//        paramMap.put("operator", "updateOilStation");
-//        this.addOilStationOperator(paramMap);
-
+//    @Test
+//    public void TEST() throws Exception {
+////        Map<String, Object> paramMap = Maps.newHashMap();
+////        paramMap.put("uid", 1);
+////        paramMap.put("oilStationCode", "61210");
+////        paramMap.put("operator", "updateOilStation");
+////        this.addOilStationOperator(paramMap);
+//
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", 1);
 //        this.getRedPacketHistoryList(paramMap);
-    }
+//    }
 
     public ResultDTO getRedPacketHistoryList(Map<String, Object> paramMap) {
         ResultDTO resultDTO = new ResultDTO();
