@@ -26,7 +26,7 @@ echo "----------------------------pull new code 【oilStationMap.server】 done-
 
 echo "----------------------------start clone and package 【oilStationMap.server】-------------------"
 cd Y_Z_K_J
-mvn clean package
+mvn clean package -DskipTests
 echo "----------------------------clone and package 【oilStationMap.server】 done--------------------"
 
 
