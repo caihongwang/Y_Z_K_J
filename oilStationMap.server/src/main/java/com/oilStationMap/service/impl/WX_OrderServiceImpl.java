@@ -52,8 +52,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 resultMapDTO.setCode(OilStationMapCode.ORDER_PAY_MONEY_IS_NOT_NULL.getNo());
                 resultMapDTO.setMessage(OilStationMapCode.ORDER_PAY_MONEY_IS_NOT_NULL.getMessage());
             } else {
-
-
                 String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
                 Map<String, Object> accountMap = wxAccountService.getWxAccount(accountId);
                 String appid = accountMap.get("customMessageAccountAppId").toString();

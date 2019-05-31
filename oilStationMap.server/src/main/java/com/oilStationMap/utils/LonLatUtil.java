@@ -333,6 +333,7 @@ public class LonLatUtil {
      * @return
      */
     public static String getAddressByLonLat(Double lon, Double lat, String addressStr) {
+        logger.info("开始准备使用腾讯地图【逆地址解析(坐标位置描述)】进行获取周边加油站...");
         String resultStr = "";
         String host = OilStationMapCode.TENCENT_HOST;
         String path = OilStationMapCode.TENCENT_PATH_GET_ADDR;
@@ -612,6 +613,7 @@ public class LonLatUtil {
      */
     public static List<Map<String, Object>> getDetailAddressByCityAndKeyWord(String city, String keyWord,
          Integer pageSize, Integer pageIndex, String orderby) {
+        logger.info("开始准备使用腾讯地图【地点搜索】进行获取周边加油站...");
         List<Map<String, Object>> resultMapList = Lists.newArrayList();
         String host = OilStationMapCode.TENCENT_HOST;
         String path = OilStationMapCode.TENCENT_PATH_GET_SEARCH;

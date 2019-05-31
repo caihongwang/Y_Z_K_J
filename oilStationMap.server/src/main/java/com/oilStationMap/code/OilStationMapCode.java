@@ -168,8 +168,8 @@ public class OilStationMapCode {
 
     //腾讯常量值   绑定账号QQ:976499921,手机号：17701359899
     public static final String TENCENT_HOST = "https://apis.map.qq.com";     //host
-    public static final String TENCENT_PATH_GET_ADDR = "/ws/geocoder/v1/";
-    public static final String TENCENT_PATH_GET_SEARCH = "/ws/place/v1/search";
+    public static final String TENCENT_PATH_GET_ADDR = "/ws/geocoder/v1/";          //逆地址解析(坐标位置描述)
+    public static final String TENCENT_PATH_GET_SEARCH = "/ws/place/v1/search";     //地点搜索
     public static final String TENCENT_METHOD = "GET";                                //method
     public static final String TENCENT_CONTENT_TYPE = "application/json; charset=UTF-8";     //Content-Type
     public static final String TENCENT_KEY = "Z73BZ-ISKC4-WMDU3-DO2UD-KCPIZ-JIFQI";     //key

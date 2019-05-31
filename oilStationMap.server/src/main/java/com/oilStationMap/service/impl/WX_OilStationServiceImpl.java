@@ -744,10 +744,12 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             paramMap.put("oilStationPosition", oilStationPosition);
             paramMap.put("operator", "addOilStation");
             Map<String, Object> paramMap_temp = Maps.newHashMap();
-            if (!"".equals(oilStationCode)) {              //更新
+            if (!"".equals(oilStationCode)) {              //存在oilStationCode，则更新
+                //1.检测oilStationCode是否有效
                 paramMap_temp.put("oilStationCode", oilStationCode);
                 Integer total = wxOilStationDao.getSimpleOilStationTotalByCondition(paramMap_temp);
                 if (total != null && total <= 0) {
+                    //1.1 检测oilStationCode无效
                     paramMap_temp.clear();      //清空参数，重新整理参数
                     Long oilStationCode_l = 0L;
                     Map<String, Object> maxOilStationCodeMap = wxOilStationDao.getMaxOilStationCode(paramMap_temp);
@@ -796,6 +798,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                     }
                 } else {
+                    //1.2 检测oilStationCode有效,如果是百度地图则不更新坐标
                     if("baiduMap".equals(oilStationOwnerUid)){      //百度地图的数据不更新坐标
                         paramMap.remove("oilStationPosition");
                         paramMap.remove("oilStationLon");
@@ -805,7 +808,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
                         //oilStationOwnerUid是数字，且与用户的uid相等时才可以修改
                         if(pattern.matcher(oilStationOwnerUid).matches()
-                                && oilStationOwnerUid.equals(uid)){
+                                && !oilStationOwnerUid.equals(uid)){
                             logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
                             //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
                             boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
@@ -886,11 +889,13 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     }
                 }
             } else {
-                //检测 当前加油站名称 是否存在
+                //2.通过加油站名称判断加油站是否存在
+                //主要来自于百度地图，腾讯地图的数据，检测 当前加油站名称 是否存在
                 paramMap_temp.clear();      //清空参数，重新整理参数
                 paramMap_temp.put("oilStationName", oilStationName);
                 Integer total = wxOilStationDao.getSimpleOilStationTotalByCondition(paramMap_temp);
                 if(total != null && total > 0){
+                    //2.1加油站存在
                     List<Map<String, Object>> existOilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap_temp);
                     if(existOilStationList != null && existOilStationList.size() > 0){
                         Map<String, Object> existOilStation = existOilStationList.get(0);
@@ -995,13 +1000,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     } else {
                         paramMap.put("oilStationCode", oilStationCode_l);
                     }
-                    String city = LonLatUtil.getAddressByLonLat(Double.parseDouble(oilStationLon),
-                            Double.parseDouble(oilStationLat), "city");
-                    String nation_province_city_district = LonLatUtil.getAddressByLonLat(Double.parseDouble(oilStationLon),
-                            Double.parseDouble(oilStationLat), "nation_province_city_district");
+
+                    //地图端已经给数据了，暂时不用考虑再转换
+//                    String city = LonLatUtil.getAddressByLonLat(Double.parseDouble(oilStationLon),
+//                            Double.parseDouble(oilStationLat), "city");
+//                    String nation_province_city_district = LonLatUtil.getAddressByLonLat(Double.parseDouble(oilStationLon),
+//                            Double.parseDouble(oilStationLat), "nation_province_city_district");
+//                    paramMap.put("oilStationAreaSpell", PingYingUtil.getPingYin(city));
+//                    paramMap.put("oilStationAreaName",nation_province_city_district);
+
                     paramMap.put("oilStationName", oilStationName);
-                    paramMap.put("oilStationAreaSpell", PingYingUtil.getPingYin(city));
-                    paramMap.put("oilStationAreaName",nation_province_city_district);
                     paramMap.put("oilStationAdress", oilStationAdress);
                     String oilStationBrandName = "民营";
                     oilStationBrandName = getOilStationBrankName(oilStationName);
