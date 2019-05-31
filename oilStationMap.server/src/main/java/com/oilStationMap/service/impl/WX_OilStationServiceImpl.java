@@ -476,7 +476,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             }
         } else {
             resultDTO.setResultList(oilStationStrList);
-
             resultDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -600,8 +599,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             paramMap.put("maxLat", maxLat);
             paramMap.put("minLon", minLon);
             paramMap.put("maxLon", maxLon);
-            paramMap.put("start", 0);
-            paramMap.put("size", 1);
+//            paramMap.put("start", 0);
+//            paramMap.put("size", 1);
             List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
             logger.info("第一次获取单个加油站，paramMap = " + JSONObject.toJSONString(paramMap) +
                     " ，oilStationList = " + JSONObject.toJSONString(oilStationList));
@@ -639,6 +638,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     return oilStationDistance_1.compareTo(oilStationDistance_2);
                 }
             });
+
+            logger.info("获取单个加油站列表，已按距离排序好，oilStationStrList : " + JSONObject.toJSONString(oilStationStrList));
 
             resultMapDTO.setResultListTotal(total);
             resultMap.put("oilStationName", oilStationStrList.get(0).get("oilStationName").toString());
