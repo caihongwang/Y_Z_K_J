@@ -620,8 +620,28 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 logger.info("第二次获取单个加油站，paramMap = " + JSONObject.toJSONString(paramMap) +
                         " ，oilStationList = " + JSONObject.toJSONString(oilStationList));
             }
+
+            //通过循环遍历计算当前经纬度坐标与民营加油站的经纬度坐标之间的距离
+            for (Map<String, Object> oilStationMap : oilStationList) {
+                Double endLat = Double.parseDouble(oilStationMap.get("oilStationLat").toString());
+                Double endLon = Double.parseDouble(oilStationMap.get("oilStationLon").toString());
+                Double distance = LonLatUtil.getDistance(lat, lon, endLat, endLon);
+                BigDecimal bg = new BigDecimal(distance);
+                distance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                oilStationMap.put("oilStationDistance", distance.toString());
+            }
+            oilStationStrList = MapUtil.getStringMapList(oilStationList);
+            //对oilStationList的距离进行排序
+            Collections.sort(oilStationStrList, new Comparator<Map<String, String>>() {
+                public int compare(Map<String, String> o1, Map<String, String> o2) {
+                    Double oilStationDistance_1 = Double.parseDouble(o1.get("oilStationDistance").toString());
+                    Double oilStationDistance_2 = Double.parseDouble(o2.get("oilStationDistance").toString());
+                    return oilStationDistance_1.compareTo(oilStationDistance_2);
+                }
+            });
+
             resultMapDTO.setResultListTotal(total);
-            resultMap.put("oilStationName", oilStationList.get(0).get("oilStationName").toString());
+            resultMap.put("oilStationName", oilStationStrList.get(0).get("oilStationName").toString());
             resultMap.put("oilStationList", JSONObject.toJSONString(oilStationList));
             resultMapDTO.setResultMap(resultMap);
 
