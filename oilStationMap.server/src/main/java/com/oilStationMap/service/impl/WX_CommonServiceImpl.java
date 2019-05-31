@@ -364,7 +364,6 @@ public class WX_CommonServiceImpl implements WX_CommonService {
         String code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
         if (!"".equals(code)) {
             Map<String, String> map = Maps.newHashMap();
-
             String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
             Map<String, Object> accountMap = wxAccountService.getWxAccount(accountId);
             String appid = accountMap.get("customMessageAccountAppId").toString();
@@ -378,9 +377,6 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                 map.put("secret", secret);
                 map.put("js_code", js_code);
                 map.put("grant_type", grant_type);
-//                String res = httpsUtil.post(
-//                        "https://weixin.qq.com/sns/jscode2session",
-//                        map);
                 String res = httpsUtil.get(
                         "https://api.weixin.qq.com/sns/jscode2session",
                         map);
