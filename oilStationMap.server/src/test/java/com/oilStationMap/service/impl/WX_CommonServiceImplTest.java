@@ -74,12 +74,12 @@ public class WX_CommonServiceImplTest extends MySuperTest {
 //
 //        wxCommonService.sendCustomCardMessageWxPublicNumber(paramMap);
 
-        Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("ToUserName", "gh_bcce99ab0079");
-        paramMap.put("Event", "subscribe");
-        paramMap.put("Content", "");
-        paramMap.put("FromUserName", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-        wxCommonService.receviceAndSendCustomMessage(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("ToUserName", "gh_bcce99ab0079");
+//        paramMap.put("Event", "subscribe");
+//        paramMap.put("Content", "");
+//        paramMap.put("FromUserName", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
+//        wxCommonService.receviceAndSendCustomMessage(paramMap);
 
     }
 

@@ -43,8 +43,8 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        dailyMessageSend(paramMap);
 
-        Map<String, Object> paramMap = Maps.newHashMap();
-        redActivityMessageSend(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        redActivityMessageSend(paramMap);
     }
 
     public ResultMapDTO redActivityMessageSend(Map<String, Object> paramMap) throws Exception {

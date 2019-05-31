@@ -22,9 +22,9 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
     @Test
     public void TEST() throws Exception {
 
-        //油价地图的菜单
-        Map<String, Object> paramMap = Maps.newHashMap();
-        this.createCustomMenu(paramMap);
+//        //油价地图的菜单
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        this.createCustomMenu(paramMap);
 
 
 //        //像素战舰的菜单

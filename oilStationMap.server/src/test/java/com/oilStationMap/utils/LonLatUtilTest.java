@@ -34,8 +34,8 @@ public class LonLatUtilTest extends MySuperTest {
     @Test
     public void Test() {
 
-        Map<String, Object> paramMap = Maps.newHashMap();
-        LonLatUtil.getOilPriceFromOilUsdCnyCom(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        LonLatUtil.getOilPriceFromOilUsdCnyCom(paramMap);
 
     }
 
