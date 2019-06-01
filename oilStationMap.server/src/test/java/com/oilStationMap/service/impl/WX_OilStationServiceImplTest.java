@@ -42,6 +42,13 @@ public class WX_OilStationServiceImplTest extends MySuperTest {
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        wxOilStationService.addOrUpdateOilStationByTencetMap(paramMap);
 
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("uid", "3616");
+        paramMap.put("lon", "106.70722");
+        paramMap.put("lat", "26.5982");
+        paramMap.put("dis", "2");
+        wxOilStationService.getOneOilStationByCondition(paramMap);
+
     }
 
 }

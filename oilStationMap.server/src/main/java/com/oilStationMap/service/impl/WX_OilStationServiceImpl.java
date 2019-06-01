@@ -643,13 +643,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
 
             resultMapDTO.setResultListTotal(total);
             resultMap.put("oilStationName", oilStationStrList.get(0).get("oilStationName").toString());
-            resultMap.put("oilStationList", JSONObject.toJSONString(oilStationList));
+            resultMap.put("oilStationList", JSONObject.toJSONString(oilStationStrList.get(0)));
             resultMapDTO.setResultMap(resultMap);
-
             resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
             resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         } else {
-
             resultMapDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
