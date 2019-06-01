@@ -453,7 +453,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 for(Map<String, String> oilStationStrMap : oilStationStrList){
                     oilStationStrMap.remove("updateTime");
                     oilStationStrMap.remove("createTime");
-                    oilStationStrMap.remove("shareTitle");
                     oilStationStrMap.remove("isManualModify");
                     oilStationStrMap.remove("oilStationExhaust");
                     oilStationStrMap.remove("oilStationBrandName");
