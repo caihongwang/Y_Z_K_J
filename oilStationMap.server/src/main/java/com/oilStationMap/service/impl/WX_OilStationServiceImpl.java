@@ -434,6 +434,13 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     BigDecimal bg = new BigDecimal(distance);
                     distance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     oilStationMap.put("oilStationDistance", distance.toString());
+                    //清除是baiduMap和tencetMap的oilStationOwnerUid
+                    String oilStationOwnerUid = oilStationMap.get("oilStationOwnerUid").toString();
+                    Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+                    //oilStationOwnerUid是数字，且与用户的uid相等时才可以修改
+                    if(!pattern.matcher(oilStationOwnerUid).matches()){
+                        oilStationMap.put("oilStationOwnerUid", "");
+                    }
                 }
                 oilStationStrList.addAll(oilStationStrList_city);
                 //对oilStationList的距离进行排序
@@ -627,6 +634,13 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 BigDecimal bg = new BigDecimal(distance);
                 distance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 oilStationMap.put("oilStationDistance", distance.toString());
+                //清除是baiduMap和tencetMap的oilStationOwnerUid
+                String oilStationOwnerUid = oilStationMap.get("oilStationOwnerUid").toString();
+                Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+                //oilStationOwnerUid是数字，且与用户的uid相等时才可以修改
+                if(!pattern.matcher(oilStationOwnerUid).matches()){
+                    oilStationMap.put("oilStationOwnerUid", "");
+                }
             }
             oilStationStrList = MapUtil.getStringMapList(oilStationList);
             //对oilStationList的距离进行排序
