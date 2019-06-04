@@ -2,6 +2,7 @@ package com.oilStationMap;
 
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.service.impl.WX_OilStationServiceImpl;
+import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+
+import java.util.List;
 
 /**
  * @ClassName MySuperTest
@@ -39,18 +42,30 @@ public class MySuperTest {
 
     @Test
     public void Test(){
-        String uid = "3616";
-        try (Jedis jedis = jedisPool.getResource()) {
-            String newLon = "109.16912";
-            String newLat = "28.098309";
-            jedis.set(OilStationMapCode.CURRENT_LON_UID + uid,
-                    newLon);
-            jedis.set(OilStationMapCode.CURRENT_LAT_UID + uid,
-                    newLat);
-            String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
-            String currentLat = jedis.get(OilStationMapCode.CURRENT_LAT_UID + uid);
-            logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
+//        String uid = "3613";
+//        try (Jedis jedis = jedisPool.getResource()) {
+//            String newLon = "109.16912";
+//            String newLat = "28.098309";
+//            jedis.set(OilStationMapCode.CURRENT_LON_UID + uid,
+//                    newLon);
+//            jedis.set(OilStationMapCode.CURRENT_LAT_UID + uid,
+//                    newLat);
+//            String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
+//            String currentLat = jedis.get(OilStationMapCode.CURRENT_LAT_UID + uid);
+//            logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
+//        }
+
+        List<String> list = Lists.newArrayList();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+        list.add("ddd");
+        list.add("eee");
+        System.out.println(list);
+        for (int i = (list.size()-1); i > 0; i--) {
+            list.remove(i);
         }
+        System.out.println(list);
     }
 
     @After

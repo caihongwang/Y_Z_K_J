@@ -654,6 +654,27 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
 
             logger.info("获取单个加油站列表，已按距离排序好，oilStationStrList : " + JSONObject.toJSONString(oilStationStrList));
 
+            //移除不必要展示的数据，减少服务端与小程序端的网络压力
+            for(Map<String, String> oilStationStrMap : oilStationStrList){
+                oilStationStrMap.remove("updateTime");
+                oilStationStrMap.remove("createTime");
+                oilStationStrMap.remove("isManualModify");
+                oilStationStrMap.remove("oilStationExhaust");
+                oilStationStrMap.remove("oilStationBrandName");
+                oilStationStrMap.remove("oilStationAreaName");
+                oilStationStrMap.remove("oilStationDiscount");
+                oilStationStrMap.remove("oilStationType");
+                oilStationStrMap.remove("oilStationPayType");
+                oilStationStrMap.remove("oilStationAreaSpell");
+                oilStationStrMap.remove("oilStationPosition");
+            }
+            //list 删除除第一个之外，后续所有的元素，避免所有元素传输暂用网络带宽
+            if(oilStationStrList.size() >= 2) {
+                for (int i = (oilStationStrList.size()-1); i > 0; i--) {
+                    oilStationStrList.remove(i);
+                }
+            }
+
             resultMapDTO.setResultListTotal(total);
             resultMap.put("oilStationName", oilStationStrList.get(0).get("oilStationName").toString());
             resultMap.put("oilStationList", JSONObject.toJSONString(oilStationStrList));
