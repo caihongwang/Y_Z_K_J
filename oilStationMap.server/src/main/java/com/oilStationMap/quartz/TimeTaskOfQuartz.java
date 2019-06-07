@@ -198,7 +198,7 @@ public class TimeTaskOfQuartz {
             paramMap.put("url", "https://www.91caihongwang.com/oilStationMap");
 
             paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-            paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+            paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
             wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
         } catch (Exception e) {
             logger.error(">>>>>>>>>>>>>>>>>>>更新https协议证书时异常<<<<<<<<<<<<<<<<<<<<<<");
@@ -248,7 +248,7 @@ public class TimeTaskOfQuartz {
             paramMap.put("url", "https://www.91caihongwang.com/oilStationMap");
 
             paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-            paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+            paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
         }
     }
 

@@ -19,25 +19,22 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_CommonServiceImpl.class);
 
-//    @Test
-//    public void TEST() throws Exception {
-//
-//        //油价地图的菜单
+    @Test
+    public void TEST() throws Exception {
+
+        //油价地图的菜单
+        Map<String, Object> paramMap = Maps.newHashMap();
+        this.createCustomMenu(paramMap);
+
+//        //像素战舰的菜单
 //        Map<String, Object> paramMap = Maps.newHashMap();
-//        this.createCustomMenu(paramMap);
-//
-//
-////        //像素战舰的菜单
-////        Map<String, Object> paramMap = Maps.newHashMap();
-////        this.createCustomMenu_For_XSXJ(paramMap);
-//
-//
-//
-////        getWxUserInfo(
-////                "o8-g249hJL8mmxq6MGsxIAAz4ZaM",
-////                "wx07cf52be1444e4b7",
-////                "d6de12032cfe660253b96d5f2868a06c");
-//    }
+//        this.createCustomMenu_For_XSXJ(paramMap);
+
+//        getWxUserInfo(
+//                "o8-g249hJL8mmxq6MGsxIAAz4ZaM",
+//                "wx07cf52be1444e4b7",
+//                "d6de12032cfe660253b96d5f2868a06c");
+    }
 
     /**
      * 创建自定义菜单
@@ -156,14 +153,14 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"油价资讯\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"appid\":\"wx1dde35047338acbb\",\n" +
                     "            \"pagepath\":\"pages/other/information/wxPublicNumberInformation/index\"\n" +
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"油价地图\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"appid\":\"wx1dde35047338acbb\",\n" +
                     "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        },\n" +
 //                    "        {\n" +

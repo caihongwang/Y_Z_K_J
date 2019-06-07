@@ -42,30 +42,18 @@ public class MySuperTest {
 
     @Test
     public void Test(){
-//        String uid = "3613";
-//        try (Jedis jedis = jedisPool.getResource()) {
-//            String newLon = "109.16912";
-//            String newLat = "28.098309";
-//            jedis.set(OilStationMapCode.CURRENT_LON_UID + uid,
-//                    newLon);
-//            jedis.set(OilStationMapCode.CURRENT_LAT_UID + uid,
-//                    newLat);
-//            String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
-//            String currentLat = jedis.get(OilStationMapCode.CURRENT_LAT_UID + uid);
-//            logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
-//        }
-
-        List<String> list = Lists.newArrayList();
-        list.add("aaa");
-        list.add("bbb");
-        list.add("ccc");
-        list.add("ddd");
-        list.add("eee");
-        System.out.println(list);
-        for (int i = (list.size()-1); i > 0; i--) {
-            list.remove(i);
+        String uid = "4442";
+        try (Jedis jedis = jedisPool.getResource()) {
+            String newLon = "109.16912";
+            String newLat = "28.098309";
+            jedis.set(OilStationMapCode.CURRENT_LON_UID + uid,
+                    newLon);
+            jedis.set(OilStationMapCode.CURRENT_LAT_UID + uid,
+                    newLat);
+            String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
+            String currentLat = jedis.get(OilStationMapCode.CURRENT_LAT_UID + uid);
+            logger.info("uid = " + uid + " , currentLon = " + currentLon + " , currentLat = " + currentLat);
         }
-        System.out.println(list);
     }
 
     @After

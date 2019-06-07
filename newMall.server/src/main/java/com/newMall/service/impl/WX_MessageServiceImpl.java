@@ -99,7 +99,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                 paramMap.put("url", sourceMaterialMap.get("url").toString());
 
                                 paramMap.put("openId", openId);
-                                paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+                                paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
 //                                paramMap.put("template_id", "油价资讯通知");       //待审核
                                 commonService.sendTemplateMessageForWxPublicNumber(paramMap);
                             }

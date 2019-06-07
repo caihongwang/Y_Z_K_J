@@ -930,7 +930,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("data", JSONObject.toJSONString(dataMap));
 
                         paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                        paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+                        paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
                         wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
 
                         boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
@@ -1032,7 +1032,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
 
                             paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                            paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+                            paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
                             wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
 
                             boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());

@@ -85,7 +85,7 @@ public class WX_MessageServiceImplTest extends MySuperTest {
                         digest = "抢红包了!新年送福利，加油无烦扰，秒慢无.";
                         appIdStr = "wx07cf52be1444e4b7";
                         pagePath = "pages/other/activity/redActivity/index";
-                        templateId = "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ";
+                        templateId = "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
                     }
                     //2.发送模板消息-打开小程序
                     for(String openId : openIdList) {

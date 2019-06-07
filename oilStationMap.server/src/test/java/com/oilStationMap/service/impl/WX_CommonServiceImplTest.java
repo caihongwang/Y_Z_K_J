@@ -64,7 +64,7 @@ public class WX_CommonServiceImplTest extends MySuperTest {
 ////        paramMap.put("url", "https://www.91caihongwang.com/oilStationMap");
 ////
 ////        paramMap.put("openId", "o8-g249hJL8mmxq6MGsxIAAz4ZaM");
-////        paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+////        paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
 ////        this.sendTemplateMessageForWxPublicNumber(paramMap);
 //
 ////        Map<String, Object> paramMap = Maps.newHashMap();

@@ -121,7 +121,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         paramMap.put("miniprogram", JSONObject.toJSONString(miniprogramMap));
 
                         paramMap.put("openId", openId);
-                        paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+                        paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
 
                         Thread.sleep(2000);
                         logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
@@ -212,7 +212,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                 paramMap.put("url", sourceMaterialMap.get("url").toString());
 
                                 paramMap.put("openId", openId);
-                                paramMap.put("template_id", "Ns82Wg237bj6iaPlBXyp-wBhfQJAJan7p-qSJklQsMQ");
+                                paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
 
                                 Thread.sleep(2000);
                                 logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
