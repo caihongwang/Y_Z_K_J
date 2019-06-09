@@ -48,6 +48,8 @@
         oos.is_manual_modify as "isManualModify",
         oos.is_hire as "isHire",
         oos.share_title as "shareTitle",
+        oos.oil_station_hire_url as "oilStationHireUrl",
+        oos.oil_station_hire_title as "oilStationHireTitle",
         oos.oil_station_wx_payment_code_img_url as
         "oilStationWxPaymentCodeImgUrl",
         date_format(oos.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
