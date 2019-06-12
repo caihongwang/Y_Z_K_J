@@ -9,6 +9,7 @@ import com.oilStationMap.service.*;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.LonLatUtil;
+import com.oilStationMap.utils.SpiderForZhuangYitUtil;
 import com.oilStationMap.utils.TimestampUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -151,6 +152,15 @@ public class TimeTaskOfQuartz {
         } else {
             logger.info("当前环境不是【预发环境】，不执行任务：每天早上09:00，定时发送红包");
         }
+    }
+
+
+    /**
+     * 每天早上09:00，装一网 爬取站点 以及 发起预约
+     */
+    @Scheduled(cron = "0 0 10 * * ?")
+    public void do_SpiderForZhuangYitUtil_For_OilStationMap() {
+        SpiderForZhuangYitUtil.subscribeRenovation("");
     }
 
     /**
