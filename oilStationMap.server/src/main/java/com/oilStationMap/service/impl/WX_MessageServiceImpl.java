@@ -62,7 +62,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             (JSONArray)dataJSONObject.get("openid"):null;
                     List<String> openIdList = JSONObject.parseObject(openIdJSONArray.toJSONString(), List.class);
                     Map<String, Object> customMessageParamMap = Maps.newHashMap();
-                    customMessageParamMap.put("dicType", "oilStationMap_customMessage");
+                    customMessageParamMap.put("dicType", "wxCustomMessage");
                     customMessageParamMap.put("dicCode", "26");
                     ResultDTO customMessageResultDTO = wxDicService.getSimpleDicByCondition(customMessageParamMap);
                     if(customMessageResultDTO != null && customMessageResultDTO.getResultList() != null
@@ -74,11 +74,11 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         pagePath = customMessageMap.get("pagePath")!=null?customMessageMap.get("pagePath").toString():"";
                         thumbMediaId = customMessageMap.get("thumbMediaId")!=null?customMessageMap.get("thumbMediaId").toString():"";
                     } else {
-                        title = "抢红包了,抢红包了,抢红包了,重要的事情说三遍!";
-                        digest = "抢红包了!新年送福利，加油无烦扰，秒慢无.";
+                        title = "抢红包了,抢红包了,抢红包了,重要的事情说三遍!!!";
+                        digest = "抢红包了!新年送福利，加油无烦扰，秒慢无...";
                         appid = "wx07cf52be1444e4b7";
                         pagePath = "pages/other/activity/redActivity/index";
-                        thumbMediaId = "nmOaXf9mW-kNJNTS6gdUSowzlrrnouBL97PY3FtZIgM";
+                        thumbMediaId = "nmOaXf9mW-kNJNTS6gdUSpRrRNcI9yU_TGI7yXpU_UM";
                     }
                     //2.发送模板消息-打开小程序
                     for(String openId : openIdList) {

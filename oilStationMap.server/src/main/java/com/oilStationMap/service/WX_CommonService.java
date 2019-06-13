@@ -50,12 +50,4 @@ public interface WX_CommonService {
      */
     public ResultMapDTO receviceAndSendCustomMessage(Map<String, Object> paramMap);
 
-    /**
-     * 接受小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息
-     *
-     * @param paramMap
-     * @return
-     */
-    public ResultMapDTO receviceAndSendCustomMessage_For_XSXJ(Map<String, Object> paramMap);
-
 }

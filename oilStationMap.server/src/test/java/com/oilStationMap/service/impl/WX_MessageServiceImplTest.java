@@ -69,7 +69,7 @@ public class WX_MessageServiceImplTest extends MySuperTest {
                             (JSONArray)dataJSONObject.get("openid"):null;
                     List<String> openIdList = JSONObject.parseObject(openIdJSONArray.toJSONString(), List.class);
                     Map<String, Object> customMessageParamMap = Maps.newHashMap();
-                    customMessageParamMap.put("dicType", "oilStationMap_customMessage");
+                    customMessageParamMap.put("dicType", "wxCustomMessage");
                     customMessageParamMap.put("dicCode", "26");
                     ResultDTO customMessageResultDTO = WXDicService.getSimpleDicByCondition(customMessageParamMap);
                     if(customMessageResultDTO != null && customMessageResultDTO.getResultList() != null

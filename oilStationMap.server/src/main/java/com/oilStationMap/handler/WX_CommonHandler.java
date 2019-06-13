@@ -228,29 +228,4 @@ public class WX_CommonHandler {
         logger.info("在hanlder中接受小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息-receviceAndSendCustomMessage,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
-
-    /**
-     * 接受小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息
-     * @param paramMap
-     * @return
-     */
-    public ResultMapDTO receviceAndSendCustomMessage_For_XSXJ(Map<String, String> paramMap) {
-        logger.info("在hanlder中接受【像素星舰】小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息-receviceAndSendCustomMessage,请求-paramMap:" + paramMap);
-        ResultMapDTO resultMapDTO = new ResultMapDTO();
-        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        if (paramMap.size() > 0) {
-            try {
-                resultMapDTO = wxCommonService.receviceAndSendCustomMessage_For_XSXJ(objectParamMap);
-            } catch (Exception e) {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
-                logger.error("在hanlder中接受【像素星舰】小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息-receviceAndSendCustomMessage is error, paramMap : " + paramMap + ", e : " + e);
-            }
-        } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
-        }
-        logger.info("在hanlder中接受【像素星舰】小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息-receviceAndSendCustomMessage,响应-response:" + resultMapDTO);
-        return resultMapDTO;
-    }
 }
