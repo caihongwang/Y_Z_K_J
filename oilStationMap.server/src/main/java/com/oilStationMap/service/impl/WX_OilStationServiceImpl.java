@@ -306,10 +306,22 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         }
                     }
                     String oilStationNum = oilStationList.size() + "";
+//                    //更新字典表中city的加油站数量
+//                    Map<String, String> dicRemarkMap = Maps.newHashMap();
+//                    dicRemarkMap.put("cityName", cityMap.get("cityName"));
+//                    dicRemarkMap.put("cityCode", cityMap.get("cityCode"));
+//                    dicRemarkMap.put("oilStationNum", oilStationNum);
+//                    dicMap.clear();
+//                    dicMap.put("dicRemark", JSONObject.toJSONString(dicRemarkMap));
+//                    dicMap.put("dicStatus", "1");
+//                    dicMap.put("id", cityMap.get("id"));
+//                    wxDicService.updateDic(dicMap);
                     //更新字典表中city的加油站数量
                     Map<String, String> dicRemarkMap = Maps.newHashMap();
-                    dicRemarkMap.put("cityName", cityMap.get("cityName"));
-                    dicRemarkMap.put("cityCode", cityMap.get("cityCode"));
+                    dicRemarkMap.put("parentId", cityMap.get("parentId"));
+                    dicRemarkMap.put("regionId", cityMap.get("regionId"));
+                    dicRemarkMap.put("regionCode", cityMap.get("regionCode"));
+                    dicRemarkMap.put("regionName", cityMap.get("regionName"));
                     dicRemarkMap.put("oilStationNum", oilStationNum);
                     dicMap.clear();
                     dicMap.put("dicRemark", JSONObject.toJSONString(dicRemarkMap));

@@ -16,8 +16,8 @@ spring:
     name: newMall
   datasource:
     url: jdbc:mysql://112.74.177.170:3306/new_mall?useUnicode=true&characterEncoding=utf8
-    username: root
-    password: root
+    username: caihongwang
+    password: hejinrong@520
   jackson:
     date-format: yyyy-MM-dd
     time-zone: GMT+8

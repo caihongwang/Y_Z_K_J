@@ -78,7 +78,6 @@ public class WX_UserServiceImpl implements WX_UserService {
         paramMap.put("grayStatus", "0");
         String code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
         if (!"".equals(code)) {
-//            Map<String, Object> wx_resultMap = getOpenIdAndSessionKeyForWX(paramMap);
             Map<String, String> wx_resultMap =
                     wxCommonService.getOpenIdAndSessionKeyForWX(paramMap).getResultMap();
             if (wx_resultMap != null && wx_resultMap.size() > 0) {
@@ -196,39 +195,6 @@ public class WX_UserServiceImpl implements WX_UserService {
         logger.info("在service中添加用户-addUser,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
-
-    /**
-     * 向微信服务器发送请求，获取响应的openId,seesion_key
-     *
-     * @param paramMap
-     * @return
-     */
-//    public Map<String, Object> getOpenIdAndSessionKeyForWX(Map<String, Object> paramMap) {
-//        Map<String, String> map = Maps.newHashMap();
-//        Map<String, Object> resultMap = Maps.newHashMap();
-//
-//        String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
-//        Map<String, Object> accountMap = wxAccountService.getWxAccount(accountId);
-//        String appid = accountMap.get("customMessageAccountAppId").toString();
-//        String secret = accountMap.get("customMessageAccountSecret").toString();
-//
-//        String js_code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
-//        String grant_type = OilStationMapCode.WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID;
-//        if (!"".equals(appid) && !"".equals(secret)
-//                && !"".equals(js_code) && !"".equals(grant_type)) {
-//            map.put("appid", appid);
-//            map.put("secret", secret);
-//            map.put("js_code", js_code);
-//            map.put("grant_type", grant_type);
-//            String res = httpsUtil.post(
-//                    "https://weixin.qq.com/sns/jscode2session",
-//                    map);
-//            logger.info("向微信服务器发送请求，获取响应的is {}", res);
-//            resultMap = JSON.parseObject(res, Map.class);
-//        }
-//        return resultMap;
-//    }
-
 
     /**
      * 设置用户的session
