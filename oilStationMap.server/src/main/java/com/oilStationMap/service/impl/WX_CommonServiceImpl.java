@@ -253,7 +253,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String appId = paramMap.get("appId") != null ? paramMap.get("appId").toString() : "";              //小程序的原始ID
         String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";        //发送者的openid
-        String oilStationMapCustomMessageCode = paramMap.get("oilStationMapCustomMessageCode") != null ? paramMap.get("oilStationMapCustomMessageCode").toString() : "";        //发送者的openid
+        String wxCustomMessageCode = paramMap.get("wxCustomMessageCode") != null ? paramMap.get("wxCustomMessageCode").toString() : "";        //发送者的openid
 
         //默认 文本消息
         String customMessageStr = CustomMessageUtil.makeTextCustomMessage(
@@ -276,7 +276,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                 //获取小程序名片消息内容
                 Map<String, Object> customMessageParamMap = Maps.newHashMap();
                 customMessageParamMap.put("dicType", "wxCustomMessage");
-                customMessageParamMap.put("dicCode", oilStationMapCustomMessageCode);
+                customMessageParamMap.put("dicCode", wxCustomMessageCode);
                 ResultDTO customMessageResultDTO = wxDicService.getSimpleDicByCondition(customMessageParamMap);
                 if(customMessageResultDTO != null && customMessageResultDTO.getResultList() != null
                         && customMessageResultDTO.getResultList().size() > 0) {
@@ -304,13 +304,13 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                     } else {
                         customMessageStr = CustomMessageUtil.makeTextCustomMessage(
                                 openId,
-                                "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx07cf52be1444e4b7\' data-miniprogram-path=\'pages/index/index\'>【油价地图】</a>小程序"
+                                "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx07cf52be1444e4b7\' data-miniprogram-path=\'pages/tabBar/todayOilPrice/todayOilPrice\'>【油价地图】</a>小程序"
                         );
                     }
                 } else {
                     customMessageStr = CustomMessageUtil.makeTextCustomMessage(
                             openId,
-                            "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx07cf52be1444e4b7\' data-miniprogram-path=\'pages/index/index\'>【油价地图】</a>小程序"
+                            "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx07cf52be1444e4b7\' data-miniprogram-path=\'pages/tabBar/todayOilPrice/todayOilPrice\'>【油价地图】</a>小程序"
                     );
                 }
                 logger.info("微信客服消息参数 = " + customMessageStr);

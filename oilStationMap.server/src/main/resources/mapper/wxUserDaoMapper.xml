@@ -16,6 +16,7 @@
         user_remark,
         recommend_uid,
         source,
+        is_admin,
         gray_status,
         create_time,
         update_time
@@ -33,6 +34,7 @@
         ou.language as "language",
         ou.user_remark as "userRemark",
         ou.recommend_uid as "recommendUid",
+        ou.is_admin as "isAdmin",
         ou.gray_status as "grayStatus",
         ou.create_time as "createTime",
         ou.update_time as "updateTime"
