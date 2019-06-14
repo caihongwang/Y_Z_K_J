@@ -130,7 +130,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             Date startDate = new Date();
                             this.addOrUpdateOilStation(paramMap);
                             Date endDate = new Date();
-                            long interval = (startDate.getTime() - endDate.getTime())/1000;
+                            long interval = (endDate.getTime() - startDate.getTime())/1000;
                             logger.info("添加或者更新加油站-相差【"+interval+"】秒");
                         } catch (Exception e) {
                             logger.error("=============添加或者更新加油站失败============");
@@ -271,7 +271,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             Date startDate = new Date();
                             this.addOrUpdateOilStation(paramMap);
                             Date endDate = new Date();
-                            long interval = (startDate.getTime() - endDate.getTime())/1000;
+                            long interval = (endDate.getTime() - startDate.getTime())/1000;
                             logger.info("添加或者更新加油站-相差【"+interval+"】秒");
                         } catch (Exception e) {
                             logger.error("=============添加或者更新加油站失败============");
