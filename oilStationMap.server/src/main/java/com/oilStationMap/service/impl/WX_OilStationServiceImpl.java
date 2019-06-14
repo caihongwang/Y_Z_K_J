@@ -268,7 +268,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
+                            Date startDate = new Date();
                             this.addOrUpdateOilStation(paramMap);
+                            Date endDate = new Date();
+                            long interval = (startDate.getTime() - endDate.getTime())/1000;
+                            logger.info("添加或者更新加油站-相差【"+interval+"】秒");
                         } catch (Exception e) {
                             logger.error("=============添加或者更新加油站失败============");
                             logger.error("=============添加或者更新加油站失败============");
