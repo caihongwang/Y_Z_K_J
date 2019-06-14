@@ -5,8 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.UUID;
 
 /**
@@ -16,6 +15,104 @@ import java.util.UUID;
 public class FileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
+
+    /**
+     * 替换文件中字符串
+     * @param filePath
+     */
+    public static void replaceStrInFile(String filePath, String target, String newContent) {
+        try {
+            File file = new File(filePath);
+            InputStream is = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(is));
+
+            String filename = file.getName();
+            // tmpfile为缓存文件，代码运行完毕后此文件将重命名为源文件名字。
+            File tmpfile = new File(file.getParentFile().getAbsolutePath()
+                    + "\\" + filename + ".tmp");
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tmpfile));
+
+            boolean flag = false;
+            String str = null;
+            while (true) {
+                str = reader.readLine();
+
+                if (str == null){
+                    break;
+                }
+
+                if (str.contains(target)) {
+                    str = str.replace(target, newContent);
+                    writer.write(str + "\n");
+                    flag = true;
+                } else {
+                    writer.write(str + "\n");
+                }
+            }
+
+            is.close();
+
+            writer.flush();
+            writer.close();
+
+            if (flag) {
+                file.delete();
+                tmpfile.renameTo(new File(file.getAbsolutePath()));
+            } else {
+                tmpfile.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 复制文件夹及其文件内容
+     * @param sourcePath
+     * @param newPath
+     * @throws IOException
+     */
+    public static void copyDirAndFile(String sourcePath, String newPath) throws IOException {
+        File file = new File(sourcePath);
+        String[] filePath = file.list();
+        if (!(new File(newPath)).exists()) {
+            (new File(newPath)).mkdir();
+        } else {
+            (new File(newPath)).delete();
+            (new File(newPath)).mkdir();
+        }
+        for (int i = 0; i < filePath.length; i++) {
+            if ((new File(sourcePath + File.separator + filePath[i])).isDirectory()) {
+                copyDirAndFile(sourcePath  + File.separator  + filePath[i], newPath  + File.separator + filePath[i]);
+            }
+            if (new File(sourcePath  + File.separator + filePath[i]).isFile()) {
+                copyFile(sourcePath + File.separator + filePath[i], newPath + File.separator + filePath[i]);
+            }
+        }
+    }
+
+    /**
+     * 复制文件
+     * @param oldPath
+     * @param newPath
+     * @throws IOException
+     */
+    public static void copyFile(String oldPath, String newPath) throws IOException {
+        File oldFile = new File(oldPath);
+        File file = new File(newPath);
+        FileInputStream in = new FileInputStream(oldFile);
+        FileOutputStream out = new FileOutputStream(file);;
+
+        byte[] buffer=new byte[2097152];
+        int readByte = 0;
+        while((readByte = in.read(buffer)) != -1){
+            out.write(buffer, 0, readByte);
+        }
+        in.close();
+        out.close();
+    }
 
     /**
      * 创建文件

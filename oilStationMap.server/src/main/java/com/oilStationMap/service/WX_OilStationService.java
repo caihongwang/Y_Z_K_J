@@ -90,4 +90,9 @@ public interface WX_OilStationService {
      * 通过excel的方式导入加油站数据
      */
     public ResultMapDTO batchImportOilStationByExcel(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 创建加油站招聘信息
+     */
+    public String createOilStationHireInfoUrl(String oilStationName, String oilStationAddress);
 }

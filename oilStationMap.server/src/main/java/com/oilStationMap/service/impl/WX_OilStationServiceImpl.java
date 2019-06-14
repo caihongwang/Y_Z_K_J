@@ -20,6 +20,7 @@ import com.oilStationMap.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -57,6 +58,9 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
 
     @Autowired
     private HttpsUtil httpsUtil;
+
+    @Value("${oilStationMap.hirePath}")
+    private String oilStationMapHirePath;
 
     /**
      * 从百度地图中获取或者添加加油站
@@ -120,6 +124,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("oilStationOwnerUid", "baiduMap");
+                        paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
+                        paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
                             this.addOrUpdateOilStation(paramMap);
                         } catch (Exception e) {
@@ -255,6 +261,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("oilStationOwnerUid", "tencentMap");
+                        paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
+                        paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
                             this.addOrUpdateOilStation(paramMap);
                         } catch (Exception e) {
@@ -841,6 +849,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     paramMap.put("oilStationPrice", oilStationPrice);
                     paramMap.put("oilStationDistance", "待定");
                     paramMap.put("isManualModify", "0");
+                    paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationAdress));
+                    paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                     logger.info("开始新增 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                     addNum = wxOilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
@@ -1085,6 +1095,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     paramMap.put("oilStationPrice", oilStationPrice);
                     paramMap.put("oilStationDistance", "待定");
                     paramMap.put("isManualModify", "0");
+                    paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationAdress));
+                    paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                     logger.info("开始新增 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                     addNum = wxOilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
@@ -1428,5 +1440,51 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
         }
         return resultMapDTO;
+    }
+
+    /**
+     * 创建加油站招聘信息
+     * @param paramMap
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String createOilStationHireInfoUrl(String oilStationName, String oilStationAddress){
+        String oilStationHireInfoUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/da_lu_tian_ba_jia_you_zhan/index.html";
+        String baseUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/";
+        if(oilStationName == null || "".equals(oilStationName)){
+            oilStationName = "大路田坝加油站";
+        }
+        if(oilStationAddress == null || "".equals(oilStationAddress)){
+            oilStationAddress = "贵州省铜仁市松桃苗族自治县大路镇";
+        }
+        String dirName = "";
+        try {
+            //1.根据加油站转义文件夹名称
+            char[] tempArr = oilStationName.toCharArray();
+            for(int i = 0; i < tempArr.length; i++){
+                char temp = tempArr[i];
+                if(i == 0){
+                    dirName = dirName + PingYingUtil.getPingYin(temp+"");
+                } else {
+                    dirName = dirName + "_" + PingYingUtil.getPingYin(temp+"");
+                }
+            }
+            String sourcePath = oilStationMapHirePath + "da_lu_tian_ba_jia_you_zhan";
+            String newPath = oilStationMapHirePath + dirName;
+            //2.复制文件夹及其文件内容
+            FileUtil.copyDirAndFile(sourcePath, newPath);
+            //3.替换文件中字符串
+            FileUtil.replaceStrInFile(
+                    newPath+"/index.html",
+                    "贵州省铜仁市松桃苗族自治县大路镇-大路田坝加油站",
+                    oilStationAddress+"-"+oilStationName
+            );
+            //4.拼接url
+            oilStationHireInfoUrl = baseUrl + dirName + "/index.html";
+        } catch (Exception e) {
+            logger.info("创建 加油站："+oilStationName+" 的招聘链接失败...");
+        }
+        return oilStationHireInfoUrl;
     }
 }
