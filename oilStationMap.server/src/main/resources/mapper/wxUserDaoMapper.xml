@@ -16,7 +16,6 @@
         user_remark,
         recommend_uid,
         source,
-        is_admin,
         gray_status,
         create_time,
         update_time
