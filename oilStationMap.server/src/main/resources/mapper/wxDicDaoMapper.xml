@@ -42,7 +42,7 @@
                 AND od.dic_remark like concat('%',#{dicRemark},'%')
             </if>
         </where>
-        ORDER BY od.createTime asc
+        ORDER BY od.create_time asc
     </sql>
 
     <insert id="addDic" parameterType="java.util.Map" useGeneratedKeys="true"
