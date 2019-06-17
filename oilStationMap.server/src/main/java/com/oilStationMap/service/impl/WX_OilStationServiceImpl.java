@@ -214,7 +214,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
     @Override
     public BoolDTO addOrUpdateOilStationByTencetMap(Map<String, Object> paramMap) {
         Map<String, Object> dicMap = Maps.newHashMap();
-        dicMap.put("dicType", "region");
+        dicMap.put("dicType", "city");
+//        dicMap.put("dicType", "region");
         ResultDTO cityResultDTO = wxDicService.getSimpleDicByCondition(dicMap);
         if (cityResultDTO.getResultList() != null
                 && cityResultDTO.getResultList().size() > 0) {
