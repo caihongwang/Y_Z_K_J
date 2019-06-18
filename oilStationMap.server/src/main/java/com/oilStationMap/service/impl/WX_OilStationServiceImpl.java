@@ -1509,40 +1509,40 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
     @Override
     public String createOilStationHireInfoUrl(String oilStationName, String oilStationAddress){
         String oilStationHireInfoUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/da_lu_tian_ba_jia_you_zhan/index.html";
-        String baseUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/";
-        if(oilStationName == null || "".equals(oilStationName)){
-            oilStationName = "大路田坝加油站";
-        }
-        if(oilStationAddress == null || "".equals(oilStationAddress)){
-            oilStationAddress = "贵州省铜仁市松桃苗族自治县大路镇";
-        }
-        String dirName = "";
-        try {
-            //1.根据加油站转义文件夹名称
-            char[] tempArr = oilStationName.toCharArray();
-            for(int i = 0; i < tempArr.length; i++){
-                char temp = tempArr[i];
-                if(i == 0){
-                    dirName = dirName + PingYingUtil.getPingYin(temp+"");
-                } else {
-                    dirName = dirName + "_" + PingYingUtil.getPingYin(temp+"");
-                }
-            }
-            String sourcePath = oilStationMapHirePath + "da_lu_tian_ba_jia_you_zhan";
-            String newPath = oilStationMapHirePath + dirName;
-            //2.复制文件夹及其文件内容
-            FileUtil.copyDirAndFile(sourcePath, newPath);
-            //3.替换文件中字符串
-            FileUtil.replaceStrInFile(
-                    newPath+"/index.html",
-                    "贵州省铜仁市松桃苗族自治县大路镇-大路田坝加油站",
-                    oilStationAddress+"-"+oilStationName
-            );
-            //4.拼接url
-            oilStationHireInfoUrl = baseUrl + dirName + "/index.html";
-        } catch (Exception e) {
-            logger.info("创建 加油站："+oilStationName+" 的招聘链接失败...");
-        }
+//        String baseUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/";
+//        if(oilStationName == null || "".equals(oilStationName)){
+//            oilStationName = "大路田坝加油站";
+//        }
+//        if(oilStationAddress == null || "".equals(oilStationAddress)){
+//            oilStationAddress = "贵州省铜仁市松桃苗族自治县大路镇";
+//        }
+//        String dirName = "";
+//        try {
+//            //1.根据加油站转义文件夹名称
+//            char[] tempArr = oilStationName.toCharArray();
+//            for(int i = 0; i < tempArr.length; i++){
+//                char temp = tempArr[i];
+//                if(i == 0){
+//                    dirName = dirName + PingYingUtil.getPingYin(temp+"");
+//                } else {
+//                    dirName = dirName + "_" + PingYingUtil.getPingYin(temp+"");
+//                }
+//            }
+//            String sourcePath = oilStationMapHirePath + "da_lu_tian_ba_jia_you_zhan";
+//            String newPath = oilStationMapHirePath + dirName;
+//            //2.复制文件夹及其文件内容
+//            FileUtil.copyDirAndFile(sourcePath, newPath);
+//            //3.替换文件中字符串
+//            FileUtil.replaceStrInFile(
+//                    newPath+"/index.html",
+//                    "贵州省铜仁市松桃苗族自治县大路镇-大路田坝加油站",
+//                    oilStationAddress+"-"+oilStationName
+//            );
+//            //4.拼接url
+//            oilStationHireInfoUrl = baseUrl + dirName + "/index.html";
+//        } catch (Exception e) {
+//            logger.info("创建 加油站："+oilStationName+" 的招聘链接失败...");
+//        }
         return oilStationHireInfoUrl;
     }
 }
