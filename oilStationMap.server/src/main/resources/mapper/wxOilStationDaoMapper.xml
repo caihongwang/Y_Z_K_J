@@ -46,7 +46,7 @@
         oos.oil_station_price as "oilStationPrice",
         oos.oil_station_distance as "oilStationDistance",
         oos.is_manual_modify as "isManualModify",
-        oos.is_hire as "isHire",
+        oos.oil_station_category as "oilStationCategory",
         oos.share_title as "shareTitle",
         oos.oil_station_hire_url as "oilStationHireUrl",
         oos.oil_station_hire_title as "oilStationHireTitle",

@@ -124,6 +124,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("oilStationOwnerUid", "baiduMap");
+                        paramMap.put("oilStationCategory", "民营");
                         paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
@@ -266,6 +267,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("oilStationOwnerUid", "tencentMap");
+                        paramMap.put("oilStationCategory", "民营");
                         paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
@@ -451,6 +453,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             //1.根据城市名称获取整座城市的加油站
             Map<String, Object> paramMap_temp = Maps.newHashMap();
             paramMap_temp.put("oilStationAreaName", city);
+            paramMap_temp.put("start", 0);
+            paramMap_temp.put("size", 300);
             List<Map<String, Object>> oilStationList_city = wxOilStationDao.getSimpleOilStationByCondition(paramMap_temp);
             if(oilStationList_city != null && oilStationList_city.size() > 0){
                 List<Map<String, String>> oilStationStrList_city = Lists.newArrayList();
@@ -472,6 +476,50 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     }
                 }
                 oilStationStrList.addAll(oilStationStrList_city);
+                //查找去#92汽油价格最低的加油站
+                Map<String, String> minMap = Collections.min(oilStationStrList, new Comparator<Map<String, String>>() {
+                    public int compare(Map<String, String> o1, Map<String, String> o2) {
+                        Double oilPrice1 = 0.0;
+                        String oilPriceLabel1 = "0.0";
+                        String oilStationPriceStr1 = o1.get("oilStationPrice")!=null?o1.get("oilStationPrice").toString():"";
+                        JSONArray oilStationPrice_JSONArray1 = JSONArray.parseArray(oilStationPriceStr1);
+                        if(oilStationPrice_JSONArray1.size()>0){
+                            for(int i=0;i<oilStationPrice_JSONArray1.size();i++){
+                                JSONObject oilStationPrice_JSONObject1 = oilStationPrice_JSONArray1.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
+                                String oilModelLabel = oilStationPrice_JSONObject1.get("oilModelLabel")!=null?oilStationPrice_JSONObject1.get("oilModelLabel").toString():"";
+                                if(!"".equals(oilModelLabel) && "92".equals(oilModelLabel)){
+                                    oilPriceLabel1 = oilStationPrice_JSONObject1.get("oilPriceLabel")!=null?oilStationPrice_JSONObject1.get("oilPriceLabel").toString():"0.0";
+                                }
+                            }
+                        }
+                        oilPrice1 = Double.parseDouble(oilPriceLabel1);
+
+                        Double oilPrice2 = 0.0;
+                        String oilPriceLabel2 = "0.0";
+                        String oilStationPriceStr2 = o2.get("oilStationPrice")!=null?o2.get("oilStationPrice").toString():"";
+                        JSONArray oilStationPrice_JSONArray2 = JSONArray.parseArray(oilStationPriceStr2);
+                        if(oilStationPrice_JSONArray2.size()>0){
+                            for(int i=0;i<oilStationPrice_JSONArray2.size();i++){
+                                JSONObject oilStationPrice_JSONObject2 = oilStationPrice_JSONArray2.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
+                                String oilModelLabel = oilStationPrice_JSONObject2.get("oilModelLabel")!=null?oilStationPrice_JSONObject2.get("oilModelLabel").toString():"";
+                                if(!"".equals(oilModelLabel) && "92".equals(oilModelLabel)){
+                                    oilPriceLabel2 = oilStationPrice_JSONObject2.get("oilPriceLabel")!=null?oilStationPrice_JSONObject2.get("oilPriceLabel").toString():"0.0";
+                                }
+                            }
+                        }
+                        oilPrice2 = Double.parseDouble(oilPriceLabel2);
+
+                        if(oilPrice1 > oilPrice2){
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
+                });
+                Integer index = oilStationStrList.indexOf(minMap);
+                if(index != null && index >= 0){
+                    oilStationStrList.get(index).put("lowestOilPrice", "true");
+                }
                 //对oilStationList的距离进行排序
                 Collections.sort(oilStationStrList, new Comparator<Map<String, String>>() {
                     public int compare(Map<String, String> o1, Map<String, String> o2) {
@@ -480,6 +528,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         return oilStationDistance_1.compareTo(oilStationDistance_2);
                     }
                 });
+
                 //默认在地图上显示自己周围附近的50座加油站
                 Integer startIndex = paramMap.get("startIndex")!=null?Integer.parseInt(paramMap.get("startIndex").toString()):0;
                 Integer endIndex = paramMap.get("endIndex")!=null?Integer.parseInt(paramMap.get("endIndex").toString()):50;

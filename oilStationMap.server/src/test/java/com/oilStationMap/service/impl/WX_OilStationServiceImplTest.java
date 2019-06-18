@@ -23,11 +23,11 @@ public class WX_OilStationServiceImplTest extends MySuperTest {
 
     @Test
     public void Test(){
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("lat", 28.126459);
-//        paramMap.put("lon", 108.954083);
-//        paramMap.put("r", 5000);
-//        getOilStationList(paramMap);
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("lat", 39.873776);
+        paramMap.put("lon", 116.51015);
+        paramMap.put("r", 5000);
+        wxOilStationService.getOilStationList(paramMap);
 
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "1");
@@ -49,9 +49,9 @@ public class WX_OilStationServiceImplTest extends MySuperTest {
 //        paramMap.put("dis", "2");
 //        wxOilStationService.getOneOilStationByCondition(paramMap);
 
-        String oilStationName = "孟溪加油站";
-        String oilStationAddress = "贵州省铜仁市松桃苗族自治县孟溪镇";
-        wxOilStationService.createOilStationHireInfoUrl(oilStationName, oilStationAddress);
+//        String oilStationName = "孟溪加油站";
+//        String oilStationAddress = "贵州省铜仁市松桃苗族自治县孟溪镇";
+//        wxOilStationService.createOilStationHireInfoUrl(oilStationName, oilStationAddress);
 
     }
 
