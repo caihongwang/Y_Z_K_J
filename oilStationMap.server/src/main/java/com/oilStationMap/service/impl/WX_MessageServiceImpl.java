@@ -179,8 +179,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         //素材的创建时间与当前时间只有1天之隔才允许群发
                         if((currentDate.getTime() - createDate.getTime()) < 24*60*60*1000){
                             //3.发送模板消息
-                            openIdList.clear();  //模拟只向管理员发送消息
-                            openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");
+//                            openIdList.clear();  //模拟只向管理员发送消息
+//                            openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");
                             for(String openId : openIdList) {
                                 paramMap.clear();//清空参数，重新准备参数
                                 Map<String, Object> dataMap = Maps.newHashMap();
