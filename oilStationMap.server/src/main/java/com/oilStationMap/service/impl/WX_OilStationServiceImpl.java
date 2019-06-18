@@ -531,9 +531,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     oilStationStrList.get(index).put("lowestOilPrice", "true");
                 }
 
-
-
-
                 //移除不必要展示的数据，减少服务端与小程序端的网络压力
                 for(Map<String, String> oilStationStrMap : oilStationStrList){
                     oilStationStrMap.remove("updateTime");
