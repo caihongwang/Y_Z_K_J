@@ -124,7 +124,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("oilStationOwnerUid", "baiduMap");
-                        paramMap.put("oilStationCategory", "民营");
+                        paramMap.put("oilStationCategory", getOilStationCategory(oilStationName));
                         paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
@@ -267,7 +267,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationDistance", "待定");
                         paramMap.put("isManualModify", "0");
                         paramMap.put("oilStationOwnerUid", "tencentMap");
-                        paramMap.put("oilStationCategory", "民营");
+                        paramMap.put("oilStationCategory", getOilStationCategory(oilStationName));
                         paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationMap.get("address").toString()));
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
@@ -401,6 +401,31 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             oilStationBrandName = "民营";
         }
         return oilStationBrandName;
+    }
+
+    /**
+     * 根据加油站名称来获取加油站的类型
+     * @param oilStationName
+     * @return
+     */
+    public String getOilStationCategory(String oilStationName){
+        String oilStationCategory = "民营";
+        if(oilStationName.indexOf("中石化")!=-1
+                || oilStationName.indexOf("中国石化")!=-1 ||
+                oilStationName.indexOf("中石油")!=-1
+                    || oilStationName.indexOf("中国石油")!=-1 ||
+                    oilStationName.indexOf("中海油")!=-1
+                        || oilStationName.indexOf("中国海油")!=-1){
+            oilStationCategory = "国营";
+        } else if(oilStationName.indexOf("壳牌")!=-1
+                    || oilStationName.indexOf("BP")!=-1
+                        || oilStationName.indexOf("埃索")!=-1
+                            || oilStationName.indexOf("埃克森")!=-1){
+            oilStationCategory = "合资";
+        } else{
+            oilStationCategory = "民营";
+        }
+        return oilStationCategory;
     }
 
     /**

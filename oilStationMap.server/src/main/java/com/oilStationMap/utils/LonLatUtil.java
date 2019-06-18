@@ -686,7 +686,7 @@ public class LonLatUtil {
                         resultMap.put("lng", lng);
                         resultMap.put("lat", lat);
                         resultMap.put("province", province);
-                        resultMap.put("city", city);
+                        resultMap.put("city", cityObj!=null?cityObj.toString():city);
                         resultMap.put("district", district);
                         resultMap.put("adcode", adcode);
                         resultMapList.add(resultMap);
