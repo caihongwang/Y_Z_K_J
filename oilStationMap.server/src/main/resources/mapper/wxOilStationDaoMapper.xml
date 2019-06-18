@@ -199,6 +199,15 @@
             <if test="isManualModify != null and isManualModify != ''">
                 oos.is_manual_modify = #{isManualModify},
             </if>
+            <if test="oilStationCategory != null and oilStationCategory != ''">
+                oos.oil_station_category = #{oilStationCategory},
+            </if>
+            <if test="oilStationHireUrl != null and oilStationHireUrl != ''">
+                oos.oil_station_hire_url = #{oilStationHireUrloilStationHireUrl},
+            </if>
+            <if test="oilStationHireTitle != null and oilStationHireTitle != ''">
+                oos.oil_station_hire_title = #{oilStationHireTitleoilStationHireTitle},
+            </if>
             oos.update_time = CURRENT_TIMESTAMP
         </set>
         where 1=1
