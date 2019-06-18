@@ -23,6 +23,9 @@
         oil_station_distance,
         is_manual_modify,
         oil_station_wx_payment_code_img_url,
+        oil_station_category,
+        oil_station_hire_url,
+        oil_station_hire_title,
         create_time,
         update_time
     </sql>
@@ -127,6 +130,9 @@
         #{oilStationDistance},
         #{isManualModify},
         #{oilStationWxPaymentCodeImgUrl},
+        #{oilStationCategory},
+        #{oilStationHireUrl},
+        #{oilStationHireTitle},
         #{createTime},
         #{updateTime}
         )
