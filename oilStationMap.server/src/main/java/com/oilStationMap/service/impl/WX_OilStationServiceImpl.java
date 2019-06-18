@@ -453,8 +453,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             //1.根据城市名称获取整座城市的加油站
             Map<String, Object> paramMap_temp = Maps.newHashMap();
             paramMap_temp.put("oilStationAreaName", city);
-            paramMap_temp.put("start", 0);
-            paramMap_temp.put("size", 300);
             List<Map<String, Object>> oilStationList_city = wxOilStationDao.getSimpleOilStationByCondition(paramMap_temp);
             if(oilStationList_city != null && oilStationList_city.size() > 0){
                 List<Map<String, String>> oilStationStrList_city = Lists.newArrayList();
@@ -476,6 +474,18 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     }
                 }
                 oilStationStrList.addAll(oilStationStrList_city);
+                //对oilStationList的距离进行排序
+                Collections.sort(oilStationStrList, new Comparator<Map<String, String>>() {
+                    public int compare(Map<String, String> o1, Map<String, String> o2) {
+                        Double oilStationDistance_1 = Double.parseDouble(o1.get("oilStationDistance").toString());
+                        Double oilStationDistance_2 = Double.parseDouble(o2.get("oilStationDistance").toString());
+                        return oilStationDistance_1.compareTo(oilStationDistance_2);
+                    }
+                });
+                //默认在地图上显示自己周围附近的50座加油站
+                Integer startIndex = paramMap.get("startIndex")!=null?Integer.parseInt(paramMap.get("startIndex").toString()):0;
+                Integer endIndex = paramMap.get("endIndex")!=null?Integer.parseInt(paramMap.get("endIndex").toString()):50;
+                oilStationStrList = oilStationStrList.subList(startIndex, endIndex);
                 //查找去#92汽油价格最低的加油站
                 Map<String, String> minMap = Collections.min(oilStationStrList, new Comparator<Map<String, String>>() {
                     public int compare(Map<String, String> o1, Map<String, String> o2) {
@@ -520,19 +530,9 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 if(index != null && index >= 0){
                     oilStationStrList.get(index).put("lowestOilPrice", "true");
                 }
-                //对oilStationList的距离进行排序
-                Collections.sort(oilStationStrList, new Comparator<Map<String, String>>() {
-                    public int compare(Map<String, String> o1, Map<String, String> o2) {
-                        Double oilStationDistance_1 = Double.parseDouble(o1.get("oilStationDistance").toString());
-                        Double oilStationDistance_2 = Double.parseDouble(o2.get("oilStationDistance").toString());
-                        return oilStationDistance_1.compareTo(oilStationDistance_2);
-                    }
-                });
 
-                //默认在地图上显示自己周围附近的50座加油站
-                Integer startIndex = paramMap.get("startIndex")!=null?Integer.parseInt(paramMap.get("startIndex").toString()):0;
-                Integer endIndex = paramMap.get("endIndex")!=null?Integer.parseInt(paramMap.get("endIndex").toString()):50;
-                oilStationStrList = oilStationStrList.subList(startIndex, endIndex);
+
+
 
                 //移除不必要展示的数据，减少服务端与小程序端的网络压力
                 for(Map<String, String> oilStationStrMap : oilStationStrList){

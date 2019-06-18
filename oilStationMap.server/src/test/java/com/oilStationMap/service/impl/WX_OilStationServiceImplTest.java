@@ -23,11 +23,11 @@ public class WX_OilStationServiceImplTest extends MySuperTest {
 
     @Test
     public void Test(){
-        Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("lat", 39.873776);
-        paramMap.put("lon", 116.51015);
-        paramMap.put("r", 5000);
-        wxOilStationService.getOilStationList(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("lat", 39.873776);
+//        paramMap.put("lon", 116.51015);
+//        paramMap.put("r", 5000);
+//        wxOilStationService.getOilStationList(paramMap);
 
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "1");
@@ -39,8 +39,8 @@ public class WX_OilStationServiceImplTest extends MySuperTest {
 //        paramMap.put("oilStationPrice", "[{\"oilNameLabel\": \"柴油\", \"oilModelLabel\": \"0\", \"oilPriceLabel\": \"6.90\"},{\"oilNameLabel\": \"汽油\", \"oilModelLabel\": \"92\", \"oilPriceLabel\": \"7.33\"},{\"oilNameLabel\": \"汽油\", \"oilModelLabel\": \"95\", \"oilPriceLabel\": \"7.70\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"红牛\", \"oilPriceLabel\": \"6.00\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"芬达\", \"oilPriceLabel\": \"2.50\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"百事\", \"oilPriceLabel\": \"2.50\"},{\"oilNameLabel\": \"零食\", \"oilModelLabel\": \"槟榔\", \"oilPriceLabel\": \"10.00\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"娃哈哈\", \"oilPriceLabel\": \"2.00\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"冰红茶\", \"oilPriceLabel\": \"3.00\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"美年达\", \"oilPriceLabel\": \"2.50\"},{\"oilNameLabel\": \"饮料\", \"oilModelLabel\": \"美年达\", \"oilPriceLabel\": \"2.50\"}]");
 //        wxOilStationService.addOrUpdateOilStation(paramMap);
 
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        wxOilStationService.addOrUpdateOilStationByTencetMap(paramMap);
+        Map<String, Object> paramMap = Maps.newHashMap();
+        wxOilStationService.addOrUpdateOilStationByTencetMap(paramMap);
 
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "3616");
