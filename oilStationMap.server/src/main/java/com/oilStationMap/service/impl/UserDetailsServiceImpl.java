@@ -58,6 +58,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userParam);
         Map<String, Object> userMap = userList.get(0);
         //用户昵称
+        String isAdmin = userMap.get("isAdmin")!=null?userMap.get("isAdmin").toString():"false";
+        //用户昵称
         String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"默认用户";
         //微信openId
         String openId = userMap.get("openId").toString();
@@ -67,6 +69,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> perms = Sets.newHashSet();
         perms.add(userMap.get("grayStatus").toString());
         Set<GrantedAuthority> authorities = perms.stream().filter(Objects::nonNull).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
-        return new WX_User(nickName, password, uid, openId, nickName, userInfoMap, authorities);
+        return new WX_User(nickName, password, uid, openId, nickName, isAdmin, userInfoMap, authorities);
     }
 }
