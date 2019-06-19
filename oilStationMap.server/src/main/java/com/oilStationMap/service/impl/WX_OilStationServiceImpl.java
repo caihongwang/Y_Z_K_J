@@ -215,16 +215,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
     @Override
     public BoolDTO addOrUpdateOilStationByTencetMap(Map<String, Object> paramMap) {
         Map<String, Object> dicMap = Maps.newHashMap();
-        dicMap.put("dicType", "city");
-//        dicMap.put("dicType", "region");
+//        dicMap.put("dicType", "city");
+        dicMap.put("dicType", "region");
         ResultDTO cityResultDTO = wxDicService.getSimpleDicByCondition(dicMap);
         if (cityResultDTO.getResultList() != null
                 && cityResultDTO.getResultList().size() > 0) {
             List<Map<String, String>> cityList = cityResultDTO.getResultList();
             for (int j = 0; j < cityList.size(); j++) {
                 Map<String, String> cityMap = cityList.get(j);
-                String cityName = cityMap.get("cityName");
-//                String cityName = cityMap.get("regionName");
+//                String cityName = cityMap.get("cityName");
+                String cityName = cityMap.get("regionName");
                 String keyWord = "加油站";
                 Integer pageSize = 20;
                 Integer pageIndex = 1;
@@ -325,28 +325,28 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         }
                     }
                     String oilStationNum = oilStationList.size() + "";
-                    //更新字典表中city的加油站数量
-                    Map<String, String> dicRemarkMap = Maps.newHashMap();
-                    dicRemarkMap.put("provinceId", cityMap.get("provinceId"));
-                    dicRemarkMap.put("cityName", cityMap.get("cityName"));
-                    dicRemarkMap.put("cityCode", cityMap.get("cityCode"));
-                    dicRemarkMap.put("oilStationNum", oilStationNum);
-                    dicMap.clear();
-                    dicMap.put("dicRemark", JSONObject.toJSONString(dicRemarkMap));
-                    dicMap.put("dicStatus", "1");
-                    dicMap.put("id", cityMap.get("id"));
-                    wxDicService.updateDic(dicMap);
 //                    //更新字典表中city的加油站数量
 //                    Map<String, String> dicRemarkMap = Maps.newHashMap();
-//                    dicRemarkMap.put("cityId", cityMap.get("cityId"));
-//                    dicRemarkMap.put("regionCode", cityMap.get("regionCode"));
-//                    dicRemarkMap.put("regionName", cityMap.get("regionName"));
+//                    dicRemarkMap.put("provinceId", cityMap.get("provinceId"));
+//                    dicRemarkMap.put("cityName", cityMap.get("cityName"));
+//                    dicRemarkMap.put("cityCode", cityMap.get("cityCode"));
 //                    dicRemarkMap.put("oilStationNum", oilStationNum);
 //                    dicMap.clear();
 //                    dicMap.put("dicRemark", JSONObject.toJSONString(dicRemarkMap));
 //                    dicMap.put("dicStatus", "1");
 //                    dicMap.put("id", cityMap.get("id"));
 //                    wxDicService.updateDic(dicMap);
+                    //更新字典表中city的加油站数量
+                    Map<String, String> dicRemarkMap = Maps.newHashMap();
+                    dicRemarkMap.put("cityId", cityMap.get("cityId"));
+                    dicRemarkMap.put("regionCode", cityMap.get("regionCode"));
+                    dicRemarkMap.put("regionName", cityMap.get("regionName"));
+                    dicRemarkMap.put("oilStationNum", oilStationNum);
+                    dicMap.clear();
+                    dicMap.put("dicRemark", JSONObject.toJSONString(dicRemarkMap));
+                    dicMap.put("dicStatus", "1");
+                    dicMap.put("id", cityMap.get("id"));
+                    wxDicService.updateDic(dicMap);
                 } else {
                     logger.error("获取当前城市【" + cityName + "】暂时没有加油站，反正我不信...");
                 }
