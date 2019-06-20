@@ -286,10 +286,6 @@
 
 </mapper>
 
-        <!--大路田坝加油站的油价-->
-        <!--[{"oilNameLabel": "柴油", "oilModelLabel": "0", "oilPriceLabel": "6.90"},{"oilNameLabel": "汽油", "oilModelLabel": "92", "oilPriceLabel": "7.33"},{"oilNameLabel": "汽油", "oilModelLabel": "95", "oilPriceLabel": "7.70"},{"oilNameLabel": "饮料", "oilModelLabel": "红牛", "oilPriceLabel": "6.00"},{"oilNameLabel": "饮料", "oilModelLabel": "芬达", "oilPriceLabel": "2.50"},{"oilNameLabel": "饮料", "oilModelLabel": "百事", "oilPriceLabel": "2.50"},{"oilNameLabel": "零食", "oilModelLabel": "槟榔", "oilPriceLabel": "10.00"},{"oilNameLabel": "饮料", "oilModelLabel": "娃哈哈", "oilPriceLabel": "2.00"},{"oilNameLabel": "饮料", "oilModelLabel": "冰红茶", "oilPriceLabel": "3.00"},{"oilNameLabel": "饮料", "oilModelLabel": "美年达", "oilPriceLabel": "2.50"},{"oilNameLabel": "饮料", "oilModelLabel": "美年达", "oilPriceLabel": "2.50"}]-->
-
-        <!--存储过程-->
         <!--DROP PROCEDURE IF EXISTS updateOilStationPrice_by_Procedure;-->
         <!--CREATE PROCEDURE updateOilStationPrice_by_Procedure(-->
         <!--IN  province           VARCHAR(300),-->
@@ -319,13 +315,14 @@
         <!--IF NOT done-->
         <!--THEN-->
         <!--&#45;&#45; 更新 0#柴油 价格-->
-        <!--IF price_0 IS NOT NULL-->
-        <!--THEN-->
+        <!--IF price_0 IS NOT NULL THEN-->
+        <!--SET @index_0 = SUBSTRING_INDEX(-->
+        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '柴油'), '"',-->
+        <!--''), '.', 1);-->
+        <!--IF @index_0 IS NOT NULL THEN-->
         <!--SET row_oilStationPrice = JSON_REPLACE(-->
         <!--row_oilStationPrice,-->
-        <!--SUBSTRING_INDEX(-->
-        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '柴油'), '"',-->
-        <!--''), '.', 1),-->
+        <!--@index_0,-->
         <!--JSON_EXTRACT(newOilStationPrice,-->
         <!--SUBSTRING_INDEX(REPLACE(-->
         <!--JSON_SEARCH(newOilStationPrice,-->
@@ -334,7 +331,7 @@
         <!--);-->
         <!--&#45;&#45; 随机 0#柴油 油价-->
         <!--SET @price_0_new = 0;-->
-        <!--SET @randNum = (SELECT round(RAND()*0.1, 2));-->
+        <!--SET @randNum = (SELECT round(RAND() * 0.1, 2));-->
         <!--IF @randNum > 0.05-->
         <!--THEN-->
         <!--SET @price_0_new = round((price_0 - @randNum), 2);-->
@@ -346,15 +343,17 @@
         <!--SET row_oilStationPrice = REPLACE(row_oilStationPrice, @price_0_str,-->
         <!--@price_0_new_str);-->
         <!--END IF;-->
+        <!--END IF;-->
 
         <!--&#45;&#45; 更新 92#汽油 价格-->
-        <!--IF price_92 IS NOT NULL-->
-        <!--THEN-->
+        <!--IF price_92 IS NOT NULL THEN-->
+        <!--SET @index_92 = SUBSTRING_INDEX(-->
+        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '92'), '"',-->
+        <!--''), '.', 1);-->
+        <!--IF @index_92 IS NOT NULL THEN-->
         <!--SET row_oilStationPrice = JSON_REPLACE(-->
         <!--row_oilStationPrice,-->
-        <!--SUBSTRING_INDEX(-->
-        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '92'), '"',-->
-        <!--''), '.', 1),-->
+        <!--@index_92,-->
         <!--JSON_EXTRACT(newOilStationPrice,-->
         <!--SUBSTRING_INDEX(REPLACE(-->
         <!--JSON_SEARCH(newOilStationPrice,-->
@@ -363,7 +362,7 @@
         <!--);-->
         <!--&#45;&#45; 随机 92#汽油 油价-->
         <!--SET @price_92_new = 0;-->
-        <!--SET @randNum = (SELECT round(RAND()*0.1, 2));-->
+        <!--SET @randNum = (SELECT round(RAND() * 0.1, 2));-->
         <!--IF @randNum > 0.05-->
         <!--THEN-->
         <!--SET @price_92_new = round((price_92 - @randNum), 2);-->
@@ -375,15 +374,17 @@
         <!--SET row_oilStationPrice = REPLACE(row_oilStationPrice, @price_92_str,-->
         <!--@price_92_new_str);-->
         <!--END IF;-->
+        <!--END IF;-->
 
         <!--&#45;&#45; 更新 95#汽油 价格-->
-        <!--IF price_95 IS NOT NULL-->
-        <!--THEN-->
+        <!--IF price_95 IS NOT NULL THEN-->
+        <!--SET @index_95 = SUBSTRING_INDEX(-->
+        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '95'), '"',-->
+        <!--''), '.', 1);-->
+        <!--IF @index_95 IS NOT NULL THEN-->
         <!--SET row_oilStationPrice = JSON_REPLACE(-->
         <!--row_oilStationPrice,-->
-        <!--SUBSTRING_INDEX(-->
-        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '95'), '"',-->
-        <!--''), '.', 1),-->
+        <!--@index_95,-->
         <!--JSON_EXTRACT(newOilStationPrice,-->
         <!--SUBSTRING_INDEX(REPLACE(-->
         <!--JSON_SEARCH(newOilStationPrice,-->
@@ -392,7 +393,7 @@
         <!--);-->
         <!--&#45;&#45; 随机 95#汽油 油价-->
         <!--SET @price_95_new = 0;-->
-        <!--SET @randNum = (SELECT round(RAND()*0.1, 2));-->
+        <!--SET @randNum = (SELECT round(RAND() * 0.1, 2));-->
         <!--IF @randNum > 0.05-->
         <!--THEN-->
         <!--SET @price_95_new = round((price_95 - @randNum), 2);-->
@@ -404,15 +405,17 @@
         <!--SET row_oilStationPrice = REPLACE(row_oilStationPrice, @price_95_str,-->
         <!--@price_95_new_str);-->
         <!--END IF;-->
+        <!--END IF;-->
 
         <!--&#45;&#45; 更新 98#汽油 价格-->
-        <!--IF price_98 IS NOT NULL-->
-        <!--THEN-->
+        <!--IF price_98 IS NOT NULL THEN-->
+        <!--SET @index_98 = SUBSTRING_INDEX(-->
+        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '98'), '"',-->
+        <!--''), '.', 1);-->
+        <!--IF @index_98 IS NOT NULL THEN-->
         <!--SET row_oilStationPrice = JSON_REPLACE(-->
         <!--row_oilStationPrice,-->
-        <!--SUBSTRING_INDEX(-->
-        <!--REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '98'), '"',-->
-        <!--''), '.', 1),-->
+        <!--@index_98,-->
         <!--JSON_EXTRACT(newOilStationPrice,-->
         <!--SUBSTRING_INDEX(REPLACE(-->
         <!--JSON_SEARCH(newOilStationPrice,-->
@@ -421,7 +424,7 @@
         <!--);-->
         <!--&#45;&#45; 随机 98#汽油 油价-->
         <!--SET @price_98_new = 0;-->
-        <!--SET @randNum = (SELECT round(RAND()*0.1, 2));-->
+        <!--SET @randNum = (SELECT round(RAND() * 0.1, 2));-->
         <!--IF @randNum > 0.05-->
         <!--THEN-->
         <!--SET @price_98_new = round((price_98 - @randNum), 2);-->
@@ -433,25 +436,14 @@
         <!--SET row_oilStationPrice = REPLACE(row_oilStationPrice, @price_98_str,-->
         <!--@price_98_new_str);-->
         <!--END IF;-->
-
-        <!--#         SELECT-->
-        <!--#           price_0,-->
-        <!--#           @price_0_new,-->
-        <!--#           price_92,-->
-        <!--#           @price_92_new,-->
-        <!--#           price_95,-->
-        <!--#           @price_95_new,-->
-        <!--#           price_98,-->
-        <!--#           @price_98_new,-->
-        <!--#           updateNum,-->
-        <!--#           row_oilStationPrice;-->
+        <!--END IF;-->
 
         <!--&#45;&#45; 更新 油价-->
         <!--UPDATE o_oil_station-->
         <!--SET-->
         <!--oil_station_price = row_oilStationPrice,-->
         <!--update_time       = CURRENT_TIMESTAMP-->
-        <!--WHERE id = row_id and id not in (320124);-->
+        <!--WHERE id = row_id AND id NOT IN (320124);-->
 
         <!--END IF;-->
         <!--UNTIL done END REPEAT; &#45;&#45; 结束循环-->

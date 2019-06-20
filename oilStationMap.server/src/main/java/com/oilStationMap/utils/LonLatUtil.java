@@ -933,11 +933,11 @@ public class LonLatUtil {
                         oilPriceNum++;
 
                         //开始更新油价-通过存储过程
+                        oilStationParamMap.put("updateNum", 0);
                         oilStationParamMap.put("province", province);
                         oilStationParamMap.put("newOilStationPrice", JSONObject.toJSONString(oilPriceList));
-                        oilStationParamMap.put("updateNum", 0);
-                        oilStationParamMap = wxOilStationDao.updateOilStationPrice_by_Procedure(oilStationParamMap);
                         try{
+                            oilStationParamMap = wxOilStationDao.updateOilStationPrice_by_Procedure(oilStationParamMap);
                             if(oilStationParamMap != null){
                                 updateNum = updateNum + Integer.parseInt(
                                         oilStationParamMap.get("updateNum")!=null
