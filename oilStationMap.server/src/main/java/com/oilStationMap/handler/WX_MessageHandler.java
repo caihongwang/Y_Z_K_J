@@ -71,4 +71,31 @@ public class WX_MessageHandler {
         return resultMapDTO;
     }
 
+    /**
+     * 根据OpenID列表群发
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO dailyLuckDrawMessageSend(Map<String, String> paramMap) {
+        logger.info("在【hanlder】中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        new Thread(){
+
+            public void run(){
+                Map<String, Object> objectParamMap = Maps.newHashMap();
+                try {
+                    wxMessageService.dailyLuckDrawMessageSend(objectParamMap);
+                } catch (Exception e) {
+                    resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                    resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                    logger.error("在【hanlder】中根据OpenID列表群发-dailyLuckDrawMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在【hanlder】中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
 }

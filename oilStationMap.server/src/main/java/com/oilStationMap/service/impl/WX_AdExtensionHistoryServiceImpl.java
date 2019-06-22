@@ -74,43 +74,6 @@ public class WX_AdExtensionHistoryServiceImpl implements WX_AdExtensionHistorySe
             } else {
                 boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
-
-                //获取当前时间
-                Date currentDate = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                paramMap.clear();//清空参数，重新准备参数
-                Map<String, Object> dataMap = Maps.newHashMap();
-                //标题
-                Map<String, Object> firstMap = Maps.newHashMap();
-                firstMap.put("value", "监测到广告推广历史存档服务出现问题");
-                firstMap.put("color", "#0017F5");
-                dataMap.put("keyword1", firstMap);
-                //错误描述
-                Map<String, Object> keyword1Map = Maps.newHashMap();
-                keyword1Map.put("value", "媒体appId: "+mediaAppId+" 在广告推广历史存档时异常...");
-                keyword1Map.put("color", "#0017F5");
-                dataMap.put("first", keyword1Map);
-                //错误详情
-                Map<String, Object> keyword2Map = Maps.newHashMap();
-                keyword2Map.put("value", "媒体appId: "+mediaAppId+" ,在推广广告主appId: " + adAppId+" 进行广告推广历史存档时异常，");
-                keyword2Map.put("color", "#0017F5");
-                dataMap.put("keyword2", keyword2Map);
-                //时间
-                Map<String, Object> keyword3Map = Maps.newHashMap();
-                keyword3Map.put("value", sdf.format(currentDate));
-                keyword3Map.put("color", "#0017F5");
-                dataMap.put("keyword3", keyword3Map);
-                //备注
-                Map<String, Object> remarkMap = Maps.newHashMap();
-                remarkMap.put("value", "媒体appId: "+mediaAppId+" ,在推广广告主appId: " + adAppId+" 进行广告推广历史存档时异常，");
-                remarkMap.put("color", "#0017F5");
-                dataMap.put("remark", remarkMap);
-                //整合
-                paramMap.put("data", JSONObject.toJSONString(dataMap));
-                //发送
-                paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                paramMap.put("template_id", "TdKDrcNW934K0r1rtlDKCUI0XCQ5xb4GGb8ieHb0zug"); //服务器报错提醒
-                wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
             }
         } else {
             boolDTO.setCode(OilStationMapCode.LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL.getNo());

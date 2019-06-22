@@ -170,46 +170,7 @@ public class TimeTaskOfQuartz {
     public void do_renewCertbot_For_OilStationMap() {
         Map<String, Object> paramMap = Maps.newHashMap();
         try{
-            CommandUtil.run("/opt/certbot/renewCertbot.sh");
-
-            //向 管理员汇报 已更新油价
-            paramMap.clear();//清空参数，重新准备参数
-            Map<String, Object> dataMap = Maps.newHashMap();
-
-            Map<String, Object> firstMap = Maps.newHashMap();
-            firstMap.put("value", "定时每月第一天02:30:30更新https协议证书");
-            firstMap.put("color", "#0017F5");
-            dataMap.put("first", firstMap);
-
-            //获取当前时间
-            Date currentDate = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Map<String, Object> keyword1Map = Maps.newHashMap();
-            keyword1Map.put("value", sdf.format(currentDate));
-            keyword1Map.put("color", "#0017F5");
-            dataMap.put("keyword1", keyword1Map);
-
-            Map<String, Object> keyword2Map = Maps.newHashMap();
-            keyword2Map.put("value", "【油价地图】");
-            keyword2Map.put("color", "#0017F5");
-            dataMap.put("keyword2", keyword2Map);
-
-            Map<String, Object> keyword3Map = Maps.newHashMap();
-            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-            keyword3Map.put("color", "#0017F5");
-            dataMap.put("keyword3", keyword3Map);
-
-            Map<String, Object> remarkMap = Maps.newHashMap();
-            remarkMap.put("value", "定时每月第一天02:30:30更新https协议证书【成功】");
-            remarkMap.put("color", "#0017F5");
-            dataMap.put("remark", remarkMap);
-
-            paramMap.put("data", JSONObject.toJSONString(dataMap));
-            paramMap.put("url", "https://www.91caihongwang.com/oilStationMap");
-
-            paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-            paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
-            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+            CommandUtil.run("sh /opt/certbot/renewCertbot.sh");
         } catch (Exception e) {
             logger.error(">>>>>>>>>>>>>>>>>>>更新https协议证书时异常<<<<<<<<<<<<<<<<<<<<<<");
             logger.error(">>>>>>>>>>>>>>>>>>>更新https协议证书时异常<<<<<<<<<<<<<<<<<<<<<<");
@@ -218,47 +179,6 @@ public class TimeTaskOfQuartz {
             logger.error(">>>>>>>>>>>>>>>>>>>更新https协议证书时异常<<<<<<<<<<<<<<<<<<<<<<");
             logger.error(">>>>>>>>>>>>>>>>>>>更新https协议证书时异常<<<<<<<<<<<<<<<<<<<<<<");
             logger.error(">>>>>>>>>>>>>>>>>>>更新https协议证书时异常<<<<<<<<<<<<<<<<<<<<<<");
-
-
-
-
-            //向 管理员汇报 已更新油价
-            paramMap.clear();//清空参数，重新准备参数
-            Map<String, Object> dataMap = Maps.newHashMap();
-
-            Map<String, Object> firstMap = Maps.newHashMap();
-            firstMap.put("value", "定时每月第一天02:30:30更新https协议证书");
-            firstMap.put("color", "#0017F5");
-            dataMap.put("first", firstMap);
-
-            //获取当前时间
-            Date currentDate = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Map<String, Object> keyword1Map = Maps.newHashMap();
-            keyword1Map.put("value", sdf.format(currentDate));
-            keyword1Map.put("color", "#0017F5");
-            dataMap.put("keyword1", keyword1Map);
-
-            Map<String, Object> keyword2Map = Maps.newHashMap();
-            keyword2Map.put("value", "【油价地图】");
-            keyword2Map.put("color", "#0017F5");
-            dataMap.put("keyword2", keyword2Map);
-
-            Map<String, Object> keyword3Map = Maps.newHashMap();
-            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-            keyword3Map.put("color", "#0017F5");
-            dataMap.put("keyword3", keyword3Map);
-
-            Map<String, Object> remarkMap = Maps.newHashMap();
-            remarkMap.put("value", "定时每月第一天02:30:30更新https协议证书【失败】");
-            remarkMap.put("color", "#0017F5");
-            dataMap.put("remark", remarkMap);
-
-            paramMap.put("data", JSONObject.toJSONString(dataMap));
-            paramMap.put("url", "https://www.91caihongwang.com/oilStationMap");
-
-            paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-            paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
         }
     }
 

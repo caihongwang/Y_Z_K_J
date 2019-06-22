@@ -6,12 +6,9 @@ import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.BoolDTO;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
+import com.oilStationMap.service.*;
 import com.oilStationMap.utils.*;
 import com.oilStationMap.vo.OilStationVO;
-import com.oilStationMap.service.WX_CommonService;
-import com.oilStationMap.service.WX_DicService;
-import com.oilStationMap.service.WX_OilStationOperatorService;
-import com.oilStationMap.service.WX_OilStationService;
 import com.oilStationMap.dao.WX_OilStationDao;
 import com.oilStationMap.dao.WX_OilStationOperatorDao;
 import com.google.common.collect.Lists;
@@ -48,7 +45,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
     private WX_CommonService wxCommonService;
 
     @Autowired
-    private WX_OilStationOperatorDao wxOilStationOperatorDao;
+    private WX_MessageService wxMessageService;
 
     @Autowired
     private WX_OilStationOperatorService wxOilStationOperatorService;
@@ -175,10 +172,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             dataMap.put("remark", remarkMap);
                             //整合
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-                            //发送
-                            paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                            paramMap.put("template_id", "TdKDrcNW934K0r1rtlDKCUI0XCQ5xb4GGb8ieHb0zug"); //服务器报错提醒
-                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                            try{
+                                wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
+                            } catch (Exception e1){
+                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+                            }
                         }
                     }
                     String oilStationNum = oilStationList.size() + "";
@@ -318,10 +316,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             dataMap.put("remark", remarkMap);
                             //整合
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-                            //发送
-                            paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                            paramMap.put("template_id", "TdKDrcNW934K0r1rtlDKCUI0XCQ5xb4GGb8ieHb0zug"); //服务器报错提醒
-                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                            try{
+                                wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
+                            } catch (Exception e1){
+                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+                            }
                         }
                     }
                     String oilStationNum = oilStationList.size() + "";
@@ -1030,10 +1029,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         dataMap.put("remark", remarkMap);
 
                         paramMap.put("data", JSONObject.toJSONString(dataMap));
-
-                        paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                        paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
-                        wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                        try{
+                            wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+                        } catch (Exception e) {
+                            logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
+                        }
 
                         boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                         boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
@@ -1132,10 +1132,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             dataMap.put("remark", remarkMap);
 
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-
-                            paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                            paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
-                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                            try{
+                                wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+                            } catch (Exception e) {
+                                logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
+                            }
 
                             boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                             boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());

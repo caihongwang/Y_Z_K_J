@@ -7,6 +7,14 @@ import java.util.Map;
 public interface WX_CommonService {
 
     /**
+     * 根据appId和secret想对应的公众号进行发送文本消息
+     * 发送公众号的文本消息
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO sendTextMessageForWxPublicNumber(Map<String, Object> paramMap);
+
+    /**
      * 在微信公众号内发送卡片类的小程序
      * @param paramMap
      * @return

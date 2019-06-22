@@ -8,6 +8,7 @@ import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.WX_CommonService;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_LeagueService;
+import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.utils.MapUtil;
 import com.oilStationMap.dao.WX_LeagueDao;
 import com.google.common.collect.Lists;
@@ -37,7 +38,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
     private WX_DicService wxDicService;
 
     @Autowired
-    private WX_CommonService wxCommonService;
+    private WX_MessageService wxMessageService;
 
     /**
      * 获取加盟类型列表
@@ -79,47 +80,11 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
                 && !"".equals(name) && !"".equals(leagueTypeCode)) {
             addNum = wxLeagueDao.addLeague(paramMap);
             if (addNum != null && addNum > 0) {
-                paramMap.clear();//清空参数，重新准备参数
-                //获取当前时间
-                Date currentDate = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Map<String, Object> dataMap = Maps.newHashMap();
-                //标题
-                Map<String, Object> firstMap = Maps.newHashMap();
-                firstMap.put("value", "您有新的加盟对象来了...");
-                firstMap.put("color", "#0017F5");
-                dataMap.put("keyword1", firstMap);
-                //姓名
-                Map<String, Object> keyword1Map = Maps.newHashMap();
-                keyword1Map.put("value", name);
-                keyword1Map.put("color", "#0017F5");
-                dataMap.put("first", keyword1Map);
-                //手机
-                Map<String, Object> keyword2Map = Maps.newHashMap();
-                keyword2Map.put("value", phone);
-                keyword2Map.put("color", "#0017F5");
-                dataMap.put("keyword2", keyword2Map);
-                //受理时间
-                Map<String, Object> keyword3Map = Maps.newHashMap();
-                keyword3Map.put("value", sdf.format(currentDate));
-                keyword3Map.put("color", "#0017F5");
-                dataMap.put("keyword3", keyword3Map);
-                //受理详情
-                Map<String, Object> keyword4Map = Maps.newHashMap();
-                keyword4Map.put("value", "客服已经确认【"+remark+"】合作方式.");
-                keyword4Map.put("color", "#0017F5");
-                dataMap.put("keyword3", keyword4Map);
-                //备注
-                Map<String, Object> remarkMap = Maps.newHashMap();
-                remarkMap.put("value", "生意来了，快让客服进行处理工单吧，千万不要漏掉啊.");
-                remarkMap.put("color", "#0017F5");
-                dataMap.put("remark", remarkMap);
-                //整合
-                paramMap.put("data", JSONObject.toJSONString(dataMap));
-                //发送
-                paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-                paramMap.put("template_id", "FvFWMDDOdH132QdU9shyzSOpLCt6VB_YpQ3k0T7b5uY"); //加盟受理通知
-                wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                try{
+                    wxMessageService.dailyLeagueMessageSend(paramMap);
+                } catch (Exception e) {
+                    logger.info("发送加盟消息是异常，e ：", e);
+                }
                 boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                 boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
             } else {

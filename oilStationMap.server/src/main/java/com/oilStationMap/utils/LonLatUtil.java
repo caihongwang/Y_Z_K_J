@@ -4,11 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.service.WX_CommonService;
+import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.WX_OilStationService;
 import com.oilStationMap.dao.WX_OilStationDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.service.impl.WX_CommonServiceImpl;
+import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.service.impl.WX_OilStationServiceImpl;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,6 +46,7 @@ public class LonLatUtil {
 
     public static WX_OilStationService wxOilStationService = (WX_OilStationService)ApplicationContextUtils.getBeanByClass(WX_OilStationServiceImpl.class);
     public static WX_CommonService wxCommonService = (WX_CommonService)ApplicationContextUtils.getBeanByClass(WX_CommonServiceImpl.class);
+    public static WX_MessageService wxMessageService = (WX_MessageService)ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
 
     public static WX_OilStationDao wxOilStationDao = (WX_OilStationDao)ApplicationContextUtils.getBeanByClass(WX_OilStationDao.class);
 
@@ -1019,43 +1022,14 @@ public class LonLatUtil {
             }
         }
 
-        //向 管理员汇报 已更新油价
-        paramMap.clear();//清空参数，重新准备参数
-        Map<String, Object> dataMap = Maps.newHashMap();
-
-        Map<String, Object> firstMap = Maps.newHashMap();
-        firstMap.put("value", "油价地图从http://oil.usd-cny.com/更新成品油价完成");
-        firstMap.put("color", "#0017F5");
-        dataMap.put("first", firstMap);
-
-        //获取当前时间
-        Date currentDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Map<String, Object> keyword1Map = Maps.newHashMap();
-        keyword1Map.put("value", sdf.format(currentDate));
-        keyword1Map.put("color", "#0017F5");
-        dataMap.put("keyword1", keyword1Map);
-
-        Map<String, Object> keyword2Map = Maps.newHashMap();
-        keyword2Map.put("value", "【油价地图】");
-        keyword2Map.put("color", "#0017F5");
-        dataMap.put("keyword2", keyword2Map);
-
-        Map<String, Object> keyword3Map = Maps.newHashMap();
-        keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-        keyword3Map.put("color", "#0017F5");
-        dataMap.put("keyword3", keyword3Map);
-
-        Map<String, Object> remarkMap = Maps.newHashMap();
-        remarkMap.put("value", "共更新了加油站油价『"+updateNum+"』座");
-        remarkMap.put("color", "#0017F5");
-        dataMap.put("remark", remarkMap);
-
-        paramMap.put("data", JSONObject.toJSONString(dataMap));
-
-        paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
-        paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
-        wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+        try{
+            //向 管理员汇报 已更新油价
+            paramMap.clear();//清空参数，重新准备参数
+            paramMap.put("updateNum", updateNum);
+            wxMessageService.dailyUpdateOilPriceMessageSend(paramMap);
+        } catch (Exception e) {
+            logger.info("向 管理员汇报 已更新油站『"+updateNum+"』座时发生异常，e : " , e);
+        }
 
         logger.info("总共更新了加油站油价『"+updateNum+"』座.");
     }

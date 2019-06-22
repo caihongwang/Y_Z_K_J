@@ -75,4 +75,28 @@ public class WX_MessageController {
         return resultMap;
     }
 
+    @RequestMapping("/dailyLuckDrawMessageSend")
+    @ResponseBody
+    public Map<String, Object> dailyLuckDrawMessageSend(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        try {
+            ResultMapDTO resultMapDTO = wx_MessageHandler.dailyLuckDrawMessageSend(paramMap);
+            resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
+            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中根据OpenID列表群发-dailyLuckDrawMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMap);
+        return resultMap;
+    }
+
 }

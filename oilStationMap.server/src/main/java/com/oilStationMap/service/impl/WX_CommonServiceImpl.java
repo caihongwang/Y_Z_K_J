@@ -177,22 +177,79 @@ public class WX_CommonServiceImpl implements WX_CommonService {
     }
 
     /**
-     * 发送公众号的模板消息
+     * 根据appId和secret想对应的公众号进行发送文本消息
+     * 发送公众号的文本消息
      * @param paramMap
      * @return
      * 
      */
     @Override
+    public ResultMapDTO sendTextMessageForWxPublicNumber(Map<String, Object> paramMap) {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        String appId = paramMap.get("appId") != null ? paramMap.get("appId").toString() : "";
+        String secret = paramMap.get("secret") != null ? paramMap.get("secret").toString() : "";
+        String customTextMessage = paramMap.get("customTextMessage") != null ? paramMap.get("customTextMessage").toString() : "";
+        if (!"".equals(appId) && !"".equals(secret) && !"".equals(customTextMessage)) {
+            try {
+                String host = OilStationMapCode.WX_CUSTOM_MESSAGE_HOST;
+                String path = OilStationMapCode.WX_CUSTOM_MESSAGE_PATH;
+                String method = OilStationMapCode.WX_CUSTOM_MESSAGE_METHOD;
+                Map<String, String> headers = Maps.newHashMap();
+                Map<String, String> querys = Maps.newHashMap();
+                Map<String, Object> resultMap = Maps.newHashMap();
+                resultMap = WX_PublicNumberUtil.getAccessToken(appId, secret);
+                if (resultMap.get("access_token") != null &&
+                        !"".equals(resultMap.get("access_token").toString())) {
+                    String accessToken = resultMap.get("access_token").toString();
+                    path = path + accessToken;
+                    String bodys = customTextMessage;
+                    try {
+                        HttpResponse response = ALiYunHttpUtils.doPost(host, path, method, headers, querys, bodys);
+                        logger.info("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = " + EntityUtils.toString(response.getEntity(), "utf-8"));
+                        StatusLine responseState = response.getStatusLine();
+                        logger.info("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : " + responseState);
+                    } catch (Exception e) {
+                        resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                        logger.error("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage is error, paramMap : " + paramMap + ", e : " + e);
+                    }
+                } else {
+                    logger.info("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage 获取微信access_token失败.");
+                }
+            } catch (Exception e) {
+                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                logger.error("在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber is error, paramMap : " + paramMap + ", e : " + e);
+            }
+        } else {
+            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+        }
+
+        logger.info("在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 发送公众号的模板消息
+     * @param paramMap
+     * @return
+     *
+     */
+    @Override
     public ResultMapDTO sendTemplateMessageForWxPublicNumber(Map<String, Object> paramMap) {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String data = paramMap.get("data") != null ? paramMap.get("data").toString() : "";
-        String miniprogram = paramMap.get("miniprogram") != null ? paramMap.get("miniprogram").toString() : "";
         String template_id = paramMap.get("template_id") != null ? paramMap.get("template_id").toString() : "";
+        String miniprogram = paramMap.get("miniprogram") != null ? paramMap.get("miniprogram").toString() : "";
         String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
+        String appId = paramMap.get("appId") != null ? paramMap.get("appId").toString() : "";
+        String secret = paramMap.get("secret") != null ? paramMap.get("secret").toString() : "";
 
-        if (!"".equals(data) && !"".equals(template_id)&& !"".equals(openId)) {
+        if (!"".equals(data) && !"".equals(template_id) && !"".equals(openId)
+                && !"".equals(appId)  && !"".equals(secret)) {
             try {
-                Map<String, Object> resultMap = WX_PublicNumberUtil.getAccessToken(OilStationMapCode.WX_PUBLIC_NUMBER_APPID, OilStationMapCode.WX_PUBLIC_NUMBER_SECRET);
+                Map<String, Object> resultMap = WX_PublicNumberUtil.getAccessToken(appId, secret);
                 if (resultMap.get("access_token") != null
                         && !"".equals(resultMap.get("access_token").toString())) {
                     String accessToken = resultMap.get("access_token").toString();
