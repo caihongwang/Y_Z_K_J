@@ -202,71 +202,73 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                         (JSONArray)dataJSONObject.get("openid"):null;
                                 List<String> openIdList = JSONObject.parseObject(openIdJSONArray.toJSONString(), List.class);
                                 //2.获取最新的素材
-                                List<Map<String, Object>> sourceMaterialList = WX_PublicNumberUtil.batchGetAllMaterial(MediaTypeUtil.NEWS, 0, 20);
-                                Map<String, Object> sourceMaterialMap = sourceMaterialList.get(0);      //获取最近发布的一篇文章
-                                String createTime = sourceMaterialMap.get("createTime")!=null?sourceMaterialMap.get("createTime").toString():"";
-                                if(!"".equals(createTime)){
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    Date createDate = sdf.parse(createTime);
-                                    Date currentDate = new Date();
-                                    //素材的创建时间与当前时间只有1天之隔才允许群发
-                                    if((currentDate.getTime() - createDate.getTime()) < 24*60*60*1000){
-                                        //3.发送模板消息
-//                                        openIdList.clear();  //模拟只向管理员发送消息
-//                                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-//                                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
-                                        for(String openId : openIdList) {
-                                            paramMap.clear();//清空参数，重新准备参数
-                                            Map<String, Object> dataMap = Maps.newHashMap();
+                                List<Map<String, Object>> sourceMaterialList = WX_PublicNumberUtil.batchGetAllMaterial(MediaTypeUtil.NEWS, appId, secret, 0, 20);
+                                if(sourceMaterialList.size() > 0){
+                                    Map<String, Object> sourceMaterialMap = sourceMaterialList.get(0);      //获取最近发布的一篇文章
+                                    String createTime = sourceMaterialMap.get("createTime")!=null?sourceMaterialMap.get("createTime").toString():"";
+                                    if(!"".equals(createTime)){
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        Date createDate = sdf.parse(createTime);
+                                        Date currentDate = new Date();
+                                        //素材的创建时间与当前时间只有1天之隔才允许群发
+                                        if((currentDate.getTime() - createDate.getTime()) < 24*60*60*1000){
+                                            //3.发送模板消息
+                                            openIdList.clear();  //模拟只向管理员发送消息
+                                            openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                                            openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
+                                            for(String openId : openIdList) {
+                                                paramMap.clear();//清空参数，重新准备参数
+                                                Map<String, Object> dataMap = Maps.newHashMap();
 
-                                            Map<String, Object> firstMap = Maps.newHashMap();
-                                            firstMap.put("value", sourceMaterialMap.get("title").toString());
-                                            firstMap.put("color", "#0017F5");
-                                            dataMap.put("first", firstMap);
+                                                Map<String, Object> firstMap = Maps.newHashMap();
+                                                firstMap.put("value", sourceMaterialMap.get("title").toString());
+                                                firstMap.put("color", "#0017F5");
+                                                dataMap.put("first", firstMap);
 
-                                            Map<String, Object> keyword1Map = Maps.newHashMap();
-                                            keyword1Map.put("value", sdf.format(currentDate));
-                                            keyword1Map.put("color", "#0017F5");
-                                            dataMap.put("keyword1", keyword1Map);
+                                                Map<String, Object> keyword1Map = Maps.newHashMap();
+                                                keyword1Map.put("value", sdf.format(currentDate));
+                                                keyword1Map.put("color", "#0017F5");
+                                                dataMap.put("keyword1", keyword1Map);
 
-                                            Map<String, Object> keyword2Map = Maps.newHashMap();
-                                            keyword2Map.put("value", "【"+customMessageAccountName+"】");
-                                            keyword2Map.put("color", "#0017F5");
-                                            dataMap.put("keyword2", keyword2Map);
+                                                Map<String, Object> keyword2Map = Maps.newHashMap();
+                                                keyword2Map.put("value", "【"+customMessageAccountName+"】");
+                                                keyword2Map.put("color", "#0017F5");
+                                                dataMap.put("keyword2", keyword2Map);
 
-                                            Map<String, Object> keyword3Map = Maps.newHashMap();
-                                            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-                                            keyword3Map.put("color", "#0017F5");
-                                            dataMap.put("keyword3", keyword3Map);
+                                                Map<String, Object> keyword3Map = Maps.newHashMap();
+                                                keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
+                                                keyword3Map.put("color", "#0017F5");
+                                                dataMap.put("keyword3", keyword3Map);
 
-                                            Map<String, Object> remarkMap = Maps.newHashMap();
-                                            remarkMap.put("value", sourceMaterialMap.get("digest").toString());
-                                            remarkMap.put("color", "#0017F5");
-                                            dataMap.put("remark", remarkMap);
+                                                Map<String, Object> remarkMap = Maps.newHashMap();
+                                                remarkMap.put("value", sourceMaterialMap.get("digest").toString());
+                                                remarkMap.put("color", "#0017F5");
+                                                dataMap.put("remark", remarkMap);
 
-                                            paramMap.put("data", JSONObject.toJSONString(dataMap));
-                                            paramMap.put("url", sourceMaterialMap.get("url").toString());
+                                                paramMap.put("data", JSONObject.toJSONString(dataMap));
+                                                paramMap.put("url", sourceMaterialMap.get("url").toString());
 
-                                            paramMap.put("appId", appId);
-                                            paramMap.put("secret", secret);
-                                            paramMap.put("openId", openId);
-                                            paramMap.put("template_id", dailyMessageTemplateId);
+                                                paramMap.put("appId", appId);
+                                                paramMap.put("secret", secret);
+                                                paramMap.put("openId", openId);
+                                                paramMap.put("template_id", dailyMessageTemplateId);
 
-                                            Thread.sleep(2000);
-                                            logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                                                Thread.sleep(2000);
+                                                logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
 
-                                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                                                wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                                            }
+                                        } else {
+                                            //发送模板消息（>>>>>>>>>>>>>>文案待定<<<<<<<<<<<<<<）
                                         }
                                     } else {
                                         //发送模板消息（>>>>>>>>>>>>>>文案待定<<<<<<<<<<<<<<）
                                     }
                                 } else {
-                                    //发送模板消息（>>>>>>>>>>>>>>文案待定<<<<<<<<<<<<<<）
+                                    //获取微信公众所有openId
+                                    resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
+                                    resultMapDTO.setMessage(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
                                 }
-                            } else {
-                                //获取微信公众所有openId
-                                resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
-                                resultMapDTO.setMessage(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
                             }
                         } else {
                             //获取微信公众所有openId

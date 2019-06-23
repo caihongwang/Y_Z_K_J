@@ -39,8 +39,8 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 
 
             Map<String, Object> paramMap = Maps.newHashMap();
-//            wxMessageService.dailyMessageSend(paramMap);
-//
+            wxMessageService.dailyMessageSend(paramMap);
+
 
 
 //            paramMap.clear();
@@ -100,39 +100,39 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 
 
 
-            paramMap.clear();//清空参数，重新准备参数
-            Map<String, Object> dataMap = Maps.newHashMap();
-
-            Map<String, Object> firstMap = Maps.newHashMap();
-            firstMap.put("value", "警告:恶意修改加油站-油价");
-            firstMap.put("color", "#8B0000");
-            dataMap.put("first", firstMap);
-
-            //获取当前时间
-            Date currentDate = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Map<String, Object> keyword1Map = Maps.newHashMap();
-            keyword1Map.put("value", sdf.format(currentDate));
-            keyword1Map.put("color", "#0017F5");
-            dataMap.put("keyword1", keyword1Map);
-
-            Map<String, Object> keyword2Map = Maps.newHashMap();
-            keyword2Map.put("value", "【油价地图】");
-            keyword2Map.put("color", "#0017F5");
-            dataMap.put("keyword2", keyword2Map);
-
-            Map<String, Object> keyword3Map = Maps.newHashMap();
-            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-            keyword3Map.put("color", "#0017F5");
-            dataMap.put("keyword3", keyword3Map);
-
-            Map<String, Object> remarkMap = Maps.newHashMap();
-            remarkMap.put("value", "用户uid:" + 1234 + "对加油站code:" + 123456 + "在乱改油价来恶意竞争,对该用户进行锁定并观察后期用户行为,急急急...");
-            remarkMap.put("color", "#8B0000");
-            dataMap.put("remark", remarkMap);
-
-            paramMap.put("data", JSONObject.toJSONString(dataMap));
-            wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+//            paramMap.clear();//清空参数，重新准备参数
+//            Map<String, Object> dataMap = Maps.newHashMap();
+//
+//            Map<String, Object> firstMap = Maps.newHashMap();
+//            firstMap.put("value", "警告:恶意修改加油站-油价");
+//            firstMap.put("color", "#8B0000");
+//            dataMap.put("first", firstMap);
+//
+//            //获取当前时间
+//            Date currentDate = new Date();
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            Map<String, Object> keyword1Map = Maps.newHashMap();
+//            keyword1Map.put("value", sdf.format(currentDate));
+//            keyword1Map.put("color", "#0017F5");
+//            dataMap.put("keyword1", keyword1Map);
+//
+//            Map<String, Object> keyword2Map = Maps.newHashMap();
+//            keyword2Map.put("value", "【油价地图】");
+//            keyword2Map.put("color", "#0017F5");
+//            dataMap.put("keyword2", keyword2Map);
+//
+//            Map<String, Object> keyword3Map = Maps.newHashMap();
+//            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
+//            keyword3Map.put("color", "#0017F5");
+//            dataMap.put("keyword3", keyword3Map);
+//
+//            Map<String, Object> remarkMap = Maps.newHashMap();
+//            remarkMap.put("value", "用户uid:" + 1234 + "对加油站code:" + 123456 + "在乱改油价来恶意竞争,对该用户进行锁定并观察后期用户行为,急急急...");
+//            remarkMap.put("color", "#8B0000");
+//            dataMap.put("remark", remarkMap);
+//
+//            paramMap.put("data", JSONObject.toJSONString(dataMap));
+//            wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
         } catch (Exception e) {
 
         }

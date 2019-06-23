@@ -24,6 +24,12 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
 
         //油价地图的菜单
         Map<String, Object> paramMap = Maps.newHashMap();
+//        //油价地图
+//        paramMap.put("appId", "wxf768b49ad0a4630c");
+//        paramMap.put("secret", "a481dd6bc40c9eec3e57293222e8246f");
+        //智恵油站
+        paramMap.put("appId", "wx469a910e7e87b9d4");
+        paramMap.put("secret", "327047cc315d0c5ab24e62d2efd958c0");
         this.createCustomMenu(paramMap);
 
 //        getWxUserInfo(
@@ -42,6 +48,8 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         String menuStr = paramMap.get("menuStr")!=null?paramMap.get("menuStr").toString():"";
+        String appId = paramMap.get("appId")!=null?paramMap.get("appId").toString():"wxf768b49ad0a4630c";
+        String secret = paramMap.get("secret")!=null?paramMap.get("secret").toString():"a481dd6bc40c9eec3e57293222e8246f";
         if("".equals(menuStr)){
             menuStr = "{\n" +
                     "    \"button\":[\n" +
@@ -71,21 +79,21 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"油价资讯\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx701956c2c1a14a26\",\n" +
+                    "            \"appid\":\"wx06ef82e30bbff9ea\",\n" +
                     "            \"pagepath\":\"pages/other/information/wxPublicNumberInformation/index\"\n" +
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"加油红包\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx5d3ead40a644f052\",\n" +
+                    "            \"appid\":\"wxb16f29674473d15b\",\n" +
                     "            \"pagepath\":\"pages/other/activity/redActivity/index\"\n" +
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"油价地图\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wxaca42346c1a46d5d\",\n" +
+                    "            \"appid\":\"wx56642b7398b5e8c4\",\n" +
                     "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        }\n" +
 //                    "        {\n" +
@@ -118,7 +126,7 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
                     "}\n" +
                     "\n";
         }
-        resultMap = WX_PublicNumberUtil.createCustomMenu(menuStr);
+        resultMap = WX_PublicNumberUtil.createCustomMenu(menuStr, appId, secret);
         if (resultMap != null && resultMap.size() > 0) {
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
             resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());

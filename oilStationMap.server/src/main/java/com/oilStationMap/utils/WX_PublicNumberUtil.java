@@ -208,7 +208,7 @@ public class WX_PublicNumberUtil {
      * 创建微信公众号的自定义菜单
      * @return
      */
-    public static Map<String, Object> createCustomMenu_For_XSXJ(String menuStr, String appId, String secret) {
+    public static Map<String, Object> createCustomMenu(String menuStr, String appId, String secret) {
         HttpsUtil httpsUtil = new HttpsUtil();
         Map<String, String> paramMap = Maps.newHashMap();
         Map<String, Object> resultMap = Maps.newHashMap();
@@ -789,6 +789,115 @@ public class WX_PublicNumberUtil {
         Map<String, Object> resultMap = Maps.newHashMap();
         List<Map<String, Object>> resultMapList = Lists.newArrayList();
         Map<String, Object> accessTokenMap = getAccessToken();
+        if (accessTokenMap != null && accessTokenMap.size() > 0) {
+            String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
+            String batchgetMaterialUrl = batchget_material_url + accessToken;
+            if(offset < 0){ offset = 0;}
+            if(count > 20){ count = 20;}
+            if(count < 1){ count = 1;}
+            paramMap.put("type", mediaTypeUtil.get());
+            paramMap.put("offset", offset);
+            paramMap.put("count", count);
+            String resultJson = httpsUtil.postJson(batchgetMaterialUrl, JSONObject.toJSONString(paramMap));
+            resultMap = JSONObject.parseObject(resultJson, Map.class);
+            String totalCountStr = resultMap.get("total_count") != null ? resultMap.get("total_count").toString() : "0";
+            if(!"".equals(totalCountStr)){               //code=0表示请求成功
+                Integer totalCount = Integer.parseInt(totalCountStr);
+                if(totalCount > 0){
+                    if(totalCount > 0 && ((totalCount - offset) > 0)){     //确认是否查到了尽头，用来判断是否继续递归
+                        String itemJsonStr = resultMap.get("item") != null ? resultMap.get("item").toString() : "";
+                        if(!"".equals(itemJsonStr)){
+                            List<Map<String, Object>> itemMapList = JSONObject.parseObject(itemJsonStr, List.class);
+                            if(itemMapList != null && itemMapList.size() > 0){
+                                for(Map<String, Object> itemMap : itemMapList){
+                                    Map<String, Object> contentMap= itemMap.get("content") != null ? (Map<String, Object>)itemMap.get("content") : null;
+                                    if(contentMap != null && contentMap.size() > 0){
+                                        List<Map<String, Object>> newsItemMapList= contentMap.get("news_item") != null ? (List<Map<String, Object>>)contentMap.get("news_item") : null;
+                                        if(newsItemMapList != null && newsItemMapList.size() > 0){
+                                            for(Map<String, Object> newsItemMap : newsItemMapList){
+                                                if(!resultMapList.contains(newsItemMap)){
+                                                    String digest = newsItemMap.get("digest")!=null?newsItemMap.get("digest").toString():"";
+                                                    if(!"".equals(digest) && digest.length() > 42){
+                                                        digest = digest.substring(0, 42) + "...";
+                                                        newsItemMap.put("digest", digest);
+                                                    }
+                                                    String title = newsItemMap.get("title")!=null?newsItemMap.get("title").toString():"";
+                                                    if(!"".equals(title) && title.length() > 18){
+                                                        title = title.substring(0, 18) + "...";
+                                                        newsItemMap.put("title", title);
+                                                    }
+                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                    Integer createTime_Integer = contentMap.get("create_time")!=null?(Integer)contentMap.get("create_time"):0;
+                                                    if(createTime_Integer > 0){
+                                                        String createTime = sdf.format(new Date(Long.valueOf(createTime_Integer+"000")));
+                                                        newsItemMap.put("createTime", createTime);
+                                                    } else {
+                                                        newsItemMap.put("createTime", sdf.format(new Date()));
+                                                    }
+                                                    Integer updateTime_Integer = contentMap.get("update_time")!=null?(Integer)contentMap.get("update_time"):0;
+                                                    if(updateTime_Integer > 0){
+                                                        String updateTime = sdf.format(new Date(Long.valueOf(updateTime_Integer+"000")));
+                                                        newsItemMap.put("updateTime", updateTime);
+                                                    } else {
+                                                        newsItemMap.put("updateTime", sdf.format(new Date()));
+                                                    }
+                                                    resultMapList.add(newsItemMap);
+                                                } else {
+                                                    continue;
+                                                }
+                                            }
+                                        } else {
+                                            continue;
+                                        }
+                                    } else {
+                                        continue;
+                                    }
+                                }
+                            } else {
+                                //结束递归
+                                return resultMapList;
+                            }
+                        } else {
+                            //结束递归
+                            return resultMapList;
+                        }
+                        offset = offset + 20;
+                        //使用递归
+                        resultMapList.addAll(batchGetAllMaterial(mediaTypeUtil, offset, count));
+                    } else {
+                        //停止递归
+                        return resultMapList;
+                    }
+                } else {
+                    //停止递归
+                    return resultMapList;
+                }
+            } else {
+                //停止递归
+                return resultMapList;
+            }
+        } else {
+            //获取access_token失败
+            logger.error("获取access_token失败");
+            //停止递归
+            return resultMapList;
+        }
+        return resultMapList;
+    }
+
+    /**
+     * 根据公众号获取素材列表
+     * @param mediaTypeUtil 素材的类型，图片（image）、视频（video）、语音 （voice）
+     * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+     * @param count 返回素材的数量，取值在1到20之间
+     * @return ApiResult 返回信息
+     */
+    public static List<Map<String, Object>> batchGetAllMaterial(MediaTypeUtil mediaTypeUtil, String appId, String secret, Integer offset, Integer count) {
+        HttpsUtil httpsUtil = new HttpsUtil();
+        Map<String, Object> paramMap = Maps.newHashMap();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        List<Map<String, Object>> resultMapList = Lists.newArrayList();
+        Map<String, Object> accessTokenMap = getAccessToken(appId, secret);
         if (accessTokenMap != null && accessTokenMap.size() > 0) {
             String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
             String batchgetMaterialUrl = batchget_material_url + accessToken;
