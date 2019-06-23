@@ -36,24 +36,36 @@ public class WX_MessageServiceImplTest extends MySuperTest {
     @Test
     public void Test(){
         try{
+
+
             Map<String, Object> paramMap = Maps.newHashMap();
 //            wxMessageService.dailyMessageSend(paramMap);
 //
+
+
 //            paramMap.clear();
 //            wxMessageService.dailyLuckDrawMessageSend(paramMap);
+
+
 
 //            paramMap.clear();
 //            wxMessageService.redActivityMessageSend(paramMap);
 
+
+
 //            paramMap.clear();
 //            paramMap.put("updateNum", "123");
 //            wxMessageService.dailyUpdateOilPriceMessageSend(paramMap);
+
+
 
 //            paramMap.clear();
 //            paramMap.put("name", "蔡红旺");
 //            paramMap.put("phone", "17701359899");
 //            paramMap.put("remark", "加油员");
 //            wxMessageService.dailyLeagueMessageSend(paramMap);
+
+
 
 //            paramMap.clear();
 //            Map<String, Object> dataMap = Maps.newHashMap();
@@ -85,6 +97,8 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 //            //整合
 //            paramMap.put("data", JSONObject.toJSONString(dataMap));
 //            wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
+
+
 
             paramMap.clear();//清空参数，重新准备参数
             Map<String, Object> dataMap = Maps.newHashMap();
@@ -118,7 +132,7 @@ public class WX_MessageServiceImplTest extends MySuperTest {
             dataMap.put("remark", remarkMap);
 
             paramMap.put("data", JSONObject.toJSONString(dataMap));
-
+            wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
         } catch (Exception e) {
 
         }

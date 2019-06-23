@@ -95,7 +95,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                 }
                                 //2.发送模板消息-打开小程序
 //                                openIdList.clear();  //模拟只向管理员发送消息
-//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");
+//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+//                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                                 for(String openId : openIdList) {
                                     paramMap.clear();//清空参数，重新准备参数
                                     Map<String, Object> dataMap = Maps.newHashMap();
@@ -212,7 +213,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                     if((currentDate.getTime() - createDate.getTime()) < 24*60*60*1000){
                                         //3.发送模板消息
 //                                        openIdList.clear();  //模拟只向管理员发送消息
-//                                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");
+//                                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+//                                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                                         for(String openId : openIdList) {
                                             paramMap.clear();//清空参数，重新准备参数
                                             Map<String, Object> dataMap = Maps.newHashMap();
@@ -304,7 +306,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
                     String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
                     String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
-                    String luckDrawMessageTemplateId = customMessageAccountMap.get("luckDrawMessageTemplateId")!=null?customMessageAccountMap.get("luckDrawMessageTemplateId").toString():"PVazdd8e4agtaZGIT-G4erWcWbL1EFolT7kxw7Rcn7w";
+                    String luckDrawMessageTemplateId = customMessageAccountMap.get("luckDrawMessageTemplateId")!=null?customMessageAccountMap.get("luckDrawMessageTemplateId").toString():"PVazdd8e4agtaZGIT-G4erWcWbL1EFolT7kxw7Rcn7w";//逾期应收提醒
                     if(!"".equals(appId) && !"".equals(secret)){
                         //1.获取所有微信用户openId
                         Map<String, Object> followersMap = WX_PublicNumberUtil.getFollowers(null, appId,  secret);
@@ -316,7 +318,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                 List<String> openIdList = JSONObject.parseObject(openIdJSONArray.toJSONString(), List.class);
                                 //2.发送抽奖消息消息
 //                                openIdList.clear();  //模拟只向管理员发送消息
-//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");
+//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+//                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                                 for(String openId : openIdList) {
                                     paramMap.clear();//清空参数，重新准备参数
                                     Map<String, Object> dataMap = Maps.newHashMap();
@@ -411,6 +414,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
                         openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                         for(String openId : openIdList) {
                             //向 管理员汇报 已更新油价
                             paramMap.clear();//清空参数，重新准备参数
@@ -498,6 +502,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
                         openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                         for(String openId : openIdList) {
                             paramMap.clear();//清空参数，重新准备参数
                             //获取当前时间
@@ -559,7 +564,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     }
 
     /**
-     * 根据OpenID向 管理员 发【更新或者添加加油站】消息
+     * 根据OpenID向 管理员 发【更新或者添加加油站报错】消息
      * @param paramMap
      */
     @Override
@@ -586,6 +591,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
                         openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                         for(String openId : openIdList) {
                             paramMap.clear();//清空参数，重新准备参数
                             //整合
@@ -635,11 +641,12 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
                     String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
                     String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
-                    String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
+                    String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";//报料成功通知
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
                         openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                         for(String openId : openIdList) {
                             paramMap.clear();//清空参数，重新准备参数
                             //整合
