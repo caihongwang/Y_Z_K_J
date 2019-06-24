@@ -30,7 +30,6 @@ import java.util.Random;
  * 微信公众号消息service
  */
 @Service
-@EnableAsync
 public class WX_MessageServiceImpl implements WX_MessageService {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_MessageServiceImpl.class);
