@@ -48,6 +48,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         Map<String, Object> resultMap = Maps.newHashMap();
         logger.info("在【service】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,请求-paramMap:" + paramMap);
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
@@ -179,6 +180,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         Map<String, Object> resultMap = Maps.newHashMap();
         logger.info("在service中根据OpenID列表群发-dailyMessageSend,请求-paramMap:" + paramMap);
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
@@ -296,6 +298,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         Map<String, Object> resultMap = Maps.newHashMap();
         logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
@@ -399,6 +402,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         logger.info("在service中根据OpenID列表群发-dailyUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
         String updateNum = paramMap.get("updateNum")!=null?paramMap.get("updateNum").toString():"0";
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
@@ -487,6 +491,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         String phone = paramMap.get("phone")!=null?paramMap.get("phone").toString():"";
         String remark = paramMap.get("remark")!=null?paramMap.get("remark").toString():"";
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
@@ -576,6 +581,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         logger.info("在service中根据OpenID列表群发-dailyUpdateOrAddOilStationMessageSend,请求-paramMap:" + paramMap);
         String data = paramMap.get("data")!=null?paramMap.get("data").toString():"";
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
@@ -631,6 +637,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         logger.info("在service中根据OpenID列表群发-dailyIllegalUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
         String data = paramMap.get("data")!=null?paramMap.get("data").toString():"";
         //1.获取所有的微信公众号账号
+        paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
