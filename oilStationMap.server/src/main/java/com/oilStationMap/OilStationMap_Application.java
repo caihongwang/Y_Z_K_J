@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableFeignClients(basePackages = {"com.oilStationMap"})
+@EnableAsync
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {"com.oilStationMap"})

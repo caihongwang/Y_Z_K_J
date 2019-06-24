@@ -1,6 +1,4 @@
-package com.oilStationMap.config;/**
- * Created by caihongwang on 2019/6/24.
- */
+package com.oilStationMap.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -17,7 +15,6 @@ import java.util.concurrent.Executor;
  * @Version 1.0.0
  **/
 @Configuration
-@EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
 
     @Override
