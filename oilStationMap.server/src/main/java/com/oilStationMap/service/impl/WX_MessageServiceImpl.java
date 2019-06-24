@@ -396,7 +396,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("在service中根据OpenID列表群发-dailyUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
         String updateNum = paramMap.get("updateNum")!=null?paramMap.get("updateNum").toString():"0";
         //1.获取所有的微信公众号账号
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -470,7 +470,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        logger.info("在service中根据OpenID列表群发-dailyUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -482,7 +482,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyLeagueMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("在service中根据OpenID列表群发-dailyLeagueMessageSend,请求-paramMap:" + paramMap);
         String name = paramMap.get("name")!=null?paramMap.get("name").toString():"";
         String phone = paramMap.get("phone")!=null?paramMap.get("phone").toString():"";
         String remark = paramMap.get("remark")!=null?paramMap.get("remark").toString():"";
@@ -561,7 +561,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        logger.info("在service中根据OpenID列表群发-dailyLeagueMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -573,7 +573,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyUpdateOrAddOilStationMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("在service中根据OpenID列表群发-dailyUpdateOrAddOilStationMessageSend,请求-paramMap:" + paramMap);
         String data = paramMap.get("data")!=null?paramMap.get("data").toString():"";
         //1.获取所有的微信公众号账号
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -616,7 +616,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        logger.info("在service中根据OpenID列表群发-dailyUpdateOrAddOilStationMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -628,7 +628,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyIllegalUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("在service中根据OpenID列表群发-dailyIllegalUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
         String data = paramMap.get("data")!=null?paramMap.get("data").toString():"";
         //1.获取所有的微信公众号账号
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -671,7 +671,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        logger.info("在service中根据OpenID列表群发-dailyIllegalUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 

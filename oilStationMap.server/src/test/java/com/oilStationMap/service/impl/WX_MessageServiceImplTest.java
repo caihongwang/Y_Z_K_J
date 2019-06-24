@@ -39,7 +39,7 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 
 
             Map<String, Object> paramMap = Maps.newHashMap();
-            wxMessageService.dailyMessageSend(paramMap);
+//            wxMessageService.dailyMessageSend(paramMap);
 
 
 
@@ -59,11 +59,11 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 
 
 
-//            paramMap.clear();
-//            paramMap.put("name", "蔡红旺");
-//            paramMap.put("phone", "17701359899");
-//            paramMap.put("remark", "加油员");
-//            wxMessageService.dailyLeagueMessageSend(paramMap);
+            paramMap.clear();
+            paramMap.put("name", "蔡红旺");
+            paramMap.put("phone", "17701359899");
+            paramMap.put("remark", "加油员");
+            wxMessageService.dailyLeagueMessageSend(paramMap);
 
 
 
