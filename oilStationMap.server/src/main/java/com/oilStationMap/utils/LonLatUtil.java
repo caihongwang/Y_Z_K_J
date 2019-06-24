@@ -960,59 +960,6 @@ public class LonLatUtil {
                                             :"0")+
                                 "』站.");
                         oilStationParamMap.clear();
-
-//                        //开始更新油价
-//                        Map<String, Object> oilStationParamMap = Maps.newHashMap();
-//                        oilStationParamMap.put("oilStationAdress", province);
-//                        List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
-//                        for(Map<String, Object> oilStationMap : oilStationList){
-//                            List<Map<String, Object>> oilPriceList_Temp = Lists.newArrayList();
-//                            for(Map<String, Object> priceMap : oilPriceList){
-//                                String oilStationPriceStr = priceMap.get("oilPriceLabel").toString();
-//                                Double oilStationPriceDouble = 0.0;
-//                                try{
-//                                    oilStationPriceDouble = NumberUtil.getPointTowNumber(Double.parseDouble(oilStationPriceStr));
-//                                    Double random = Math.random() * 0.1;   //设置油价产生0到0.5之间的误差
-//                                    if(random > 0.05){
-//                                        oilStationPriceDouble = oilStationPriceDouble - random;
-//                                    } else {
-//                                        oilStationPriceDouble = oilStationPriceDouble + random;
-//                                    }
-//                                    oilStationPriceDouble= NumberUtil.getPointTowNumber(oilStationPriceDouble);
-//                                    oilStationPriceStr = oilStationPriceDouble.toString();
-//                                }catch (Exception e){
-//                                    oilStationPriceStr = "-";
-//                                }
-//                                Map<String, Object> oilPriceMapTemp = Maps.newHashMap();
-//                                oilPriceMapTemp.putAll(priceMap);
-//                                oilPriceMapTemp.put("oilPriceLabel", oilStationPriceStr);
-//                                oilPriceList_Temp.add(oilPriceMapTemp);
-//                            }
-//
-//                            //整理 油价
-//                            oilStationParamMap.clear();
-//                            oilStationParamMap.put("id", oilStationMap.get("id"));
-//                            String new_oilStationPriceListStr = JSONArray.toJSONString(oilPriceList_Temp);
-//                            String exist_oilStationPriceListStr = oilStationMap.get("oilStationPrice")!=null?oilStationMap.get("oilStationPrice").toString():"";
-//                            if(!"".equals(exist_oilStationPriceListStr)){
-//                                List<Map<String, Object>> new_oilStationPriceList = JSONObject.parseObject(new_oilStationPriceListStr, List.class);
-//                                List<Map<String, Object>> exist_oilStationPriceList = JSONObject.parseObject(exist_oilStationPriceListStr, List.class);
-//                                List<Map<String, Object>> oilStationPriceList = compareOilStationPrice(new_oilStationPriceList, exist_oilStationPriceList);
-//                                oilStationParamMap.put("oilStationPrice", JSONObject.toJSONString(oilStationPriceList));
-//                            } else {
-//                                oilStationParamMap.put("oilStationPrice", JSONArray.toJSONString(oilPriceList_Temp));
-//                            }
-//                            String oilStationNameStr = oilStationMap.get("oilStationName")!=null?oilStationMap.get("oilStationName").toString():"";
-//                            if(!"中国石化松桃大路田坝加油站".equals(oilStationNameStr)){
-//                                updateNum = updateNum + wxOilStationDao.updateOilStationPrice(oilStationParamMap);
-//                                logger.info("已更新『"+oilStationMap.get("oilStationName").toString()+
-//                                        "』加油站-油价.");
-//                            } else {
-//                                logger.info("中国石化松桃大路田坝加油站-油价不需要自动更新，由所属加油站的业主更新.");
-//                            }
-//                        }
-//                        logger.info("总共更新『"+province+"』地区的加油站油价『"+updateNum+"』站.");
-
                         oilPriceNum = 1;            //重置
                         oilPriceList.clear();       //重置
                     }
@@ -1021,16 +968,18 @@ public class LonLatUtil {
                 logger.info("当前非油价信息.");
             }
         }
-
-        try{
-            //向 管理员汇报 已更新油价
-            paramMap.clear();//清空参数，重新准备参数
-            paramMap.put("updateNum", updateNum);
-            wxMessageService.dailyUpdateOilPriceMessageSend(paramMap);
-        } catch (Exception e) {
-            logger.info("向 管理员汇报 已更新油站『"+updateNum+"』座时发生异常，e : " , e);
-        }
-
+        //向 管理员汇报 已更新油价
+        paramMap.clear();//清空参数，重新准备参数
+        paramMap.put("updateNum", updateNum);
+        new Thread(){
+            public void run(){
+                try{
+                    wxMessageService.dailyUpdateOilPriceMessageSend(paramMap);
+                } catch (Exception e) {
+                    logger.info("向 管理员汇报 已更新油站『"+paramMap.get("updateNum")+"』座时发生异常，e : " , e);
+                }
+            }
+        }.start();
         logger.info("总共更新了加油站油价『"+updateNum+"』座.");
     }
 

@@ -80,11 +80,15 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
                 && !"".equals(name) && !"".equals(leagueTypeCode)) {
             addNum = wxLeagueDao.addLeague(paramMap);
             if (addNum != null && addNum > 0) {
-                try{
-                    wxMessageService.dailyLeagueMessageSend(paramMap);
-                } catch (Exception e) {
-                    logger.info("发送加盟消息是异常，e ：", e);
-                }
+                new Thread(){
+                    public void run(){
+                        try{
+                            wxMessageService.dailyLeagueMessageSend(paramMap);
+                        } catch (Exception e) {
+                            logger.info("发送加盟消息是异常，e ：", e);
+                        }
+                    }
+                }.start();
                 boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                 boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
             } else {

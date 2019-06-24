@@ -44,7 +44,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 向微信公众号粉丝群发红包模板消息
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO redActivityMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -151,6 +150,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
 
                                     wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                                 }
+                                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+                                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
                             } else {
                                 //获取微信公众所有openId
                                 resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
@@ -177,7 +178,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID列表群发【订阅号不可用，服务号认证后可用】
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO dailyMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -296,7 +296,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID列表群发【抽奖】福利
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO dailyLuckDrawMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -400,7 +399,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【更新油价】
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO dailyUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -488,7 +486,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【加盟】消息
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO dailyLeagueMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -581,7 +578,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【更新或者添加加油站报错】消息
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO dailyUpdateOrAddOilStationMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -638,7 +634,6 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【恶意篡改加油站油价】消息
      * @param paramMap
      */
-    @Async
     @Override
     public ResultMapDTO dailyIllegalUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();

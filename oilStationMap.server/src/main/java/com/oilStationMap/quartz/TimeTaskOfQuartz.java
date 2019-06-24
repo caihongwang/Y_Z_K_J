@@ -189,17 +189,21 @@ public class TimeTaskOfQuartz {
     public void do_OilPrizeMessage_For_OilStationMap() {
         if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
             Map<String, Object> paramMap = Maps.newHashMap();
-            try {
-                wxMessageService.dailyMessageSend(paramMap);
-            } catch (Exception e) {
-                logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                logger.error("发送油价资讯通知时异常，e :", e);
-                logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-            }
+            new Thread(){
+                public void run(){
+                    try {
+                        wxMessageService.dailyMessageSend(paramMap);
+                    } catch (Exception e) {
+                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                        logger.error("发送油价资讯通知时异常，e :", e);
+                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                    }
+                }
+            }.start();
         } else {
             logger.info("当前环境不是【预发环境】，不执行任务：每天下午17:00，定时油价资讯通知");
         }

@@ -33,13 +33,17 @@ public class WX_MessageHandler {
         logger.info("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,请求-paramMap:" + paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        try {
-            resultMapDTO = wxMessageService.redActivityMessageSend(objectParamMap);
-        } catch (Exception e) {
-            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
-            logger.error("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend is error, paramMap : " + paramMap + ", e : " + e);
-        }
+        new Thread(){
+            public void run(){
+                try {
+                    wxMessageService.redActivityMessageSend(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
@@ -53,7 +57,6 @@ public class WX_MessageHandler {
         logger.info("在【hanlder】中根据OpenID列表群发-dailyMessageSend,请求-paramMap:" + paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         new Thread(){
-
             public void run(){
                 Map<String, Object> objectParamMap = Maps.newHashMap();
                 try {

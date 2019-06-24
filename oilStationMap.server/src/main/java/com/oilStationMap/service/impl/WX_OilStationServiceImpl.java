@@ -172,11 +172,15 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             dataMap.put("remark", remarkMap);
                             //整合
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-                            try{
-                                wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
-                            } catch (Exception e1){
-                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
-                            }
+                            new Thread(){
+                                public void run(){
+                                    try{
+                                        wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
+                                    } catch (Exception e1){
+                                        logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+                                    }
+                                }
+                            }.start();
                         }
                     }
                     String oilStationNum = oilStationList.size() + "";
@@ -316,11 +320,15 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             dataMap.put("remark", remarkMap);
                             //整合
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-                            try{
-                                wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
-                            } catch (Exception e1){
-                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
-                            }
+                            new Thread(){
+                                public void run(){
+                                    try{
+                                        wxMessageService.dailyUpdateOrAddOilStationMessageSend(paramMap);
+                                    } catch (Exception e1){
+                                        logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+                                    }
+                                }
+                            }.start();
                         }
                     }
                     String oilStationNum = oilStationList.size() + "";
@@ -1029,12 +1037,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         dataMap.put("remark", remarkMap);
 
                         paramMap.put("data", JSONObject.toJSONString(dataMap));
-                        try{
-                            wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
-                        } catch (Exception e) {
-                            logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
-                        }
 
+                        new Thread(){
+                            public void run(){
+                                try{
+                                    wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+                                } catch (Exception e) {
+                                    logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
+                                }
+                            }
+                        }.start();
                         boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                         boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
                     }
@@ -1132,12 +1144,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             dataMap.put("remark", remarkMap);
 
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-                            try{
-                                wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
-                            } catch (Exception e) {
-                                logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
-                            }
 
+                            new Thread(){
+                                public void run(){
+                                    try{
+                                        wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+                                    } catch (Exception e) {
+                                        logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
+                                    }
+                                }
+                            }.start();
                             boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                             boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
                         }
