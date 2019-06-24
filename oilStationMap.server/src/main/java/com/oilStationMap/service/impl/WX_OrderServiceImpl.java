@@ -30,7 +30,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
 
     /**
      * 使用统一订单的方式进行下订单，发起微信支付
-     *
      * @param paramMap
      * @return
      * 
@@ -57,6 +56,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 String appid = accountMap.get("customMessageAccountAppId").toString();
                 String secret = accountMap.get("customMessageAccountSecret").toString();
                 String accountName = accountMap.get("customMessageAccountName").toString();
+                String wxPayMchId = accountMap.get("wxPayMchId").toString();
 
                 body = accountName + "-" + body;    //商品描述
                 float payMoneyFloat = Float.parseFloat(payMoney != "" ? payMoney : "10");
@@ -72,7 +72,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 try {
                     Map<String, String> packageParams = new HashMap<String, String>();
                     packageParams.put("appid", appid);
-                    packageParams.put("mch_id", OilStationMapCode.WX_PAY_MCH_ID);
+                    packageParams.put("mch_id", wxPayMchId);
                     packageParams.put("nonce_str", nonce_str);
                     packageParams.put("body", body);
                     packageParams.put("out_trade_no", out_trade_no);//商户订单号
