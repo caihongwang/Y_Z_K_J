@@ -16,6 +16,8 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +30,7 @@ import java.util.Random;
  * 微信公众号消息service
  */
 @Service
+@EnableAsync
 public class WX_MessageServiceImpl implements WX_MessageService {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_MessageServiceImpl.class);
@@ -42,6 +45,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 向微信公众号粉丝群发红包模板消息
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO redActivityMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -174,6 +178,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID列表群发【订阅号不可用，服务号认证后可用】
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO dailyMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -292,6 +297,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID列表群发【抽奖】福利
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO dailyLuckDrawMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -395,6 +401,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【更新油价】
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO dailyUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -482,6 +489,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【加盟】消息
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO dailyLeagueMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -574,6 +582,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【更新或者添加加油站报错】消息
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO dailyUpdateOrAddOilStationMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -630,6 +639,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
      * 根据OpenID向 管理员 发【恶意篡改加油站油价】消息
      * @param paramMap
      */
+    @Async
     @Override
     public ResultMapDTO dailyIllegalUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
