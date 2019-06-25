@@ -57,6 +57,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 String secret = accountMap.get("customMessageAccountSecret").toString();
                 String accountName = accountMap.get("customMessageAccountName").toString();
                 String wxPayMchId = accountMap.get("wxPayMchId").toString();
+                String wxPayApiSecret = accountMap.get("wxPayApiSecret").toString();
 
                 body = accountName + "-" + body;    //商品描述
                 float payMoneyFloat = Float.parseFloat(payMoney != "" ? payMoney : "10");
@@ -71,8 +72,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 System.out.println("================================================");
                 try {
                     Map<String, String> packageParams = new HashMap<String, String>();
-                    packageParams.put("appid", appid);
-                    packageParams.put("mch_id", wxPayMchId);
+                    packageParams.put("appid", appid);                          //发起场景的appId
+                    packageParams.put("mch_id", wxPayMchId);                    //微信支付商户的mch_id
+                    packageParams.put("wx_pay_api_secret", wxPayApiSecret);     //微信支付商户的秘钥
                     packageParams.put("nonce_str", nonce_str);
                     packageParams.put("body", body);
                     packageParams.put("out_trade_no", out_trade_no);//商户订单号
@@ -99,7 +101,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         paramMap_temp.put("package", "prepay_id=" + prepay_id);
                         paramMap_temp.put("signType", "MD5");
                         //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
-                        String paySign = WXPayUtil.generateSignature(paramMap_temp, config.getKey(), WXPayConstants.SignType.MD5);
+//                        String paySign = WXPayUtil.generateSignature(paramMap_temp, config.getKey(), WXPayConstants.SignType.MD5);
+                        String paySign = WXPayUtil.generateSignature(paramMap_temp, wxPayApiSecret, WXPayConstants.SignType.MD5);
                         resultMap.put("paySign", paySign);
                         resultMap.put("appid", appid);
                         /** 此处添加自己的更新订单信息 **/

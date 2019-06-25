@@ -91,7 +91,8 @@ public class WXPay {
     public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
 //        reqData.put("appid", config.getAppID());
         reqData.put("appid", reqData.get("appid"));
-        reqData.put("mch_id", config.getMchID());
+//        reqData.put("mch_id", config.getMchID());
+        reqData.put("mch_id", reqData.get("mch_id"));
         String nonce_str = reqData.get("nonce_str") != null ? reqData.get("nonce_str").toString() : "";
         if ("".equals(nonce_str)) {
             reqData.put("nonce_str", WXPayUtil.generateUUID());
@@ -106,7 +107,10 @@ public class WXPay {
                 reqData.put("sign_type", WXPayConstants.MD5);
             }
         }
-        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));          //获取签名
+//        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));          //获取签名
+        String wxPayApiSecret = reqData.get("wx_pay_api_secret");
+        reqData.remove("wx_pay_api_secret");
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, wxPayApiSecret, this.signType));          //获取签名
         return reqData;
     }
 
