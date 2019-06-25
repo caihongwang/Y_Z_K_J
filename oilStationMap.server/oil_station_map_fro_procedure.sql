@@ -23,7 +23,7 @@ CREATE PROCEDURE updateOilStationPrice_by_Procedure(IN  province           VARCH
       INTO row_id, row_oilStationPrice; -- 这个语句用指定的打开光标读取下一行（如果有下一行的话），并且前进光标指针
       IF NOT done
       THEN
-        -- 更新 0#柴油 价格
+        -- 1.更新 0#柴油 价格
         IF price_0 IS NOT NULL
         THEN
           SET row_oilStationPrice = JSON_REPLACE(
@@ -52,7 +52,7 @@ CREATE PROCEDURE updateOilStationPrice_by_Procedure(IN  province           VARCH
                                             @price_0_new_str);
         END IF;
 
-        -- 更新 92#汽油 价格
+        -- 2.更新 92#汽油 价格
         IF price_92 IS NOT NULL
         THEN
           SET row_oilStationPrice = JSON_REPLACE(
@@ -81,7 +81,7 @@ CREATE PROCEDURE updateOilStationPrice_by_Procedure(IN  province           VARCH
                                             @price_92_new_str);
         END IF;
 
-        -- 更新 95#汽油 价格
+        -- 3.更新 95#汽油 价格
         IF price_95 IS NOT NULL
         THEN
           SET row_oilStationPrice = JSON_REPLACE(
@@ -109,47 +109,6 @@ CREATE PROCEDURE updateOilStationPrice_by_Procedure(IN  province           VARCH
           SET row_oilStationPrice = REPLACE(row_oilStationPrice, @price_95_str,
                                             @price_95_new_str);
         END IF;
-
-        -- 更新 98#汽油 价格
-        IF price_98 IS NOT NULL
-        THEN
-          SET row_oilStationPrice = JSON_REPLACE(
-              row_oilStationPrice,
-              SUBSTRING_INDEX(
-                  REPLACE(JSON_SEARCH(row_oilStationPrice, 'all', '98'), '"',
-                          ''), '.', 1),
-              JSON_EXTRACT(newOilStationPrice,
-                           SUBSTRING_INDEX(REPLACE(
-                                               JSON_SEARCH(newOilStationPrice,
-                                                           'all', '98'), '"',
-                                               ''), '.', 1))
-          );
-          -- 随机 98#汽油 油价
-          SET @price_98_new = 0;
-          SET @randNum = (SELECT round(RAND()*0.1, 2));
-          IF @randNum > 0.05
-          THEN
-            SET @price_98_new = round((price_98 - @randNum), 2);
-          ELSE
-            SET @price_98_new = round((price_98 + @randNum), 2);
-          END IF;
-          SET @price_98_str = concat(price_98, "");
-          SET @price_98_new_str = concat(@price_98_new, "");
-          SET row_oilStationPrice = REPLACE(row_oilStationPrice, @price_98_str,
-                                            @price_98_new_str);
-        END IF;
-
-#         SELECT
-#           price_0,
-#           @price_0_new,
-#           price_92,
-#           @price_92_new,
-#           price_95,
-#           @price_95_new,
-#           price_98,
-#           @price_98_new,
-#           updateNum,
-#           row_oilStationPrice;
 
         -- 更新 油价
         UPDATE o_oil_station

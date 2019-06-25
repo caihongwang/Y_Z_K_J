@@ -667,7 +667,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
 
     /**
      * 获取一个加油站信息
-     *
      * @param paramMap
      * @return
      */
@@ -698,39 +697,33 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 }
             }
 
-            //先计算查询点的经纬度范围
-            double r = LonLatUtil.EARTH_RADIUS;//地球半径千米
-            double dlng = 2 * Math.asin(Math.sin(dis / (2 * r)) / Math.cos(lat * Math.PI / 180));
-            dlng = dlng * 180 / Math.PI;//角度转为弧度
-            double dlat = dis / r;
-            dlat = dlat * 180 / Math.PI;
-            double minLat = lat - dlat;
-            double maxLat = lat + dlat;
-            double minLon = lon - dlng;
-            double maxLon = lon + dlng;
-            paramMap.put("minLat", minLat);
-            paramMap.put("maxLat", maxLat);
-            paramMap.put("minLon", minLon);
-            paramMap.put("maxLon", maxLon);
-//            paramMap.put("start", 0);
-//            paramMap.put("size", 1);
-            List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
-            logger.info("第一次获取单个加油站，paramMap = " + JSONObject.toJSONString(paramMap) +
-                    " ，oilStationList = " + JSONObject.toJSONString(oilStationList));
-            if (oilStationList != null && oilStationList.size() > 0) {
-                total = oilStationList.size();
-            } else {
-                //2.通过网络获取该坐标范围之内的
-                Map<String, Object> paramMap_temp = Maps.newHashMap();
-                paramMap_temp.put("lon", lon);
-                paramMap_temp.put("lat", lat);
-                paramMap_temp.put("page", "1");
-                paramMap_temp.put("r", "10000");
-                this.getOilStationList(paramMap_temp);              //该接口一定获取到加油站数据
+            int num = 1;
+            List<Map<String, Object>> oilStationList = Lists.newArrayList();
+            while (true){
+                //计算查询点的经纬度范围
+                double r = LonLatUtil.EARTH_RADIUS;//地球半径千米
+                double dlng = 2 * Math.asin(Math.sin(dis / (2 * r)) / Math.cos(lat * Math.PI / 180));
+                dlng = dlng * 180 / Math.PI;//角度转为弧度
+                double dlat = dis / r;
+                dlat = dlat * 180 / Math.PI;
+                double minLat = lat - dlat;
+                double maxLat = lat + dlat;
+                double minLon = lon - dlng;
+                double maxLon = lon + dlng;
+                paramMap.put("minLat", minLat);
+                paramMap.put("maxLat", maxLat);
+                paramMap.put("minLon", minLon);
+                paramMap.put("maxLon", maxLon);
                 oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
-                total = oilStationList.size();
-                logger.info("第二次获取单个加油站，paramMap = " + JSONObject.toJSONString(paramMap) +
-                        " ，oilStationList = " + JSONObject.toJSONString(oilStationList));
+                if(oilStationList != null && oilStationList.size() > 0){
+                    total = oilStationList.size();
+                    break;
+                } else {
+                    logger.info("第"+num+"次获取单个加油站，paramMap = " + JSONObject.toJSONString(paramMap) +
+                            " ，oilStationList = " + JSONObject.toJSONString(oilStationList));
+                    num++;
+                    dis++;
+                }
             }
 
             //通过循环遍历计算当前经纬度坐标与民营加油站的经纬度坐标之间的距离
