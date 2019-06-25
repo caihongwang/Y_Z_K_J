@@ -60,9 +60,10 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 
 
             paramMap.clear();
-            paramMap.put("name", "蔡红旺");
+            paramMap.put("uid", "3");
+            paramMap.put("name", "御景西城贵公子");
             paramMap.put("phone", "17701359899");
-            paramMap.put("remark", "加油员");
+            paramMap.put("remark", "油站站长");
             wxMessageService.dailyLeagueMessageSend(paramMap);
 
 

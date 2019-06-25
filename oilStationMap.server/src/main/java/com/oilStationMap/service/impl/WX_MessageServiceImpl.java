@@ -494,6 +494,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         String name = paramMap.get("name")!=null?paramMap.get("name").toString():"";
         String phone = paramMap.get("phone")!=null?paramMap.get("phone").toString():"";
         String remark = paramMap.get("remark")!=null?paramMap.get("remark").toString():"";
+        String sourceName = paramMap.get("sourceName")!=null?paramMap.get("sourceName").toString():"";
         //1.获取所有的微信公众号账号
         paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -522,14 +523,14 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             Map<String, Object> dataMap = Maps.newHashMap();
                             //标题
                             Map<String, Object> firstMap = Maps.newHashMap();
-                            firstMap.put("value", "您有新的加盟对象来了...");
+                            firstMap.put("value", "【"+sourceName+"】有新的加盟对象来了...");
                             firstMap.put("color", "#0017F5");
-                            dataMap.put("keyword1", firstMap);
+                            dataMap.put("first", firstMap);
                             //姓名
                             Map<String, Object> keyword1Map = Maps.newHashMap();
                             keyword1Map.put("value", name);
                             keyword1Map.put("color", "#0017F5");
-                            dataMap.put("first", keyword1Map);
+                            dataMap.put("keyword1", keyword1Map);
                             //手机
                             Map<String, Object> keyword2Map = Maps.newHashMap();
                             keyword2Map.put("value", phone);
@@ -542,12 +543,12 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             dataMap.put("keyword3", keyword3Map);
                             //受理详情
                             Map<String, Object> keyword4Map = Maps.newHashMap();
-                            keyword4Map.put("value", "【"+customMessageAccountName+"】用户已经确认【"+remark+"】合作方式.");
+                            keyword4Map.put("value", "【"+sourceName+"】的用户已经确认【"+remark+"】合作方式.");
                             keyword4Map.put("color", "#0017F5");
                             dataMap.put("keyword3", keyword4Map);
                             //备注
                             Map<String, Object> remarkMap = Maps.newHashMap();
-                            remarkMap.put("value", "生意来了，快让客服进行处理工单吧，千万不要漏掉啊.");
+                            remarkMap.put("value", "生意来了，快让客服小妹妹处理工单吧，千万不要漏掉啊.");
                             remarkMap.put("color", "#0017F5");
                             dataMap.put("remark", remarkMap);
                             //整合

@@ -3,6 +3,7 @@ package com.oilStationMap.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oilStationMap.code.OilStationMapCode;
+import com.oilStationMap.dao.WX_UserDao;
 import com.oilStationMap.dto.BoolDTO;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.WX_CommonService;
@@ -33,6 +34,9 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
 
     @Autowired
     private WX_LeagueDao wxLeagueDao;
+
+    @Autowired
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private WX_DicService wxDicService;
@@ -83,6 +87,15 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
                 new Thread(){
                     public void run(){
                         try{
+                            Map<String, Object> userParamMap = Maps.newHashMap();
+                            userParamMap.put("id", uid);
+                            List<Map<String, Object>> userList = wxUserDao.getUserByCondition(userParamMap);
+                            if(userList != null && userList.size() > 0){
+                                String sourceName = userList.get(0).get("sourceName").toString();
+                                paramMap.put("sourceName", sourceName);
+                            } else {
+                                paramMap.put("sourceName", "油价地图-默认小程序");
+                            }
                             wxMessageService.dailyLeagueMessageSend(paramMap);
                         } catch (Exception e) {
                             logger.info("发送加盟消息是异常，e ：", e);
