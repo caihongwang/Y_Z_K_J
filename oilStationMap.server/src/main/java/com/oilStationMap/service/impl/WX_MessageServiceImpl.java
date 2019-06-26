@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.oilStationMap.code.OilStationMapCode;
-import com.oilStationMap.dao.WX_UserDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.WX_CommonService;

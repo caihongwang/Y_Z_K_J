@@ -8,6 +8,18 @@ import java.util.Map;
 @Mapper
 public interface WX_UserDao {
 
+
+
+    /**
+     * 根据条件查询用户详细信息
+     */
+    List<Map<String, Object>> getUserByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询用户详细信息总数
+     */
+    Integer getUserTotalByCondition(Map<String, Object> paramMap);
+
     /**
      * 更新用户的推荐人用户uid
      */

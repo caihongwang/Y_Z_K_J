@@ -163,7 +163,7 @@
 
     <select id="getSimpleUserByCondition" resultType="java.util.Map">
         SELECT
-        <include refid="TColumnList"/>
+            <include refid="TColumnList"/>
         FROM o_user ou
         <include refid="queryConditions"/>
         <if test="start != null and start != '' and size != null and size != ''">
@@ -173,9 +173,51 @@
 
     <select id="getSimpleUserTotalByCondition" resultType="java.lang.Integer">
         SELECT
-        COUNT(*) total
+            COUNT(*) total
         from o_user ou
         <include refid="queryConditions"/>
+    </select>
+
+    <select id="getUserByCondition" resultType="java.util.Map">
+        SELECT
+            ou.id as "id",
+            ou.open_id as "openId",
+            ou.nick_name as "nickName",
+            ou.avatar_url as "avatarUrl",
+            ou.gender as "gender",
+            ou.city as "city",
+            ou.province as "province",
+            ou.country as "country",
+            ou.language as "language",
+            ou.user_remark as "userRemark",
+            ou.recommend_uid as "recommendUid",
+            ou.source as "source",
+            od.dic_name as "sourceName",
+            ou.is_admin as "isAdmin",
+            ou.gray_status as "grayStatus",
+            ou.create_time as "createTime",
+            ou.update_time as "updateTime"
+        FROM o_user ou inner join o_dic od on ou.source=od.dic_code and od.dic_type='customMessageAccount'
+        where 1=1
+        <if test="id != null and id != ''">
+            AND ou.id = #{id}
+        </if>
+        <if test="openId != null and openId != ''">
+            AND ou.open_id = #{openId}
+        </if>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getUserTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        FROM o_user ou inner join o_dic od on ou.source=od.dic_code and od.dic_type='customMessageAccount'
+        where 1=1
+        <if test="id != null and id != ''">
+            and ou.id = #{id}
+        </if>
     </select>
 
 </mapper>
