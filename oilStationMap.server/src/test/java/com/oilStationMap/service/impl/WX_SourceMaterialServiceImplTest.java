@@ -47,7 +47,7 @@ public class WX_SourceMaterialServiceImplTest extends MySuperTest {
 
 //        新增其他类型永久素材
         Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("filePath", "/Users/caihongwang/Desktop/油价地图/抢红包.jpg");
+        paramMap.put("filePath", "/Users/caihongwang/Desktop/油价地图/田坝加油站.jpeg");
         paramMap.put("mediaType", MediaTypeUtil.IMAGE);
         addMaterial(paramMap);
 

@@ -606,23 +606,26 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                 //打开商品主页事件
                 //打开商品主页事件
             } else if ("subscribe".equals(Event) || "user_scan_product_enter_session".equals(Event)) {//关注公众号事件 或者 进入公众号事件 都发送红包
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图】<<<<<<--------------
-                if ("".equals(Content) && "gh_bcce99ab0079".equals(ToUserName)) {
-                    //====================调用发红包,暂时发送文本消息=====================
-                    Content = "【油价地图-公众号】提现红包";
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                //-------------->>>>>>以下是:关注或者进入【公众号为油价地图或者智恵油站】<<<<<<--------------
+                if ("".equals(Content) &&
+                        ("gh_bcce99ab0079".equals(ToUserName) || "gh_6745c5e36e7a".equals(ToUserName))) {
                     //获取小程序名片消息内容
                     Map<String, Object> customMessageParamMap = Maps.newHashMap();
                     customMessageParamMap.put("dicType", "wxCustomMessage");
-                    customMessageParamMap.put("dicCode", "25");
+                    if("gh_bcce99ab0079".equals(ToUserName)){
+                        customMessageParamMap.put("dicCode", "25");
+                    } else if("gh_6745c5e36e7a".equals(ToUserName)){
+                        customMessageParamMap.put("dicCode", "27");
+                    }
                     ResultDTO customMessageResultDTO = wxDicService.getSimpleDicByCondition(customMessageParamMap);
                     if(customMessageResultDTO != null && customMessageResultDTO.getResultList() != null
                             && customMessageResultDTO.getResultList().size() > 0) {
@@ -631,6 +634,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
                         String appid = customMessageMap.get("appid")!=null?customMessageMap.get("appid").toString():"";
                         String pagePath = customMessageMap.get("pagePath")!=null?customMessageMap.get("pagePath").toString():"";
                         String thumbMediaId = customMessageMap.get("thumbMediaId")!=null?customMessageMap.get("thumbMediaId").toString():"";
+                        Content = "关注-发送【"+customMessageMap.get("dicName").toString()+"】";
                         if(!"".equals(title) && !"".equals(appid)
                                 && !"".equals(pagePath) && !"".equals(thumbMediaId)){
                             customMessageStr = CustomMessageUtil.makeMiniProgramPageCustomMessage(
