@@ -52,7 +52,7 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
     public ResultDTO getCashFeeList(Map<String, Object> paramMap) {
         logger.info("【service】获取提现规则列表-getCashFeeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "caashFee";
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "cashFee";
         if(!"".equals(dicType)){
             paramMap.put("dicType", dicType);
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
