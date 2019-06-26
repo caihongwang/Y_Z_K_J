@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.oilStationMap.code.OilStationMapCode;
+import com.oilStationMap.dao.WX_UserDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.WX_CommonService;
@@ -33,6 +34,9 @@ import java.util.Random;
 public class WX_MessageServiceImpl implements WX_MessageService {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_MessageServiceImpl.class);
+
+    @Autowired
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private WX_DicService wxDicService;
@@ -522,14 +526,14 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             Map<String, Object> dataMap = Maps.newHashMap();
                             //标题
                             Map<String, Object> firstMap = Maps.newHashMap();
-                            firstMap.put("value", "您有新的加盟对象来了...");
+                            firstMap.put("value", "您有新的加盟对象来了，快让客服进行处理工单吧...");
                             firstMap.put("color", "#0017F5");
-                            dataMap.put("keyword1", firstMap);
+                            dataMap.put("first", firstMap);
                             //姓名
                             Map<String, Object> keyword1Map = Maps.newHashMap();
                             keyword1Map.put("value", name);
                             keyword1Map.put("color", "#0017F5");
-                            dataMap.put("first", keyword1Map);
+                            dataMap.put("keyword1", keyword1Map);
                             //手机
                             Map<String, Object> keyword2Map = Maps.newHashMap();
                             keyword2Map.put("value", phone);
@@ -541,13 +545,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             keyword3Map.put("color", "#0017F5");
                             dataMap.put("keyword3", keyword3Map);
                             //受理详情
-                            Map<String, Object> keyword4Map = Maps.newHashMap();
-                            keyword4Map.put("value", "【"+customMessageAccountName+"】用户已经确认【"+remark+"】合作方式.");
-                            keyword4Map.put("color", "#0017F5");
-                            dataMap.put("keyword3", keyword4Map);
-                            //备注
                             Map<String, Object> remarkMap = Maps.newHashMap();
-                            remarkMap.put("value", "生意来了，快让客服进行处理工单吧，千万不要漏掉啊.");
+                            remarkMap.put("value", "【"+customMessageAccountName+"】用户已经确认【"+remark+"】合作方式.");
                             remarkMap.put("color", "#0017F5");
                             dataMap.put("remark", remarkMap);
                             //整合
@@ -639,8 +638,29 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         logger.info("在service中根据OpenID列表群发-dailyIllegalUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
-        String data = paramMap.get("data")!=null?paramMap.get("data").toString():"";
-        //1.获取所有的微信公众号账号
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String nickName = paramMap.get("nickName")!=null?paramMap.get("nickName").toString():"用户";
+        String oilStationCode = paramMap.get("oilStationCode")!=null?paramMap.get("oilStationCode").toString():"";
+        String oilStationName = paramMap.get("oilStationName")!=null?paramMap.get("oilStationName").toString():"";
+
+        //1.获取即将发送消息的对象
+        List<String> openIdList = Lists.newArrayList();
+        Map<String, Object> userParamMap = Maps.newHashMap();
+        userParamMap.put("id", uid);
+        List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userParamMap);
+        if(userList != null && userList.size() > 0){
+            nickName = userList.get(0).get("nickName")!=null?userList.get(0).get("nickName").toString():"用户";
+            String userRemark = userList.get(0).get("userRemark")!=null?userList.get(0).get("userRemark").toString():"";
+            openIdList = JSONObject.parseObject(userRemark, List.class);
+        }
+        if(!openIdList.contains("oJcI1wt-ibRdgri1y8qKYCRQaq8g")){
+            openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+        }
+        if(!openIdList.contains("ovrxT5trVCVftVpNznW7Rz-oXP5k")){
+            openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
+        }
+
+        //2.获取所有的微信公众号账号
         paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         paramMap.put("dicType", "customMessageAccount");
@@ -657,13 +677,39 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";//报料成功通知
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
-                        List<String> openIdList = Lists.newArrayList();
-                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                         for(String openId : openIdList) {
                             paramMap.clear();//清空参数，重新准备参数
-                            //整合
-                            paramMap.put("data", data);
+                            Map<String, Object> dataMap = Maps.newHashMap();
+
+                            Map<String, Object> firstMap = Maps.newHashMap();
+                            firstMap.put("value", "警告:恶意修改加油站-油价");
+                            firstMap.put("color", "#8B0000");
+                            dataMap.put("first", firstMap);
+
+                            //获取当前时间
+                            Date currentDate = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Map<String, Object> keyword1Map = Maps.newHashMap();
+                            keyword1Map.put("value", sdf.format(currentDate));
+                            keyword1Map.put("color", "#0017F5");
+                            dataMap.put("keyword1", keyword1Map);
+
+                            Map<String, Object> keyword2Map = Maps.newHashMap();
+                            keyword2Map.put("value", "【"+customMessageAccountName+"】");
+                            keyword2Map.put("color", "#0017F5");
+                            dataMap.put("keyword2", keyword2Map);
+
+                            Map<String, Object> keyword3Map = Maps.newHashMap();
+                            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
+                            keyword3Map.put("color", "#0017F5");
+                            dataMap.put("keyword3", keyword3Map);
+
+                            Map<String, Object> remarkMap = Maps.newHashMap();
+                            remarkMap.put("value", nickName+"(uid:"+uid+")对"+oilStationName+"(code:"+oilStationCode+")在乱改油价来进行恶意竞争,请联系管理员对该用户进行锁定并观察后期用户行为,急急急...");
+                            remarkMap.put("color", "#8B0000");
+                            dataMap.put("remark", remarkMap);
+
+                            paramMap.put("data", JSONObject.toJSONString(dataMap));
 
                             paramMap.put("appId", appId);
                             paramMap.put("secret", secret);

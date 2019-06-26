@@ -897,7 +897,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 //1.检测oilStationCode是否有效
                 paramMap_temp.put("oilStationCode", oilStationCode);
                 Integer total = wxOilStationDao.getSimpleOilStationTotalByCondition(paramMap_temp);
-                if (total != null && total <= 0) {
+                if (total == null || total <= 0) {
                     //1.1 检测oilStationCode无效
                     paramMap_temp.clear();      //清空参数，重新整理参数
                     Long oilStationCode_l = 0L;
@@ -934,7 +934,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     logger.info("开始新增 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                     addNum = wxOilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
-
                         boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                         boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
                         //新增【添加油站】的操作，便于后期发送红包的参考
@@ -960,88 +959,41 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         //oilStationOwnerUid是数字，且与用户的uid相等时才可以修改
                         if(pattern.matcher(oilStationOwnerUid).matches()
                                 && !oilStationOwnerUid.equals(uid)){
-                            logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
-                            //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
+                            logger.info("用户(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),操作无效.");
+                            //向 管理员汇报 有人恶意修改油价
+                            paramMap.clear();//清空参数，重新准备参数
+                            paramMap.put("uid", uid);
+                            paramMap.put("oilStationCode", oilStationCode);
+                            paramMap.put("oilStationName", oilStationName);
+                            new Thread(){
+                                public void run(){
+                                    try{
+                                        wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+                                    } catch (Exception e) {
+                                        logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
+                                    }
+                                }
+                            }.start();
                             boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
-                            boolDTO.setMessage(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getMessage());
+                            boolDTO.setMessage(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getMessage().replace("AAA", oilStationName));
                             return boolDTO;
                         }
                     }
                     logger.info("开始更新 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
-                    boolean updateFlag = false;
-                    if ("117578".equals(oilStationCode)) {
-                        //在修改 大路田坝加油站的油价时限定 御景西城贵公子 松桃南坪加油站(小号) 大路田坝加油站 这三位用户修改
-                        //并发出报警
-                        if ("1".equals(uid) || "2867".equals(uid) || "19".equals(uid)) {
-                            updateFlag = true;
-                        } else {
-                            updateFlag = false;
-                        }
-                    } else {
-                        updateFlag = true;
-                    }
-                    if (updateFlag) {
-                        updateNum = wxOilStationDao.updateOilStation(paramMap);
-                        if (updateNum != null && updateNum > 0) {
-                            boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
-                            boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
-                            //新增【添加油站】的操作，便于后期发送红包的参考
-                            Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
-                            oilStationOperator_paramMap.put("status", "0");//状态，-1表示审核拒绝, 0表示待审核, 1表示审核通过且待处理, 2表示已处理
-                            oilStationOperator_paramMap.put("uid", paramMap.get("uid"));
-                            oilStationOperator_paramMap.put("operator", "updateOilStation");
-                            oilStationOperator_paramMap.put("oilStationCode", oilStationCode);
-                            wxOilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
-                        } else {
-                            boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                            boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
-                        }
-                    } else {
-                        //向 管理员汇报 有人恶意修改油价
-                        paramMap.clear();//清空参数，重新准备参数
-                        Map<String, Object> dataMap = Maps.newHashMap();
-
-                        Map<String, Object> firstMap = Maps.newHashMap();
-                        firstMap.put("value", "警告:恶意修改加油站-油价");
-                        firstMap.put("color", "#8B0000");
-                        dataMap.put("first", firstMap);
-
-                        //获取当前时间
-                        Date currentDate = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Map<String, Object> keyword1Map = Maps.newHashMap();
-                        keyword1Map.put("value", sdf.format(currentDate));
-                        keyword1Map.put("color", "#0017F5");
-                        dataMap.put("keyword1", keyword1Map);
-
-                        Map<String, Object> keyword2Map = Maps.newHashMap();
-                        keyword2Map.put("value", "【油价地图】");
-                        keyword2Map.put("color", "#0017F5");
-                        dataMap.put("keyword2", keyword2Map);
-
-                        Map<String, Object> keyword3Map = Maps.newHashMap();
-                        keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-                        keyword3Map.put("color", "#0017F5");
-                        dataMap.put("keyword3", keyword3Map);
-
-                        Map<String, Object> remarkMap = Maps.newHashMap();
-                        remarkMap.put("value", "用户uid:" + uid + "对加油站code:" + oilStationCode + "在乱改油价来恶意竞争,对该用户进行锁定并观察后期用户行为,急急急...");
-                        remarkMap.put("color", "#8B0000");
-                        dataMap.put("remark", remarkMap);
-
-                        paramMap.put("data", JSONObject.toJSONString(dataMap));
-
-                        new Thread(){
-                            public void run(){
-                                try{
-                                    wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
-                                } catch (Exception e) {
-                                    logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
-                                }
-                            }
-                        }.start();
+                    updateNum = wxOilStationDao.updateOilStation(paramMap);
+                    if (updateNum != null && updateNum > 0) {
                         boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                         boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
+                        //新增【添加油站】的操作，便于后期发送红包的参考
+                        Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
+                        oilStationOperator_paramMap.put("status", "0");//状态，-1表示审核拒绝, 0表示待审核, 1表示审核通过且待处理, 2表示已处理
+                        oilStationOperator_paramMap.put("uid", paramMap.get("uid"));
+                        oilStationOperator_paramMap.put("operator", "updateOilStation");
+                        oilStationOperator_paramMap.put("oilStationCode", oilStationCode);
+                        wxOilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
+                    } else {
+                        boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
+                        boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                     }
                 }
             } else {
@@ -1068,87 +1020,39 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             if(pattern.matcher(oilStationOwnerUid).matches()
                                     && oilStationOwnerUid.equals(uid)){
                                 logger.info("对不起，您(uid="+uid+")不是当前加油站业主(oilStationOwnerUid="+oilStationOwnerUid+"),您的操作无效.");
-                                //TODO 向小程序用户关注的公众号发送消息，说有人恶意竞争，串改您的油价.
+                                //向 管理员汇报 有人恶意修改油价
+                                paramMap.clear();//清空参数，重新准备参数
+                                paramMap.put("uid", uid);
+                                paramMap.put("oilStationCode", oilStationCode);
+                                paramMap.put("oilStationName", oilStationName);
+                                new Thread(){
+                                    public void run(){
+                                        try{
+                                            wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
+                                        } catch (Exception e) {
+                                            logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
+                                        }
+                                    }
+                                }.start();
                                 boolDTO.setCode(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getNo());
                                 boolDTO.setMessage(OilStationMapCode.IS_NOT_OIL_STATION_OWNER_UID.getMessage());
                                 return boolDTO;
                             }
                         }
-                        oilStationCode = existOilStation.get("oilStationCode")!=null?existOilStation.get("oilStationCode").toString():"";
-                        boolean updateFlag = false;
-                        if ("117578".equals(oilStationCode)) {
-                            //在修改 大路田坝加油站的油价时限定 御景西城贵公子 松桃南坪加油站(小号) 大路田坝加油站 这三位用户修改
-                            //并发出报警
-                            if ("1".equals(uid) || "2867".equals(uid) || "19".equals(uid)) {
-                                updateFlag = true;
-                            } else {
-                                updateFlag = false;
-                            }
-                        } else {
-                            updateFlag = true;
-                        }
-                        if (updateFlag) {
-                            updateNum = wxOilStationDao.updateOilStation(paramMap);
-                            if (updateNum != null && updateNum > 0) {
-                                boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
-                                boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
-                                //新增【添加油站】的s操作，便于后期发送红包的参考
-                                Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
-                                oilStationOperator_paramMap.put("status", "0");//状态，-1表示审核拒绝, 0表示待审核, 1表示审核通过且待处理, 2表示已处理
-                                oilStationOperator_paramMap.put("uid", paramMap.get("uid"));
-                                oilStationOperator_paramMap.put("operator", "updateOilStation");
-                                oilStationOperator_paramMap.put("oilStationCode", existOilStation.get("oilStationCode"));
-                                wxOilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
-                            } else {
-                                boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                                boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
-                            }
-                        } else {
-                            //向 管理员汇报 有人恶意修改油价
-                            paramMap.clear();//清空参数，重新准备参数
-                            Map<String, Object> dataMap = Maps.newHashMap();
-
-                            Map<String, Object> firstMap = Maps.newHashMap();
-                            firstMap.put("value", "警告:恶意修改加油站-油价");
-                            firstMap.put("color", "#8B0000");
-                            dataMap.put("first", firstMap);
-
-                            //获取当前时间
-                            Date currentDate = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Map<String, Object> keyword1Map = Maps.newHashMap();
-                            keyword1Map.put("value", sdf.format(currentDate));
-                            keyword1Map.put("color", "#0017F5");
-                            dataMap.put("keyword1", keyword1Map);
-
-                            Map<String, Object> keyword2Map = Maps.newHashMap();
-                            keyword2Map.put("value", "【油价地图】");
-                            keyword2Map.put("color", "#0017F5");
-                            dataMap.put("keyword2", keyword2Map);
-
-                            Map<String, Object> keyword3Map = Maps.newHashMap();
-                            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
-                            keyword3Map.put("color", "#0017F5");
-                            dataMap.put("keyword3", keyword3Map);
-
-                            Map<String, Object> remarkMap = Maps.newHashMap();
-                            remarkMap.put("value", "用户uid:" + uid + "对加油站code:" + oilStationCode + "在乱改油价来恶意竞争,对该用户进行锁定并观察后期用户行为,急急急...");
-                            remarkMap.put("color", "#8B0000");
-                            dataMap.put("remark", remarkMap);
-
-                            paramMap.put("data", JSONObject.toJSONString(dataMap));
-
-                            new Thread(){
-                                public void run(){
-                                    try{
-                                        wxMessageService.dailyIllegalUpdateOilPriceMessageSend(paramMap);
-                                    } catch (Exception e) {
-                                        logger.info("向管理员发送有人恶意串改加油站油价信息失败，e : ", e);
-                                    }
-                                }
-                            }.start();
+                        updateNum = wxOilStationDao.updateOilStation(paramMap);
+                        if (updateNum != null && updateNum > 0) {
                             boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                             boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
+                            //新增【添加油站】的s操作，便于后期发送红包的参考
+                            Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
+                            oilStationOperator_paramMap.put("status", "0");//状态，-1表示审核拒绝, 0表示待审核, 1表示审核通过且待处理, 2表示已处理
+                            oilStationOperator_paramMap.put("uid", paramMap.get("uid"));
+                            oilStationOperator_paramMap.put("operator", "updateOilStation");
+                            oilStationOperator_paramMap.put("oilStationCode", existOilStation.get("oilStationCode"));
+                            wxOilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
+                        } else {
+                            boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
+                            boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                         }
                     }
                 } else {
@@ -1161,15 +1065,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     } else {
                         paramMap.put("oilStationCode", oilStationCode_l);
                     }
-
-                    //地图端已经给数据了，暂时不用考虑再转换
-//                    String city = LonLatUtil.getAddressByLonLat(Double.parseDouble(oilStationLon),
-//                            Double.parseDouble(oilStationLat), "city");
-//                    String nation_province_city_district = LonLatUtil.getAddressByLonLat(Double.parseDouble(oilStationLon),
-//                            Double.parseDouble(oilStationLat), "nation_province_city_district");
-//                    paramMap.put("oilStationAreaSpell", PingYingUtil.getPingYin(city));
-//                    paramMap.put("oilStationAreaName",nation_province_city_district);
-
                     paramMap.put("oilStationName", oilStationName);
                     paramMap.put("oilStationAdress", oilStationAdress);
                     String oilStationBrandName = "民营";
