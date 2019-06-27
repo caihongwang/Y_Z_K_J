@@ -363,7 +363,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                     dataMap.put("remark", remarkMap);
 
                                     paramMap.put("data", JSONObject.toJSONString(dataMap));
-                                    paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=2mdmXx9VAtdWaZbHc9SeiD1DJaT6&adslotId=290262");
+                                    paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762");
 
                                     paramMap.put("appId", appId);
                                     paramMap.put("secret", secret);
@@ -460,7 +460,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             dataMap.put("remark", remarkMap);
 
                             paramMap.put("data", JSONObject.toJSONString(dataMap));
-                            paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=2mdmXx9VAtdWaZbHc9SeiD1DJaT6&adslotId=290262");
+                            paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762");
 
                             paramMap.put("appId", appId);
                             paramMap.put("secret", secret);

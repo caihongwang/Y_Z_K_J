@@ -103,7 +103,7 @@ public class WX_CommonServiceImplTest extends MySuperTest {
         dataMap.put("remark", remarkMap);
 
         paramMap.put("data", JSONObject.toJSONString(dataMap));
-        paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=2mdmXx9VAtdWaZbHc9SeiD1DJaT6&adslotId=290262");
+        paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762");
 
         paramMap.put("openId", "oJcI1wt-ibRdgri1y8qKYCRQaq8g");
         paramMap.put("template_id", "PVazdd8e4agtaZGIT-G4erWcWbL1EFolT7kxw7Rcn7w");//逾期应收提醒
@@ -124,7 +124,7 @@ public class WX_CommonServiceImplTest extends MySuperTest {
 //        paramMap.put("secret", "a481dd6bc40c9eec3e57293222e8246f");
 //        String customTextMessage = CustomMessageUtil.makeTextCustomMessage(
 //                "oJcI1wt-ibRdgri1y8qKYCRQaq8g",
-//                "您是第9527位获得红包，快来提现吧，【<a href=\'https://engine.seefarger.com/index/activity?appKey=2mdmXx9VAtdWaZbHc9SeiD1DJaT6&adslotId=290262\'>点击领取</a>】"
+//                "您是第9527位获得红包，快来提现吧，【<a href=\'https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762\'>点击领取</a>】"
 //        );
 //        paramMap.put("customTextMessage", customTextMessage);
 //        wxCommonService.sendTextMessageForWxPublicNumber(paramMap);

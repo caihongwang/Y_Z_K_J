@@ -104,7 +104,7 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
 //                    "        {\n" +
 //                    "            \"name\":\"福利中心\",\n" +
 //                    "            \"type\":\"view\",\n" +
-//                    "            \"url\":\"https://engine.seefarger.com/index/activity?appKey=2mdmXx9VAtdWaZbHc9SeiD1DJaT6&adslotId=290262\"\n" +
+//                    "            \"url\":\"https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762\"\n" +
 //                    "        }\n" +
 
 //                    "        {\n" +
