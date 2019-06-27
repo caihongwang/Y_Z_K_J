@@ -203,10 +203,10 @@
                 oos.oil_station_category = #{oilStationCategory},
             </if>
             <if test="oilStationHireUrl != null and oilStationHireUrl != ''">
-                oos.oil_station_hire_url = #{oilStationHireUrloilStationHireUrl},
+                oos.oil_station_hire_url = #{oilStationHireUrl},
             </if>
             <if test="oilStationHireTitle != null and oilStationHireTitle != ''">
-                oos.oil_station_hire_title = #{oilStationHireTitleoilStationHireTitle},
+                oos.oil_station_hire_title = #{oilStationHireTitle},
             </if>
             oos.update_time = CURRENT_TIMESTAMP
         </set>
