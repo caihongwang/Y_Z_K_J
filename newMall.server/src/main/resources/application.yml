@@ -15,7 +15,7 @@ spring:
   application:
     name: newMall
   datasource:
-    url: jdbc:mysql://112.74.177.170:3306/new_mall?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/new_mall?useUnicode=true&characterEncoding=utf8
     username: caihongwang
     password: hejinrong@520
   jackson:
