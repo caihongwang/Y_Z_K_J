@@ -87,8 +87,8 @@
             #{integral},
             #{category},
             #{status},
-            #{createTime},
-            #{updateTime}
+            now(),
+            now()
         )
     </insert>
 

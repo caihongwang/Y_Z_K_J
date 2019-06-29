@@ -265,6 +265,20 @@ public class SpriderFor7DingdongProductUtil {
                     "  now(), now());";
             logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
             insertProductSqlList.add(insertProductSql);
+
+            productParamMap.clear();
+            productParamMap.put("title", title);
+            productParamMap.put("degist", title);
+            productParamMap.put("descript", title);
+            productParamMap.put("stock", stock);
+            productParamMap.put("headImgUrl", headImgUrl);
+            productParamMap.put("describeImgUrl", describeImgUrl);
+            productParamMap.put("price", "9.9");
+            productParamMap.put("integral", integral);
+            productParamMap.put("category", category);
+            productParamMap.put("status", 0);
+            Integer addNUm = wxProductDao.addProduct(productParamMap);
+            logger.info("成功添加  "+addNUm+"  条商品...");
         }
         return insertProductSqlList;
     }
