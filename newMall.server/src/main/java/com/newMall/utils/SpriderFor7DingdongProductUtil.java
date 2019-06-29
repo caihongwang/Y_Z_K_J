@@ -14,6 +14,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.List;
@@ -250,18 +251,18 @@ public class SpriderFor7DingdongProductUtil {
             insertProductSqlList.add(updateProductSql);
         } else {
             //整合SQL
-            String insertProductSql = "INSERT INTO n_product\n" +
+            String insertProductSql = "\nINSERT INTO n_product\n" +
                     "(title, degist, descript, stock, head_img_url, describe_img_url,\n" +
                     " price, integral, category, status, create_time, update_time)\n" +
                     "VALUES (\n" +
-                    "  '" + title + "',\n" +
-                    "  '" + title + "',\n" +
-                    "  '" + title + "',\n" +
-                    "  '" + stock + "',\n" +
-                    "  '" + headImgUrl + "',\n" +
+                    "  \"" + title + "\",\n" +
+                    "  \"" + title + "\",\n" +
+                    "  \"" + title + "\",\n" +
+                    "  \"" + stock + "\",\n" +
+                    "  \"" + headImgUrl + "\",\n" +
                     "  '" + describeImgUrl + "',\n" +
-                    "  9.9,'" + integral + "', '" + category + "', 0, \n" +
-                    "  '2019-03-01 22:00:00', '2019-03-01 22:00:00');";
+                    "  9.9,\"" + integral + "\", \"" + category + "\", 0, \n" +
+                    "  now(), now());";
             logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
             insertProductSqlList.add(insertProductSql);
         }
@@ -465,13 +466,13 @@ public class SpriderFor7DingdongProductUtil {
         List<Map<String, Object>> pruductList = wxProductDao.getSimpleProductByCondition(productParamMap);
         if(pruductList != null && pruductList.size() > 0){
             // 整合SQL
-            String updateProductSql = "update n_product np set " +
-                    "stock='"+stock+"', " +
-                    "price='"+price+"', " +
-                    "integral='"+integral+"', " +
-                    "deduction='"+deductionName+"', " +
+            String updateProductSql = "\nupdate n_product np set " +
+                    "stock=\""+stock+"\", " +
+                    "price=\""+price+"\", " +
+                    "integral=\""+integral+"\", " +
+                    "deduction=\""+deductionName+"\", " +
                     "np.update_time = CURRENT_TIMESTAMP " +
-                    "where id = '"+pruductList.get(0).get("id").toString()+"';\n";
+                    "where id = \""+pruductList.get(0).get("id").toString()+"\";\n";
             logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
             updateProductSqlList.add(updateProductSql);
         }
