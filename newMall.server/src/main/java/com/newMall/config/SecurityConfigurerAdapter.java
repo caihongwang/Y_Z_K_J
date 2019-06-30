@@ -39,6 +39,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/resourceOfNewMall/**",
+                "/wxOrder/wxPayNotifyForPayTheBillInMiniProgram",
+                "/wxOrder/wxPayNotifyForPurchaseProductInMiniProgram",
                 "/product/**",
                 "/js/**",
                 "/css/**",
