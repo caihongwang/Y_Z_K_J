@@ -52,14 +52,14 @@ public class WX_OilStationServiceImplTest extends MySuperTest {
 //        paramMap.put("dis", "2");
 //        wxOilStationService.getOneOilStationByCondition(paramMap);
 
-//        String oilStationName = "中国石油加油站(天源二站)";
-//        String oilStationAddress = "山西省长治市潞城区国道007乡道交叉口向北路东";
-//        wxOilStationService.createOilStationHireInfoUrl(oilStationName, oilStationAddress);
+        String oilStationName = "中国石油加油站(天源二站)";
+        String oilStationAddress = "山西省长治市潞城区国道007乡道交叉口向北路东";
+        wxOilStationService.createOilStationHireInfoUrl(oilStationName, oilStationAddress);
 
-        paramMap.put("lat", 34.481738);
-        paramMap.put("lon", 113.78742);
-        paramMap.put("dis", 2);
-        wxOilStationService.getOneOilStationByCondition(paramMap);
+//        paramMap.put("lat", 34.481738);
+//        paramMap.put("lon", 113.78742);
+//        paramMap.put("dis", 2);
+//        wxOilStationService.getOneOilStationByCondition(paramMap);
 
 
     }

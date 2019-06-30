@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableFeignClients(basePackages = {"com.oilStationMap"})
-@EnableAsync
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {"com.oilStationMap"})

@@ -1,8 +1,6 @@
 package com.oilStationMap;
 
 import com.oilStationMap.code.OilStationMapCode;
-import com.oilStationMap.service.impl.WX_OilStationServiceImpl;
-import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

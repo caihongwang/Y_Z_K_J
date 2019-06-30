@@ -14,19 +14,20 @@ import java.util.concurrent.Executor;
  * @Date 2019/6/24 11:53 AM
  * @Version 1.0.0
  **/
-@Configuration
-public class AsyncConfig implements AsyncConfigurer {
-
-    @Override
-    public Executor getAsyncExecutor() {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        //核心线程数
-        taskExecutor.setCorePoolSize(8);
-        //最大线程数
-        taskExecutor.setMaxPoolSize(16);
-        //队列大小
-        taskExecutor.setQueueCapacity(100);
-        taskExecutor.initialize();
-        return taskExecutor;
-    }
+public class AsyncConfig{
+//@Configuration
+//public class AsyncConfig implements AsyncConfigurer {
+//
+//    @Override
+//    public Executor getAsyncExecutor() {
+//        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+//        //核心线程数
+//        taskExecutor.setCorePoolSize(8);
+//        //最大线程数
+//        taskExecutor.setMaxPoolSize(16);
+//        //队列大小
+//        taskExecutor.setQueueCapacity(100);
+//        taskExecutor.initialize();
+//        return taskExecutor;
+//    }
 }
