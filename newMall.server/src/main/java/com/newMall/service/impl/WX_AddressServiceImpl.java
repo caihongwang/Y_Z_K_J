@@ -67,7 +67,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String provinceId = paramMap.get("provinceId") != null ? paramMap.get("provinceId").toString() : "110000";
         if(!"".equals(dicType) && !"".equals(provinceId)){
             paramMap.put("dicType", dicType);
-            paramMap.put("dicRemark", "\"parentId\":\""+provinceId+"\"");
+            paramMap.put("dicRemark", "\"provinceId\":\""+provinceId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
             resultDTO.setCode(NewMallCode.ADDRESS_CITYTYPE_OR_PROVINCEID_IS_NULL.getNo());
@@ -90,7 +90,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String cityId = paramMap.get("cityId") != null ? paramMap.get("cityId").toString() : "110100";
         if(!"".equals(dicType) && !"".equals(cityId)){
             paramMap.put("dicType", dicType);
-            paramMap.put("dicRemark", "\"parentId\":\""+cityId+"\"");
+            paramMap.put("dicRemark", "\"cityId\":\""+cityId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
             resultDTO.setCode(NewMallCode.ADDRESS_REGIONTYPE_OR_CITYID_IS_NULL.getNo());
@@ -113,7 +113,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String regionId = paramMap.get("regionId") != null ? paramMap.get("regionId").toString() : "110108";
         if(!"".equals(dicType) && !"".equals(regionId)){
             paramMap.put("dicType", dicType);
-            paramMap.put("dicRemark", "\"parentId\":\""+regionId+"\"");
+            paramMap.put("dicRemark", "\"regionId\":\""+regionId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
             resultDTO.setCode(NewMallCode.ADDRESS_REGIONTYPE_OR_REGIONID_IS_NULL.getNo());
