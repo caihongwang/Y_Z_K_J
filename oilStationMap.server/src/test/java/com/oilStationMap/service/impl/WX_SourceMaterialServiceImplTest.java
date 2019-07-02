@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.oilStationMap.MySuperTest;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.ResultMapDTO;
+import com.oilStationMap.service.WX_SourceMaterialService;
 import com.oilStationMap.utils.MapUtil;
 import com.oilStationMap.utils.MediaArticlesUtil;
 import com.oilStationMap.utils.MediaTypeUtil;
@@ -12,6 +13,7 @@ import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.List;
@@ -23,6 +25,9 @@ import java.util.Map;
 public class WX_SourceMaterialServiceImplTest extends MySuperTest {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_SourceMaterialServiceImpl.class);
+
+    @Autowired
+    private WX_SourceMaterialService wxSourceMaterialService;
 
     @Test
     public void TEST(){
@@ -46,10 +51,10 @@ public class WX_SourceMaterialServiceImplTest extends MySuperTest {
 //        getMedia(paramMap);
 
 //        新增其他类型永久素材
-        Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("filePath", "/Users/caihongwang/Desktop/油价地图/田坝加油站.jpeg");
-        paramMap.put("mediaType", MediaTypeUtil.IMAGE);
-        addMaterial(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("filePath", "/Users/caihongwang/Desktop/油价地图/田坝加油站.jpeg");
+//        paramMap.put("mediaType", MediaTypeUtil.IMAGE);
+//        addMaterial(paramMap);
 
 
 //        新增永久素材
@@ -96,12 +101,12 @@ public class WX_SourceMaterialServiceImplTest extends MySuperTest {
 //        返回{"voice_count":"0","video_count":"0","image_count":"139","news_count":"8"}
 
 //        获取素材列表
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("offset", "0");
-//        paramMap.put("count", "20");
-//        paramMap.put("mediaType", MediaTypeUtil.IMAGE);
-//        paramMap.put("mediaType", "NEWS");
-//        batchGetMaterial(paramMap);
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("offset", "0");
+        paramMap.put("count", "20");
+        paramMap.put("mediaType", MediaTypeUtil.IMAGE);
+        paramMap.put("mediaType", "NEWS");
+        wxSourceMaterialService.batchGetMaterial(paramMap);
     }
 
     /**

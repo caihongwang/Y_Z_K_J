@@ -24,10 +24,10 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
 
         //油价地图的菜单
         Map<String, Object> paramMap = Maps.newHashMap();
-//        //油价地图
+        //油价地图
 //        paramMap.put("appId", "wxf768b49ad0a4630c");
 //        paramMap.put("secret", "a481dd6bc40c9eec3e57293222e8246f");
-        //智恵油站
+//        //智恵油站
         paramMap.put("appId", "wx469a910e7e87b9d4");
         paramMap.put("secret", "327047cc315d0c5ab24e62d2efd958c0");
         this.createCustomMenu(paramMap);
@@ -77,24 +77,24 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
 
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
-                    "            \"name\":\"油价资讯\",\n" +
+                    "            \"name\":\"油价地图\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx06ef82e30bbff9ea\",\n" +
-                    "            \"pagepath\":\"pages/other/information/wxPublicNumberInformation/index\"\n" +
+                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"加油红包\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wxb16f29674473d15b\",\n" +
+                    "            \"appid\":\"wx06ef82e30bbff9ea\",\n" +
                     "            \"pagepath\":\"pages/other/activity/redActivity/index\"\n" +
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
-                    "            \"name\":\"油价地图\",\n" +
+                    "            \"name\":\"油站神器\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx56642b7398b5e8c4\",\n" +
-                    "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
+                    "            \"appid\":\"wx57a88640fe6eb319\",\n" +
+                    "            \"pagepath\":\"pages/other/information/wxPublicNumberInformation/informationDetails/index?scene=materialDetailJson%3D%257B%2522materialDetailUrl%2522%253A%2522http%253A//mp.weixin.qq.com/s%253F__biz%253DMzI1ODMwMzAxMw%253D%253D%2526mid%253D100000204%2526idx%253D1%2526sn%253Dfc727f95af80936dac7db021aadfb014%2526chksm%253D6a0b74865d7cfd90b7e42b556ba4bc1205abee3314cfda91071cb5db4089f072d8f969ee7d95%2523rd%2522%252C%2522materialDetailTitle%2522%253A%2522%25u52A0%25u6CB9%25u7AD9%25u795E%25u5668-%25u81EA%25u52A8%25u552E%25u8D27%25u673A%2522%257D\"\n" +
                     "        }\n" +
 //                    "        {\n" +
 //                    "            \"name\":\"油站神器\",\n" +
