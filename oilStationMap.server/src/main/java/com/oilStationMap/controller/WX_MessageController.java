@@ -34,7 +34,7 @@ public class WX_MessageController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【controller】发送红包资讯-redActivityMessageSend,请求-paramMap:" + paramMap);
         try {
             ResultMapDTO resultMapDTO = wx_MessageHandler.redActivityMessageSend(paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -42,12 +42,12 @@ public class WX_MessageController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】发送红包资讯-redActivityMessageSend is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,响应-response:" + resultMap);
+        logger.info("【controller】发送红包资讯-redActivityMessageSend,响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -58,7 +58,7 @@ public class WX_MessageController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据OpenID列表群发-dailyMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【controller】发送红包资讯-dailyMessageSend,请求-paramMap:" + paramMap);
         try {
             ResultMapDTO resultMapDTO = wx_MessageHandler.dailyMessageSend(paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -66,12 +66,12 @@ public class WX_MessageController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据OpenID列表群发-dailyMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】发送红包资讯-dailyMessageSend is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中根据OpenID列表群发-dailyMessageSend,响应-response:" + resultMap);
+        logger.info("【controller】发送红包资讯-dailyMessageSend,响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -82,7 +82,7 @@ public class WX_MessageController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【controller】发送抽奖资讯-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
         try {
             ResultMapDTO resultMapDTO = wx_MessageHandler.dailyLuckDrawMessageSend(paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -90,12 +90,12 @@ public class WX_MessageController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据OpenID列表群发-dailyLuckDrawMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】发送抽奖资讯-dailyLuckDrawMessageSend is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMap);
+        logger.info("【controller】发送抽奖资讯-dailyLuckDrawMessageSend,响应-response:" + resultMap);
         return resultMap;
     }
 

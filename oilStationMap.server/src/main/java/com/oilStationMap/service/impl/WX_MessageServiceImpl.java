@@ -49,7 +49,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO redActivityMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在【service】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】发送红包资讯-redActivityMessageSend,请求-paramMap:" + paramMap);
         //1.获取所有的微信公众号账号
         paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -145,9 +145,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                     paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");
 
                                     Thread.sleep(2000);
-                                    logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
-                                    logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
-                                    logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送红包资讯，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送红包资讯，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送红包资讯，当前openId = " + openId);
 
                                     wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                                 }
@@ -170,7 +170,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在【service】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】发送红包资讯-redActivityMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -183,7 +183,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】发送红包资讯-dailyMessageSend,请求-paramMap:" + paramMap);
         //1.获取所有的微信公众号账号
         paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -261,7 +261,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                                 paramMap.put("template_id", dailyMessageTemplateId);
 
                                                 Thread.sleep(2000);
-                                                logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                                                logger.info("每个用户之间缓冲两秒进行发送，发送红包资讯，当前openId = " + openId);
+                                                logger.info("每个用户之间缓冲两秒进行发送，发送红包资讯，当前openId = " + openId);
+                                                logger.info("每个用户之间缓冲两秒进行发送，发送红包资讯，当前openId = " + openId);
 
                                                 wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                                             }
@@ -289,7 +291,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】发送红包资讯-dailyMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -301,7 +303,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyLuckDrawMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】发送抽奖资讯-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
         //1.获取所有的微信公众号账号
         paramMap.clear();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
@@ -371,7 +373,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                     paramMap.put("template_id", luckDrawMessageTemplateId);//逾期应收提醒
 
                                     Thread.sleep(2000);
-                                    logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送抽奖资讯，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送抽奖资讯，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送抽奖资讯，当前openId = " + openId);
 
                                     wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                                 }
@@ -392,7 +396,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】发送抽奖资讯-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -404,7 +408,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】更新油价资讯-dailyUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
         String updateNum = paramMap.get("updateNum")!=null?paramMap.get("updateNum").toString():"0";
         //1.获取所有的微信公众号账号
         paramMap.clear();
@@ -468,7 +472,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             paramMap.put("template_id", dailyMessageTemplateId);
 
                             Thread.sleep(2000);
-                            logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
 
                             wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                         }
@@ -479,7 +485,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】更新油价资讯-dailyUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -491,7 +497,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyLeagueMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyLeagueMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】发送加盟资讯-dailyLeagueMessageSend,请求-paramMap:" + paramMap);
         String name = paramMap.get("name")!=null?paramMap.get("name").toString():"";
         String phone = paramMap.get("phone")!=null?paramMap.get("phone").toString():"";
         String remark = paramMap.get("remark")!=null?paramMap.get("remark").toString():"";
@@ -555,7 +561,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             paramMap.put("template_id", leagueMessageTemplateId);
 
                             Thread.sleep(2000);
-                            logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送加盟资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送加盟资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送加盟资讯，当前openId = " + openId);
 
                             wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                         }
@@ -566,7 +574,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyLeagueMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】发送加盟资讯-dailyLeagueMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -578,7 +586,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyUpdateOrAddOilStationMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyUpdateOrAddOilStationMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】更新油站资讯-dailyUpdateOrAddOilStationMessageSend,请求-paramMap:" + paramMap);
         String data = paramMap.get("data")!=null?paramMap.get("data").toString():"";
         //1.获取所有的微信公众号账号
         paramMap.clear();
@@ -611,7 +619,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             paramMap.put("template_id", errorMessageTemplateId);
 
                             Thread.sleep(2000);
-                            logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油站资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油站资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油站资讯，当前openId = " + openId);
 
                             wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                         }
@@ -622,7 +632,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyUpdateOrAddOilStationMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】更新油站资讯-dailyUpdateOrAddOilStationMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -634,7 +644,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     public ResultMapDTO dailyIllegalUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
-        logger.info("在service中根据OpenID列表群发-dailyIllegalUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【service】发送恶意篡改加油站油价资讯-dailyIllegalUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
         String nickName = paramMap.get("nickName")!=null?paramMap.get("nickName").toString():"用户";
         String oilStationCode = paramMap.get("oilStationCode")!=null?paramMap.get("oilStationCode").toString():"";
@@ -714,7 +724,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             paramMap.put("template_id", dailyMessageTemplateId);
 
                             Thread.sleep(2000);
-                            logger.info("每个用户之间缓冲两秒进行发送，报料成功通知，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送恶意篡改加油站油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送恶意篡改加油站油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送恶意篡改加油站油价资讯，当前openId = " + openId);
 
                             wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
                         }
@@ -725,7 +737,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 }
             }
         }
-        logger.info("在service中根据OpenID列表群发-dailyIllegalUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【service】发送恶意篡改加油站油价资讯-dailyIllegalUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 

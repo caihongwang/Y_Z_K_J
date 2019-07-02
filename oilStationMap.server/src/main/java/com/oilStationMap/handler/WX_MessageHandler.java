@@ -30,7 +30,7 @@ public class WX_MessageHandler {
      * @return
      */
     public ResultMapDTO redActivityMessageSend(Map<String, String> paramMap) {
-        logger.info("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【hanlder】发送红包资讯-redActivityMessageSend,请求-paramMap:" + paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         new Thread(){
@@ -38,13 +38,13 @@ public class WX_MessageHandler {
                 try {
                     wxMessageService.redActivityMessageSend(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在【hanlder】发送红包资讯-redActivityMessageSend is error, paramMap : " + paramMap + ", e : " + e);
                 }
             }
         }.start();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        logger.info("在【hanlder】中向微信公众号粉丝群发红包模板消息-redActivityMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【hanlder】发送红包资讯-redActivityMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -54,7 +54,7 @@ public class WX_MessageHandler {
      * @return
      */
     public ResultMapDTO dailyMessageSend(Map<String, String> paramMap) {
-        logger.info("在【hanlder】中根据OpenID列表群发-dailyMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【hanlder】发送红包资讯-dailyMessageSend,请求-paramMap:" + paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         new Thread(){
             public void run(){
@@ -64,13 +64,13 @@ public class WX_MessageHandler {
                 } catch (Exception e) {
                     resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
                     resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
-                    logger.error("在【hanlder】中根据OpenID列表群发-dailyMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("【hanlder】发送红包资讯-dailyMessageSend is error, paramMap : " + paramMap + ", e : " + e);
                 }
             }
         }.start();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        logger.info("在【hanlder】中根据OpenID列表群发-dailyMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【hanlder】发送红包资讯-dailyMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -80,7 +80,7 @@ public class WX_MessageHandler {
      * @return
      */
     public ResultMapDTO dailyLuckDrawMessageSend(Map<String, String> paramMap) {
-        logger.info("在【hanlder】中根据OpenID列表群发-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
+        logger.info("【hanlder】发送抽奖资讯-dailyLuckDrawMessageSend,请求-paramMap:" + paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         new Thread(){
 
@@ -91,13 +91,13 @@ public class WX_MessageHandler {
                 } catch (Exception e) {
                     resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
                     resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
-                    logger.error("在【hanlder】中根据OpenID列表群发-dailyLuckDrawMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("【hanlder】发送抽奖资讯-dailyLuckDrawMessageSend is error, paramMap : " + paramMap + ", e : " + e);
                 }
             }
         }.start();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        logger.info("在【hanlder】中根据OpenID列表群发-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
+        logger.info("【hanlder】发送抽奖资讯-dailyLuckDrawMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 
