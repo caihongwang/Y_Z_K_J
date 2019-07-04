@@ -468,6 +468,14 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         if (!"".equals(lon.toString()) && !"".equals(lat.toString()) &&
                 !"".equals(page.toString()) && !"".equals(r.toString())) {
 
+            //纠正坐标，防止被刷
+            if(lon < 0) {
+                lon = 0 - lon;
+            }
+            if(lat < 0) {
+                lat = 0 - lat;
+            }
+
             //限定 运营人员 可以访问redis中的某个经纬度的加油站
             try (Jedis jedis = jedisPool.getResource()) {
                 String currentLon = jedis.get(OilStationMapCode.CURRENT_LON_UID + uid);
@@ -681,9 +689,16 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         Double lon = Double.parseDouble(paramMap.get("lon") != null ? paramMap.get("lon").toString() : "0");
         Double lat = Double.parseDouble(paramMap.get("lat") != null ? paramMap.get("lat").toString() : "0");
         Double dis = Double.parseDouble(paramMap.get("dis") != null ? paramMap.get("dis").toString() : "1");
-
         if (!"".equals(oilStationName) ||
                 (!"".equals(lon) && !"".equals(lat))) {
+
+            //纠正坐标，防止被刷
+            if(lon < 0) {
+                lon = 0 - lon;
+            }
+            if(lat < 0) {
+                lat = 0 - lat;
+            }
 
             //限定 运营人员 可以访问redis中的某个经纬度的加油站
             try (Jedis jedis = jedisPool.getResource()) {
