@@ -40,10 +40,10 @@ public class MySuperTest {
 
     @Test
     public void Test(){
-        String uid = "4442";
+        String uid = "1762";
         try (Jedis jedis = jedisPool.getResource()) {
-            String newLon = "109.16912";
-            String newLat = "28.098309";
+            String newLon = "109.17935";
+            String newLat = "28.108028";
             jedis.set(OilStationMapCode.CURRENT_LON_UID + uid,
                     newLon);
             jedis.set(OilStationMapCode.CURRENT_LAT_UID + uid,

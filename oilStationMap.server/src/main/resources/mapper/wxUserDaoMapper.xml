@@ -71,6 +71,9 @@
             <if test="grayStatus != null and grayStatus != ''">
                 AND ou.gray_status = #{grayStatus}
             </if>
+            <if test="source != null and source != ''">
+                AND ou.source = #{source}
+            </if>
             <if test="userRemark != null and userRemark != ''">
                 AND ou.user_remark = #{userRemark}
             </if>

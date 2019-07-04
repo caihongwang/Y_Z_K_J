@@ -36,7 +36,7 @@ public class SpiderForZhuangYitUtil {
 
         Map<String, Object> dicParam = Maps.newHashMap();
         dicParam.put("dicType", "zhuangyi");
-        dicParam.put("dicCode", "zhuangyi");
+        dicParam.put("dicCode", "zhuangyiForChw");
         ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(dicParam);
         List<Map<String, String>> dicResultParam = resultDTO.getResultList();
         Integer positionIndex = Integer.parseInt(dicResultParam.get(0).get("positionIndex").toString());
@@ -56,8 +56,8 @@ public class SpiderForZhuangYitUtil {
 
         positionIndex = positionIndex + 5;
         Map<String, String> remarkMap = Maps.newHashMap();
-        remarkMap.put("zhuangYiCode", "zhuangyi");
-        remarkMap.put("zhuangYiName", "装一网");
+        remarkMap.put("zhuangYiCode", "zhuangyiForChw");
+        remarkMap.put("zhuangYiName", "装一网 2 chw");
         remarkMap.put("positionIndex", positionIndex.toString());
         dicParam.clear();
         dicParam.put("id", dicResultParam.get(0).get("id"));

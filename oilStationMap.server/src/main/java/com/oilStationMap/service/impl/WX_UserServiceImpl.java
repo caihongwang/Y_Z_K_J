@@ -105,14 +105,12 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMap.put("sessionKey", key);
                                 resultMap.put("uid", uid);
                                 resultMapDTO.setResultMap(resultMap);
-
                                 resultMapDTO.setCode(OilStationMapCode.USER_EXIST.getNo());
                                 resultMapDTO.setMessage(OilStationMapCode.USER_EXIST.getMessage());
                             } else {
                                 resultMap.put("sessionKey", key);
                                 resultMap.put("uid", uid);
                                 resultMapDTO.setResultMap(resultMap);
-
                                 resultMapDTO.setCode(OilStationMapCode.USER_EXIST.getNo());
                                 resultMapDTO.setMessage(OilStationMapCode.USER_EXIST.getMessage());
                             }
@@ -123,8 +121,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                             sessionMap.put("key", key);
                             sessionMap.put("session_key", session_key);
                             this.setSession(sessionMap);
-//                          // TODO: 2018/5/5
-                            //临时修改，默认都有效，待建立redis数据库之后，就更改回来
                             //获取session,如果没有则创一个有效的session
                             try (Jedis jedis = jedisPool.getResource()) {
                                 jedis.set(key, session_key);        //将session_key作为redius中的value
@@ -134,7 +130,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                             resultMap.put("sessionKey", key);
                             resultMap.put("uid", uid);
                             resultMapDTO.setResultMap(resultMap);
-
                             resultMapDTO.setCode(OilStationMapCode.USER_EXIST.getNo());
                             resultMapDTO.setMessage(OilStationMapCode.USER_EXIST.getMessage());
                         }
@@ -159,18 +154,20 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMap.put("sessionKey", key);
                                 resultMap.put("uid", uid);
                                 resultMapDTO.setResultMap(resultMap);
-
                                 resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                                 resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
+                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
+                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
+                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
+                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
                             } else {
                                 resultMapDTO.setResultMap(resultMap);
-
                                 resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
                                 resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
                             }
                         } else {
                             resultMapDTO.setResultMap(resultMap);
-
                             resultMapDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
                             resultMapDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                         }

@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author bootdo
+ * @author caihongwang
  */
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -69,6 +69,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> perms = Sets.newHashSet();
         perms.add(userMap.get("grayStatus").toString());
         Set<GrantedAuthority> authorities = perms.stream().filter(Objects::nonNull).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
+        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
+        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
+        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
+        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
         return new WX_User(nickName, password, uid, openId, nickName, isAdmin, userInfoMap, authorities);
     }
 }
