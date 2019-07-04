@@ -52,4 +52,10 @@ public interface WX_MessageService {
    * @param paramMap
    */
   public ResultMapDTO dailyIllegalUpdateOilPriceMessageSend(Map<String, Object> paramMap) throws Exception;
+
+  /**
+   * 根据OpenID向 管理员 发【恶意篡改管理员用户信息】消息
+   * @param paramMap
+   */
+  public ResultMapDTO dailyIllegalUpdateUserInfoMessageSend(Map<String, Object> paramMap) throws Exception;
 }

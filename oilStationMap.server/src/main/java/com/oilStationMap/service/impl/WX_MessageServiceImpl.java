@@ -365,7 +365,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                     dataMap.put("remark", remarkMap);
 
                                     paramMap.put("data", JSONObject.toJSONString(dataMap));
-                                    paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762");
+                                    paramMap.put("url", "http://mp.weixin.qq.com/s?__biz=MzI1ODMwMzAxMw==&mid=100000851&idx=1&sn=2419d8b456bdc0e62c45ca77686639f3&chksm=6a0b71195d7cf80f63f95e6c133ddd0b190db6da4e09c4fe57c8e2e070317a9172a8e6fcb419#rd\\");
 
                                     paramMap.put("appId", appId);
                                     paramMap.put("secret", secret);
@@ -738,6 +738,108 @@ public class WX_MessageServiceImpl implements WX_MessageService {
             }
         }
         logger.info("【service】发送恶意篡改加油站油价资讯-dailyIllegalUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 根据OpenID向 管理员 发【恶意篡改管理员用户信息】消息
+     * @param paramMap
+     */
+    @Override
+    public ResultMapDTO dailyIllegalUpdateUserInfoMessageSend(Map<String, Object> paramMap) throws Exception {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        logger.info("【service】发送恶意篡改管理员用户信息-dailyIllegalUpdateOilPriceMessageSend,请求-paramMap:" + paramMap);
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String admin_openId = paramMap.get("admin_openId")!=null?paramMap.get("admin_openId").toString():"";
+        String new_openId = paramMap.get("new_openId")!=null?paramMap.get("new_openId").toString():"";
+
+        //1.获取即将发送消息的对象
+        List<String> openIdList = Lists.newArrayList();
+        Map<String, Object> userParamMap = Maps.newHashMap();
+        userParamMap.put("id", 3);
+        List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userParamMap);
+        if(userList != null && userList.size() > 0){
+            String userRemark = userList.get(0).get("userRemark")!=null?userList.get(0).get("userRemark").toString():"";
+            openIdList = JSONObject.parseObject(userRemark, List.class);
+        }
+        if(!openIdList.contains("oJcI1wt-ibRdgri1y8qKYCRQaq8g")){
+            openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+        }
+        if(!openIdList.contains("ovrxT5trVCVftVpNznW7Rz-oXP5k")){
+            openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
+        }
+
+        //2.获取所有的微信公众号账号
+        paramMap.clear();
+        List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
+        paramMap.put("dicType", "customMessageAccount");
+        ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        customMessageAccountList = resultDTO.getResultList();
+        if (customMessageAccountList != null && customMessageAccountList.size() > 0) {
+            for (int i = 0; i < customMessageAccountList.size(); i++) {
+                Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
+                String dicName = customMessageAccountMap.get("dicName");
+                if (dicName.contains("公众号")) {
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";//报料成功通知
+                    if(!"".equals(appId) && !"".equals(secret)){
+                        //发送消息
+                        for(String openId : openIdList) {
+                            paramMap.clear();//清空参数，重新准备参数
+                            Map<String, Object> dataMap = Maps.newHashMap();
+
+                            Map<String, Object> firstMap = Maps.newHashMap();
+                            firstMap.put("value", "警告:发送恶意篡改管理员用户信息");
+                            firstMap.put("color", "#8B0000");
+                            dataMap.put("first", firstMap);
+
+                            //获取当前时间
+                            Date currentDate = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Map<String, Object> keyword1Map = Maps.newHashMap();
+                            keyword1Map.put("value", sdf.format(currentDate));
+                            keyword1Map.put("color", "#0017F5");
+                            dataMap.put("keyword1", keyword1Map);
+
+                            Map<String, Object> keyword2Map = Maps.newHashMap();
+                            keyword2Map.put("value", "【"+customMessageAccountName+"】");
+                            keyword2Map.put("color", "#0017F5");
+                            dataMap.put("keyword2", keyword2Map);
+
+                            Map<String, Object> keyword3Map = Maps.newHashMap();
+                            keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
+                            keyword3Map.put("color", "#0017F5");
+                            dataMap.put("keyword3", keyword3Map);
+
+                            Map<String, Object> remarkMap = Maps.newHashMap();
+                            remarkMap.put("value", "管理员用户(openId:"+admin_openId+")被恶意用户(openId:"+new_openId+")乱改，来获取管理员权限恶搞！！！急急急...");
+                            remarkMap.put("color", "#8B0000");
+                            dataMap.put("remark", remarkMap);
+
+                            paramMap.put("data", JSONObject.toJSONString(dataMap));
+
+                            paramMap.put("appId", appId);
+                            paramMap.put("secret", secret);
+                            paramMap.put("openId", openId);
+                            paramMap.put("template_id", dailyMessageTemplateId);
+
+                            Thread.sleep(2000);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送恶意篡改管理员用户信息，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送恶意篡改管理员用户信息，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，发送恶意篡改管理员用户信息，当前openId = " + openId);
+                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                        }
+                    } else {
+                        resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+                    }
+                }
+            }
+        }
+        logger.info("【service】发送恶意篡改管理员用户信息-dailyIllegalUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 

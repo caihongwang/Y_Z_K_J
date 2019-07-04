@@ -7,10 +7,7 @@ import com.oilStationMap.dto.BoolDTO;
 import com.oilStationMap.dto.MessageDTO;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
-import com.oilStationMap.service.WX_AccountService;
-import com.oilStationMap.service.WX_CommonService;
-import com.oilStationMap.service.WX_OilStationOperatorService;
-import com.oilStationMap.service.WX_UserService;
+import com.oilStationMap.service.*;
 import com.oilStationMap.utils.HttpsUtil;
 import com.oilStationMap.utils.MapUtil;
 import com.oilStationMap.utils.WX_PublicNumberUtil;
@@ -47,6 +44,9 @@ public class WX_UserServiceImpl implements WX_UserService {
 
     @Autowired
     private WX_CommonService wxCommonService;
+
+    @Autowired
+    private WX_MessageService wxMessageService;
 
     @Autowired
     private WX_AccountService wxAccountService;
@@ -133,6 +133,20 @@ public class WX_UserServiceImpl implements WX_UserService {
                             resultMapDTO.setCode(OilStationMapCode.USER_EXIST.getNo());
                             resultMapDTO.setMessage(OilStationMapCode.USER_EXIST.getMessage());
                         }
+                        if ("1762".equals(uid)){
+                            paramMap.clear();
+                            paramMap.put("admin_openId", "oFX2m5C8fpa4o7sHwMFxuAG9zgC8");
+                            paramMap.put("new_openId", openid);
+                            new Thread(){
+                                public void run(){
+                                    try{
+                                        wxMessageService.dailyIllegalUpdateUserInfoMessageSend(paramMap);
+                                    } catch (Exception e1){
+                                        logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+                                    }
+                                }
+                            }.start();
+                        }
                     } else {                                            //不存在，则添加
                         //3.添加用户
                         paramMap.put("openId", openid);
@@ -161,6 +175,20 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
                                 logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
                                 logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
+                                if ("1762".equals(uid)){
+                                    paramMap.clear();
+                                    paramMap.put("admin_openId", "oFX2m5C8fpa4o7sHwMFxuAG9zgC8");
+                                    paramMap.put("new_openId", openid);
+                                    new Thread(){
+                                        public void run(){
+                                            try{
+                                                wxMessageService.dailyIllegalUpdateUserInfoMessageSend(paramMap);
+                                            } catch (Exception e1){
+                                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+                                            }
+                                        }
+                                    }.start();
+                                }
                             } else {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
@@ -342,11 +370,9 @@ public class WX_UserServiceImpl implements WX_UserService {
         //更新用户信息
         updateNum = wxUserDao.updateUser(paramMap);
         if (updateNum != null && updateNum > 0) {
-
             boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
             boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         } else {
-
             boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
             boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
         }
