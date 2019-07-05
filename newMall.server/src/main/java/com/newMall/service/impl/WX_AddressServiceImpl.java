@@ -67,7 +67,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String provinceId = paramMap.get("provinceId") != null ? paramMap.get("provinceId").toString() : "110000";
         if(!"".equals(dicType) && !"".equals(provinceId)){
             paramMap.put("dicType", dicType);
-            paramMap.put("dicRemark", "\"provinceId\":\""+provinceId+"\"");
+            paramMap.put("dicRemark", "\"province\":\""+provinceId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
             resultDTO.setCode(NewMallCode.ADDRESS_CITYTYPE_OR_PROVINCEID_IS_NULL.getNo());
