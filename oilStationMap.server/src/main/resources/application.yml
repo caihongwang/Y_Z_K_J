@@ -15,7 +15,7 @@ spring:
   application:
     name: oilStationMap
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/oil_station_map?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    url: jdbc:mysql://127.0.0.1:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: caihongwang
     password: hejinrong@520
   jackson:

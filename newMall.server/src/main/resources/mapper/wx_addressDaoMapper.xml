@@ -115,8 +115,8 @@
             #{detailAddress},
             #{isDefaultAddress},
             #{status},
-            #{createTime},
-            #{updateTime}
+            now(),
+            now()
         )
     </insert>
 
