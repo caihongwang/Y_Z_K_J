@@ -128,7 +128,17 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 body = body + "【" + productList.get(0).get("title") + "】";
                 //获取商品的现有库存
                 String stockStr = productList.get(0).get("stock")!=null?productList.get(0).get("stock").toString():"0";
-                Double stock = Double.parseDouble(stockStr);        //此处可能会报错，有的库存中包含这汉字
+                Double stock = 0.0;
+                try{
+                    stock = Double.parseDouble(stockStr);        //此处可能会报错，有的库存中包含这汉字
+                } catch (Exception e1) {
+                    stockStr = NumberUtil.getNUm(stockStr);
+                    try{
+                        stock = Double.parseDouble(stockStr);        //此处可能会报错，有的库存中包含这汉字
+                    } catch (Exception e2) {
+                        stock = 0.0;
+                    }
+                }
                 //用户即将购买的商品数量
                 Double productNum = Double.parseDouble(productNumStr);
                 //获取商品所需单价积分
@@ -433,7 +443,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String foodsId = paramMap.get("foodsId") != null ? paramMap.get("foodsId").toString() : "";
         //订单类型
         String orderType = "payTheBill";
-        if(!"".equals(foodsId)){
+        if(!"".equals(foodsId) || "undefined".equals(foodsId)){
             orderType = "payTheBillForMenu";
         }
         //统一订单编号,即微信订单号
@@ -552,7 +562,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     attachMap.put("shopId", shopId);        //用于给店家打钱
                     attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
                     attachMap.put("integral", NumberUtil.getPointTowNumber(newUserIntegral).toString());
-                    attachMap.put("payMoney", NumberUtil.getPointTowNumber(payMoney).toString());
+//                    attachMap.put("payMoney", NumberUtil.getPointTowNumber(payMoney).toString());
+                    attachMap.put("payMoney", NumberUtil.getPointTowNumber(actualPayMoney).toString());
                     if(!"".equals(wxOrderId)){
                         attachMap.put("wxOrderId", wxOrderId);
                     } else {
@@ -613,13 +624,17 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
                             if(!"".equals(wxOrderId)){
-                                orderMap.put("wxOrderId", wxOrderId);
-                                BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
+//                                orderMap.put("wxOrderId", wxOrderId);
+//                                BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
                                 //设置返回值
+//                                resultMap.put("dealFlag", true);
+//                                resultMap.put("isLuckDrawFlag", true); //可以抽奖
+//                                resultMapDTO.setCode(updateOrderBoolDTO.getCode());
+//                                resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
                                 resultMap.put("dealFlag", true);
                                 resultMap.put("isLuckDrawFlag", true); //可以抽奖
-                                resultMapDTO.setCode(updateOrderBoolDTO.getCode());
-                                resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
+                                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                             } else {
                                 orderMap.put("wxOrderId", out_trade_no);
                                 BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
