@@ -85,7 +85,7 @@ public class WX_GarbageServiceImpl implements WX_GarbageService {
         String garbageName = paramMap.get("garbageName")!=null?paramMap.get("garbageName").toString():"";
         if(!"".equals(garbageName)){
             paramMap.put("dicType", "garbage");
-            paramMap.put("dicName", garbageName);
+            paramMap.put("dicCode", garbageName);
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
             if(resultDTO.getResultList() == null || resultDTO.getResultList().size() <= 0){
                 //将未知的垃圾进行入库,方便后续进行辨别.
@@ -98,9 +98,7 @@ public class WX_GarbageServiceImpl implements WX_GarbageService {
                 paramMap.put("dicCode", garbageTypeCode);
                 resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
                 List<Map<String, String>> garbageTypeStrList = resultDTO.getResultList();
-                Map<String, String> garbageTypeMap = Maps.newHashMap();
-                garbageTypeMap.put("garbageList", JSONObject.toJSONString(garbageList));
-                garbageTypeStrList.add(garbageTypeMap);
+                garbageTypeStrList.get(0).put("garbageList", JSONObject.toJSONString(garbageList));
                 resultDTO.setResultList(garbageTypeStrList);
             }
         } else {
