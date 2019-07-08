@@ -163,19 +163,16 @@ public class WX_DicServiceImpl implements WX_DicService {
                 Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(dicStrList);
-
                 resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                 resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
             } else {
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-
                 resultDTO.setCode(OilStationMapCode.DIC_LIST_IS_NULL.getNo());
                 resultDTO.setMessage(OilStationMapCode.DIC_LIST_IS_NULL.getMessage());
             }
         } else {
-
             resultDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
         }
