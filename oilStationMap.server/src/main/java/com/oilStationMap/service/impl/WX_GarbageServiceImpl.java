@@ -82,14 +82,26 @@ public class WX_GarbageServiceImpl implements WX_GarbageService {
     public ResultDTO getSimpleGarbageByCondition(Map<String, Object> paramMap) {
         logger.info("【service】获取单一的垃圾-getSimpleGarbageByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        String garbageName = paramMap.get("garbage")!=null?paramMap.get("garbage").toString():"";
+        String garbageName = paramMap.get("garbageName")!=null?paramMap.get("garbageName").toString():"";
         if(!"".equals(garbageName)){
             paramMap.put("dicType", "garbage");
-            paramMap.put("dicRemark", garbageName);
+            paramMap.put("dicName", garbageName);
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
             if(resultDTO.getResultList() == null || resultDTO.getResultList().size() < 0){
                 //将未知的垃圾进行入库,方便后续进行辨别.
                 wxGarbageDao.addGarbage(paramMap);
+            } else {
+                List<Map<String, String>> garbageList = resultDTO.getResultList();
+                String garbageTypeCode = garbageList.get(0).get("garbageTypeCode");
+                //获取垃圾类型
+                paramMap.put("dicType", "garbageType");
+                paramMap.put("dicCode", garbageTypeCode);
+                resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                List<Map<String, String>> garbageTypeStrList = resultDTO.getResultList();
+                Map<String, String> garbageTypeMap = Maps.newHashMap();
+                garbageTypeMap.put("garbageList", JSONObject.toJSONString(garbageList));
+                garbageTypeStrList.add(garbageTypeMap);
+                resultDTO.setResultList(garbageTypeStrList);
             }
         } else {
             resultDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
