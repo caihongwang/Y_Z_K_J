@@ -87,7 +87,7 @@ public class WX_GarbageServiceImpl implements WX_GarbageService {
             paramMap.put("dicType", "garbage");
             paramMap.put("dicName", garbageName);
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-            if(resultDTO.getResultList() == null || resultDTO.getResultList().size() < 0){
+            if(resultDTO.getResultList() == null || resultDTO.getResultList().size() <= 0){
                 //将未知的垃圾进行入库,方便后续进行辨别.
                 wxGarbageDao.addGarbage(paramMap);
             } else {
