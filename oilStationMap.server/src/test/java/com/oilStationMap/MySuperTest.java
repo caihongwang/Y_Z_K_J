@@ -42,15 +42,18 @@ public class MySuperTest {
     public void Test(){
         String uid = "1762";
         try (Jedis jedis = jedisPool.getResource()) {
-            //松桃南坪
+//            //松桃南坪
 //            String newLon = "109.17935";
 //            String newLat = "28.108028";
 //            //爱明石化
 //            String newLon = "109.12081";
 //            String newLat = "28.10569";
-            //贵州松桃大坪加油站
-            String newLon = "109.10414";
-            String newLat = "28.1062";
+//            //贵州松桃大坪加油站
+//            String newLon = "109.10414";
+//            String newLat = "28.1062";
+            //城南石化
+            String newLon = "109.19448";
+            String newLat = "28.13074";
 
             jedis.set(OilStationMapCode.CURRENT_LON_UID + uid,
                     newLon);
