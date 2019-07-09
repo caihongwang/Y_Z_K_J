@@ -42,7 +42,7 @@
 
     <insert id="addGarbage" parameterType="java.util.Map" useGeneratedKeys="true"
             keyProperty="id">
-        insert into o_garbageName (
+        insert into o_garbage (
             <include refid="columnList"/>
         ) values (
             #{id},
@@ -55,14 +55,14 @@
     </insert>
 
     <delete id="deleteGarbage">
-        DELETE FROM o_garbageName WHERE 1=1
+        DELETE FROM o_garbage WHERE 1=1
         <if test="id != null and id != ''">
             AND id = #{id}
         </if>
     </delete>
 
     <update id="updateGarbage">
-        update o_garbageName og
+        update o_garbage og
         <set>
             <if test="uid != null and uid != ''">
                 og.uid = #{uid},
@@ -84,14 +84,14 @@
     <select id="getSimpleGarbageByCondition" resultType="java.util.Map">
         SELECT
         <include refid="TColumnList"/>
-        FROM o_garbageName og
+        FROM o_garbage og
         <include refid="queryConditions"/>
     </select>
 
     <select id="getSimpleGarbageTotalByCondition" resultType="java.lang.Integer">
         SELECT
         COUNT(*) total
-        from o_garbageName og
+        from o_garbage og
         <include refid="queryConditions"/>
     </select>
 
