@@ -39,6 +39,9 @@
             <if test="operator != null and operator != ''">
                 AND ooso.operator = #{operator}
             </if>
+            <if test="status != null and status != ''">
+                AND ooso.status = #{status}
+            </if>
             <if test="createTime !=null and createTime !=''">
                 AND ooso.create_time &gt;= date_format(CONCAT(#{createTime}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
                 AND ooso.create_time &lt;= date_format(CONCAT(#{createTime}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')

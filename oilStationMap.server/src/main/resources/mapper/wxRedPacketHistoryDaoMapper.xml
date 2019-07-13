@@ -117,7 +117,7 @@
         INNER JOIN o_user ou on ou.id = ooso.uid
         INNER JOIN o_dic osp on osp.dic_code = ooso.operator and osp.dic_type="oilStationOperator"
         INNER JOIN o_dic rps on rps.dic_code = ooso.status and rps.dic_type="redPacketStatus"
-        where ooso.status!="-1" and ou.id = #{uid}
+        where ooso.status not in (-1, 2) and ou.id = #{uid}
     </select>
 
     <select id="getRedPacketHistoryList" resultType="java.util.Map">

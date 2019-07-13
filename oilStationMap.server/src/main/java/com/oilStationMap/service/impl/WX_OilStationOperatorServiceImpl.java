@@ -248,17 +248,24 @@ public class WX_OilStationOperatorServiceImpl implements WX_OilStationOperatorSe
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String id = paramMap.get("id")!=null?paramMap.get("id").toString():"";      //加油站操作ID
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
-        if(!"".equals(id) && !"".equals(uid)){
-            //0.检测活动是否还在进行, 获取【油价地图】的【红包活动】信息
+        String operator = paramMap.get("operator")!=null?paramMap.get("operator").toString():"";
+        String wxAccountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
+
+        if(!"".equals(id) && !"".equals(uid) && !"".equals(wxAccountId)){
+            if("recommendUser".equals(operator)){
+                resultMapDTO = this.cashOilStationOperatorRedPacket_for_recommendUser(paramMap);
+                return resultMapDTO;
+            }            //0.检测活动是否还在进行, 获取【油价地图】的【红包活动】信息
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicType", "redPacketActivity");
-            dicParamMap.put("dicCode", "gh_417c90af3488");
+            dicParamMap.put("dicCode", wxAccountId);
             List<Map<String, String>> dicResultMapList = Lists.newArrayList();
             ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
             if(dicResultDTO != null && dicResultDTO.getResultList() != null && dicResultDTO.getResultList().size() > 0){
                 dicResultMapList = dicResultDTO.getResultList();
                 String startTimeStr = dicResultMapList.get(0).get("startTime");
                 String endTimeStr = dicResultMapList.get(0).get("endTime");
+                String wxAccountName = dicResultMapList.get(0).get("wxAccountName");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 if(startTimeStr != null && !"".equals(startTimeStr)
                         && endTimeStr != null && !"".equals(endTimeStr)){
@@ -266,8 +273,9 @@ public class WX_OilStationOperatorServiceImpl implements WX_OilStationOperatorSe
                     try{
                         Date startTime = simpleDateFormat.parse(startTimeStr);
                         Date endTime = simpleDateFormat.parse(endTimeStr);
-                        if(currentTime.after(startTime) && currentTime.before(endTime) ){       //活动进行中
+                        if(currentTime.after(startTime) && currentTime.before(endTime)){       //活动进行中
                             paramMap.put("createTime", "");
+                            paramMap.put("status", "1");
                             ResultDTO resultDTO = this.getSimpleOilStationOperatorByCondition(paramMap);
                             if(resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
                                 List<Map<String, String>> oilStationOperatorList = resultDTO.getResultList();
@@ -284,14 +292,13 @@ public class WX_OilStationOperatorServiceImpl implements WX_OilStationOperatorSe
                                     String redPacketTotal = ((int) (redPacketTotalFloat * 100)) + "";
                                     redPacketParamMap.put("amount", redPacketTotal);
                                     redPacketParamMap.put("openId", openIdObj.toString());
-                                    redPacketParamMap.put("reUserName", OilStationMapCode.WX_MINI_PROGRAM_NAME);
-                                    redPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
-                                    redPacketParamMap.put("desc", OilStationMapCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
+                                    redPacketParamMap.put("reUserName", wxAccountName);
+                                    redPacketParamMap.put("wxPublicNumGhId", wxAccountId);
+                                    redPacketParamMap.put("desc", wxAccountName + "发红包了，快来看看吧.");
                                     resultMapDTO = wxRedPacketService.enterprisePayment(redPacketParamMap);
                                     //3.将加油站操作记录表的状态变更为已处理
                                     Map<String, Object> oilStationOperatorMap_updateParam = Maps.newHashMap();
                                     oilStationOperatorMap_updateParam.put("id", oilStationOperatorMap.get("id"));
-
                                     //4.发送成功，将已发送的红包进行记录，并保存.
                                     if(OilStationMapCode.SUCCESS.getNo() == resultMapDTO.getCode()){
                                         //将加油站操作记录表的状态变更为已发放
@@ -354,6 +361,133 @@ public class WX_OilStationOperatorServiceImpl implements WX_OilStationOperatorSe
             resultMapDTO.setMessage(OilStationMapCode.OIL_STATION_OPERATOR_ID_OR_UID_OR_OPERATOR_IS_NOT_NULL.getMessage());
         }
 
+        logger.info("在service中领取或者提现加油站操作红包-cashOilStationOperatorRedPacket,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 提现-针对推荐用户.
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO cashOilStationOperatorRedPacket_for_recommendUser(Map<String, Object> paramMap) {
+
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        String id = paramMap.get("id")!=null?paramMap.get("id").toString():"";      //加油站操作ID
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String operator = paramMap.get("operator")!=null?paramMap.get("operator").toString():"";
+        String wxAccountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"";
+
+        //0.检测活动是否还在进行, 获取【油价地图】的【红包活动】信息
+        Map<String, Object> dicParamMap = Maps.newHashMap();
+        dicParamMap.put("dicType", "redPacketActivity");
+        dicParamMap.put("dicCode", wxAccountId);
+        List<Map<String, String>> dicResultMapList = Lists.newArrayList();
+        ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
+        if(dicResultDTO != null && dicResultDTO.getResultList() != null && dicResultDTO.getResultList().size() > 0){
+            dicResultMapList = dicResultDTO.getResultList();
+            String startTimeStr = dicResultMapList.get(0).get("startTime");
+            String endTimeStr = dicResultMapList.get(0).get("endTime");
+            String wxAccountName = dicResultMapList.get(0).get("wxAccountName");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            if(startTimeStr != null && !"".equals(startTimeStr)
+                    && endTimeStr != null && !"".equals(endTimeStr)){
+                Date currentTime = new Date();
+                try{
+                    Date startTime = simpleDateFormat.parse(startTimeStr);
+                    Date endTime = simpleDateFormat.parse(endTimeStr);
+                    if(currentTime.after(startTime) && currentTime.before(endTime)){       //活动进行中
+                        //获取三次-推荐用户.
+                        Map<String, Object> paramMapTemp = Maps.newHashMap();
+                        paramMapTemp.put("operator", operator);
+                        paramMapTemp.put("status", "1");
+                        paramMapTemp.put("uid", uid);
+                        paramMapTemp.put("start", 0);
+                        paramMapTemp.put("size", 3);
+                        ResultDTO resultDTO = this.getSimpleOilStationOperatorByCondition(paramMapTemp);
+                        if(resultDTO.getResultList() != null
+                            && resultDTO.getResultList().size() > 0
+                                && resultDTO.getResultList().size() == 3){
+                            List<Map<String, String>> oilStationOperatorList = resultDTO.getResultList();
+                            Object uidObj = oilStationOperatorList.get(0).get("uid");
+                            Object openIdObj = oilStationOperatorList.get(0).get("openId");
+                            Object redPacketTotalObj = "0.3";
+                            if(uidObj != null && openIdObj != null
+                                    && redPacketTotalObj != null && !"".equals(redPacketTotalObj.toString())
+                                    && !"0".equals(redPacketTotalObj.toString())){
+                                //2.整合发送红包的参数
+                                Map<String, Object> redPacketParamMap = Maps.newHashMap();
+                                float redPacketTotalFloat = Float.parseFloat(redPacketTotalObj.toString() != "" ? redPacketTotalObj.toString() : "10");
+                                String redPacketTotal = ((int) (redPacketTotalFloat * 100)) + "";
+                                redPacketParamMap.put("amount", redPacketTotal);
+                                redPacketParamMap.put("openId", openIdObj.toString());
+                                redPacketParamMap.put("reUserName", wxAccountName);
+                                redPacketParamMap.put("wxPublicNumGhId", wxAccountId);
+                                redPacketParamMap.put("desc", wxAccountName + "发红包了，快来看看吧.");
+                                resultMapDTO = wxRedPacketService.enterprisePayment(redPacketParamMap);
+                                //将查询的 推荐用户进行 变更状态
+                                for(Map<String, String> oilStationOperatorMap : oilStationOperatorList){
+                                    //3.将加油站操作记录表的状态变更为已处理
+                                    Map<String, Object> oilStationOperatorMap_updateParam = Maps.newHashMap();
+                                    oilStationOperatorMap_updateParam.put("id", oilStationOperatorMap.get("id"));
+                                    //4.发送成功，将已发送的红包进行记录，并保存.
+                                    if(OilStationMapCode.SUCCESS.getNo() == resultMapDTO.getCode()){
+                                        //将加油站操作记录表的状态变更为已发放
+                                        oilStationOperatorMap_updateParam.put("status", "2");//状态，-1表示审核拒绝, 0表示待审核, 1表示审核通过且待发放, 2表示已发放
+                                        wxOilStationOperatorDao.updateOilStationOperator(oilStationOperatorMap_updateParam);
+                                        //插入红包操作记录
+                                        Map<String, Object> redPacketHistoryMap = Maps.newHashMap();
+                                        redPacketHistoryMap.put("uid", uidObj.toString());
+                                        redPacketHistoryMap.put("operatorId", id);
+                                        redPacketHistoryMap.put("redPacketMoney", redPacketTotalObj.toString());
+                                        redPacketHistoryMap.put("remark", "红包正常发送");
+                                        redPacketHistoryMap.put("status", "1");
+                                        wxRedPacketHistoryService.addRedPacketHistory(redPacketHistoryMap);
+                                    } else {
+                                        //将加油站操作记录表的状态变更为待发放
+                                        oilStationOperatorMap_updateParam.put("status", "1");//状态，-1表示审核拒绝, 0表示待审核, 1表示审核通过且待发放, 2表示已发放
+                                        wxOilStationOperatorDao.updateOilStationOperator(oilStationOperatorMap_updateParam);
+                                        //插入红包操作记录
+                                        Map<String, Object> redPacketHistoryMap = Maps.newHashMap();
+                                        redPacketHistoryMap.put("uid", uidObj.toString());
+                                        redPacketHistoryMap.put("operatorId", id);
+                                        redPacketHistoryMap.put("redPacketMoney", redPacketTotalObj.toString());
+                                        redPacketHistoryMap.put("remark", resultMapDTO.getMessage());
+                                        redPacketHistoryMap.put("status", "0");
+                                        wxRedPacketHistoryService.addRedPacketHistory(redPacketHistoryMap);
+                                    }
+                                }
+                            } else {
+                                resultMapDTO.setCode(OilStationMapCode.OIL_STATION_OPERATOR_ID_OR_UID_IS_NOT_NULL_AND_REDPACKETTOTAL_SHOULD_LARGER_0.getNo());
+                                resultMapDTO.setMessage(OilStationMapCode.OIL_STATION_OPERATOR_ID_OR_UID_IS_NOT_NULL_AND_REDPACKETTOTAL_SHOULD_LARGER_0.getMessage());
+                            }
+                        } else {
+                            resultMapDTO.setCode(OilStationMapCode.OIL_STATION_OPERATOR_RED_PACKET_IS_NOT_CASHED_OR_3.getNo());
+                            resultMapDTO.setMessage(OilStationMapCode.OIL_STATION_OPERATOR_RED_PACKET_IS_NOT_CASHED_OR_3.getMessage());
+                        }
+                    } else if(currentTime.before(startTime)){           //活动未开始
+                        resultMapDTO.setCode(OilStationMapCode.WX_RED_PACKET_ACTIVITY_IS_NOT_START.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.WX_RED_PACKET_ACTIVITY_IS_NOT_START.getMessage());
+                    } else if(currentTime.after(endTime)){              //活动已结束
+                        resultMapDTO.setCode(OilStationMapCode.WX_RED_PACKET_ACTIVITY_IS_END.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.WX_RED_PACKET_ACTIVITY_IS_END.getMessage());
+                    } else {
+                        resultMapDTO.setCode(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getMessage());
+                    }
+                } catch (Exception e) {
+                    logger.info("解析红包活动的开始时间和结束时间失败，请联系管理员，查看红包活动心在字典中的数据.");
+                    resultMapDTO.setCode(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getNo());
+                    resultMapDTO.setMessage(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getMessage());
+                }
+            } else {
+                resultMapDTO.setCode(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getNo());
+                resultMapDTO.setMessage(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.WX_RED_PACKET_ACTIVITY_INFO_ERROR.getMessage());
+        }
         logger.info("在service中领取或者提现加油站操作红包-cashOilStationOperatorRedPacket,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }

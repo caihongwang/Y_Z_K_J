@@ -176,7 +176,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
         String wxPublicNumGhId = paramMap.get("wxPublicNumGhId") != null ? paramMap.get("wxPublicNumGhId").toString() : "";
         if (paramMap.size() > 0 && !"".equals(wxPublicNumGhId)) {
             Map<String, Object> dicParamMap = Maps.newHashMap();
-            dicParamMap.put("dicType", "redPacketActivity");
+            dicParamMap.put("dicType", "customMessageAccount");
             dicParamMap.put("dicCode", wxPublicNumGhId);
             ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
@@ -184,7 +184,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                 paramMap.putAll(dicResultDto.getResultList().get(0));
                 // 2.准备参数使用企业付款进行发送红包
                 // 商户相关资料
-                String mchAppId = paramMap.get("wxPublicNumberAppId").toString();
+                String mchAppId = paramMap.get("customMessageAccountAppId").toString();
                 // 微信支付分配的商户号
                 String mchId = paramMap.get("wxPayMchId").toString();
                 //随机字符串
@@ -206,7 +206,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                 // 微信证书路径
                 String certPath = paramMap.get("wxPayCertPath").toString();
                 // API密钥
-                String paternerKey = paramMap.get("wxPayApiSecert").toString();
+                String paternerKey = paramMap.get("wxPayApiSecret").toString();
                 resultMapDTO = WX_PublicNumberUtil.enterprisePayment(
                         mchAppId, mchId, nonceStr,
                         partnerTradeNo, openId, checkName,

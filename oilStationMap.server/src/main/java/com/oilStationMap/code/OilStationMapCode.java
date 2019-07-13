@@ -120,7 +120,9 @@ public class OilStationMapCode {
     public static OilStationMapCode OIL_STATION_OPERATOR_RED_PACKET_IS_NOT_EXIST_OR_CASHED = new OilStationMapCode(170006, "当前红包已不存在，或许已被领取.");
     public static OilStationMapCode OIL_STATION_OPERATOR_ID_OR_UID_IS_NOT_NULL_AND_REDPACKETTOTAL_SHOULD_LARGER_0 = new OilStationMapCode(170007, "uid或者openId不允许为空，同事红包金额必须大于0.");
     public static OilStationMapCode CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL = new OilStationMapCode(170008, "当前公众号没有粉丝，发送消息无效.");
-    
+    public static OilStationMapCode OIL_STATION_OPERATOR_RED_PACKET_IS_NOT_CASHED_OR_3 = new OilStationMapCode(170009, "推荐用户已被领取或者不满三人.");
+
+
     //加盟
     public static OilStationMapCode LEAGUE_LIST_IS_NULL = new OilStationMapCode(0, "当前加盟没有数据.");
     public static OilStationMapCode LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL = new OilStationMapCode(220001, "加盟的uid或者手机号或者姓名或者加盟类型不能为空");

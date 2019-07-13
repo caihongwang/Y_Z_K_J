@@ -1042,9 +1042,9 @@ public class WX_PublicNumberUtil {
         params.put("sign", sign);
         String xml = XmlUtil.toXml(params);
         System.out.println(xml);
-        String xmlResult = postSSL(transfer_uri, xml, certPath, mchId);
-        System.out.println(xmlResult);
         try {
+            String xmlResult = postSSL(transfer_uri, xml, certPath, mchId);
+            System.out.println(xmlResult);
             Map<String, String> resultXML = XmlUtil.xml2map(xmlResult.toString(), false);
             String return_code = resultXML.get("return_code");
             String result_code = resultXML.get("result_code");
