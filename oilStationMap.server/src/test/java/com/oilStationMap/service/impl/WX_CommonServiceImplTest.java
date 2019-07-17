@@ -45,7 +45,7 @@ public class WX_CommonServiceImplTest extends MySuperTest {
 //        keyword1Map.put("color", "#0017F5");
 //        dataMap.put("keyword1", keyword1Map);
 //
-//        Map<String, Object> keyword2Map = Maps.newHashMap();
+//        Map<String, Object> keyword2M28.108028ap = Maps.newHashMap();
 //        keyword2Map.put("value", "【油价地图】");
 //        keyword2Map.put("color", "#0017F5");
 //        dataMap.put("keyword2", keyword2Map);

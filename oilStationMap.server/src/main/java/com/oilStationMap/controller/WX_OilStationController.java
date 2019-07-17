@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -24,7 +26,36 @@ public class WX_OilStationController {
     private static final Logger logger = LoggerFactory.getLogger(WX_OilStationController.class);
 
     @Autowired
+    private JedisPool jedisPool;
+
+    @Autowired
     private WX_OilStationHandler wxOilStationHandler;
+
+    @RequestMapping("/setLocaltionByUid")
+    @ResponseBody
+    public Map<String, Object> setLocaltionByUid(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中根据经纬度设置用户位置中心-setLocaltionByUid,请求-paramMap:" + paramMap);
+        try (Jedis jedis = jedisPool.getResource()) {
+            // 经度，纬度，用户uid；分别默认：松桃南坪加油站的经纬度和御景西城贵公子的uid
+            String newLon = paramMap.get("lon")!=null?paramMap.get("lon").toString():"109.17935";
+            String newLat = paramMap.get("lat")!=null?paramMap.get("lat").toString():"28.108028";
+            String newUid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"1762";
+            jedis.set(OilStationMapCode.CURRENT_LON_UID + newUid, newLon);
+            jedis.set(OilStationMapCode.CURRENT_LAT_UID + newUid, newLat);
+            logger.info("用户 ----->>> uid = " + newUid + " ； 设置加油站经纬度 ----->>> newLon = " + newLon + " , newLat = " + newLat);
+            resultMap.put("code", OilStationMapCode.SUCCESS.getNo());
+            resultMap.put("message", OilStationMapCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中根据经纬度设置用户位置中心-setLocaltionByUid,响应-response:" + resultMap);
+        return resultMap;
+    }
 
     @RequestMapping("/addOrUpdateOilStationAllCountry")
     @ResponseBody
