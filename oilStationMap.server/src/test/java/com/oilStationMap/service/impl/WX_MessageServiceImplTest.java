@@ -65,6 +65,9 @@ public class WX_MessageServiceImplTest extends MySuperTest {
 //            paramMap.put("remark", "加油员");
 //            wxMessageService.dailyLeagueMessageSend(paramMap);
 
+            paramMap.clear();
+            wxMessageService.dailyCarUreaMessageSend(paramMap);
+
 
 //            paramMap.clear();
 //            Map<String, Object> dataMap = Maps.newHashMap();

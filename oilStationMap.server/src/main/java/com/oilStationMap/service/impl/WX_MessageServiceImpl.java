@@ -401,6 +401,110 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     }
 
     /**
+     * 根据OpenID列表群发【车主福利for车用尿素】福利
+     * @param paramMap
+     */
+    @Override
+    public ResultMapDTO dailyCarUreaMessageSend(Map<String, Object> paramMap) throws Exception {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        logger.info("【service】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend,请求-paramMap:" + paramMap);
+        //1.获取所有的微信公众号账号
+        paramMap.clear();
+        List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
+        paramMap.put("dicType", "customMessageAccount");
+        ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        customMessageAccountList = resultDTO.getResultList();
+        if (customMessageAccountList != null && customMessageAccountList.size() > 0) {
+            for (int i = 0; i < customMessageAccountList.size(); i++) {
+                Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
+                String dicName = customMessageAccountMap.get("dicName");
+                if (dicName.contains("公众号")) {
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
+                    if(!"".equals(appId) && !"".equals(secret)){
+                        //1.获取所有微信用户openId
+                        Map<String, Object> followersMap = WX_PublicNumberUtil.getFollowers(null, appId,  secret);
+                        if(followersMap != null && followersMap.size() > 0){
+                            JSONObject dataJSONObject = followersMap.get("data")!=null?(JSONObject)followersMap.get("data"):null;
+                            if(dataJSONObject != null){
+                                JSONArray openIdJSONArray = dataJSONObject.get("openid")!=null?
+                                        (JSONArray)dataJSONObject.get("openid"):null;
+                                List<String> openIdList = JSONObject.parseObject(openIdJSONArray.toJSONString(), List.class);
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                Date currentDate = new Date();
+                                //2.发送抽奖消息消息
+//                                openIdList.clear();  //模拟只向管理员发送消息
+//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+//                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
+                                for(String openId : openIdList) {
+                                    paramMap.clear();//清空参数，重新准备参数
+                                    Map<String, Object> dataMap = Maps.newHashMap();
+
+                                    Map<String, Object> firstMap = Maps.newHashMap();
+                                    firstMap.put("value", "车主福利：车用尿素，您的发动机与国标排放之间的距离");
+                                    firstMap.put("color", "#0017F5");
+                                    dataMap.put("first", firstMap);
+
+                                    Map<String, Object> keyword1Map = Maps.newHashMap();
+                                    keyword1Map.put("value", sdf.format(currentDate));
+                                    keyword1Map.put("color", "#0017F5");
+                                    dataMap.put("keyword1", keyword1Map);
+
+                                    Map<String, Object> keyword2Map = Maps.newHashMap();
+                                    keyword2Map.put("value", "【"+customMessageAccountName+"】");
+                                    keyword2Map.put("color", "#0017F5");
+                                    dataMap.put("keyword2", keyword2Map);
+
+                                    Map<String, Object> keyword3Map = Maps.newHashMap();
+                                    keyword3Map.put("value", "只为专注油价资讯，为车主省钱.");
+                                    keyword3Map.put("color", "#0017F5");
+                                    dataMap.put("keyword3", keyword3Map);
+
+                                    Map<String, Object> remarkMap = Maps.newHashMap();
+                                    remarkMap.put("value", "近年随着机动车辆的迅猛增加，汽车尾气污染越来越成为与大众关心的话题...");
+                                    remarkMap.put("color", "#0017F5");
+                                    dataMap.put("remark", remarkMap);
+
+                                    paramMap.put("data", JSONObject.toJSONString(dataMap));
+                                    paramMap.put("url", "https://mp.weixin.qq.com/s?__biz=MzI1ODMwMzAxMw==&mid=100000914&idx=1&sn=9a1635f4c2b6063bf35c90193d00391d&chksm=6a0b71d85d7cf8ce5dff7581eb396525bfc384e60d2e2877a4690ca804ed2e7dcb7ba37e2fe7#rd");
+
+                                    paramMap.put("appId", appId);
+                                    paramMap.put("secret", secret);
+                                    paramMap.put("openId", openId);
+                                    paramMap.put("template_id", dailyMessageTemplateId);//逾期应收提醒
+
+                                    Thread.sleep(2000);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = " + openId);
+                                    logger.info("每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = " + openId);
+
+                                    wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                                }
+                            } else {
+                                //获取微信公众所有openId
+                                resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
+                                resultMapDTO.setMessage(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
+                            }
+                        } else {
+                            //获取微信公众所有openId
+                            resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
+                            resultMapDTO.setMessage(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
+                        }
+                    } else {
+                        resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+                    }
+                }
+            }
+        }
+        logger.info("【service】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
      * 根据OpenID向 管理员 发【更新油价】
      * @param paramMap
      */

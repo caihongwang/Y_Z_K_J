@@ -58,4 +58,10 @@ public interface WX_MessageService {
    * @param paramMap
    */
   public ResultMapDTO dailyIllegalUpdateUserInfoMessageSend(Map<String, Object> paramMap) throws Exception;
+
+  /**
+   * 根据OpenID列表群发【车主福利for车用尿素】福利
+   * @param paramMap
+   */
+  public ResultMapDTO dailyCarUreaMessageSend(Map<String, Object> paramMap) throws Exception;
 }

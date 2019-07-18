@@ -101,4 +101,30 @@ public class WX_MessageHandler {
         return resultMapDTO;
     }
 
+    /**
+     * 根据OpenID列表群发-发送车主福利for车用尿素资讯
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO dailyCarUreaMessageSend(Map<String, String> paramMap) {
+        logger.info("【hanlder】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        new Thread(){
+            public void run(){
+                Map<String, Object> objectParamMap = Maps.newHashMap();
+                try {
+                    wxMessageService.dailyCarUreaMessageSend(objectParamMap);
+                } catch (Exception e) {
+                    resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                    resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                    logger.error("【hanlder】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("【hanlder】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
 }
