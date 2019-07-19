@@ -31,17 +31,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final Logger logger = LoggerFactory.getLogger(com.newMall.service.impl.UserDetailsServiceImpl.class);
 
-//    @Autowired
-//    UserDao userDao;
-
     @Autowired
     private WX_UserDao wxUserDao;
 
     @Autowired
     private WX_UserService wxUserService;
-
-//    @Autowired
-//    MenuService menuService;
 
     @Override
     public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {

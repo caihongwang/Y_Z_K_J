@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -57,24 +58,27 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
 
     //认证管理器
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-    /**
-     * token存放位置
-     * @return
-     */
-    @Bean
-    RedisTokenStore redisTokenStore(){
-        return new RedisTokenStore(redisConnectionFactory);
-    }
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    @Bean
-    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
-        return new RedisTokenStore(redisConnectionFactory); //使用redis存储令牌
-    }
+//    /**
+//     * token存放位置
+//     * @return
+//     */
+//    @Bean
+//    RedisTokenStore redisTokenStore(){
+//        return new RedisTokenStore(redisConnectionFactory);
+//    }
+//
+//    @Bean
+//    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
+//        return new RedisTokenStore(redisConnectionFactory); //使用redis存储令牌
+//    }
 
     /**
      * 这个方法主要的作用用于控制token的端点等信息
@@ -84,8 +88,9 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
-        endpoints.tokenStore(myRedisTokenStore);
+        endpoints.userDetailsService(userDetailsService);
         endpoints.accessTokenConverter(accessTokenConverter());
+        endpoints.tokenStore(myRedisTokenStore);
     }
 
     /**
@@ -96,7 +101,6 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
         List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
         Map<String, Object> paramMap = Maps.newHashMap();
@@ -127,8 +131,7 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
                             //设置token有效期
                             .accessTokenValiditySeconds(7 * 24 * 3600)
                             //设置refreshToken有效期
-                            .refreshTokenValiditySeconds(7 * 24 * 3600)
-                    ;
+                            .refreshTokenValiditySeconds(7 * 24 * 3600);
                 } else {
                     Map<String, String> secretUserMap = customMessageAccountList.get(i);
                     builder
@@ -142,8 +145,7 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
                             .accessTokenValiditySeconds(7 * 24 * 3600)
                             //设置refreshToken有效期
                             .refreshTokenValiditySeconds(7 * 24 * 3600)
-                            .and()
-                    ;
+                            .and();
                 }
             }
         } else {

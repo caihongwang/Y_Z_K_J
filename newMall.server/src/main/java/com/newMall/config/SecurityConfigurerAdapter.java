@@ -29,10 +29,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    WX_UserService wxUserService;
+    private WX_UserService wxUserService;
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     /***设置不拦截规则,不许需要济宁权限验证*/
     @Override
