@@ -25,11 +25,11 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
         //油价地图的菜单
         Map<String, Object> paramMap = Maps.newHashMap();
         //油价地图
-        paramMap.put("appId", "wxf768b49ad0a4630c");
-        paramMap.put("secret", "a481dd6bc40c9eec3e57293222e8246f");
+//        paramMap.put("appId", "wxf768b49ad0a4630c");
+//        paramMap.put("secret", "a481dd6bc40c9eec3e57293222e8246f");
 //        //智恵油站
-//        paramMap.put("appId", "wx469a910e7e87b9d4");
-//        paramMap.put("secret", "327047cc315d0c5ab24e62d2efd958c0");
+        paramMap.put("appId", "wx469a910e7e87b9d4");
+        paramMap.put("secret", "327047cc315d0c5ab24e62d2efd958c0");
         this.createCustomMenu(paramMap);
 
 //        getWxUserInfo(
@@ -53,66 +53,35 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
         if("".equals(menuStr)){
             menuStr = "{\n" +
                     "    \"button\":[\n" +
-
-//                    "        {\n" +
-//                    "            \"name\":\"油站运营\",\n" +
-//                    "            \"sub_button\":[\n" +
-//                    "                {\n" +
-//                    "                    \"type\":\"view\",\n" +
-//                    "                    \"name\":\"装逼神器\",\n" +
-//                    "                    \"url\":\"http://www.91caihongwang.com:90/zhuangbi\"\n" +
-//                    "                },\n" +
-//                    "                {\n" +
-//                    "                    \"type\":\"view\",\n" +
-//                    "                    \"name\":\"免费WIFI\",\n" +
-//                    "                    \"url\":\"http://wifi.weixin.qq.com/mbl/connect.xhtml?type=1\"\n" +
-//                    "                },\n" +
-//                    "                {\n" +
-//                    "                    \"type\":\"view\",\n" +
-//                    "                    \"name\":\"油站神器\",\n" +
-//                    "                    \"url\":\"https://mp.weixin.qq.com/s/w2X4xUE0XGrC2lu4Oe475Q\"\n" +
-//                    "                }\n" +
-//                    "            ]\n" +
-//                    "        },\n" +
-
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"油价地图\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +     //油价地图
                     "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"加油红包\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx06ef82e30bbff9ea\",\n" +
+                    "            \"appid\":\"wx6c1c911d03a1251b\",\n" +     //智恵油站
                     "            \"pagepath\":\"pages/other/activity/redActivity/index\"\n" +
                     "        },\n" +
-
-//                    "        {\n" +
-//                    "            \"type\":\"miniprogram\",\n" +
-//                    "            \"name\":\"油站神器\",\n" +
-//                    "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-//                    "            \"appid\":\"wx57a88640fe6eb319\",\n" +
-//                    "            \"pagepath\":\"pages/other/information/wxPublicNumberInformation/informationDetails/index?scene=materialDetailJson%3D%257B%2522materialDetailUrl%2522%253A%2522http%253A//mp.weixin.qq.com/s%253F__biz%253DMzI1ODMwMzAxMw%253D%253D%2526mid%253D100000204%2526idx%253D1%2526sn%253Dfc727f95af80936dac7db021aadfb014%2526chksm%253D6a0b74865d7cfd90b7e42b556ba4bc1205abee3314cfda91071cb5db4089f072d8f969ee7d95%2523rd%2522%252C%2522materialDetailTitle%2522%253A%2522%25u52A0%25u6CB9%25u7AD9%25u795E%25u5668-%25u81EA%25u52A8%25u552E%25u8D27%25u673A%2522%257D\"\n" +
-//                    "        }\n" +
-
                     "        {\n" +
                     "            \"name\":\"油站神器\",\n" +
                     "            \"sub_button\":[\n" +
                     "                {\n" +
                     "                    \"type\":\"miniprogram\",\n" +
-                    "                    \"name\":\"自动售货机\",\n" +
+                    "                    \"name\":\"车用尿素\",\n" +
                     "                    \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "                    \"appid\":\"wx57a88640fe6eb319\",\n" +
-                    "                    \"pagepath\":\"pages/other/information/wxPublicNumberInformation/informationDetails/index?scene=materialDetailJson%3D%257B%2522materialDetailUrl%2522%253A%2522http%253A//mp.weixin.qq.com/s%253F__biz%253DMzI1ODMwMzAxMw%253D%253D%2526mid%253D100000204%2526idx%253D1%2526sn%253Dfc727f95af80936dac7db021aadfb014%2526chksm%253D6a0b74865d7cfd90b7e42b556ba4bc1205abee3314cfda91071cb5db4089f072d8f969ee7d95%2523rd%2522%252C%2522materialDetailTitle%2522%253A%2522%25u52A0%25u6CB9%25u7AD9%25u795E%25u5668-%25u81EA%25u52A8%25u552E%25u8D27%25u673A%2522%257D\"\n" +
+                    "                    \"appid\":\"wx998a2e01a40462a8\",\n" +         //瞅瞅油价
+                    "                    \"pagepath\":\"pages/other/information/wxPublicNumberInformation/informationDetails/index?scene=materialDetailJson%3D%257B%2522materialDetailUrl%2522%253A%2522https%253A//mp.weixin.qq.com/s%253F__biz%253DMzI1ODMwMzAxMw%253D%253D%2526mid%253D100000914%2526idx%253D1%2526sn%253D9a1635f4c2b6063bf35c90193d00391d%2526chksm%253D6a0b71d85d7cf8ce5dff7581eb396525bfc384e60d2e2877a4690ca804ed2e7dcb7ba37e2fe7%2523rd%2522%252C%2522materialDetailTitle%2522%253A%2522%25u8F66%25u4E3B%25u798F%25u5229%25uFF1A%25u8F66%25u7528%25u5C3F%25u7D20%25uFF0C%25u60A8%25u7684%25u53D1%25u52A8%25u673A%25u4E0E%25u56FD%25u6807%25u6392%25u653E%25u4E4B%25u95F4%25u7684%25u8DDD%25u79BB%2522%257D\"\n" +
                     "                },\n" +
                     "                {\n" +
                     "                    \"type\":\"miniprogram\",\n" +
-                    "                    \"name\":\"车用尿素\",\n" +
+                    "                    \"name\":\"自动售货机\",\n" +
                     "                    \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "                    \"appid\":\"wx57a88640fe6eb319\",\n" +
+                    "                    \"appid\":\"wxbaa3f161b9b29742\",\n" +         //瞧瞧油价
                     "                    \"pagepath\":\"pages/other/information/wxPublicNumberInformation/informationDetails/index?scene=materialDetailJson%3D%257B%2522materialDetailUrl%2522%253A%2522http%253A//mp.weixin.qq.com/s%253F__biz%253DMzI1ODMwMzAxMw%253D%253D%2526mid%253D100000204%2526idx%253D1%2526sn%253Dfc727f95af80936dac7db021aadfb014%2526chksm%253D6a0b74865d7cfd90b7e42b556ba4bc1205abee3314cfda91071cb5db4089f072d8f969ee7d95%2523rd%2522%252C%2522materialDetailTitle%2522%253A%2522%25u52A0%25u6CB9%25u7AD9%25u795E%25u5668-%25u81EA%25u52A8%25u552E%25u8D27%25u673A%2522%257D\"\n" +
                     "                }\n" +
                     "            ]\n" +

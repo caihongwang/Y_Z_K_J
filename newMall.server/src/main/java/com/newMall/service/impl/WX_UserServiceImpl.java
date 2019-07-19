@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -30,6 +31,7 @@ import java.util.UUID;
  * @author caihongwang
  */
 @Service
+@Transactional
 public class WX_UserServiceImpl implements WX_UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(com.newMall.service.impl.WX_UserServiceImpl.class);
@@ -139,6 +141,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                     } else {                                            //不存在，则添加
                         //3.添加用户
                         paramMap.put("openId", openid);
+                        paramMap.put("nickName", "默认用户");
                         paramMap.put("balance", "0");           //余额为0
                         paramMap.put("integral", "0");          //积分为0
                         paramMap.put("grayStatus", "0");        //灰度用户状态，0是正常登陆用户，1是不需要登陆的用户
@@ -163,6 +166,14 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+
+                                //更新用户信息--变更数据库，会同属更改缓存中的用户
+                                paramMap.clear();
+                                paramMap.put("id", uid);
+                                paramMap.put("openId", openid);
+                                paramMap.put("nickName", "AAA默认用户AAA");
+                                wxUserDao.updateUser(paramMap);
+
                             } else {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());

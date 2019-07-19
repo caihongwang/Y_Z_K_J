@@ -436,9 +436,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 Date currentDate = new Date();
                                 //2.发送抽奖消息消息
-//                                openIdList.clear();  //模拟只向管理员发送消息
-//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-//                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
+                                openIdList.clear();  //模拟只向管理员发送消息
+                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId
                                 for(String openId : openIdList) {
                                     paramMap.clear();//清空参数，重新准备参数
                                     Map<String, Object> dataMap = Maps.newHashMap();

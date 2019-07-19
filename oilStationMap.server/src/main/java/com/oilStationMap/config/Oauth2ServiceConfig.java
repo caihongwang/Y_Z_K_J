@@ -57,7 +57,7 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
 
     //认证管理器
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
@@ -204,7 +204,6 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              AuthenticationException authException)
                 throws ServletException {
-
             Map map = new HashMap();
             map.put("code", "10002");       //auth的token过期
             map.put("message", authException.getMessage());

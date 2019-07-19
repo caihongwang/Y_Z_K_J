@@ -150,6 +150,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                     } else {                                            //不存在，则添加
                         //3.添加用户
                         paramMap.put("openId", openid);
+                        paramMap.put("nickName", "默认用户");
                         paramMap.put("source", paramMap.get("accountId"));
                         addNum = wxUserDao.addUser(paramMap);
                         //创建session
@@ -170,25 +171,27 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                                 resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
-                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
-                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
-                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
-                                logger.info("创建了一个source="+paramMap.get("accountId")+",openId="+openid+"的用户，其uid="+uid+",请特别注意uid!!!");
-                                if ("1762".equals(uid)){
-                                    paramMap.clear();
-                                    paramMap.put("admin_openId", "oFX2m5C8fpa4o7sHwMFxuAG9zgC8");
-                                    paramMap.put("new_openId", openid);
-                                    new Thread(){
-                                        public void run(){
-                                            try{
-                                                wxMessageService.dailyIllegalUpdateUserInfoMessageSend(paramMap);
-                                            } catch (Exception e1){
-                                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
-                                            }
-                                        }
-                                    }.start();
-                                }
+
+                                //更新用户信息--变更数据库，会同属更改缓存中的用户
+                                paramMap.clear();
+                                paramMap.put("id", uid);
+                                paramMap.put("openId", openid);
+                                paramMap.put("nickName", "AAA默认用户AAA");
+                                wxUserDao.updateUser(paramMap);
+//                                if ("1762".equals(uid)){
+//                                    paramMap.clear();
+//                                    paramMap.put("admin_openId", "oFX2m5C8fpa4o7sHwMFxuAG9zgC8");
+//                                    paramMap.put("new_openId", openid);
+//                                    new Thread(){
+//                                        public void run(){
+//                                            try{
+//                                                wxMessageService.dailyIllegalUpdateUserInfoMessageSend(paramMap);
+//                                            } catch (Exception e1){
+//                                                logger.info("服务器异常，发送消息通知管理员异常，e : ", e1);
+//                                            }
+//                                        }
+//                                    }.start();
+//                                }
                             } else {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
