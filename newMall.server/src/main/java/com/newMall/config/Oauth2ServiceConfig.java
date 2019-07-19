@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -66,19 +67,19 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-//    /**
-//     * token存放位置
-//     * @return
-//     */
-//    @Bean
-//    RedisTokenStore redisTokenStore(){
-//        return new RedisTokenStore(redisConnectionFactory);
-//    }
-//
-//    @Bean
-//    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
-//        return new RedisTokenStore(redisConnectionFactory); //使用redis存储令牌
-//    }
+    /**
+     * token存放位置
+     * @return
+     */
+    @Bean
+    RedisTokenStore redisTokenStore(){
+        return new RedisTokenStore(redisConnectionFactory);
+    }
+
+    @Bean
+    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
+        return new RedisTokenStore(redisConnectionFactory); //使用redis存储令牌
+    }
 
     /**
      * 这个方法主要的作用用于控制token的端点等信息
@@ -206,7 +207,6 @@ public class Oauth2ServiceConfig extends AuthorizationServerConfigurerAdapter {
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              AuthenticationException authException)
                 throws ServletException {
-
             Map map = new HashMap();
             map.put("code", "10002");       //auth的token过期
             map.put("message", authException.getMessage());
