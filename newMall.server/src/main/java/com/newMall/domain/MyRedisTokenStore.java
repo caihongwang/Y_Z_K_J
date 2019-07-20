@@ -88,7 +88,12 @@ public class MyRedisTokenStore implements TokenStore {
 
     @Override
     public OAuth2AccessToken getAccessToken(OAuth2Authentication authentication) {
-        String key = this.authenticationKeyGenerator.extractKey(authentication);
+//        //原来的 key,容易导致多用户的 key值一样
+//        String key = this.authenticationKeyGenerator.extractKey(authentication);
+        //使用uid为key
+        WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+        String key = wxCurrentUser.getUid();
+
         byte[] serializedKey = this.serializeKey(AUTH_TO_ACCESS + key);
         byte[] bytes = null;
         RedisConnection conn = this.getConnection();
@@ -104,6 +109,17 @@ public class MyRedisTokenStore implements TokenStore {
                 this.storeAccessToken(accessToken, authentication);
             }
         }
+
+        //start for 自测
+        conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
+        System.out.println("=========================================================");
+        System.out.println("=========================================================");
+        System.out.println("getAccessToken for uid="+wxCurrentUser.getUid());
+        System.out.println("getAccessToken for accessKey="+new String(serializedKey));
+        System.out.println("=========================================================");
+        System.out.println("=========================================================");
+        //end for 自测
+
         return accessToken;
     }
 
@@ -143,11 +159,15 @@ public class MyRedisTokenStore implements TokenStore {
 
     @Override
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
+//        //原来的 key,容易导致多用户的 key值一样
+//        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + authenticationKeyGenerator.extractKey(authentication));
+        //使用uid为key
+        WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + wxCurrentUser.getUid());
         byte[] serializedAccessToken = serialize(token);
         byte[] serializedAuth = serialize(authentication);
         byte[] accessKey = serializeKey(ACCESS + token.getValue());
         byte[] authKey = serializeKey(AUTH + token.getValue());
-        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + authenticationKeyGenerator.extractKey(authentication));
         byte[] approvalKey = serializeKey(UNAME_TO_ACCESS + getApprovalKey(authentication));
         byte[] clientId = serializeKey(CLIENT_ID_TO_ACCESS + authentication.getOAuth2Request().getClientId());
 
@@ -159,8 +179,13 @@ public class MyRedisTokenStore implements TokenStore {
             conn.stringCommands().set(authToAccessKey, serializedAccessToken);
 
             //start for 自测
-            WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
             conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
+            System.out.println("=========================================================");
+            System.out.println("=========================================================");
+            System.out.println("storeAccessToken for uid="+wxCurrentUser.getUid());
+            System.out.println("storeAccessToken for authToAccessKey="+new String(authToAccessKey));
+            System.out.println("=========================================================");
+            System.out.println("=========================================================");
             //end for 自测
 
             if (!authentication.isClientOnly()) {
@@ -247,7 +272,12 @@ public class MyRedisTokenStore implements TokenStore {
 
             OAuth2Authentication authentication = deserializeAuthentication(auth);
             if (authentication != null) {
-                String key = authenticationKeyGenerator.extractKey(authentication);
+//              //原来的 key,容易导致多用户的 key值一样
+//              String key = this.authenticationKeyGenerator.extractKey(authentication);
+                //使用uid为key
+                WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+                String key = wxCurrentUser.getUid();
+
                 byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + key);
                 byte[] unameKey = serializeKey(UNAME_TO_ACCESS + getApprovalKey(authentication));
                 byte[] clientId = serializeKey(CLIENT_ID_TO_ACCESS + authentication.getOAuth2Request().getClientId());
