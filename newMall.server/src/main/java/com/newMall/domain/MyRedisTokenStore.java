@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
+import com.newMall.secuity.WX_User;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
@@ -154,6 +157,12 @@ public class MyRedisTokenStore implements TokenStore {
             conn.stringCommands().set(accessKey, serializedAccessToken);
             conn.stringCommands().set(authKey, serializedAuth);
             conn.stringCommands().set(authToAccessKey, serializedAccessToken);
+
+            //start for 自测
+            WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+            conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
+            //end for 自测
+
             if (!authentication.isClientOnly()) {
                 conn.rPush(approvalKey, serializedAccessToken);
             }
