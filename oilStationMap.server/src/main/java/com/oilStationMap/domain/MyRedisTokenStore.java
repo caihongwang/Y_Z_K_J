@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
+import com.oilStationMap.secuity.WX_User;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
@@ -30,11 +33,9 @@ public class MyRedisTokenStore implements TokenStore {
     private static final String REFRESH_TO_ACCESS = "refresh_to_access:";
     private static final String CLIENT_ID_TO_ACCESS = "client_id_to_access:";
     private static final String UNAME_TO_ACCESS = "uname_to_access:";
-
     private final RedisConnectionFactory connectionFactory;
     private AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
     private RedisTokenStoreSerializationStrategy serializationStrategy = new JdkSerializationStrategy();
-
     private String prefix = "";
 
     public MyRedisTokenStore(RedisConnectionFactory connectionFactory) {
@@ -54,80 +55,95 @@ public class MyRedisTokenStore implements TokenStore {
     }
 
     private RedisConnection getConnection() {
-        return connectionFactory.getConnection();
+        return this.connectionFactory.getConnection();
     }
 
     private byte[] serialize(Object object) {
-        return serializationStrategy.serialize(object);
+        return this.serializationStrategy.serialize(object);
     }
 
     private byte[] serializeKey(String object) {
-        return serialize(prefix + object);
+        return this.serialize(this.prefix + object);
     }
 
     private OAuth2AccessToken deserializeAccessToken(byte[] bytes) {
-        return serializationStrategy.deserialize(bytes, OAuth2AccessToken.class);
+        return (OAuth2AccessToken)this.serializationStrategy.deserialize(bytes, OAuth2AccessToken.class);
     }
 
     private OAuth2Authentication deserializeAuthentication(byte[] bytes) {
-        return serializationStrategy.deserialize(bytes, OAuth2Authentication.class);
+        return (OAuth2Authentication)this.serializationStrategy.deserialize(bytes, OAuth2Authentication.class);
     }
 
     private OAuth2RefreshToken deserializeRefreshToken(byte[] bytes) {
-        return serializationStrategy.deserialize(bytes, OAuth2RefreshToken.class);
+        return (OAuth2RefreshToken)this.serializationStrategy.deserialize(bytes, OAuth2RefreshToken.class);
     }
 
     private byte[] serialize(String string) {
-        return serializationStrategy.serialize(string);
+        return this.serializationStrategy.serialize(string);
     }
 
     private String deserializeString(byte[] bytes) {
-        return serializationStrategy.deserializeString(bytes);
+        return this.serializationStrategy.deserializeString(bytes);
     }
 
     @Override
     public OAuth2AccessToken getAccessToken(OAuth2Authentication authentication) {
-        String key = authenticationKeyGenerator.extractKey(authentication);
-        byte[] serializedKey = serializeKey(AUTH_TO_ACCESS + key);
+//        //原来的 key,容易导致多用户的 key值一样
+//        String key = this.authenticationKeyGenerator.extractKey(authentication);
+        //使用uid为key
+        WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+        String key = wxCurrentUser.getUid();
+
+        byte[] serializedKey = this.serializeKey(AUTH_TO_ACCESS + key);
         byte[] bytes = null;
-        RedisConnection conn = getConnection();
+        RedisConnection conn = this.getConnection();
         try {
             bytes = conn.get(serializedKey);
         } finally {
             conn.close();
         }
-        OAuth2AccessToken accessToken = deserializeAccessToken(bytes);
-        if (accessToken != null
-                && !key.equals(authenticationKeyGenerator.extractKey(readAuthentication(accessToken.getValue())))) {
-            // Keep the stores consistent (maybe the same user is
-            // represented by this authentication but the details have
-            // changed)
-            storeAccessToken(accessToken, authentication);
+        OAuth2AccessToken accessToken = this.deserializeAccessToken(bytes);
+        if (accessToken != null) {
+            OAuth2Authentication storedAuthentication = this.readAuthentication(accessToken.getValue());
+            if (storedAuthentication == null || !key.equals(this.authenticationKeyGenerator.extractKey(storedAuthentication))) {
+                this.storeAccessToken(accessToken, authentication);
+            }
         }
+
+        //start for 自测
+        conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
+        System.out.println("=========================================================");
+        System.out.println("=========================================================");
+        System.out.println("getAccessToken for uid="+wxCurrentUser.getUid());
+        System.out.println("getAccessToken for accessKey="+new String(serializedKey));
+        System.out.println("=========================================================");
+        System.out.println("=========================================================");
+        //end for 自测
+
         return accessToken;
     }
 
     @Override
     public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
-        return readAuthentication(token.getValue());
+        return this.readAuthentication(token.getValue());
     }
 
     @Override
     public OAuth2Authentication readAuthentication(String token) {
         byte[] bytes = null;
-        RedisConnection conn = getConnection();
+        RedisConnection conn = this.getConnection();
         try {
-            bytes = conn.get(serializeKey(AUTH + token));
+            bytes = conn.get(this.serializeKey("auth:" + token));
         } finally {
             conn.close();
         }
-        OAuth2Authentication auth = deserializeAuthentication(bytes);
+        OAuth2Authentication auth = this.deserializeAuthentication(bytes);
         return auth;
     }
 
     @Override
     public OAuth2Authentication readAuthenticationForRefreshToken(OAuth2RefreshToken token) {
-        return readAuthenticationForRefreshToken(token.getValue());
+        return this.readAuthenticationForRefreshToken(token.getValue());
     }
 
     public OAuth2Authentication readAuthenticationForRefreshToken(String token) {
@@ -143,11 +159,15 @@ public class MyRedisTokenStore implements TokenStore {
 
     @Override
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
+//        //原来的 key,容易导致多用户的 key值一样
+//        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + authenticationKeyGenerator.extractKey(authentication));
+        //使用uid为key
+        WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + wxCurrentUser.getUid());
         byte[] serializedAccessToken = serialize(token);
         byte[] serializedAuth = serialize(authentication);
         byte[] accessKey = serializeKey(ACCESS + token.getValue());
         byte[] authKey = serializeKey(AUTH + token.getValue());
-        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + authenticationKeyGenerator.extractKey(authentication));
         byte[] approvalKey = serializeKey(UNAME_TO_ACCESS + getApprovalKey(authentication));
         byte[] clientId = serializeKey(CLIENT_ID_TO_ACCESS + authentication.getOAuth2Request().getClientId());
 
@@ -157,6 +177,17 @@ public class MyRedisTokenStore implements TokenStore {
             conn.stringCommands().set(accessKey, serializedAccessToken);
             conn.stringCommands().set(authKey, serializedAuth);
             conn.stringCommands().set(authToAccessKey, serializedAccessToken);
+
+            //start for 自测
+            conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
+            System.out.println("=========================================================");
+            System.out.println("=========================================================");
+            System.out.println("storeAccessToken for uid="+wxCurrentUser.getUid());
+            System.out.println("storeAccessToken for authToAccessKey="+new String(authToAccessKey));
+            System.out.println("=========================================================");
+            System.out.println("=========================================================");
+            //end for 自测
+
             if (!authentication.isClientOnly()) {
                 conn.rPush(approvalKey, serializedAccessToken);
             }
@@ -195,8 +226,7 @@ public class MyRedisTokenStore implements TokenStore {
     }
 
     private static String getApprovalKey(OAuth2Authentication authentication) {
-        String userName = authentication.getUserAuthentication() == null ? ""
-                : authentication.getUserAuthentication().getName();
+        String userName = authentication.getUserAuthentication() == null ? "": authentication.getUserAuthentication().getName();
         return getApprovalKey(authentication.getOAuth2Request().getClientId(), userName);
     }
 
@@ -206,7 +236,7 @@ public class MyRedisTokenStore implements TokenStore {
 
     @Override
     public void removeAccessToken(OAuth2AccessToken accessToken) {
-        removeAccessToken(accessToken.getValue());
+        this.removeAccessToken(accessToken.getValue());
     }
 
     @Override
@@ -242,7 +272,12 @@ public class MyRedisTokenStore implements TokenStore {
 
             OAuth2Authentication authentication = deserializeAuthentication(auth);
             if (authentication != null) {
-                String key = authenticationKeyGenerator.extractKey(authentication);
+//              //原来的 key,容易导致多用户的 key值一样
+//              String key = this.authenticationKeyGenerator.extractKey(authentication);
+                //使用uid为key
+                WX_User wxCurrentUser = (WX_User) authentication.getPrincipal();
+                String key = wxCurrentUser.getUid();
+
                 byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + key);
                 byte[] unameKey = serializeKey(UNAME_TO_ACCESS + getApprovalKey(authentication));
                 byte[] clientId = serializeKey(CLIENT_ID_TO_ACCESS + authentication.getOAuth2Request().getClientId());
@@ -300,7 +335,7 @@ public class MyRedisTokenStore implements TokenStore {
 
     @Override
     public void removeRefreshToken(OAuth2RefreshToken refreshToken) {
-        removeRefreshToken(refreshToken.getValue());
+        this.removeRefreshToken(refreshToken.getValue());
     }
 
     public void removeRefreshToken(String tokenValue) {
@@ -323,7 +358,7 @@ public class MyRedisTokenStore implements TokenStore {
 
     @Override
     public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
-        removeAccessTokenUsingRefreshToken(refreshToken.getValue());
+        this.removeAccessTokenUsingRefreshToken(refreshToken.getValue());
     }
 
     private void removeAccessTokenUsingRefreshToken(String refreshToken) {
