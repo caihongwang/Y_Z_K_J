@@ -141,7 +141,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                     } else {                                            //不存在，则添加
                         //3.添加用户
                         paramMap.put("openId", openid);
-                        paramMap.put("nickName", "默认用户");
+                        paramMap.put("nickName", "惠生活-默认账户");
                         paramMap.put("balance", "0");           //余额为0
                         paramMap.put("integral", "0");          //积分为0
                         paramMap.put("grayStatus", "0");        //灰度用户状态，0是正常登陆用户，1是不需要登陆的用户
@@ -166,14 +166,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-
-                                //更新用户信息--变更数据库，会同属更改缓存中的用户
-                                paramMap.clear();
-                                paramMap.put("id", uid);
-                                paramMap.put("openId", openid);
-                                paramMap.put("nickName", "AAA默认用户AAA");
-                                wxUserDao.updateUser(paramMap);
-
                             } else {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());

@@ -150,7 +150,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                     } else {                                            //不存在，则添加
                         //3.添加用户
                         paramMap.put("openId", openid);
-                        paramMap.put("nickName", "默认用户");
+                        paramMap.put("nickName", "油站科技-默认账户");
                         paramMap.put("source", paramMap.get("accountId"));
                         addNum = wxUserDao.addUser(paramMap);
                         //创建session
@@ -171,13 +171,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMapDTO.setResultMap(resultMap);
                                 resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                                 resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-
-                                //更新用户信息--变更数据库，会同属更改缓存中的用户
-                                paramMap.clear();
-                                paramMap.put("id", uid);
-                                paramMap.put("openId", openid);
-                                paramMap.put("nickName", "AAA默认用户AAA");
-                                wxUserDao.updateUser(paramMap);
 //                                if ("1762".equals(uid)){
 //                                    paramMap.clear();
 //                                    paramMap.put("admin_openId", "oFX2m5C8fpa4o7sHwMFxuAG9zgC8");
