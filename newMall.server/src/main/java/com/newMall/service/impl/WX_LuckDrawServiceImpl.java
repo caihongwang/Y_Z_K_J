@@ -139,6 +139,11 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                                         resultMapDTO.setResultMap(resultMap);
                                         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                                         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                                        //备注：抽中奖后，自动转换为积分并添加到用户的积分池中
+                                        paramMap.clear();
+                                        paramMap.put("uid", uid);
+                                        paramMap.put("wxOrderId", wxOrderId);
+                                        this.convertIntegral(paramMap);
                                     } else {
                                         resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                                         resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
