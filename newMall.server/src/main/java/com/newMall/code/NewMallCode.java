@@ -241,9 +241,9 @@ public class NewMallCode {
 
     //微信小程序
     public static final String WX_MINI_PROGRAM_NAME = "惠生活";     //小程序名称
-    public static final String WX_MINI_PROGRAM_GH_ID = "gh_97b78683d2c9";     //小程序原始ID
-    public static final String WX_MINI_PROGRAM_APPID = "wx54847eda0638538e";     //appid
-    public static final String WX_MINI_PROGRAM_SECRET = "c602d2b8fb984603cc82d3747c9bbb64";    //secret
+    public static final String WX_MINI_PROGRAM_GH_ID = "gh_051743a1ae1f";     //小程序原始ID
+    public static final String WX_MINI_PROGRAM_APPID = "wx57a88640fe6eb319";     //appid
+    public static final String WX_MINI_PROGRAM_SECRET = "7bee7ff19ea5ce13333009213ddd003d";    //secret
     public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID = "authorization_code";    //grant_type
     public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_ACCESS_TOKEN = "client_credential";    //grant_type
 

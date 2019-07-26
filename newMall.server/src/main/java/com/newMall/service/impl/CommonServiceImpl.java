@@ -305,7 +305,7 @@ public class CommonServiceImpl implements CommonService {
         //默认 文本消息
         String customMessageStr = com.newMall.utils.CustomMessageUtil.makeTextCustomMessage(
                 FromUserName,
-                "<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx54847eda0638538e' data-miniprogram-path='pages/index/index'>点击跳转【惠生活】小程序</a>"
+                "<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx57a88640fe6eb319\' data-miniprogram-path=\'pages/index/index\'>点击跳转【惠生活】小程序</a>"
         );
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
         //根据ToUserName获取对应 公众号或者小程序的账号
@@ -397,13 +397,13 @@ public class CommonServiceImpl implements CommonService {
                         } else {
                             customMessageStr = com.newMall.utils.CustomMessageUtil.makeTextCustomMessage(
                                     FromUserName,
-                                    "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx54847eda0638538e\' data-miniprogram-path=\'pages/index/index\'>【惠生活】</a>小程序"
+                                    "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx57a88640fe6eb319\' data-miniprogram-path=\'pages/index/index\'>【惠生活】</a>小程序"
                             );
                         }
                     } else {
                         customMessageStr = com.newMall.utils.CustomMessageUtil.makeTextCustomMessage(
                                 FromUserName,
-                                "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx54847eda0638538e\' data-miniprogram-path=\'pages/index/index\'>【惠生活】</a>小程序"
+                                "加油站的油价都在这里，赶紧关注吧，秒慢无.。点击跳转<a href=\'http://www.qq.com\' data-miniprogram-appid=\'wx57a88640fe6eb319\' data-miniprogram-path=\'pages/index/index\'>【惠生活】</a>小程序"
                         );
                     }
                     logger.info("微信客服消息参数 = " + customMessageStr);

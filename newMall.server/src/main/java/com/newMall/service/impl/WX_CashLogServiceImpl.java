@@ -238,7 +238,7 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                                 cashRedPacketParamMap.put("amount", cashRedPacketTotal);
                                 cashRedPacketParamMap.put("openId", openId);
                                 cashRedPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                                cashRedPacketParamMap.put("wxPublicNumGhId", "gh_97b78683d2c9");
+                                cashRedPacketParamMap.put("wxPublicNumGhId", "gh_051743a1ae1f");
                                 cashRedPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                                 resultMapDTO = wxRedPacketService.enterprisePayment(cashRedPacketParamMap);
 
