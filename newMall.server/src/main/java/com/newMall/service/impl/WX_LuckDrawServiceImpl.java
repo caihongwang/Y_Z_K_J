@@ -876,49 +876,61 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 //获取订单的交易总金额
                 Map<String, Object> luckDrawMap = luckDrawList.get(0);
                 Double payMoney = luckDrawMap.get("payMoney")!=null?Double.parseDouble(luckDrawMap.get("payMoney").toString()):0.0;
-                Double useBalanceMonney = luckDrawMap.get("useBalanceMonney")!=null?Double.parseDouble(luckDrawMap.get("useBalanceMonney").toString()):0.0;
-                Double orderPayMoney = payMoney + useBalanceMonney;     //交易的总金额转化为积分
-                //获取用户的总积分
-                Double integral = luckDrawMap.get("integral")!=null?Double.parseDouble(luckDrawMap.get("integral").toString()):0.0;
-                Double newIntegral = integral + orderPayMoney;
-                BigDecimal bg = new BigDecimal(newIntegral);
-                newIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                //更新 抽奖状态 为 已发送
-                Map<String, Object> luckDrawParamMap = Maps.newHashMap();
-                luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
-                luckDrawMap.put("wxOrderId", wxOrderId);
-                luckDrawMap.put("remark", "奖励到用户积分：" + orderPayMoney + "个，当前用户积分总数：" + newIntegral + "个.");
-                updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawMap);
-                if (updateNum != null && updateNum > 0) {
-                    //更新 用户积分 为 原积分数量+订单交易总金额
-                    Map<String, Object> userParamMap = Maps.newHashMap();
-                    userParamMap.clear();
-                    userParamMap.put("id", uid);
-                    userParamMap.put("integral", newIntegral);
-                    updateNum = wxUserDao.updateUser(userParamMap);
-                    String exchangeStatus = "0";
+                String cashBackModeJson = luckDrawMap.get("cashBackModeJson")!=null?luckDrawMap.get("cashBackModeJson").toString():"";
+                //对返现模式json进行解析
+                Map<String, String> cashBackModeMap = JSONObject.parseObject(cashBackModeJson, Map.class);
+                Double proportion = Double.parseDouble(cashBackModeMap.get("proportion"));
+                if(proportion != null){
+                    Double orderPayMoney = payMoney * proportion;     //交易的总金额转化为积分
+                    //获取用户的总积分
+                    Double integral = luckDrawMap.get("integral")!=null?Double.parseDouble(luckDrawMap.get("integral").toString()):0.0;
+                    Double newIntegral = integral + orderPayMoney;
+                    BigDecimal bg = new BigDecimal(newIntegral);
+                    newIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    //更新 抽奖状态 为 已发送
+                    Map<String, Object> luckDrawParamMap = Maps.newHashMap();
+                    luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
+                    luckDrawMap.put("wxOrderId", wxOrderId);
+                    luckDrawMap.put("remark", "奖励到用户积分：" + orderPayMoney + "个，当前用户积分总数：" + newIntegral + "个.");
+                    updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawMap);
                     if (updateNum != null && updateNum > 0) {
-                        exchangeStatus = "1";
-                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                        //更新 用户积分 为 原积分数量+订单交易总金额
+                        Map<String, Object> userParamMap = Maps.newHashMap();
+                        userParamMap.clear();
+                        userParamMap.put("id", uid);
+                        userParamMap.put("integral", newIntegral);
+                        updateNum = wxUserDao.updateUser(userParamMap);
+                        String exchangeStatus = "0";
+                        if (updateNum != null && updateNum > 0) {
+                            exchangeStatus = "1";
+                            resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                            resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                        } else {
+                            exchangeStatus = "0";
+                            resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getNo());
+                            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getMessage());
+                        }
+
+                        //插入兑换积分日志
+                        Map<String, Object> integralLog = Maps.newHashMap();
+                        integralLog.put("uid", uid);
+                        integralLog.put("exchangeToUserIntegral", orderPayMoney);
+                        integralLog.put("userIntegral", newIntegral);
+                        integralLog.put("exchangeStatus", exchangeStatus);
+                        integralLog.put("remark", "用户兑换积分：" + orderPayMoney + "个，当前用户积分总数：" + newIntegral + "个.");
+                        wxIntegralLogService.addIntegralLog(integralLog);
+
                     } else {
-                        exchangeStatus = "0";
-                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getNo());
-                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getMessage());
+                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getNo());
+                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getMessage());
                     }
-
-                    //插入兑换积分日志
-                    Map<String, Object> integralLog = Maps.newHashMap();
-                    integralLog.put("uid", uid);
-                    integralLog.put("exchangeToUserIntegral", orderPayMoney);
-                    integralLog.put("userIntegral", newIntegral);
-                    integralLog.put("exchangeStatus", exchangeStatus);
-                    integralLog.put("remark", "用户兑换积分：" + orderPayMoney + "个，当前用户积分总数：" + newIntegral + "个.");
-                    wxIntegralLogService.addIntegralLog(integralLog);
-
                 } else {
-                    resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getNo());
-                    resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getMessage());
+                    //返现比例不存在
+                    logger.info("当前用户 uid = " + uid +
+                            " ，订单金额 payMoney = " + payMoney +
+                            " ，返现比例不存在，请联系管理员.");
+                    resultMapDTO.setCode(NewMallCode.LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER.getNo());
+                    resultMapDTO.setMessage(NewMallCode.LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER.getMessage());
                 }
             } else {
                 resultMapDTO.setCode(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getNo());
