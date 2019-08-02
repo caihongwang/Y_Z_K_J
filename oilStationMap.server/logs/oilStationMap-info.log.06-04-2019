@@ -1,0 +1,26 @@
+2019-06-04 at 15:58:20.311 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-04 at 15:58:32.350 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-04 at 15:58:36.038 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1820f274
+2019-06-04 at 15:58:52.849 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 35.869 seconds (JVM running for 42.292)
+2019-06-04 at 15:58:53.587 CST INFO  com.oilStationMap.MySuperTest Test-uid = 4442 , currentLon = 109.16912 , currentLat = 28.098309
+2019-06-04 at 15:59:24.754 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-04 at 15:59:37.190 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-04 at 15:59:41.149 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@54b35809
+2019-06-04 at 15:59:58.856 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 37.546 seconds (JVM running for 42.36)
+2019-06-04 at 15:59:59.575 CST INFO  com.oilStationMap.MySuperTest Test-uid = 3613 , currentLon = 109.16912 , currentLat = 28.098309
+2019-06-04 at 16:29:02.212 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-04 at 16:29:13.603 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-04 at 16:29:17.388 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@9dbb1d9
+2019-06-04 at 16:29:36.222 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 38.182 seconds (JVM running for 44.155)
+2019-06-04 at 16:30:18.462 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-04 at 16:30:29.017 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-04 at 16:30:33.968 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@6e1d9b32
+2019-06-04 at 16:30:50.698 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 35.577 seconds (JVM running for 40.661)
+2019-06-04 at 16:31:29.929 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-04 at 16:31:39.954 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-04 at 16:31:43.348 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@4693d24f
+2019-06-04 at 16:31:59.031 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 31.943 seconds (JVM running for 37.584)
+2019-06-04 at 16:33:36.319 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-04 at 16:33:50.138 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-04 at 16:33:54.849 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@31cd0efa
+2019-06-04 at 16:34:12.130 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 39.365 seconds (JVM running for 44.49)

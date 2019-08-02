@@ -1,0 +1,80 @@
+2019-07-12 at 15:48:07.288 CST INFO  com.oilStationMap.service.impl.WX_OilStationServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-12 at 15:48:14.286 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-12 at 15:48:16.841 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@41d84abb
+2019-07-12 at 15:48:25.030 CST INFO  com.oilStationMap.service.impl.WX_OilStationServiceImplTest logStarted-Started WX_OilStationServiceImplTest in 20.038 seconds (JVM running for 25.16)
+2019-07-12 at 19:01:31.837 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-12 at 19:01:41.780 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-12 at 19:01:46.325 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1ec4fdcf
+2019-07-12 at 19:02:01.589 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 33.21 seconds (JVM running for 38.869)
+2019-07-12 at 19:02:02.274 CST INFO  com.oilStationMap.MySuperTest Test-uid = 1762 , currentLon = 109.24415 , currentLat = 28.03079
+2019-07-18 at 10:52:43.076 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 10:53:14.774 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 10:53:20.534 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 10:53:23.710 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@5e976553
+2019-07-18 at 10:53:32.657 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImplTest logStarted-Started WX_MessageServiceImplTest in 19.894 seconds (JVM running for 23.438)
+2019-07-18 at 10:53:32.924 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-【service】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend,请求-paramMap:{}
+2019-07-18 at 10:53:33.317 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@54632794
+2019-07-18 at 10:53:34.068 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563418413330 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 10:53:34.350 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563418414068 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/user/get status=200
+2019-07-18 at 10:53:34.731 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563418414409 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 10:53:35.104 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563418414732 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/user/get status=200
+2019-07-18 at 10:53:37.140 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = oJcI1wt-ibRdgri1y8qKYCRQaq8g
+2019-07-18 at 10:53:37.141 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = oJcI1wt-ibRdgri1y8qKYCRQaq8g
+2019-07-18 at 10:53:37.141 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = oJcI1wt-ibRdgri1y8qKYCRQaq8g
+2019-07-18 at 10:53:37.446 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563418417142 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 10:53:38.098 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-向微信服务器发送请求获取，获取响应的is {"errcode":0,"errmsg":"ok","msgid":903052895388647425}
+2019-07-18 at 10:53:38.100 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@7bd4f212
+2019-07-18 at 10:53:40.103 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = ovrxT5trVCVftVpNznW7Rz-oXP5k
+2019-07-18 at 10:53:40.104 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = ovrxT5trVCVftVpNznW7Rz-oXP5k
+2019-07-18 at 10:53:40.104 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-每个用户之间缓冲两秒进行发送，发送车主福利for车用尿素资讯，当前openId = ovrxT5trVCVftVpNznW7Rz-oXP5k
+2019-07-18 at 10:53:40.389 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563418420104 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 10:53:40.769 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-向微信服务器发送请求获取，获取响应的is {"errcode":40003,"errmsg":"invalid openid hint: [LB12AA04203929]"}
+2019-07-18 at 10:53:40.769 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@2ca9e25a
+2019-07-18 at 10:53:40.770 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImpl dailyCarUreaMessageSend-【service】发送车主福利for车用尿素资讯-dailyCarUreaMessageSend,响应-response:com.oilStationMap.dto.ResultMapDTO@57642552
+2019-07-18 at 10:54:24.935 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 10:54:31.130 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 17:58:19.752 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 17:58:29.612 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 17:58:32.582 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@58932d08
+2019-07-18 at 17:58:48.401 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStarted-Started WX_CustomMenuServiceImplTest in 31.782 seconds (JVM running for 37.995)
+2019-07-18 at 17:58:49.108 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,请求-paramMap:{appId=wxf768b49ad0a4630c, secret=a481dd6bc40c9eec3e57293222e8246f}
+2019-07-18 at 17:58:50.093 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563443929125 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 17:58:50.096 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563443930095 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=23_04xQUfOMh6_MqP-_7Sk91c5bFbiZQcJgbT60EoM1_BdonDJgxVAeHO29zH_9X753a-qNQBfp1BSZatTXiBYRmemsCnyCxGkanaJ6Io6adAG1mTyauk_trs7BP4Nucs5n1etbNG9mw8_dtOtgHDQfAEACYL
+2019-07-18 at 17:58:51.177 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563443930095 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=23_04xQUfOMh6_MqP-_7Sk91c5bFbiZQcJgbT60EoM1_BdonDJgxVAeHO29zH_9X753a-qNQBfp1BSZatTXiBYRmemsCnyCxGkanaJ6Io6adAG1mTyauk_trs7BP4Nucs5n1etbNG9mw8_dtOtgHDQfAEACYL status=200
+2019-07-18 at 17:58:51.178 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,响应-response:com.oilStationMap.dto.ResultMapDTO@5037f491
+2019-07-18 at 18:10:55.800 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 18:11:03.486 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 18:11:06.991 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@2cc9a948
+2019-07-18 at 18:11:17.162 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStarted-Started WX_CustomMenuServiceImplTest in 23.884 seconds (JVM running for 28.429)
+2019-07-18 at 18:11:17.470 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,请求-paramMap:{appId=wxf768b49ad0a4630c, secret=a481dd6bc40c9eec3e57293222e8246f}
+2019-07-18 at 18:11:18.230 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563444677487 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 18:11:18.233 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563444678232 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=23_dUzLWmtJv3ekfEj2xnpq_JJzMDAUgfvPS4s0tzeTnS1FGp3S6rvSTXKKChPSILTDYCvlg0NmwbC3Q7cAke9grBL3j7U9mRD6hUgPSx7Fzk1nHSHmzx2-mIZfU8O42jgiXlRsZW8kcIeHRfBUGKYjAIAYCQ
+2019-07-18 at 18:11:19.730 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563444678232 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=23_dUzLWmtJv3ekfEj2xnpq_JJzMDAUgfvPS4s0tzeTnS1FGp3S6rvSTXKKChPSILTDYCvlg0NmwbC3Q7cAke9grBL3j7U9mRD6hUgPSx7Fzk1nHSHmzx2-mIZfU8O42jgiXlRsZW8kcIeHRfBUGKYjAIAYCQ status=200
+2019-07-18 at 18:11:19.731 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,响应-response:com.oilStationMap.dto.ResultMapDTO@56a8b19f
+2019-07-18 at 18:13:19.170 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 18:13:25.833 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 18:13:29.211 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@7f9e6167
+2019-07-18 at 18:13:38.771 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStarted-Started WX_CustomMenuServiceImplTest in 21.645 seconds (JVM running for 25.807)
+2019-07-18 at 18:13:39.034 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,请求-paramMap:{appId=wx469a910e7e87b9d4, secret=327047cc315d0c5ab24e62d2efd958c0}
+2019-07-18 at 18:13:40.024 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563444819052 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 18:13:40.028 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563444820027 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=
+2019-07-18 at 18:13:40.306 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563444820027 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token= status=200
+2019-07-18 at 18:13:40.307 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,响应-response:com.oilStationMap.dto.ResultMapDTO@18b8518b
+2019-07-18 at 18:16:01.844 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 18:16:08.683 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 18:16:11.975 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@603faaad
+2019-07-18 at 18:16:21.498 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStarted-Started WX_CustomMenuServiceImplTest in 21.615 seconds (JVM running for 25.418)
+2019-07-18 at 18:16:21.749 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,请求-paramMap:{appId=wx469a910e7e87b9d4, secret=327047cc315d0c5ab24e62d2efd958c0}
+2019-07-18 at 18:16:22.461 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563444981761 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 18:16:22.464 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563444982463 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=
+2019-07-18 at 18:16:22.717 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563444982463 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token= status=200
+2019-07-18 at 18:16:22.717 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,响应-response:com.oilStationMap.dto.ResultMapDTO@29e8c09c
+2019-07-18 at 18:21:50.051 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-07-18 at 18:21:56.399 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-07-18 at 18:21:59.444 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@33563147
+2019-07-18 at 18:22:08.544 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStarted-Started WX_CustomMenuServiceImplTest in 20.704 seconds (JVM running for 24.864)
+2019-07-18 at 18:22:08.921 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,请求-paramMap:{appId=wx469a910e7e87b9d4, secret=327047cc315d0c5ab24e62d2efd958c0}
+2019-07-18 at 18:22:09.781 CST INFO  com.oilStationMap.utils.HttpsUtil get-1563445328938 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-07-18 at 18:22:09.784 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563445329782 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=23_FpZu1lmtzcsZX6D8mQkV0AEJdtsWK-uajc9FNpszwaR480Rl1QPQEMFVEioAXNek5zLIAxSmHgUsQoxQILvMIjzO0FRdj25PkI92_xSIkvW9ySbUoOH0KaxzgDADZWeACAMIF
+2019-07-18 at 18:22:10.985 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1563445329782 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=23_FpZu1lmtzcsZX6D8mQkV0AEJdtsWK-uajc9FNpszwaR480Rl1QPQEMFVEioAXNek5zLIAxSmHgUsQoxQILvMIjzO0FRdj25PkI92_xSIkvW9ySbUoOH0KaxzgDADZWeACAMIF status=200
+2019-07-18 at 18:22:10.986 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,响应-response:com.oilStationMap.dto.ResultMapDTO@466c39de

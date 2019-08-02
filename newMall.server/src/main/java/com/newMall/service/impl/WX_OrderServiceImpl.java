@@ -1415,6 +1415,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
         if(!"".equals(uid)){
+            //根据用户uid获取起店铺shopId
+            Map<String, Object> tempMap = Maps.newHashMap();
+            tempMap.put("uid", uid);
+            List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(tempMap);
+            String shopId = userList.get(0).get("shopId")!=null?userList.get(0).get("shopId").toString():"";
+            paramMap.put("shopId", shopId);
             List<Map<String, Object>> foodsOrderList = wxOrderDao.getFoodsOrderByCondition(paramMap);
             if (foodsOrderList != null && foodsOrderList.size() > 0) {
                 orderStrList = MapUtil.getStringMapList(foodsOrderList);
@@ -1450,6 +1456,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
         if(!"".equals(uid)){
+            //根据用户uid获取起店铺shopId
+            Map<String, Object> tempMap = Maps.newHashMap();
+            tempMap.put("uid", uid);
+            List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(tempMap);
+            String shopId = userList.get(0).get("shopId")!=null?userList.get(0).get("shopId").toString():"";
+            paramMap.put("shopId", shopId);
             paramMap.put("status", "0");        //待支付
             List<Map<String, Object>> foodsOrderList = wxOrderDao.getFoodsOrderByCondition(paramMap);
             if (foodsOrderList != null && foodsOrderList.size() > 0) {
@@ -1486,6 +1498,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
         if(!"".equals(uid)){
+            //根据用户uid获取起店铺shopId
+            Map<String, Object> tempMap = Maps.newHashMap();
+            tempMap.put("uid", uid);
+            List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(tempMap);
+            String shopId = userList.get(0).get("shopId")!=null?userList.get(0).get("shopId").toString():"";
+            paramMap.put("shopId", shopId);
             paramMap.put("status", "1");        //已支付
             List<Map<String, Object>> foodsOrderList = wxOrderDao.getFoodsOrderByCondition(paramMap);
             if (foodsOrderList != null && foodsOrderList.size() > 0) {

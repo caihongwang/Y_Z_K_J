@@ -1,0 +1,78 @@
+2019-05-29 at 13:39:17.433 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 13:39:24.147 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 13:39:26.863 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@525b9df4
+2019-05-29 at 13:39:36.062 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStarted-Started WX_CustomMenuServiceImplTest in 21.335 seconds (JVM running for 26.209)
+2019-05-29 at 13:39:36.355 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,请求-paramMap:{}
+2019-05-29 at 13:39:37.120 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559108376368 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 13:39:37.123 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1559108377122 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=21_o_uNJwBIkgmwfvaY2Bldco5m-OSAfDs0TWuWKAtlK95ek3mCRvLBOnJzOrzNQxH7hc18WJ8PPBvaq-iVX2QQiLd2anHHtx6591DbgC86AG7mGlQO2i0Gowd3rc_jYcQ-gMpdiO7b7mQfofJoZUPiAHAEZU
+2019-05-29 at 13:39:37.587 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1559108377122 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/menu/create?access_token=21_o_uNJwBIkgmwfvaY2Bldco5m-OSAfDs0TWuWKAtlK95ek3mCRvLBOnJzOrzNQxH7hc18WJ8PPBvaq-iVX2QQiLd2anHHtx6591DbgC86AG7mGlQO2i0Gowd3rc_jYcQ-gMpdiO7b7mQfofJoZUPiAHAEZU status=200
+2019-05-29 at 13:39:37.589 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl createCustomMenu-在service中创建公众号自定义菜单-createCustomMenu,响应-response:com.oilStationMap.dto.ResultMapDTO@524945e2
+2019-05-29 at 14:25:06.550 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 14:25:13.562 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 14:25:16.441 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@4891d727
+2019-05-29 at 14:25:26.414 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStarted-Started WX_PublicNumberUtilTest in 21.991 seconds (JVM running for 25.551)
+2019-05-29 at 14:25:27.541 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111126782 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 14:25:27.722 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111127542 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create status=200
+2019-05-29 at 14:26:12.712 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 14:26:19.351 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 14:26:22.070 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@73fe7483
+2019-05-29 at 14:26:30.944 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStarted-Started WX_PublicNumberUtilTest in 20.714 seconds (JVM running for 26.581)
+2019-05-29 at 14:26:32.202 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111191450 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 14:26:40.733 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111200357 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create status=200
+2019-05-29 at 14:29:34.014 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 14:29:40.657 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 14:29:43.195 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1e836aed
+2019-05-29 at 14:29:57.081 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStarted-Started WX_PublicNumberUtilTest in 25.726 seconds (JVM running for 29.89)
+2019-05-29 at 14:29:58.766 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111397821 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 14:29:58.947 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111398766 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create status=200
+2019-05-29 at 14:31:34.142 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 14:31:41.391 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 14:31:43.991 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1d432d56
+2019-05-29 at 14:31:52.254 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStarted-Started WX_PublicNumberUtilTest in 20.553 seconds (JVM running for 27.912)
+2019-05-29 at 14:31:53.110 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111512508 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 14:33:03.806 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 14:33:10.385 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 14:33:12.740 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@3ee200ae
+2019-05-29 at 14:33:20.953 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStarted-Started WX_PublicNumberUtilTest in 19.796 seconds (JVM running for 25.485)
+2019-05-29 at 14:33:21.820 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111601187 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 14:33:31.334 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559111610893 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create status=200
+2019-05-29 at 18:52:40.015 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 18:52:50.551 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 18:52:53.524 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@6d41200c
+2019-05-29 at 18:53:02.421 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 26.811 seconds (JVM running for 33.703)
+2019-05-29 at 18:53:02.908 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@6d92bfaf
+2019-05-29 at 18:53:23.533 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@62a78446
+2019-05-29 at 18:53:30.320 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-微信客服消息参数 = {"touser":"oJcI1wt-ibRdgri1y8qKYCRQaq8g","msgtype":"miniprogrampage","miniprogrampage": {"title":"油价又要涨了？赶紧看看您附近加油站的油价吧，秒慢无.","appid":"wx07cf52be1444e4b7","pagepath":"pages/tabBar/todayOilPrice/todayOilPrice","thumb_media_id":"nmOaXf9mW-kNJNTS6gdUShR_4VUnq312h-mT8ZuRgCc"}}
+2019-05-29 at 18:53:45.996 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559127223435 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 18:54:18.497 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = {"errcode":40001,"errmsg":"invalid credential, access_token is invalid or not latest hint: [yR22NA02562027!]"}
+2019-05-29 at 18:56:07.816 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : HTTP/1.1 200 OK
+2019-05-29 at 19:04:07.932 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 19:04:14.849 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 19:04:17.532 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@23aaa756
+2019-05-29 at 19:04:26.880 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 21.638 seconds (JVM running for 27.628)
+2019-05-29 at 19:04:27.355 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1b5df8b7
+2019-05-29 at 19:04:49.475 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1391d95f
+2019-05-29 at 19:04:49.481 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-微信客服消息参数 = {"touser":"oJcI1wt-ibRdgri1y8qKYCRQaq8g","msgtype":"miniprogrampage","miniprogrampage": {"title":"油价又要涨了？赶紧看看您附近加油站的油价吧，秒慢无.","appid":"wx07cf52be1444e4b7","pagepath":"pages/tabBar/todayOilPrice/todayOilPrice","thumb_media_id":"nmOaXf9mW-kNJNTS6gdUShR_4VUnq312h-mT8ZuRgCc"}}
+2019-05-29 at 19:04:50.243 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559127889543 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 19:04:50.997 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = {"errcode":0,"errmsg":"ok"}
+2019-05-29 at 19:04:50.997 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : HTTP/1.1 200 OK
+2019-05-29 at 19:08:15.461 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 19:08:22.161 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 19:08:24.659 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@418bdde9
+2019-05-29 at 19:08:33.764 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 20.832 seconds (JVM running for 24.474)
+2019-05-29 at 19:08:34.619 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@396a4dea
+2019-05-29 at 19:08:34.786 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1fdbba0d
+2019-05-29 at 19:08:34.786 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-微信客服消息参数 = {"touser":"oJcI1wt-ibRdgri1y8qKYCRQaq8g","msgtype":"miniprogrampage","miniprogrampage": {"title":"油价又要涨了？赶紧看看您附近加油站的油价吧，秒慢无.","appid":"wx07cf52be1444e4b7","pagepath":"pages/tabBar/todayOilPrice/todayOilPrice","thumb_media_id":"nmOaXf9mW-kNJNTS6gdUShR_4VUnq312h-mT8ZuRgCc"}}
+2019-05-29 at 19:08:35.446 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559128114812 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 19:08:41.376 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1559128121374 开始发送 请求：urlhttps://api.weixin.qq.com/cgi-bin/message/custom/typing?access_token=22_I2JcdfkTIymMvU37rAF_LB8Q8wM7p9PDPwcGLrQvy89YeoaV8vT1yJvnLm7tw0E6nqQRZLLji1b9wZTwZBNfbw_AY-Rx6Sigy8W_VQSVlw_qREcbMOtE-bDyiQkhp_ewNbTJtgzn0tt5UwuaSGOiAEAGUC
+2019-05-29 at 19:08:41.604 CST INFO  com.oilStationMap.utils.HttpsUtil postJson-1559128121374 正常接收响应：urlhttps://api.weixin.qq.com/cgi-bin/message/custom/typing?access_token=22_I2JcdfkTIymMvU37rAF_LB8Q8wM7p9PDPwcGLrQvy89YeoaV8vT1yJvnLm7tw0E6nqQRZLLji1b9wZTwZBNfbw_AY-Rx6Sigy8W_VQSVlw_qREcbMOtE-bDyiQkhp_ewNbTJtgzn0tt5UwuaSGOiAEAGUC status=200
+2019-05-29 at 19:09:09.965 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-05-29 at 19:09:16.342 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-05-29 at 19:09:19.003 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@c157abf
+2019-05-29 at 19:09:27.072 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 19.696 seconds (JVM running for 23.119)
+2019-05-29 at 19:09:27.390 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@5eb89000
+2019-05-29 at 19:09:27.723 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@38614875
+2019-05-29 at 19:09:27.724 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-微信客服消息参数 = {"touser":"oJcI1wt-ibRdgri1y8qKYCRQaq8g","msgtype":"miniprogrampage","miniprogrampage": {"title":"油价又要涨了？赶紧看看您附近加油站的油价吧，秒慢无.","appid":"wx07cf52be1444e4b7","pagepath":"pages/tabBar/todayOilPrice/todayOilPrice","thumb_media_id":"nmOaXf9mW-kNJNTS6gdUShR_4VUnq312h-mT8ZuRgCc"}}
+2019-05-29 at 19:09:28.257 CST INFO  com.oilStationMap.utils.HttpsUtil get-1559128167747 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-05-29 at 19:09:28.745 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = {"errcode":0,"errmsg":"ok"}
+2019-05-29 at 19:09:28.745 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl receviceAndSendCustomMessage-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : HTTP/1.1 200 OK

@@ -10,19 +10,22 @@ public class WX_User extends User {
     private static final long serialVersionUID = 4125096758372084309L;
 
     public WX_User(String username, String password,
-                   String uid, String openId, String nickName, String isAdmin,
+                   String uid, String openId, String nickName, String avatarUrl, String isAdmin,
                    Map<String, String> userInfoMap, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         setUid(uid);
         setOpenId(openId);
         setIsAdmin(isAdmin);
         setNickName(nickName);
+        setAvatarUrl(avatarUrl);
         setUserInfoMap(userInfoMap);
     }
 
     private String uid;
 
     private String nickName;
+
+    private String avatarUrl;
 
     private String openId;
 
@@ -68,5 +71,13 @@ public class WX_User extends User {
 
     public void setIsAdmin(String isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

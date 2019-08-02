@@ -1,0 +1,46 @@
+2019-06-17 at 09:52:40.692 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:52:46.340 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:52:50.013 CST INFO  com.oilStationMap.utils.SpiderForZhuangYitUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:52:52.569 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:52:55.139 CST INFO  com.oilStationMap.utils.SpiderForFangTianXiaUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:52:56.906 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:00.026 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:01.827 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:03.622 CST INFO  com.oilStationMap.controller.WX_AdExtensionHistoryControllerTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:05.386 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:07.049 CST INFO  com.oilStationMap.controller.WX_AdExtensionHistoryControllerTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:08.394 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:09.976 CST INFO  com.oilStationMap.quartz.TimeTaskOfQuartzTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:11.352 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:13.085 CST INFO  com.oilStationMap.service.impl.WX_MessageServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:14.535 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:16.070 CST INFO  com.oilStationMap.service.impl.WX_OilStationServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:17.349 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:18.870 CST INFO  com.oilStationMap.service.impl.WX_OilStationOperatorServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:20.098 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:21.587 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:22.752 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:24.195 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:25.393 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:27.037 CST INFO  com.oilStationMap.service.impl.WX_SourceMaterialServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:28.330 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:29.945 CST INFO  com.oilStationMap.service.impl.WX_SourceMaterialServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:32.072 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:34.101 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:35.491 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 09:53:36.919 CST INFO  com.oilStationMap.service.impl.WX_CustomMenuServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 09:53:37.924 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:04:52.410 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:04:58.066 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:05:01.087 CST INFO  com.oilStationMap.utils.SpiderForZhuangYitUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:05:02.978 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:05:04.714 CST INFO  com.oilStationMap.utils.SpiderForFangTianXiaUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:05:06.454 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:05:08.101 CST INFO  com.oilStationMap.utils.WX_PublicNumberUtilTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:05:09.798 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:05:11.427 CST INFO  com.oilStationMap.controller.WX_AdExtensionHistoryControllerTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:05:13.259 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:05:14.849 CST INFO  com.oilStationMap.controller.WX_AdExtensionHistoryControllerTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:05:16.287 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-17 at 10:05:17.974 CST INFO  com.oilStationMap.quartz.TimeTaskOfQuartzTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-17 at 10:05:19.730 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379

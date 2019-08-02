@@ -1,0 +1,47 @@
+2019-06-21 at 19:40:24.016 CST INFO  com.oilStationMap.service.impl.WX_OilStationServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-21 at 19:40:33.719 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-21 at 19:40:40.576 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@6d41200c
+2019-06-21 at 19:40:50.083 CST INFO  com.oilStationMap.service.impl.WX_OilStationServiceImplTest logStarted-Started WX_OilStationServiceImplTest in 30.274 seconds (JVM running for 36.863)
+2019-06-21 at 19:40:51.071 CST INFO  com.oilStationMap.utils.LonLatUtil getOilPriceFromOilUsdCnyCom-当前非油价信息.
+2019-06-21 at 19:40:51.073 CST INFO  com.oilStationMap.utils.LonLatUtil getOilPriceFromOilUsdCnyCom-当前非油价信息.
+2019-06-21 at 19:40:51.074 CST INFO  com.oilStationMap.utils.LonLatUtil getOilPriceFromOilUsdCnyCom-当前非油价信息.
+2019-06-21 at 19:40:51.074 CST INFO  com.oilStationMap.utils.LonLatUtil getOilPriceFromOilUsdCnyCom-当前非油价信息.
+2019-06-21 at 19:40:51.075 CST INFO  com.oilStationMap.utils.LonLatUtil getOilPriceFromOilUsdCnyCom-当前非油价信息.
+2019-06-21 at 19:41:14.246 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-21 at 19:41:23.022 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-21 at 19:41:30.641 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@7615666e
+2019-06-21 at 19:41:40.410 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 28.478 seconds (JVM running for 33.38)
+2019-06-21 at 19:41:47.882 CST INFO  com.oilStationMap.utils.HttpsUtil get-1561117303960 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-06-21 at 19:42:02.834 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = {"errcode":0,"errmsg":"ok"}
+2019-06-21 at 19:42:02.835 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : HTTP/1.1 200 OK
+2019-06-21 at 19:42:02.836 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@50c9b080
+2019-06-21 at 19:44:46.650 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-21 at 19:44:53.840 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-21 at 19:44:57.331 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@50f6ecab
+2019-06-21 at 19:45:06.460 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 22.06 seconds (JVM running for 26.066)
+2019-06-21 at 19:45:13.652 CST INFO  com.oilStationMap.utils.HttpsUtil get-1561117512789 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-06-21 at 19:45:14.117 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = {"errcode":0,"errmsg":"ok"}
+2019-06-21 at 19:45:14.118 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : HTTP/1.1 200 OK
+2019-06-21 at 19:45:14.118 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@5cb42eb2
+2019-06-21 at 19:48:34.312 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-21 at 19:48:42.112 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-21 at 19:48:48.615 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1ff23bd1
+2019-06-21 at 19:48:58.206 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 26.941 seconds (JVM running for 31.483)
+2019-06-21 at 19:48:59.216 CST INFO  com.oilStationMap.utils.HttpsUtil get-1561117738478 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-06-21 at 19:48:59.663 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage,响应 EntityUtils = {"errcode":0,"errmsg":"ok"}
+2019-06-21 at 19:48:59.663 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : HTTP/1.1 200 OK
+2019-06-21 at 19:48:59.664 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTextMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@64cbc28e
+2019-06-21 at 20:03:09.762 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-21 at 20:03:16.823 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-21 at 20:03:22.576 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@6afced93
+2019-06-21 at 20:03:31.282 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 24.051 seconds (JVM running for 28.157)
+2019-06-21 at 20:03:32.353 CST INFO  com.oilStationMap.utils.HttpsUtil get-1561118611648 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-06-21 at 20:03:32.681 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-向微信服务器发送请求获取，获取响应的is {"errcode":40003,"errmsg":"invalid openid hint: [FqANsa06133924]"}
+2019-06-21 at 20:03:32.681 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@1fcef7
+2019-06-21 at 20:04:08.926 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
+2019-06-21 at 20:04:15.800 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
+2019-06-21 at 20:04:20.741 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@1f95158a
+2019-06-21 at 20:04:29.536 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImplTest logStarted-Started WX_CommonServiceImplTest in 23.005 seconds (JVM running for 28.443)
+2019-06-21 at 20:04:30.562 CST INFO  com.oilStationMap.utils.HttpsUtil get-1561118669876 接收响应：urlhttps://api.weixin.qq.com/cgi-bin/token status=200
+2019-06-21 at 20:04:30.968 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-向微信服务器发送请求获取，获取响应的is {"errcode":0,"errmsg":"ok","msgid":864469555639435266}
+2019-06-21 at 20:04:30.969 CST INFO  com.oilStationMap.service.impl.WX_CommonServiceImpl sendTemplateMessageForWxPublicNumber-在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber,响应-response:com.oilStationMap.dto.ResultMapDTO@1d82e396
