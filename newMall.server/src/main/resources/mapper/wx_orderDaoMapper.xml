@@ -373,12 +373,14 @@
             <if test="id != null and id != ''">
                 and no.id = #{id}
             </if>
-            <if test="uid != null and uid != ''">
-                and no.uid = #{uid}
-            </if>
-            <if test="shopId != null and shopId != ''">
-                or ns.id = #{shopId}
-            </if>
+            (
+                <if test="uid != null and uid != ''">
+                    and no.uid = #{uid}
+                </if>
+                <if test="shopId != null and shopId != ''">
+                    or ns.id = #{shopId}
+                </if>
+            )
             <if test="status != null and status != ''">
                 and no.status = #{status}
             </if>
@@ -403,9 +405,14 @@
             <if test="id != null and id != ''">
                 and no.id = #{id}
             </if>
+            (
             <if test="uid != null and uid != ''">
                 and no.uid = #{uid}
             </if>
+            <if test="shopId != null and shopId != ''">
+                or ns.id = #{shopId}
+            </if>
+            )
             <if test="status != null and status != ''">
                 and no.status = #{status}
             </if>
