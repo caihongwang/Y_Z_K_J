@@ -310,6 +310,12 @@ public class WX_UserServiceImpl implements WX_UserService {
                 resultMap.put("balanceDeductionNum", "0.2");
             }
             //获取用户在商家的交易订单数量
+            //根据用户uid获取起店铺shopId
+            Map<String, Object> tempMap = Maps.newHashMap();
+            tempMap.put("uid", uid);
+            List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(tempMap);
+            String shopId = userList.get(0).get("shopId")!=null?userList.get(0).get("shopId").toString():"";
+            paramMap.put("shopId", shopId);
             Integer foodsOrderTotal = wxOrderDao.getFoodsOrderTotalByCondition(paramMap);
             if(foodsOrderTotal != null){
                 resultMap.put("foodsOrderTotal", foodsOrderTotal.toString());
