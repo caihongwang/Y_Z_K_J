@@ -96,7 +96,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         //生成的随机字符串,微信用于校验
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称
-        String body = "在平台的积分商城购买商品";
+        String body = "向商城购商品";
         //统一订单编号,即微信订单号
         String out_trade_no = WXPayUtil.generateUUID();
         //发起支付的IP地址
