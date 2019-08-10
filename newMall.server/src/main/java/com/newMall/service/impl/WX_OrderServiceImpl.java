@@ -221,10 +221,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         if(isNeedPay){
                             //准备获取支付相关的验签等数据
                             actualPayMoney = NumberUtil.getPointTowNumber(actualPayMoney);
-                            String totalMoney = ((int) (actualPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
+                            String total_fee = ((int) (actualPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
+                            logger.info("支付费用(转化前) payMoney = {}" + actualPayMoney + ", 支付费用(转化后) total_fee = {}" + total_fee);
                             resultMap.putAll(WX_PublicNumberUtil.unifiedOrderForMiniProgram(
                                     nonce_str, body, out_trade_no,
-                                    totalMoney, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPurchaseProductInMiniProgram,
+                                    total_fee, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPurchaseProductInMiniProgram,
                                     openId, JSONObject.toJSONString(attachMap)
                             ));
                             if(resultMap.get("code").toString().equals((NewMallCode.SUCCESS.getNo()+""))){
