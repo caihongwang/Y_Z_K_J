@@ -12,6 +12,15 @@ echo "--------------------------------------------------------------------------
 
 
 
+echo "------------------Start clear 【oilStationMap.server】redis-----------------"
+db=1
+/opt/redis/redis-3.2.6/src/redis-cli -h localhost -p 6379 <<END
+select ${db}
+flushdb
+END
+echo "------------------Start clear 【oilStationMap.server】redis done-----------------"
+
+
 
 
 echo "------------------Start pull new code 【oilStationMap.server】 from repository-----------------"

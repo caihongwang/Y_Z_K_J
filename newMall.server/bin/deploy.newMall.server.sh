@@ -12,6 +12,15 @@ echo "--------------------------------------------------------------------------
 
 
 
+echo "------------------Start clear 【newMall.server】redis-----------------"
+db=2
+/opt/redis/redis-3.2.6/src/redis-cli -h localhost -p 6379 <<END
+select ${db}
+flushdb
+END
+echo "------------------Start clear 【newMall.server】redis done-----------------"
+
+
 
 
 echo "------------------Start pull new code 【newMall.server】 from repository-----------------"
