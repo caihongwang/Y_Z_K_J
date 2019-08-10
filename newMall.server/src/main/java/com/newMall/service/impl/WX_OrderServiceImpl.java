@@ -142,7 +142,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 //用户即将购买的商品数量
                 Double productNum = Double.parseDouble(productNumStr);
                 //获取商品所需单价积分
-                if("".equals(productIntegralStr)){     //当是在订单列表中进行支付时，productPriceStr存在值.
+                if("".equals(productIntegralStr)){     //当是在订单列表中进行支付时，productIntegralStr存在值.
                     productIntegralStr = productList.get(0).get("integral")!=null?productList.get(0).get("integral").toString():"0";
                 }
                 Double productIntegral = Double.parseDouble(productIntegralStr);
@@ -208,15 +208,15 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderStatus = "1";
                         }
                         logger.info(
-                                " 用户 uid : {}", uid,
-                                " , 购买商品 productId : {}", productId,
-                                " , 消费总额 : {}", allPayAmount,
-                                " , 实际支付 : {}", actualPayMoney,
-                                " , 积分消耗 : {}", allProductIntegral,
-                                " , 是否使用余额抵扣 : {}", useBalanceFlag,
-                                " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
-                                " , 是否使用积分抵扣 : {}", useIntegralFlag,
-                                " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
+                                " 用户 uid : " + uid +
+                                " , 购买商品 productId : " + productId +
+                                " , 消费总额 : " + allPayAmount +
+                                " , 实际支付 : " + actualPayMoney +
+                                " , 积分消耗 : " + allProductIntegral +
+                                " , 是否使用余额抵扣 : " + useBalanceFlag +
+                                " , 抵扣余额 : " + (useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0") +
+                                " , 是否使用积分抵扣 : " + useIntegralFlag +
+                                " , 抵扣积分 : " + (useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0")
                         );
                         if(isNeedPay){
                             //准备获取支付相关的验签等数据
