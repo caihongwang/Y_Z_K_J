@@ -124,8 +124,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 //获取用户余额
                 String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                 Double userBalance = Double.parseDouble(userBalanceStr);
-                //商品名称
-                body = body + "【" + productList.get(0).get("title") + "】";
+                //商品名称 过长容易引起错误.
+//                body = body + "【" + productList.get(0).get("title") + "】";
                 //获取商品的现有库存
                 String stockStr = productList.get(0).get("stock")!=null?productList.get(0).get("stock").toString():"0";
                 Double stock = 0.0;
