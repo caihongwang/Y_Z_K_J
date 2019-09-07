@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.oilStationMap.dao.WX_GarbageDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        garbage_name,
+        remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        og.id as "id",
+        og.uid as "uid",
+        og.garbage_name as "garbageName",
+        og.remark as "remark",
+        date_format(og.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(og.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND og.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND og.uid = #{uid}
+            </if>
+            <if test="garbageName != null and garbageName != ''">
+                AND og.garbage_name = #{garbageName}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND og.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY og.create_time desc
+    </sql>
+
+    <insert id="addGarbage" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into o_garbage (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{garbageName},
+            #{remark},
+            now(),
+            now()
+        )
+    </insert>
+
+    <delete id="deleteGarbage">
+        DELETE FROM o_garbage WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateGarbage">
+        update o_garbage og
+        <set>
+            <if test="uid != null and uid != ''">
+                og.uid = #{uid},
+            </if>
+            <if test="garbageName != null and garbageName != ''">
+                og.garbage_name = #{garbageName},
+            </if>
+            <if test="remark != null and remark != ''">
+                og.remark = #{remark},
+            </if>
+            og.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and og.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleGarbageByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_garbage og
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getSimpleGarbageTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_garbage og
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

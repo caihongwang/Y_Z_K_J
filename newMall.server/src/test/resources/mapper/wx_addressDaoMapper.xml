@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.newMall.dao.WX_AddressDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        name,
+        phone,
+        province_id,
+        province_name,
+        city_id,
+        city_name,
+        region_id,
+        region_name,
+        street_id,
+        street_name,
+        detail_address,
+        is_default_address,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        na.id as "id",
+        na.uid as "uid",
+        na.name as "name",
+        na.phone as "phone",
+        na.province_id as "provinceId",
+        na.province_name as "provinceName",
+        na.city_id as "cityId",
+        na.city_name as "cityName",
+        na.region_id as "regionId",
+        na.region_name as "regionName",
+        na.street_id as "streetId",
+        na.street_name as "streetName",
+        na.detail_address as "detailAddress",
+        na.is_default_address as "isDefaultAddress",
+        na.status as "status",
+        date_format(na.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(na.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>na.status='0'
+            <if test="id != null and id != ''">
+                AND na.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND na.uid =  #{uid}
+            </if>
+            <if test="name != null and name != ''">
+                AND na.name like concat('%',#{name},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND na.phone =  #{phone}
+            </if>
+            <if test="provinceId != null and provinceId != ''">
+                AND na.province_id =  #{provinceId}
+            </if>
+            <if test="provinceName != null and provinceName != ''">
+                AND na.province_name like concat('%',#{provinceName},'%')
+            </if>
+            <if test="cityId != null and cityId != ''">
+                AND na.city_id =  #{cityId}
+            </if>
+            <if test="cityName != null and cityName != ''">
+                AND na.city_name like concat('%',#{cityName},'%')
+            </if>
+            <if test="regionId != null and regionId != ''">
+                AND na.region_id =  #{regionId}
+            </if>
+            <if test="regionName != null and regionName != ''">
+                AND na.region_name like concat('%',#{regionName},'%')
+            </if>
+            <if test="streetId != null and streetId != ''">
+                AND na.street_id =  #{streetId}
+            </if>
+            <if test="streetName != null and streetName != ''">
+                AND na.street_name like concat('%',#{streetName},'%')
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                AND na.detail_address like concat('%',#{detailAddress},'%')
+            </if>
+            <if test="isDefaultAddress != null and isDefaultAddress != ''">
+                AND na.is_default_address =  #{isDefaultAddress}
+            </if>
+        </where>
+        ORDER BY na.is_default_address DESC ,na.create_time DESC
+    </sql>
+
+    <insert id="addAddress" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        <if test="isDefaultAddress == '1'.toString()">
+            update n_address na set na.is_default_address='0'
+            where na.uid = #{uid};
+        </if>
+        insert into n_address (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{name},
+            #{phone},
+            #{provinceId},
+            #{provinceName},
+            #{cityId},
+            #{cityName},
+            #{regionId},
+            #{regionName},
+            #{streetId},
+            #{streetName},
+            #{detailAddress},
+            #{isDefaultAddress},
+            #{status},
+            now(),
+            now()
+        )
+    </insert>
+
+    <delete id="deleteAddress">
+        update n_address na set na.status=1 WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateAddress">
+        <if test="isDefaultAddress == '1'.toString()">
+            update n_address na set na.is_default_address='0'
+            where na.uid = #{uid};
+        </if>
+        update n_address na
+        <set>
+            <if test="name != null and name != ''">
+                na.name = #{name},
+            </if>
+            <if test="phone != null and phone != ''">
+                na.phone = #{phone},
+            </if>
+            <if test="provinceId != null and provinceId != ''">
+                na.province_id = #{provinceId},
+            </if>
+            <if test="provinceName != null and provinceName != ''">
+                na.province_name = #{provinceName},
+            </if>
+            <if test="cityId != null and cityId != ''">
+                na.city_id = #{cityId},
+            </if>
+            <if test="cityName != null and cityName != ''">
+                na.city_name = #{cityName},
+            </if>
+            <if test="regionId != null and regionId != ''">
+                na.region_id = #{regionId},
+            </if>
+            <if test="regionName != null and regionName != ''">
+                na.region_name = #{regionName},
+            </if>
+            <if test="streetId != null and streetId != ''">
+                na.street_id = #{streetId},
+            </if>
+            <if test="streetName != null and streetName != ''">
+                na.street_name = #{streetName},
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                na.detail_address = #{detailAddress},
+            </if>
+            <if test="isDefaultAddress != null and isDefaultAddress != ''">
+                na.is_default_address = #{isDefaultAddress},
+            </if>
+            na.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and na.id = #{id}
+        </if>
+    </update>
+
+    <update id="setDefaultAddress">
+        update n_address na set na.is_default_address='0'
+        where na.uid = #{uid};
+        update n_address na set na.is_default_address='1', na.update_time=CURRENT_TIMESTAMP
+        where na.id = #{id};
+    </update>
+
+
+    <select id="getSimpleAddressByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_address na
+            <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleAddressTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_address na
+            <include refid="queryConditions"/>
+    </select>
+
+</mapper>

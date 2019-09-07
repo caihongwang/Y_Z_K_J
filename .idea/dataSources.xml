@@ -15,14 +15,14 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="new_mall@112.74.177.170" uuid="82d22432-aec4-46c0-9633-d57b2714f3dd">
+    <data-source source="LOCAL" name="new_mall@112.74.177.170" uuid="25c2fe12-8d4d-4ca7-9b0f-eac08a15ddc3">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://112.74.177.170:3306/new_mall</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="zeroDateTimeBehavior" value="CONVERT_TO_NULL" />
         <property name="tinyInt1isBit" value="false" />
         <property name="characterEncoding" value="utf8" />
         <property name="characterSetResults" value="utf8" />

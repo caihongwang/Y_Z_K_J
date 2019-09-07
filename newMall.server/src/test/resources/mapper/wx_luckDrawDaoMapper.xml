@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.newMall.dao.WX_LuckDrawDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        wx_order_id,
+        luck_draw_code,
+        remark,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        nld.id as "id",
+        nld.uid as "uid",
+        nld.wx_order_id as "wxOrderId",
+        nld.luck_draw_code as "luckDrawCode",
+        nld.remark as "remark",
+        nld.status as "status",
+        date_format(nld.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(nld.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>
+            <if test="id != null and id != ''">
+                AND nld.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND nld.uid = #{uid}
+            </if>
+            <if test="wxOrderId != null and wxOrderId != ''">
+                AND nld.wx_order_id = #{wxOrderId}
+            </if>
+            <if test="luckDrawCode != null and luckDrawCode != ''">
+                AND nld.luck_draw_code = #{luckDrawCode}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND nld.remark like concat('%',#{dicRemark},'%')
+            </if>
+            <if test="status != null and status != ''">
+                AND nld.status in (${status})
+            </if>
+        </where>
+        ORDER BY nld.create_time desc
+    </sql>
+
+    <insert id="addLuckDraw" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_luck_draw (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{wxOrderId},
+            #{luckDrawCode},
+            #{remark},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteLuckDraw">
+        update n_luck_draw nld set nld.status=2  WHERE 1=1
+        <if test="id != null and id != ''">
+            AND nld.id = #{id}
+        </if>
+        <if test="wxOrderId != null and wxOrderId != ''">
+            and nld.wx_order_id = #{wxOrderId}
+        </if>
+    </delete>
+
+    <update id="updateLuckDraw">
+        update n_luck_draw nld
+        <set>
+            <if test="uid != null and uid != ''">
+               nld.uid = #{uid},
+            </if>
+            <if test="wxOrderId != null and wxOrderId != ''">
+               nld.wx_order_id = #{wxOrderId},
+            </if>
+            <if test="luckDrawCode != null and luckDrawCode != ''">
+               nld.luck_draw_code = #{luckDrawCode},
+            </if>
+            <if test="remark != null and remark != ''">
+               nld.remark = #{remark},
+            </if>
+            <if test="status != null and status != ''">
+               nld.status = #{status},
+            </if>
+            nld.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and nld.id = #{id}
+        </if>
+        <if test="wxOrderId != null and wxOrderId != ''">
+            and nld.wx_order_id = #{wxOrderId}
+        </if>
+    </update>
+
+    <select id="getSimpleLuckDrawByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_luck_draw nld
+            <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleLuckDrawTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_luck_draw nld
+            <include refid="queryConditions"/>
+    </select>
+
+    <select id="getLuckDrawByCondition" resultType="java.util.Map">
+        SELECT
+            nld.id as "id",
+            nld.uid as "uid",
+            nld.wx_order_id as "wxOrderId",
+            date_format(nld.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+            nu.open_id as "openId",
+            nu.balance as "balance",
+            nu.integral as "integral",
+            no.pay_money as "payMoney",
+            no.use_balance_monney as "useBalanceMonney",
+            nd.dic_remark as "cashBackModeJson"
+        from n_luck_draw nld
+            INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id
+            INNER JOIN n_user nu on nld.uid = nu.id
+            INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status in (${status})
+            </if>
+            <if test="uid != null and uid != ''">
+                and nld.uid = #{uid}
+            </if>
+            <if test="wxOrderId != null and wxOrderId != ''">
+                and nld.wx_order_id = #{wxOrderId}
+            </if>
+            ORDER BY nld.create_time asc
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getLuckDrawTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_luck_draw nld
+            INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id
+            INNER JOIN n_user nu on nld.uid = nu.id
+            INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
+        where 1=1
+            <if test="uid != null and uid != ''">
+                nld.uid = #{uid}
+            </if>
+    </select>
+
+    <select id="getLuckDrawRankByCondition" resultType="java.util.Map">
+        select
+            nu.id as "uid",
+            nu.avatar_url as "avatarUrl",
+            nu.nick_name as "nickName",
+            nld.wx_order_id as "wxOrderId",
+            nld.create_time as "createTime",
+            nld.remark as "luckDrawRemark",
+            no.pay_money as "payMoney",
+            nd.dic_remark as "luckDrawRule",
+            ns.shop_title as "shopTitle",
+            ns.shop_head_img_url as "shopHeadImgUrl",
+            nld.status as "luckDrawStatusCode",
+            lds.dic_name as "luckDrawStatusName"
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status in (${status})
+            </if>
+            <if test="shopId != null and shopId != ''">
+                and no.shop_id=#{shopId}
+            </if>
+        ORDER BY nld.create_time ASC
+    </select>
+
+    <select id="getLuckDrawRankTotalByCondition" resultType="java.lang.Integer">
+        select
+            COUNT(*) total
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status in (${status})
+            </if>
+            <if test="shopId != null and shopId != ''">
+                and ns.id=#{shopId}
+            </if>
+    </select>
+
+    <select id="getLuckDrawShopByCondition" resultType="java.util.Map">
+        select
+            nu.id as "uid",
+            nu.avatar_url as "avatarUrl",
+            nu.nick_name as "nickName",
+            nld.wx_order_id as "wxOrderId",
+            nld.create_time as "createTime",
+            nld.remark as "luckDrawRemark",
+            no.pay_money as "payMoney",
+            nd.dic_remark as "luckDrawRule",
+            ns.id as "shopId",
+            ns.shop_title as "shopTitle",
+            ns.shop_head_img_url as "shopHeadImgUrl",
+            nld.status as "luckDrawStatusCode",
+            lds.dic_name as "luckDrawStatusName"
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status in (${status})
+            </if>
+            <if test="uid != null and uid != ''">
+                and nld.uid=#{uid}
+            </if>
+        ORDER BY nld.create_time ASC
+    </select>
+
+    <select id="getLuckDrawShopTotalByCondition" resultType="java.lang.Integer">
+        select
+            COUNT(*) total
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status in (${status})
+            </if>
+            <if test="uid != null and uid != ''">
+                and nld.uid=#{uid}
+            </if>
+    </select>
+
+    <select id="getLuckDrawNumByStatus" resultType="java.util.Map">
+        select
+            nld.status as "status",
+            count(nld.status) as "total"
+        from n_luck_draw nld
+        WHERE
+            <if test="uid != null and uid != ''">
+                nld.uid = #{uid}
+            </if>
+        GROUP BY nld.status
+    </select>
+</mapper>

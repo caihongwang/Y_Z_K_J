@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.newMall.dao.WX_OrderDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        wx_order_id,
+        order_type,
+        foods_id,
+        foods_num,
+        transaction_foods_detail,
+        product_id,
+        product_num,
+        transaction_product_detail,
+        address_id,
+        express_number,
+        shop_id,
+        all_pay_amount,
+        pay_money,
+        use_balance_monney,
+        use_integral_num,
+        form_id,
+        remark,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        no.id as "id",
+        no.uid as "uid",
+        no.wx_order_id as "wxOrderId",
+        no.order_type as "orderType",
+        no.foods_id as "foodsId",
+        no.foods_num as "foodsNum",
+        no.transaction_foods_detail as "transactionFoodsDetail",
+        no.product_id as "productId",
+        no.product_num as "productNum",
+        no.transaction_product_detail as "transactionProductDetail",
+        no.address_id as "addressId",
+        no.express_number as "expressNumber",
+        no.shop_id as "shopId",
+        no.all_pay_amount as "allPayAmount",
+        no.pay_money as "payMoney",
+        no.use_balance_monney as "useBalanceMonney",
+        no.use_integral_num as "useIntegralNum",
+        no.form_id as "formId",
+        no.remark as "remark",
+        no.status as "status",
+        date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>
+            <if test="id != null and id != ''">
+                AND no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND no.uid = #{uid}
+            </if>
+            <if test="wxOrderId != null and wxOrderId != ''">
+                AND no.wx_order_id = #{wxOrderId}
+            </if>
+            <if test="orderType != null and orderType != ''">
+                AND no.order_type = #{orderType}
+            </if>
+            <if test="foodsId != null and foodsId != ''">
+                AND no.foods_id = #{foodsId}
+            </if>
+            <if test="foodsNum != null and foodsNum != ''">
+                AND no.foods_num = #{foodsNum}
+            </if>
+            <if test="transactionFoodsDetail != null and transactionFoodsDetail != ''">
+                AND no.transaction_foods_detail = #{transactionFoodsDetail}
+            </if>
+            <if test="productId != null and productId != ''">
+                AND no.product_id = #{productId}
+            </if>
+            <if test="productNum != null and productNum != ''">
+                AND no.product_num = #{productNum}
+            </if>
+            <if test="transactionProductDetail != null and transactionProductDetail != ''">
+                AND no.transaction_product_detail = #{transactionProductDetail}
+            </if>
+            <if test="addressId != null and addressId != ''">
+                AND no.address_id = #{addressId}
+            </if>
+            <if test="expressNumber != null and expressNumber != ''">
+                AND no.express_number = #{expressNumber}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND no.shop_id = #{shopId}
+            </if>
+            <if test="allPayAmount != null and allPayAmount != ''">
+                AND no.all_pay_amount = #{allPayAmount}
+            </if>
+            <if test="payMoney != null and payMoney != ''">
+                AND no.pay_money = #{payMoney}
+            </if>
+            <if test="useBalanceMonney != null and useBalanceMonney != ''">
+                AND no.use_balance_monney = #{useBalanceMonney}
+            </if>
+            <if test="useIntegralNum != null and useIntegralNum != ''">
+                AND no.use_integral_num = #{useIntegralNum}
+            </if>
+            <if test="formId != null and formId != ''">
+                AND no.form_id = #{formId}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND no.remark = #{remark}
+            </if>
+            <if test="status != null and status != ''">
+                AND no.status = #{status}
+            </if>
+        </where>
+        ORDER BY no.create_time desc
+    </sql>
+
+    <insert id="addOrder" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_order (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{wxOrderId},
+            #{orderType},
+            #{foodsId},
+            #{foodsNum},
+            #{transactionFoodsDetail},
+            #{productId},
+            #{productNum},
+            #{transactionProductDetail},
+            #{addressId},
+            #{expressNumber},
+            #{shopId},
+            #{allPayAmount},
+            #{payMoney},
+            #{useBalanceMonney},
+            #{useIntegralNum},
+            #{formId},
+            #{remark},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteOrder">
+        update n_order no set np.status=4  WHERE 1=1
+        <if test="id != null and id != ''">
+            AND no.id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateOrder">
+        update n_order no
+        <set>
+            <if test="orderType != null and orderType != ''">
+                no.order_type = #{orderType},
+            </if>
+            <if test="foodsId != null and foodsId != ''">
+                no.foods_id = #{foodsId},
+            </if>
+            <if test="foodsNum != null and foodsNum != ''">
+                no.foods_num = #{foodsNum},
+            </if>
+            <if test="transactionFoodsDetail != null and transactionFoodsDetail != ''">
+                no.transaction_foods_detail = #{transactionFoodsDetail},
+            </if>
+            <if test="productId != null and productId != ''">
+               no.product_id = #{productId},
+            </if>
+            <if test="productNum != null and productNum != ''">
+               no.product_num = #{productNum},
+            </if>
+            <if test="transactionProductDetail != null and transactionProductDetail != ''">
+               no.transaction_product_detail = #{transactionProductDetail},
+            </if>
+            <if test="addressId != null and addressId != ''">
+               no.address_id = #{addressId},
+            </if>
+            <if test="expressNumber != null and expressNumber != ''">
+               no.express_number = #{expressNumber},
+            </if>
+            <if test="allPayAmount != null and allPayAmount != ''">
+                no.all_pay_amount = #{allPayAmount},
+            </if>
+            <if test="shopId != null and shopId != ''">
+                no.shop_id = #{shopId},
+            </if>
+            <if test="payMoney != null and payMoney != ''">
+                no.pay_money = #{payMoney},
+            </if>
+            <if test="useBalanceMonney != null and useBalanceMonney != ''">
+               no.use_balance_monney = #{useBalanceMonney},
+            </if>
+            <if test="useIntegralNum != null and useIntegralNum != ''">
+               no.use_integral_num = #{useIntegralNum},
+            </if>
+            <if test="remark != null and remark != ''">
+               no.remark = #{remark},
+            </if>
+            <if test="formId != null and formId != ''">
+               no.form_id = #{formId},
+            </if>
+            <if test="status != null and status != ''">
+               no.status = #{status},
+            </if>
+            no.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and no.id = #{id}
+        </if>
+        <if test="wxOrderId != null and wxOrderId != ''">
+            and no.wx_order_id = #{wxOrderId}
+        </if>
+    </update>
+
+    <select id="getSimpleOrderByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM n_order no
+        <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from n_order no
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getOrderByCondition" resultType="java.util.Map">
+        select
+            np.id as "productId",
+            np.title as "productTitle",
+            np.head_img_url as "productHeadImgUrl",
+            np.price as "productPrice",
+            no.product_num as "productNum",
+            no.transaction_product_detail as "transactionProductDetail",
+            no.pay_money as "payMoney",
+            no.express_number as "expressNumber",
+            os.dic_name as "orderStatus",
+            no.form_id as "formId",
+            no.remark as "remark"
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+    </select>
+
+    <select id="getGoodsOrderByCondition" resultType="java.util.Map">
+        select
+            np.id as "productId",
+            np.title as "productTitle",
+            np.head_img_url as "productHeadImgUrl",
+            np.price as "productPrice",
+            no.id as "orderId",
+            no.address_id as "addressId",
+            no.product_num as "productNum",
+            no.transaction_product_detail as "transactionProductDetail",
+            no.all_pay_amount as "allPayAmount",
+            no.pay_money as "payMoney",
+            no.use_balance_monney as "useBalanceMonney",
+            no.use_integral_num as "useIntegralNum",
+            no.express_name as "expressName",
+            no.express_number as "expressNumber",
+            no.wx_order_id as "wxOrderId",
+            date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+            date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
+            no.form_id as "formId",
+            no.remark as "remark",
+            os.dic_code as "orderStatusCode",
+            os.dic_name as "orderStatusName"
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where order_type='purchaseProduct'
+            <if test="id != null and id != ''">
+                and no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+            ORDER by no.create_time desc
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getGoodsOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where order_type='purchaseProduct'
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+    </select>
+
+    <select id="getFoodsOrderByCondition" resultType="java.util.Map">
+        select
+            ns.id as "shopId",
+            ns.shop_title as "shopTitle",
+            ns.shop_head_img_url as "shopHeadImgUrl",
+            nf.id as "foodId",
+            nf.food_title as "foodTitle",
+            nf.food_head_img_url as "foodHeadImgUrl",
+            nf.food_price as "foodPrice",
+            no.id as "orderId",
+            no.foods_id as "foodsId",
+            no.foods_num as "foodsNum",
+            no.transaction_foods_detail as "transactionFoodsDetail",
+            no.all_pay_amount as "allPayAmount",
+            no.pay_money as "payMoney",
+            no.use_balance_monney as "useBalanceMonney",
+            no.use_integral_num as "useIntegralNum",
+            no.wx_order_id as "wxOrderId",
+            date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+            date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
+            no.form_id as "formId",
+            no.remark as "remark",
+            ptb.dic_code as "orderTypeCode",
+            ptb.dic_name as "orderTypeName",
+            os.dic_code as "orderStatusCode",
+            os.dic_name as "orderStatusName"
+        from n_order no
+            INNER JOIN n_shop ns on ns.id=no.shop_id
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_dic ptb on no.order_type=ptb.dic_code and ptb.dic_type="orderType"
+            LEFT JOIN n_food nf on nf.id in (no.foods_id)
+        where no.order_type in ('payTheBill', 'payTheBillForMenu')
+            <if test="id != null and id != ''">
+                and no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                and ( no.uid = #{uid}
+                <if test="shopId != null and shopId != ''">
+                    or ns.id = #{shopId}
+                </if>
+                )
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+            ORDER by no.create_time desc
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getFoodsOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_order no
+            INNER JOIN n_shop ns on ns.id=no.shop_id
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_dic ptb on no.order_type=ptb.dic_code and ptb.dic_type="orderType"
+            LEFT JOIN n_food nf on nf.id in (no.foods_id)
+        where no.order_type in ('payTheBill', 'payTheBillForMenu')
+            <if test="id != null and id != ''">
+                and no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                and ( no.uid = #{uid}
+                <if test="shopId != null and shopId != ''">
+                    or ns.id = #{shopId}
+                </if>
+                )
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+    </select>
+
+</mapper>

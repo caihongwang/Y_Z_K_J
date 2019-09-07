@@ -1,5 +1,0 @@
-2019-06-06 at 22:09:20.172 CST INFO  com.oilStationMap.MySuperTest logStartupProfileInfo-No active profile set, falling back to default profiles: default
-2019-06-06 at 22:09:27.581 CST INFO  com.oilStationMap.config.JedisConfig redisPoolFactory-JedisPool注入成功！redis地址：112.74.177.170:6379
-2019-06-06 at 22:09:31.560 CST INFO  com.oilStationMap.service.impl.WX_DicServiceImpl getSimpleDicByCondition-在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:com.oilStationMap.dto.ResultDTO@53d2b827
-2019-06-06 at 22:09:40.155 CST INFO  com.oilStationMap.MySuperTest logStarted-Started MySuperTest in 22.06 seconds (JVM running for 25.797)
-2019-06-06 at 22:09:40.999 CST INFO  com.oilStationMap.MySuperTest Test-uid = 4442 , currentLon = 109.16912 , currentLat = 28.098309
