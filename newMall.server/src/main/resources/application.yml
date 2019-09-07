@@ -4,7 +4,7 @@ my:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://112.74.177.170:9010/eureka/
+      defaultZone: http://127.0.0.1:9010/eureka/
 
 server:
   port: 9040
@@ -23,7 +23,7 @@ spring:
     time-zone: GMT+8
   redis:
       database: 2
-      host: 112.74.177.170
+      host: 127.0.0.1
       port: 6379
       password:
       jedis:
