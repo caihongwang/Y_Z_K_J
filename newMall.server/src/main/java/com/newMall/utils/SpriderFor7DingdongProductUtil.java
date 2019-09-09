@@ -172,17 +172,29 @@ public class SpriderFor7DingdongProductUtil {
         }
 
         //获取 商品积分
-        String integral = "0";
-        Elements integralElements = doc.getElementsByTag("strong");
+        String integralStr = "0";
+        Elements integralElements = doc.getElementsByTag("div");
         for (Element element : integralElements) {
             String className = element.attr("class");
-            if ("zx_lsj zxl".equals(className)) {
-                Node integralNode = element.childNode(0);
-                String[] integralArr = integralNode.toString().split("￥");
-                integral = integralArr[1];
+            if ("zxj".equals(className)) {         //尊享版 div
+                Elements tempElements = element.getElementsByTag("i");
+                for(Element temp : integralElements) {
+                    integralStr = integralStr + temp.childNode(0).toString();
+                }
                 break;
             }
         }
+        System.out.println("===================="+integralStr+"====================");
+        System.out.println("===================="+integralStr+"====================");
+        System.out.println("===================="+integralStr+"====================");
+        Double integral = 0.0;
+        try {
+            integral = Double.parseDouble(integralStr);
+        } catch (Exception e) {
+            integral = 0.0;
+        }
+
+
         //获取 商品库存
         String stock = "0";
         Elements stockElements = doc.getElementsByTag("em");
@@ -419,13 +431,14 @@ public class SpriderFor7DingdongProductUtil {
 
         //获取 商品积分
         String integralStr = "0";
-        Elements integralElements = doc.getElementsByTag("strong");
+        Elements integralElements = doc.getElementsByTag("div");
         for (Element element : integralElements) {
             String className = element.attr("class");
-            if ("zx_lsj zxl".equals(className)) {
-                Node integralNode = element.childNode(0);
-                String[] integralArr = integralNode.toString().split("￥");
-                integralStr = integralArr[1];
+            if ("zxj".equals(className)) {         //尊享版 div
+                Elements tempElements = element.getElementsByTag("i");
+                for(Element temp : integralElements) {
+                    integralStr = integralStr + temp.childNode(0).toString();
+                }
                 break;
             }
         }
@@ -453,15 +466,7 @@ public class SpriderFor7DingdongProductUtil {
 //            integral = integral * 5;
 //        }
 
-        if(integral <= 200){
-            price = 3.95;
-        } else if(integral > 200 && integral <= 1000){
-            price = 8.35;
-        } else if(integral > 1000){
-            price = 13.39;
-        } else {
-            price = 9.9;
-        }
+        price = 3.99;
 
         //获取 商品库存
         String stock = "0";
