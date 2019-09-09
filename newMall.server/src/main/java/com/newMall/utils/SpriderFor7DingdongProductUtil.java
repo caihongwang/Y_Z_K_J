@@ -80,24 +80,28 @@ public class SpriderFor7DingdongProductUtil {
                         }
                         JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
                         JSONArray productData = productJsonObject.getJSONArray("data");
-                        List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
-                        if(productList != null && productList.size() > 0){
-                            String category = "recommend";      //根据文件夹名称获取分类代码
-                            Map<String, Object> dicParamMap = Maps.newHashMap();
-                            dicParamMap.put("dicType", "category");
-                            dicParamMap.put("dicName", productCatoryName);
-                            List<Map<String, Object>> dicResultList = wxDicDao.getSimpleDicByCondition(dicParamMap);
-                            if(dicResultList != null && dicResultList.size() > 0){
-                                category = dicResultList.get(0).get("dicCode").toString();
-                            }
-                            for(Map<String, Object> productMap : productList){
-                                String goodsId = productMap.get("goods_id").toString();
-                                try{
-                                    getSimpleProduct(productCatoryName, category, goodsId, productSqlList);
-                                } catch (Exception e) {
-                                    continue;
+                        try{
+                            List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
+                            if(productList != null && productList.size() > 0){
+                                String category = "recommend";      //根据文件夹名称获取分类代码
+                                Map<String, Object> dicParamMap = Maps.newHashMap();
+                                dicParamMap.put("dicType", "category");
+                                dicParamMap.put("dicName", productCatoryName);
+                                List<Map<String, Object>> dicResultList = wxDicDao.getSimpleDicByCondition(dicParamMap);
+                                if(dicResultList != null && dicResultList.size() > 0){
+                                    category = dicResultList.get(0).get("dicCode").toString();
+                                }
+                                for(Map<String, Object> productMap : productList){
+                                    String goodsId = productMap.get("goods_id").toString();
+                                    try{
+                                        getSimpleProduct(productCatoryName, category, goodsId, productSqlList);
+                                    } catch (Exception e) {
+                                        continue;
+                                    }
                                 }
                             }
+                        } catch (Exception e) {
+                            continue;
                         }
                     }
                 } else {
@@ -343,16 +347,20 @@ public class SpriderFor7DingdongProductUtil {
                         }
                         JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
                         JSONArray productData = productJsonObject.getJSONArray("data");
-                        List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
-                        if(productList != null && productList.size() > 0){
-                            for(Map<String, Object> productMap : productList){
-                                String goodsId = productMap.get("goods_id").toString();
-                                try{
-                                    updateProduct(productCatoryName, goodsId, productSqlList);
-                                } catch (Exception e) {
-                                    continue;
+                        try{
+                            List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
+                            if(productList != null && productList.size() > 0){
+                                for(Map<String, Object> productMap : productList){
+                                    String goodsId = productMap.get("goods_id").toString();
+                                    try{
+                                        updateProduct(productCatoryName, goodsId, productSqlList);
+                                    } catch (Exception e) {
+                                        continue;
+                                    }
                                 }
                             }
+                        } catch (Exception e) {
+                            continue;
                         }
                     }
                 } else {
