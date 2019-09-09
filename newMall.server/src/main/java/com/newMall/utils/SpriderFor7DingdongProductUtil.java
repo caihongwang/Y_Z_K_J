@@ -231,7 +231,8 @@ public class SpriderFor7DingdongProductUtil {
                         Node node = nodeList.get(i - 1);
                         String imgUrl = node.attr("src");
                         if (!"".equals(imgUrl) && !describeImgList.contains(imgUrl)) {
-                            String theImgUrl = "http://7dd-statics.7dingdong.com" + imgUrl;
+//                            String theImgUrl = "http://7dd-statics.7dingdong.com" + imgUrl;
+                            String theImgUrl = imgUrl;
                             String imgNamePath = productPath + i + ".jpg";
                             ImageDownloadUtil.downloadPicture(theImgUrl, imgNamePath);
 
