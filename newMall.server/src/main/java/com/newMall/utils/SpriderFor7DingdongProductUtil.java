@@ -231,7 +231,7 @@ public class SpriderFor7DingdongProductUtil {
                         Node node = nodeList.get(i - 1);
                         String imgUrl = node.attr("src");
                         if (!"".equals(imgUrl) && !describeImgList.contains(imgUrl)) {
-                            String theImgUrl = "http://statics.76sd.com" + imgUrl;
+                            String theImgUrl = "http://7dd-statics.7dingdong.com" + imgUrl;
                             String imgNamePath = productPath + i + ".jpg";
                             ImageDownloadUtil.downloadPicture(theImgUrl, imgNamePath);
 
@@ -282,7 +282,7 @@ public class SpriderFor7DingdongProductUtil {
             productParamMap.put("stock", stock);
             productParamMap.put("headImgUrl", headImgUrl);
             productParamMap.put("describeImgUrl", describeImgUrl);
-            productParamMap.put("price", "9.9");
+            productParamMap.put("price", "3.99");
             productParamMap.put("integral", integral);
             productParamMap.put("category", category);
             productParamMap.put("status", 0);
