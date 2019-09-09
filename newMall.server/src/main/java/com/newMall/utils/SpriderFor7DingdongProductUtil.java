@@ -75,12 +75,9 @@ public class SpriderFor7DingdongProductUtil {
                                 productJson.append(System.lineSeparator()+s);
                             }
                             br.close();
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                        JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
-                        JSONArray productData = productJsonObject.getJSONArray("data");
-                        try{
+
+                            JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
+                            JSONArray productData = productJsonObject.getJSONArray("data");
                             List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
                             if(productList != null && productList.size() > 0){
                                 String category = "recommend";      //根据文件夹名称获取分类代码
@@ -100,7 +97,8 @@ public class SpriderFor7DingdongProductUtil {
                                     }
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e){
+                            e.printStackTrace();
                             continue;
                         }
                     }
@@ -342,12 +340,9 @@ public class SpriderFor7DingdongProductUtil {
                                 productJson.append(System.lineSeparator()+s);
                             }
                             br.close();
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                        JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
-                        JSONArray productData = productJsonObject.getJSONArray("data");
-                        try{
+
+                            JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
+                            JSONArray productData = productJsonObject.getJSONArray("data");
                             List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
                             if(productList != null && productList.size() > 0){
                                 for(Map<String, Object> productMap : productList){
@@ -359,7 +354,8 @@ public class SpriderFor7DingdongProductUtil {
                                     }
                                 }
                             }
-                        } catch (Exception e) {
+                        }catch(Exception e){
+                            e.printStackTrace();
                             continue;
                         }
                     }
