@@ -172,21 +172,18 @@ public class SpriderFor7DingdongProductUtil {
         }
 
         //获取 商品积分
-        String integralStr = "0";
+        String integralStr = "";
         Elements integralElements = doc.getElementsByTag("div");
         for (Element element : integralElements) {
             String className = element.attr("class");
             if ("zxj".equals(className)) {         //尊享版 div
                 Elements tempElements = element.getElementsByTag("i");
-                for(Element temp : integralElements) {
+                for(Element temp : tempElements) {
                     integralStr = integralStr + temp.childNode(0).toString();
                 }
                 break;
             }
         }
-        System.out.println("===================="+integralStr+"====================");
-        System.out.println("===================="+integralStr+"====================");
-        System.out.println("===================="+integralStr+"====================");
         Double integral = 0.0;
         try {
             integral = Double.parseDouble(integralStr);
@@ -430,25 +427,26 @@ public class SpriderFor7DingdongProductUtil {
         }
 
         //获取 商品积分
-        String integralStr = "0";
+        String integralStr = "";
         Elements integralElements = doc.getElementsByTag("div");
         for (Element element : integralElements) {
             String className = element.attr("class");
             if ("zxj".equals(className)) {         //尊享版 div
                 Elements tempElements = element.getElementsByTag("i");
-                for(Element temp : integralElements) {
+                for(Element temp : tempElements) {
                     integralStr = integralStr + temp.childNode(0).toString();
                 }
                 break;
             }
         }
-        Double price = 9.9;
         Double integral = 0.0;
         try {
             integral = Double.parseDouble(integralStr);
         } catch (Exception e) {
             integral = 0.0;
         }
+
+        Double price = 9.9;
 //        if("1折以下".equals(deductionName)){            //1折
 //            price = 2.9;
 //            integral = integral * 1;
