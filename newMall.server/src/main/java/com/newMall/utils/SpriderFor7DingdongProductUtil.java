@@ -98,6 +98,7 @@ public class SpriderFor7DingdongProductUtil {
                                 }
                             }
                         } catch (Exception e){
+                            System.out.println("路径："+productPath+"的数据有问题.");
                             e.printStackTrace();
                             continue;
                         }
@@ -259,7 +260,7 @@ public class SpriderFor7DingdongProductUtil {
                     "integral='"+integral+"', " +
                     "np.update_time = CURRENT_TIMESTAMP " +
                     "where id = '"+pruductList.get(0).get("id").toString()+"'\n";
-            logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
+            logger.info("【"+category+"】商品名称【"+title+"】的图片信息和SQL保存成功.");
             insertProductSqlList.add(updateProductSql);
         } else {
             //整合SQL
@@ -275,7 +276,7 @@ public class SpriderFor7DingdongProductUtil {
                     "  '" + describeImgUrl + "',\n" +
                     "  9.9,\"" + integral + "\", \"" + category + "\", 0, \n" +
                     "  now(), now());";
-            logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
+            logger.info("【"+category+"】商品名称【"+title+"】的图片信息和SQL保存成功.");
             insertProductSqlList.add(insertProductSql);
 
             productParamMap.clear();
