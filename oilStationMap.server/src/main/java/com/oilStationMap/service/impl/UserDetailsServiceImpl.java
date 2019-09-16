@@ -60,9 +60,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //用户昵称
         String isAdmin = userMap.get("isAdmin")!=null?userMap.get("isAdmin").toString():"false";
         //用户昵称
-        String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"";
+        String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"点击账户登录";
         //用户昵称
-        String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"";
+        String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"https://www.91caihongwang.com/resourceOfOilStationMap/user/defaultavatar.png";
         //微信openId
         String openId = userMap.get("openId").toString();
         //密码
@@ -71,10 +71,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> perms = Sets.newHashSet();
         perms.add(userMap.get("grayStatus").toString());
         Set<GrantedAuthority> authorities = perms.stream().filter(Objects::nonNull).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
-        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
-        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
-        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
-        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
         logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
         return new WX_User(nickName, password, uid, openId, nickName, avatarUrl, isAdmin, userInfoMap, authorities);
     }
