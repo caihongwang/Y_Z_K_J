@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -156,6 +158,7 @@ public class FileUtil {
         }
         return fileUploadUrl_temp;
     }
+
     /**
      * 创建文件
      * @param wb   文件的Object
@@ -196,5 +199,74 @@ public class FileUtil {
             logger.error("创建本地图片文件失败. imgBase64Data 不允许为空。");
         }
         return fileUploadUrl_temp;
+    }
+
+    /**
+     * 创建文件
+     * @param wb   文件的Object
+     * @param fileSuffix   文件后缀名，默认是jpg
+     * @return
+     */
+    public static String createFile(HSSFWorkbook wb, String currentFileUploadUrl, String fileName, String fileSuffix) {
+        String fileUploadUrl_temp = "";
+        FileUtil fileUtil = new FileUtil();
+        if(wb != null){
+            if(fileSuffix == null || "".equals(fileSuffix)){
+                fileSuffix = "xls";
+            }
+            try{
+                int size;
+                byte[] buffer = new byte[1024 * 1000000];
+                long startTime = System.currentTimeMillis();
+                //判断 文件夹 是否存存在，如果不存在则创建
+                File dirFile = new File(currentFileUploadUrl);
+                if (!dirFile.getParentFile().getParentFile().exists()) {
+                    dirFile.getParentFile().getParentFile().mkdirs();
+                }
+                if (!dirFile.getParentFile().exists()) {
+                    dirFile.getParentFile().mkdirs();
+                }
+                if(!dirFile.exists()){
+                    dirFile.mkdir();
+                }
+                Date currentDate = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                fileUploadUrl_temp = currentFileUploadUrl + fileName + "_" + formatter.format(currentDate) + "." + fileSuffix;
+                File fileUploadUrl_tempFile = new File(fileUploadUrl_temp);
+                if(fileUploadUrl_tempFile.exists()){
+                    boolean deleteFlag = FileUtil.deleteDir(fileUploadUrl_tempFile);
+                }
+                FileOutputStream out = new FileOutputStream(fileUploadUrl_tempFile);
+                wb.write(out);
+                out.close();
+                logger.info("创建本地exls文件，在当前服务器中的本地地址 : " + fileUploadUrl_temp);
+            } catch (Exception e) {
+                logger.error("创建本地exls文件失败. e : " + e);
+            }
+        } else {
+            logger.error("创建本地图片文件失败. imgBase64Data 不允许为空。");
+        }
+        return fileUploadUrl_temp;
+    }
+
+    /**
+     * 递归删除目录下的所有文件及子目录下所有文件
+     * @param dir 将要删除的文件目录
+     * @return boolean Returns "true" if all deletions were successful.
+     *                 If a deletion fails, the method stops attempting to
+     *                 delete and returns "false".
+     */
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
     }
 }
