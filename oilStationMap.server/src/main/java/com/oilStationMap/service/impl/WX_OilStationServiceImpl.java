@@ -274,7 +274,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
                             Date startDate = new Date();
-//                            this.addOrUpdateOilStation(paramMap);                 //暂时停止更新数据库
+                            this.addOrUpdateOilStation(paramMap);
                             Date endDate = new Date();
                             long interval = (endDate.getTime() - startDate.getTime())/1000;
                             logger.info("添加或者更新加油站-相差【"+interval+"】秒");
@@ -361,6 +361,49 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         }
         //更新油价
         LonLatUtil.getOilPriceFromOilUsdCnyCom(paramMap);
+        BoolDTO boolDTO = new BoolDTO();
+        boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        return boolDTO;
+    }
+
+    /**
+     * 更新加油站的招聘信息
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public BoolDTO updateOilStationHireInfo(Map<String, Object> paramMap) {
+        Integer size = (Integer)paramMap.get("size");
+        Integer start = (Integer)paramMap.get("start");
+        paramMap.put("size", size);
+        paramMap.put("start", start);
+        List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
+        if(oilStationList != null && oilStationList.size() > 0){
+            for(int i = 0; i < oilStationList.size(); i++) {
+                Map<String, Object> oilStationMap = oilStationList.get(i);
+                String oilStationName = oilStationMap.get("oilStationName").toString();
+                String oilStationAdress = oilStationMap.get("oilStationAdress").toString();
+                String id = oilStationMap.get("id").toString();
+                paramMap.clear();
+                paramMap.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationName, oilStationAdress));
+                paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
+                paramMap.put("id", id);
+                Integer updateNum = wxOilStationDao.updateOilStation(paramMap);
+                if(updateNum != null && updateNum > 0){
+                    logger.info("第"+i+"座【"+oilStationName+"】更新招聘信息成功...");
+                } else {
+                    logger.info("第"+i+"座【"+oilStationName+"】更新招聘信息失败...");
+                }
+            }
+            size = size + 1000;
+            start = start + 1000;
+            paramMap.put("size", size);
+            paramMap.put("start", start);
+            updateOilStationHireInfo(paramMap);
+        } else {
+            logger.info("更新招聘信息结束...");
+        }
         BoolDTO boolDTO = new BoolDTO();
         boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());

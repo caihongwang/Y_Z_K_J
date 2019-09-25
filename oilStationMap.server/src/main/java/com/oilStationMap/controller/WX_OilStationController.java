@@ -80,6 +80,29 @@ public class WX_OilStationController {
         return resultMap;
     }
 
+    @RequestMapping("/updateOilStationHireInfo")
+    @ResponseBody
+    public Map<String, Object> updateOilStationHireInfo(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中更新加油站的招聘信息-updateOilStationHireInfo,请求-paramMap:" + paramMap);
+        try {
+            BoolDTO boolDTO = wxOilStationHandler.updateOilStationHireInfo(paramMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中更新加油站的招聘信息-updateOilStationHireInfo is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中更新加油站的招聘信息-updateOilStationHireInfo,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/getOilPriceFromOilUsdCnyCom")
     @ResponseBody
     public Map<String, Object> getOilPriceFromOilUsdCnyCom(HttpServletRequest request) {

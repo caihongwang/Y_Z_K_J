@@ -25,6 +25,13 @@ public interface WX_OilStationService {
     BoolDTO addOrUpdateOilStationByTencetMap(Map<String, Object> paramMap);
 
     /**
+     * 更新加油站的招聘信息
+     *
+     * @param paramMap
+     * @return
+     */
+    BoolDTO updateOilStationHireInfo(Map<String, Object> paramMap);
+    /**
      * 定时更新全国油价
      *
      * @param paramMap

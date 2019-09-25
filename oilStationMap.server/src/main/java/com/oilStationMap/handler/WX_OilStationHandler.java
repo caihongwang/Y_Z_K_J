@@ -58,6 +58,37 @@ public class WX_OilStationHandler {
     }
 
     /**
+     * 更新加油站的招聘信息
+     * @param paramMap
+     * @return
+     */
+    public BoolDTO updateOilStationHireInfo(Map<String, String> paramMap) {
+        logger.info("在【hanlder】中更新加油站的招聘信息-updateOilStationHireInfo,请求-paramMap:" + paramMap);
+        BoolDTO boolDTO = new BoolDTO();
+        new Thread(){
+
+            public void run(){
+                Map<String, Object> objectParamMap = Maps.newHashMap();
+                try {
+                    Integer size = 1000;
+                    Integer start = 0;
+                    objectParamMap.put("size", size);
+                    objectParamMap.put("start", start);
+                    wxOilStationService.updateOilStationHireInfo(objectParamMap);
+                } catch (Exception e) {
+                    boolDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                    boolDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                    logger.error("在【hanlder】中更新加油站的招聘信息-updateOilStationHireInfo is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在【hanlder】中更新加油站的招聘信息-updateOilStationHireInfo,响应-response:" + boolDTO);
+        return boolDTO;
+    }
+
+    /**
      * 定时更新全国油价
      * @param paramMap
      * @return
