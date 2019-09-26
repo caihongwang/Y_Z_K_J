@@ -113,6 +113,7 @@ public class FileUtil {
             out.write(buffer, 0, readByte);
         }
         in.close();
+        out.flush();
         out.close();
     }
 
