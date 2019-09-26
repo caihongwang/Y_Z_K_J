@@ -374,10 +374,11 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
      */
     @Override
     public BoolDTO updateOilStationHireInfo(Map<String, Object> paramMap) {
-        Integer size = (Integer)paramMap.get("size");
         Integer start = (Integer)paramMap.get("start");
-        paramMap.put("size", size);
+        Integer size = (Integer)paramMap.get("size");
+        paramMap.clear();
         paramMap.put("start", start);
+        paramMap.put("size", size);
         List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
         if(oilStationList != null && oilStationList.size() > 0){
             for(int i = 0; i < oilStationList.size(); i++) {
@@ -396,7 +397,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     logger.info("第"+i+"座【"+oilStationName+"】更新招聘信息失败...");
                 }
             }
-            size = size + 1000;
             start = start + 1000;
             paramMap.put("size", size);
             paramMap.put("start", start);
