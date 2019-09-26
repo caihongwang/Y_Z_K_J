@@ -26,8 +26,8 @@ public class PingYingUtil {
         char[] input = inputString.trim().toCharArray();
         String output = "";
 
-        try {
-            for (int i = 0; i < input.length; i++) {
+        for (int i = 0; i < input.length; i++) {
+            try {
                 if (Character.toString(input[i]).matches(
                         "[\\u4E00-\\u9FA5]+")) {
                     String[] temp = PinyinHelper.toHanyuPinyinStringArray(
@@ -36,10 +36,10 @@ public class PingYingUtil {
                 } else {
                     output += Character.toString(input[i]);
                 }
-
+            } catch (BadHanyuPinyinOutputFormatCombination e) {
+                e.printStackTrace();
+                continue;
             }
-        } catch (BadHanyuPinyinOutputFormatCombination e) {
-            e.printStackTrace();
         }
         return output;
     }

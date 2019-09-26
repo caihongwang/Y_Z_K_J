@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -1495,6 +1496,9 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
     public String createOilStationHireInfoUrl(String oilStationName, String oilStationAddress){
         String oilStationHireInfoUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/zhong_guo_shi_hua_song_tao_da_lu_tian_ba_jia_you_zhan/index.html";
         String baseUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/";
+        if("中国石化松桃大路田坝加油站".equals(oilStationName)){
+            return "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/zhong_guo_shi_hua_song_tao_da_lu_tian_ba_jia_you_zhan/index.html";
+        }
         if(oilStationName == null || "".equals(oilStationName)){
             oilStationName = "中国石化松桃大路田坝加油站";
         }
@@ -1504,6 +1508,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         String dirName = "";
         try {
             //1.根据加油站转义文件夹名称
+            oilStationName = oilStationName.replace("/", "");
             char[] tempArr = oilStationName.toCharArray();
             for(int i = 0; i < tempArr.length; i++){
                 char temp = tempArr[i];
@@ -1517,6 +1522,12 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             String newPath = oilStationMapHirePath + dirName;
             //2.复制文件夹及其文件内容
             FileUtil.copyDirAndFile(sourcePath, newPath);
+            String hireHtmlPath = newPath + "/index.html";
+            File hireHtmlFile = new File(hireHtmlPath);
+            if(!hireHtmlFile.exists() || hireHtmlFile.length() <= 0){
+                logger.info("创建 加油站："+oilStationName+" 的招聘链接失败...");
+                return "";
+            }
             //3.替换文件中字符串
             FileUtil.replaceStrInFile(
                     newPath+"/index.html",
@@ -1531,7 +1542,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             //4.拼接url
             oilStationHireInfoUrl = baseUrl + dirName + "/index.html";
         } catch (Exception e) {
-            logger.info("创建 加油站："+oilStationName+" 的招聘链接失败...");
+            logger.info("创建 加油站："+oilStationName+" 的招聘链接失败..., e : ");
+            e.printStackTrace();
         }
         return oilStationHireInfoUrl;
     }

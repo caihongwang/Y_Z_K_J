@@ -55,6 +55,7 @@ public class FileUtil {
             }
 
             is.close();
+            reader.close();
 
             writer.flush();
             writer.close();
@@ -101,20 +102,41 @@ public class FileUtil {
      * @param newPath
      * @throws IOException
      */
-    public static void copyFile(String oldPath, String newPath) throws IOException {
+    public static void copyFile(String oldPath, String newPath) {
         File oldFile = new File(oldPath);
         File file = new File(newPath);
-        FileInputStream in = new FileInputStream(oldFile);
-        FileOutputStream out = new FileOutputStream(file);;
-
-        byte[] buffer=new byte[2097152];
-        int readByte = 0;
-        while((readByte = in.read(buffer)) != -1){
-            out.write(buffer, 0, readByte);
+        FileInputStream in = null;
+        FileOutputStream out = null;
+        try {
+            in = new FileInputStream(oldFile);
+            out = new FileOutputStream(file);
+            byte[] buffer=new byte[2097152];
+            int readByte = 0;
+            while((readByte = in.read(buffer)) != -1){
+                out.write(buffer, 0, readByte);
+            }
+        } catch (Exception e) {
+            logger.info("复制文件夹的子文件内容失败...");
+            e.printStackTrace();
+        } finally {
+            if(in != null){
+                try {
+                    in.close();
+                } catch (Exception e) {
+                    logger.info("关闭 in 流失败...");
+                    e.printStackTrace();
+                }
+            }
+            if(out != null){
+                try {
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    logger.info("关闭 out 流失败...");
+                    e.printStackTrace();
+                }
+            }
         }
-        in.close();
-        out.flush();
-        out.close();
     }
 
     /**
