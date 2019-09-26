@@ -893,7 +893,11 @@ public class LonLatUtil {
                 Node aNode = element.childNode(0);
                 if (aNode != null && aNode.childNodeSize() > 0) {
                     Node oilStationAreaNameNode = aNode.childNode(0);
-                    province = oilStationAreaNameNode.toString();
+                    if(oilStationAreaNameNode != null && oilStationAreaNameNode.childNodeSize() > 0){
+                        province = oilStationAreaNameNode.childNode(0).toString();
+                    } else {
+                        province = oilStationAreaNameNode.toString();
+                    }
                     continue;
                 } else {
                     oilStationPrice = aNode.toString();
