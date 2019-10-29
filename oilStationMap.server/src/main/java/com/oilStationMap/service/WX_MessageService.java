@@ -64,4 +64,10 @@ public interface WX_MessageService {
    * @param paramMap
    */
   public ResultMapDTO dailyCarUreaMessageSend(Map<String, Object> paramMap) throws Exception;
+
+  /**
+   * 根据粉象生活Json获取【粉象生活Excel】福利
+   * @param paramMap
+   */
+  public ResultMapDTO dailyGetFenXiangShengHuoProduct(Map<String, Object> paramMap) throws Exception;
 }

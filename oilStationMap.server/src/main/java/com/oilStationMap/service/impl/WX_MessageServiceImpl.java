@@ -3,6 +3,7 @@ package com.oilStationMap.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.newMall.utils.SpriderForFenXiangShengHuoUtil;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dao.WX_UserDao;
 import com.oilStationMap.dto.ResultDTO;
@@ -944,6 +945,22 @@ public class WX_MessageServiceImpl implements WX_MessageService {
             }
         }
         logger.info("【service】发送恶意篡改管理员用户信息-dailyIllegalUpdateOilPriceMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 根据粉象生活Json获取【粉象生活Excel】福利
+     * @param paramMap
+     */
+    @Override
+    public ResultMapDTO dailyGetFenXiangShengHuoProduct(Map<String, Object> paramMap) throws Exception {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        logger.info("【service】根据粉象生活Json获取【粉象生活Excel】福利-dailyGetFenXiangShengHuoProduct,请求-paramMap:" + paramMap);
+        SpriderForFenXiangShengHuoUtil.getFenXiangShengHuoProduct(paramMap);
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("【service】根据粉象生活Json获取【粉象生活Excel】福利-dailyGetFenXiangShengHuoProduct,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
 

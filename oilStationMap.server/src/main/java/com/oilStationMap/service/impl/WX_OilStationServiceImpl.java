@@ -275,7 +275,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         paramMap.put("oilStationHireTitle", oilStationName+"--招聘");
                         try {
                             Date startDate = new Date();
-                            this.addOrUpdateOilStation(paramMap);
+                            //this.addOrUpdateOilStation(paramMap);
                             Date endDate = new Date();
                             long interval = (endDate.getTime() - startDate.getTime())/1000;
                             logger.info("添加或者更新加油站-相差【"+interval+"】秒");
