@@ -65,7 +65,7 @@ public class SpiderFor58Util {
                     //爬取网页
                     Document ershoufang58PageDoc = null;
                     Random rand = new Random();
-                    Integer requestTime = rand.nextInt(4) + 3;
+                    Integer requestTime = rand.nextInt(6) + 3;
                     requestTime = requestTime * 1000;
                     if(!"".equals(ip) && port != 0){
                         ershoufang58PageDoc = Jsoup.connect(ershoufang58PageUrl)
@@ -124,7 +124,7 @@ public class SpiderFor58Util {
                     //爬取网页
                     Document ershoufang58Doc = null;
                     Random rand = new Random();
-                    Integer requestTime = rand.nextInt(4) + 3;
+                    Integer requestTime = rand.nextInt(6) + 3;
                     requestTime = requestTime * 1000;
                     if(!"".equals(ip) && port != 0){
                         ershoufang58Doc = Jsoup.connect(ershoufang58Url)
