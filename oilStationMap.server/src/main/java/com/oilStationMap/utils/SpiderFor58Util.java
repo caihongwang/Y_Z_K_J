@@ -146,6 +146,7 @@ public class SpiderFor58Util {
                         String className = element.attr("class");
                         if("phone-num".equals(className)){
                             String phone = element.html();
+                            logger.info("phone = " + phone);
                             if(!phoneList.contains(phone)){
                                 phoneList.add(phone);
                             }
