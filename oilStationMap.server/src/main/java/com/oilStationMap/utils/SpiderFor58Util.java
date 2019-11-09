@@ -146,7 +146,7 @@ public class SpiderFor58Util {
                         String className = element.attr("class");
                         if("phone-num".equals(className)){
                             String phone = element.html();
-                            logger.info("phone = " + phone);
+                            logger.info("phone = " + phone + " , phoneList.size() = " + phoneList.size());
                             if(!phoneList.contains(phone)){
                                 phoneList.add(phone);
                             }
@@ -158,7 +158,6 @@ public class SpiderFor58Util {
             }
             //3.入库
             for (String phone : phoneList) {
-                System.out.println("phone = " + phone);
                 Map<String, Object> paramMap = Maps.newHashMap();
                 paramMap.put("phone", phone);
                 Integer num = wxContactDao.checkContactByPhone(paramMap);
