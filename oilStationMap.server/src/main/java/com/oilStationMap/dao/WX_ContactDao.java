@@ -22,6 +22,11 @@ public interface WX_ContactDao {
     Integer checkContactByPhone(Map<String, Object> paramMap);
 
     /**
+     * 获取所有的联系人
+     */
+    List<Map<String, Object>> getAllContactList();
+
+    /**
      * 添加或者修改联系人
      */
     Integer addContact(Map<String, Object> paramMap);

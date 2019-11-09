@@ -61,4 +61,10 @@
         where oc.name like concat('',#{name},'%')
     </select>
 
+    <select id="getAllContactList" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM o_contact oc
+    </select>
+
 </mapper>

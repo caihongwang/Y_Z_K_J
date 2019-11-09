@@ -11,16 +11,21 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 /**
- * 装一网 爬取站点 以及 发起预约
+ * 从58二手房爬取手机号并整合入库
  */
 public class SpiderFor58Util {
 
     public static final Logger logger = LoggerFactory.getLogger(SpiderFor58Util.class);
+
+    public static String contactPath = "/opt/resourceOfOilStationMap/webapp/contact/";
 
     public static WX_ContactDao wxContactDao = (WX_ContactDao)ApplicationContextUtils.getBeanByClass(WX_ContactDao.class);
 
@@ -28,7 +33,7 @@ public class SpiderFor58Util {
      * 从58二手房爬取手机号并整合入库
      */
     public static void getContactFrom58ErShouFang() {
-//        List<Map<String, String>> ipList = IpDaiLiUtil.getDaiLiIpList();            //获取代理IP
+        //List<Map<String, String>> ipList = IpDaiLiUtil.getDaiLiIpList();            //获取代理IP
         List<Map<String, String>> ipList = Lists.newLinkedList();
         List<String> distinctList = Lists.newLinkedList();
         distinctList.add("trbj");   //铜仁碧江
@@ -46,7 +51,7 @@ public class SpiderFor58Util {
         for(String distinct : distinctList){
             String contactNameFlag = "tr_" + distinct;
             //1.获取信息列表
-            for(int pageNum = 1; pageNum <= 30; pageNum++){
+            for(int pageNum = 1; pageNum <= 1; pageNum++){
                 String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
                 try {
                     //获取代理IP地址
@@ -149,6 +154,7 @@ public class SpiderFor58Util {
                 } catch (Exception e) {
                     logger.error("打开【二手房详情页面】失败，页面打开超时或者为连接不上网络，ershoufang58Url = " + ershoufang58Url);
                 }
+                break;
             }
             //3.入库
             for (String phone : phoneList) {
@@ -167,7 +173,9 @@ public class SpiderFor58Util {
                         maxId = 0;
                     }
                     maxId++;
-                    String name = contactNameFlag + "_" + maxId.toString();
+                    String maxIdStr = "000000" + maxId.toString();
+                    maxIdStr = maxIdStr.substring(maxIdStr.length() - 6);
+                    String name = contactNameFlag + "_" + maxIdStr;
                     //3.2.插入联系人
                     paramMap.clear();
                     paramMap.put("name", name);
@@ -179,8 +187,88 @@ public class SpiderFor58Util {
                 }
             }
         }
-        logger.info("phoneList size = " + phoneList.size());
-        logger.info("ershoufang58UrlList size = " + ershoufang58UrlList.size());
+        //4.整合数据变成vcf文件
+        StringBuffer contact_stringBuffer = new StringBuffer();
+        List<Map<String, Object>> contactList = wxContactDao.getAllContactList();
+        for(Map<String, Object> contactMap : contactList){
+            String name = contactMap.get("name")!=null?contactMap.get("name").toString():"";
+            String phone = contactMap.get("phone")!=null?contactMap.get("phone").toString():"";
+            String remark = contactMap.get("remark")!=null?contactMap.get("remark").toString():"";
+            //整理vcf格式
+            contact_stringBuffer.append("BEGIN:VCARD").append("\n");
+            contact_stringBuffer.append("VERSION:3.0").append("\n");
+            contact_stringBuffer.append("PRODID:-//Apple Inc.//Mac OS X 10.13.6//EN").append("\n");
+            contact_stringBuffer.append("N:").append(name).append("\n");
+            contact_stringBuffer.append("TEL;type=CELL;type=VOICE;type=pref:").append(phone).append("\n");
+            contact_stringBuffer.append("UID:9017CA64-35DA-4663-889B-5C20D19A4722").append("\n");
+            contact_stringBuffer.append("X-ABUID:625B028A-8EC5-419C-8F86-E4F0409AC125:ABPerson").append("\n");
+            contact_stringBuffer.append("END:VCARD").append("\n");
+        }
+        try {
+            Date currentDate = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            String vcfFilePath = contactPath + "联系人_" + formatter.format(currentDate) + ".vcf";
+            File vcfFile = new File(vcfFilePath);
+            vcfFile.createNewFile();
+            writeFileContent(vcfFilePath, contact_stringBuffer.toString());
+        } catch (Exception e) {
+            logger.info("将数据库中的联系人转换为vcf,保存文件时发生错误。 e : " + e);
+        }
+    }
+
+    public static boolean writeFileContent(String filepath, String newstr) throws IOException {
+        Boolean bool = false;
+        String filein = newstr + "\r\n";//新写入的行，换行
+        String temp = "";
+
+        FileInputStream fis = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        FileOutputStream fos = null;
+        PrintWriter pw = null;
+        try {
+            File file = new File(filepath);//文件路径(包括文件名称)
+            //将文件读入输入流
+            fis = new FileInputStream(file);
+            isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+            StringBuffer buffer = new StringBuffer();
+
+            //文件原有内容
+            for (int i = 0; (temp = br.readLine()) != null; i++) {
+                buffer.append(temp);
+                // 行与行之间的分隔符 相当于“\n”
+                buffer = buffer.append(System.getProperty("line.separator"));
+            }
+            buffer.append(filein);
+
+            fos = new FileOutputStream(file);
+            pw = new PrintWriter(fos);
+            pw.write(buffer.toString().toCharArray());
+            pw.flush();
+            bool = true;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            //不要忘记关闭
+            if (pw != null) {
+                pw.close();
+            }
+            if (fos != null) {
+                fos.close();
+            }
+            if (br != null) {
+                br.close();
+            }
+            if (isr != null) {
+                isr.close();
+            }
+            if (fis != null) {
+                fis.close();
+            }
+        }
+        return bool;
     }
 
 
