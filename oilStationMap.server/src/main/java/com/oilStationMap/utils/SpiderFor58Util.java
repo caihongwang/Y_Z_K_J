@@ -51,7 +51,7 @@ public class SpiderFor58Util {
         for(String distinct : distinctList){
             String contactNameFlag = "tr_" + distinct;
             //1.获取信息列表
-            for(int pageNum = 1; pageNum <= 1; pageNum++){
+            for(int pageNum = 1; pageNum <= 30; pageNum++){
                 String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
                 try {
                     //获取代理IP地址
@@ -155,7 +155,6 @@ public class SpiderFor58Util {
                 } catch (Exception e) {
                     logger.error("打开【二手房详情页面】失败，页面打开超时或者为连接不上网络，ershoufang58Url = " + ershoufang58Url);
                 }
-                break;
             }
             //3.入库
             for (String phone : phoneList) {
