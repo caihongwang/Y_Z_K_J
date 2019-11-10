@@ -60,6 +60,7 @@ public class SpiderFor58Util {
                 //1.获取信息列表
                 for(int pageNum = 1; pageNum <= 30; pageNum++){
                     String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
+                    logger.info("contactNameFlag = " + contactNameFlag + " ， 第 " + pageNum + " 页, ershoufang58PageUrl = " + ershoufang58PageUrl);
                     try {
                         //获取代理IP地址
                         Map ipMap = Maps.newHashMap();
@@ -107,7 +108,6 @@ public class SpiderFor58Util {
                                                     href = "https:" + href;
                                                     ershoufang58UrlList.add(href);
                                                 }
-                                                logger.info("contactNameFlag = " + contactNameFlag + " ， 第 " + pageNum + " 页, href = " + href);
                                             }
                                         }
                                     }
