@@ -35,21 +35,22 @@ public class SpiderFor58Util {
     public static void getContactFrom58ErShouFang() {
         //List<Map<String, String>> ipList = IpDaiLiUtil.getDaiLiIpList();            //获取代理IP
         List<Map<String, String>> ipList = Lists.newLinkedList();
-        List<String> distinctList = Lists.newLinkedList();
-        distinctList.add("trbj");   //铜仁碧江
+        String cityName = "tr";                             //铜仁简称
+        List<String> distinctList = Lists.newLinkedList();  //铜仁下属地区名称
+//        distinctList.add("trbj");   //铜仁碧江
         distinctList.add("wangshan");   //铜仁万山
-        distinctList.add("songtao");   //铜仁松桃
-        distinctList.add("sinan");   //铜仁思南
-        distinctList.add("dejiang");   //铜仁德江
-        distinctList.add("shiqian");   //铜仁石阡
-        distinctList.add("jiangkou");   //铜仁江口
-        distinctList.add("yanhe");   //铜仁沿河
-        distinctList.add("yuping");   //铜仁玉屏
-        distinctList.add("yinjiang");   //铜仁印江
+//        distinctList.add("songtao");   //铜仁松桃
+//        distinctList.add("sinan");   //铜仁思南
+//        distinctList.add("dejiang");   //铜仁德江
+//        distinctList.add("shiqian");   //铜仁石阡
+//        distinctList.add("jiangkou");   //铜仁江口
+//        distinctList.add("yanhe");   //铜仁沿河
+//        distinctList.add("yuping");   //铜仁玉屏
+//        distinctList.add("yinjiang");   //铜仁印江
         List<String> phoneList = Lists.newArrayList();
         List<String> ershoufang58UrlList = Lists.newArrayList();
         for(String distinct : distinctList){
-            String contactNameFlag = "tr_" + distinct;
+            String contactNameFlag = cityName + "_" + distinct;
             //1.获取信息列表
             for(int pageNum = 1; pageNum <= 30; pageNum++){
                 String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
@@ -146,7 +147,7 @@ public class SpiderFor58Util {
                         String className = element.attr("class");
                         if("phone-num".equals(className)){
                             String phone = element.html();
-                            logger.info("phone = " + phone + " , phoneList.size() = " + phoneList.size());
+                            logger.info("contactNameFlag = " + contactNameFlag + " ， phone = " + phone + " , phoneList.size() = " + phoneList.size());
                             if(!phoneList.contains(phone)){
                                 phoneList.add(phone);
                             }
@@ -165,11 +166,19 @@ public class SpiderFor58Util {
                     continue;
                 } else {                        //该联系人不存在，直接插入
                     //3.1.获取最大联系人的ID
+                    Integer maxId = 0;
                     paramMap.clear();
-                    paramMap.put("name", contactNameFlag);
-                    Integer maxId = wxContactDao.getMaxIdByName(paramMap);
-                    if(maxId == null){
-                        maxId = 0;
+                    paramMap.put("remark", contactNameFlag);
+                    Map<String, Object> maxContactMap = wxContactDao.getMaxIdByName(paramMap);
+                    if(maxContactMap != null && maxContactMap.size() > 0){
+                        String maxContactName = maxContactMap.get("name")!=null?maxContactMap.get("name").toString():"";
+                        if(!"".equals(maxContactName)){
+                            String maxIdStr = maxContactName.substring(maxContactName.length() - 6);
+                            maxId = Integer.parseInt(maxIdStr);
+                            if(maxId == null){
+                                maxId = 0;
+                            }
+                        }
                     }
                     maxId++;
                     String maxIdStr = "000000" + maxId.toString();
@@ -188,7 +197,9 @@ public class SpiderFor58Util {
         }
         //4.整合数据变成vcf文件
         StringBuffer contact_stringBuffer = new StringBuffer();
-        List<Map<String, Object>> contactList = wxContactDao.getAllContactList();
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("remark", cityName);           //根据城市名称获取联系人
+        List<Map<String, Object>> contactList = wxContactDao.getAllContactList(paramMap);
         for(Map<String, Object> contactMap : contactList){
             String name = contactMap.get("name")!=null?contactMap.get("name").toString():"";
             String phone = contactMap.get("phone")!=null?contactMap.get("phone").toString():"";
@@ -206,7 +217,7 @@ public class SpiderFor58Util {
         try {
             Date currentDate = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            String vcfFilePath = contactPath + "联系人_" + formatter.format(currentDate) + ".vcf";
+            String vcfFilePath = contactPath + cityName + "_联系人_" + formatter.format(currentDate) + ".vcf";
             File vcfFile = new File(vcfFilePath);
             vcfFile.createNewFile();
             writeFileContent(vcfFilePath, contact_stringBuffer.toString());

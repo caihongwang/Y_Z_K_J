@@ -54,17 +54,22 @@
         where oc.phone = #{phone}
     </select>
 
-    <select id="getMaxIdByName" resultType="java.lang.Integer">
-        SELECT
-            max(id)
-        FROM o_contact oc
-        where oc.name like concat('',#{name},'%')
+    <select id="getMaxIdByName" resultType="java.util.Map">
+        select
+            <include refid="TColumnList"/>
+         from o_contact oc where id = (
+            SELECT
+                max(id)
+            FROM o_contact
+            where remark = #{remark}
+        )
     </select>
 
     <select id="getAllContactList" resultType="java.util.Map">
         SELECT
             <include refid="TColumnList"/>
         FROM o_contact oc
+        where oc.remark like concat(#{remark},'%')
     </select>
 
 </mapper>
