@@ -38,7 +38,7 @@ public class SpiderFor58Util {
         List<String> phoneList = Lists.newArrayList();
 
         Map<String, Object> cityAndDistinctMap = Maps.newHashMap();
-        List<String> trDistinctList = Lists.newLinkedList();  //铜仁下属地区名称
+        List<String> trDistinctList = Lists.newLinkedList();        //铜仁下属地区名称
         trDistinctList.add("trbj");       //铜仁碧江
         trDistinctList.add("wangshan");   //铜仁万山
         trDistinctList.add("songtao");    //铜仁松桃
@@ -49,7 +49,7 @@ public class SpiderFor58Util {
         trDistinctList.add("yanhe");      //铜仁沿河
         trDistinctList.add("yuping");     //铜仁玉屏
         trDistinctList.add("yinjiang");   //铜仁印江
-        cityAndDistinctMap.put("tr", trDistinctList);
+        cityAndDistinctMap.put("tr", trDistinctList);               //铜仁市
 
         for (Map.Entry<String, Object> tempMap : cityAndDistinctMap.entrySet()) {
             String cityName = tempMap.getKey();     //城市简称
