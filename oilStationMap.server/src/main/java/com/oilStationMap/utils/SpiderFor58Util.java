@@ -37,16 +37,16 @@ public class SpiderFor58Util {
         List<Map<String, String>> ipList = Lists.newLinkedList();
         String cityName = "tr";                             //铜仁简称
         List<String> distinctList = Lists.newLinkedList();  //铜仁下属地区名称
-//        distinctList.add("trbj");   //铜仁碧江
+        distinctList.add("trbj");   //铜仁碧江
         distinctList.add("wangshan");   //铜仁万山
-//        distinctList.add("songtao");   //铜仁松桃
-//        distinctList.add("sinan");   //铜仁思南
-//        distinctList.add("dejiang");   //铜仁德江
-//        distinctList.add("shiqian");   //铜仁石阡
-//        distinctList.add("jiangkou");   //铜仁江口
-//        distinctList.add("yanhe");   //铜仁沿河
-//        distinctList.add("yuping");   //铜仁玉屏
-//        distinctList.add("yinjiang");   //铜仁印江
+        distinctList.add("songtao");   //铜仁松桃
+        distinctList.add("sinan");   //铜仁思南
+        distinctList.add("dejiang");   //铜仁德江
+        distinctList.add("shiqian");   //铜仁石阡
+        distinctList.add("jiangkou");   //铜仁江口
+        distinctList.add("yanhe");   //铜仁沿河
+        distinctList.add("yuping");   //铜仁玉屏
+        distinctList.add("yinjiang");   //铜仁印江
         List<String> phoneList = Lists.newArrayList();
         List<String> ershoufang58UrlList = Lists.newArrayList();
         for(String distinct : distinctList){
