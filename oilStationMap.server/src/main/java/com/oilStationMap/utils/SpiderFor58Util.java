@@ -121,6 +121,7 @@ public class SpiderFor58Util {
                 //2.抓取手机号
                 int i = 0;
                 for(String ershoufang58Url : ershoufang58UrlList){
+                    logger.info("contactNameFlag = " + contactNameFlag + " ， 58二手房详情页面, ershoufang58Url = " + ershoufang58Url);
                     try{
                         //获取代理IP地址
                         Map ipMap = Maps.newHashMap();
