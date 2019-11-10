@@ -107,6 +107,7 @@ public class SpiderFor58Util {
                                                     href = "https:" + href;
                                                     ershoufang58UrlList.add(href);
                                                 }
+                                                logger.info("contactNameFlag = " + contactNameFlag + " ， 第 " + pageNum + " 页, href = " + href);
                                             }
                                         }
                                     }
