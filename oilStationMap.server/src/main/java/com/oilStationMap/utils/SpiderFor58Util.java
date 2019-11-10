@@ -118,6 +118,7 @@ public class SpiderFor58Util {
                         logger.error("打开【二手房列表页面】失败，页面打开超时或者为连接不上网络，ershoufang58PageUrl = " + ershoufang58PageUrl);
                     }
                 }
+                logger.info("contactNameFlag = " + contactNameFlag + " ， 58二手房详情页面总数 ， ershoufang58UrlList.size() = " + ershoufang58UrlList.size());
                 //2.抓取手机号
                 int i = 0;
                 for(String ershoufang58Url : ershoufang58UrlList){
