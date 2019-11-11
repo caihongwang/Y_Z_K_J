@@ -35,7 +35,6 @@ public class SpiderFor58Util {
     public static void getContactFrom58ErShouFang() {
         //List<Map<String, String>> ipList = IpDaiLiUtil.getDaiLiIpList();            //获取代理IP
         List<Map<String, String>> ipList = Lists.newLinkedList();
-        List<String> phoneList = Lists.newArrayList();
 
         Map<String, Object> cityAndDistinctMap = Maps.newHashMap();
         List<String> trDistinctList = Lists.newLinkedList();        //铜仁下属地区名称
@@ -52,6 +51,7 @@ public class SpiderFor58Util {
         cityAndDistinctMap.put("tr", trDistinctList);               //铜仁市
 
         for (Map.Entry<String, Object> tempMap : cityAndDistinctMap.entrySet()) {
+            List<String> phoneList = Lists.newArrayList();
             String cityName = tempMap.getKey();     //城市简称
             List<String> distinctList = (List<String>)tempMap.getValue();     //城市所属地区
             List<String> ershoufang58UrlList = Lists.newArrayList();
