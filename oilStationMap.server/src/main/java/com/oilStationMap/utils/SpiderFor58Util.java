@@ -55,159 +55,159 @@ public class SpiderFor58Util {
             String cityName = tempMap.getKey();     //城市简称
             List<String> distinctList = (List<String>)tempMap.getValue();     //城市所属地区
             List<String> ershoufang58UrlList = Lists.newArrayList();
-//            for(String distinct : distinctList){
-//                String contactNameFlag = cityName + "_" + distinct;
-//                //1.获取信息列表
-//                for(int pageNum = 1; pageNum <= 30; pageNum++){
-//                    String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
-//                    logger.info("contactNameFlag = " + contactNameFlag + " ， 第 " + pageNum + " 页, ershoufang58PageUrl = " + ershoufang58PageUrl);
-//                    try {
-//                        //获取代理IP地址
-//                        Map ipMap = Maps.newHashMap();
-//                        if(ipList != null && ipList.size() > 0){
-//                            ipMap = ipList.get(0);
-//                            ipList.remove(0);
-//                        }
-//                        String ip = ipMap.get("ip")!=null?ipMap.get("ip").toString():"";
-//                        int port = ipMap.get("port")!=null?Integer.parseInt(ipMap.get("port").toString()):0;
-//                        //爬取网页
-//                        Document ershoufang58PageDoc = null;
-//                        Random rand = new Random();
-//                        Integer requestTime = rand.nextInt(6) + 3;
-//                        requestTime = requestTime * 1000;
-//                        if(!"".equals(ip) && port != 0){
-//                            ershoufang58PageDoc = Jsoup.connect(ershoufang58PageUrl)
-//                                    .proxy(ip, port)
-//                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
-//                                    .timeout(15000).get();
-//                        } else {
-//                            ershoufang58PageDoc = Jsoup.connect(ershoufang58PageUrl)
-//                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
-//                                    .timeout(15000).get();
-//                        }
-//                        Thread.sleep(requestTime);
-//                        if(ershoufang58PageDoc == null) {
-//                            logger.error("打开【二手房列表页面】失败，页面打不开或者被58同城对IP地址进行暂时封掉，ershoufang58PageUrl = " + ershoufang58PageUrl);
-//                            continue;
-//                        }
-//                        Elements liElements = ershoufang58PageDoc.getElementsByTag("li");          //获取a标签
-//                        for (Element element : liElements) {
-//                            String className = element.attr("class");
-//                            if ("sendsoj".equals(className)) {
-//                                List<Node> divNodes = element.childNodes();
-//                                for(Node divNode : divNodes){
-//                                    String classNameTemp = divNode.attr("class");
-//                                    if ("pic".equals(classNameTemp)) {
-//                                        List<Node> hrefNodes = divNode.childNodes();
-//                                        for(Node hrefNode : hrefNodes){
-//                                            String href = hrefNode.attr("href");
-//                                            if(href != null && !"".equals(href)){
-//                                                if(href.startsWith("https")){
-//                                                    ershoufang58UrlList.add(href);
-//                                                } else {
-//                                                    href = "https:" + href;
-//                                                    ershoufang58UrlList.add(href);
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        logger.error("打开【二手房列表页面】失败，页面打开超时或者为连接不上网络，ershoufang58PageUrl = " + ershoufang58PageUrl);
+            for(String distinct : distinctList){
+                String contactNameFlag = cityName + "_" + distinct;
+                //1.获取信息列表
+                for(int pageNum = 1; pageNum <= 30; pageNum++){
+                    String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
+                    logger.info("contactNameFlag = " + contactNameFlag + " ， 第 " + pageNum + " 页, ershoufang58PageUrl = " + ershoufang58PageUrl);
+                    try {
+                        //获取代理IP地址
+                        Map ipMap = Maps.newHashMap();
+                        if(ipList != null && ipList.size() > 0){
+                            ipMap = ipList.get(0);
+                            ipList.remove(0);
+                        }
+                        String ip = ipMap.get("ip")!=null?ipMap.get("ip").toString():"";
+                        int port = ipMap.get("port")!=null?Integer.parseInt(ipMap.get("port").toString()):0;
+                        //爬取网页
+                        Document ershoufang58PageDoc = null;
+                        Random rand = new Random();
+                        Integer requestTime = rand.nextInt(6) + 3;
+                        requestTime = requestTime * 1000;
+                        if(!"".equals(ip) && port != 0){
+                            ershoufang58PageDoc = Jsoup.connect(ershoufang58PageUrl)
+                                    .proxy(ip, port)
+                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+                                    .timeout(15000).get();
+                        } else {
+                            ershoufang58PageDoc = Jsoup.connect(ershoufang58PageUrl)
+                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+                                    .timeout(15000).get();
+                        }
+                        Thread.sleep(requestTime);
+                        if(ershoufang58PageDoc == null) {
+                            logger.error("打开【二手房列表页面】失败，页面打不开或者被58同城对IP地址进行暂时封掉，ershoufang58PageUrl = " + ershoufang58PageUrl);
+                            continue;
+                        }
+                        Elements liElements = ershoufang58PageDoc.getElementsByTag("li");          //获取a标签
+                        for (Element element : liElements) {
+                            String className = element.attr("class");
+                            if ("sendsoj".equals(className)) {
+                                List<Node> divNodes = element.childNodes();
+                                for(Node divNode : divNodes){
+                                    String classNameTemp = divNode.attr("class");
+                                    if ("pic".equals(classNameTemp)) {
+                                        List<Node> hrefNodes = divNode.childNodes();
+                                        for(Node hrefNode : hrefNodes){
+                                            String href = hrefNode.attr("href");
+                                            if(href != null && !"".equals(href)){
+                                                if(href.startsWith("https")){
+                                                    ershoufang58UrlList.add(href);
+                                                } else {
+                                                    href = "https:" + href;
+                                                    ershoufang58UrlList.add(href);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        logger.error("打开【二手房列表页面】失败，页面打开超时或者为连接不上网络，ershoufang58PageUrl = " + ershoufang58PageUrl);
+                    }
+                }
+                logger.info("contactNameFlag = " + contactNameFlag + " ， 58二手房详情页面总数 ， ershoufang58UrlList.size() = " + ershoufang58UrlList.size());
+                //2.抓取手机号
+                int i = 0;
+                for(String ershoufang58Url : ershoufang58UrlList){
+                    logger.info("contactNameFlag = " + contactNameFlag + " ， 58二手房详情页面, ershoufang58Url = " + ershoufang58Url);
+                    try{
+                        //获取代理IP地址
+                        Map ipMap = Maps.newHashMap();
+                        if(ipList != null && ipList.size() > 0){
+                            ipMap = ipList.get(0);
+                            ipList.remove(0);
+                        }
+                        String ip = ipMap.get("ip")!=null?ipMap.get("ip").toString():"";
+                        int port = ipMap.get("port")!=null?Integer.parseInt(ipMap.get("port").toString()):0;
+                        //爬取网页
+                        Document ershoufang58Doc = null;
+                        Random rand = new Random();
+                        Integer requestTime = rand.nextInt(6) + 3;
+                        requestTime = requestTime * 1000;
+                        if(!"".equals(ip) && port != 0){
+                            ershoufang58Doc = Jsoup.connect(ershoufang58Url)
+                                    .proxy(ip, port)
+                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+                                    .timeout(15000).get();
+                        } else {
+                            ershoufang58Doc = Jsoup.connect(ershoufang58Url)
+                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+                                    .timeout(15000).get();
+                        }
+                        Thread.sleep(requestTime);
+                        if(ershoufang58Doc == null) {
+                            logger.error("打开【二手房详情页面】失败，页面打不开或者被58同城对IP地址进行暂时封掉，ershoufang58Url = " + ershoufang58Url);
+                            continue;
+                        }
+                        Elements pElements = ershoufang58Doc.getElementsByTag("p");          //获取a标签
+                        for (Element element : pElements) {
+                            String className = element.attr("class");
+                            if("phone-num".equals(className)){
+                                String phone = element.html();
+                                logger.info("contactNameFlag = " + contactNameFlag + " ， phone = " + phone + " , phoneList.size() = " + phoneList.size());
+                                if(!phoneList.contains(phone)){
+                                    phoneList.add(phone);
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        logger.error("打开【二手房详情页面】失败，页面打开超时或者为连接不上网络，ershoufang58Url = " + ershoufang58Url);
+                    }
+//                    if(i == 4) {
+//                        break;
 //                    }
-//                }
-//                logger.info("contactNameFlag = " + contactNameFlag + " ， 58二手房详情页面总数 ， ershoufang58UrlList.size() = " + ershoufang58UrlList.size());
-//                //2.抓取手机号
-//                int i = 0;
-//                for(String ershoufang58Url : ershoufang58UrlList){
-//                    logger.info("contactNameFlag = " + contactNameFlag + " ， 58二手房详情页面, ershoufang58Url = " + ershoufang58Url);
-//                    try{
-//                        //获取代理IP地址
-//                        Map ipMap = Maps.newHashMap();
-//                        if(ipList != null && ipList.size() > 0){
-//                            ipMap = ipList.get(0);
-//                            ipList.remove(0);
-//                        }
-//                        String ip = ipMap.get("ip")!=null?ipMap.get("ip").toString():"";
-//                        int port = ipMap.get("port")!=null?Integer.parseInt(ipMap.get("port").toString()):0;
-//                        //爬取网页
-//                        Document ershoufang58Doc = null;
-//                        Random rand = new Random();
-//                        Integer requestTime = rand.nextInt(6) + 3;
-//                        requestTime = requestTime * 1000;
-//                        if(!"".equals(ip) && port != 0){
-//                            ershoufang58Doc = Jsoup.connect(ershoufang58Url)
-//                                    .proxy(ip, port)
-//                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
-//                                    .timeout(15000).get();
-//                        } else {
-//                            ershoufang58Doc = Jsoup.connect(ershoufang58Url)
-//                                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
-//                                    .timeout(15000).get();
-//                        }
-//                        Thread.sleep(requestTime);
-//                        if(ershoufang58Doc == null) {
-//                            logger.error("打开【二手房详情页面】失败，页面打不开或者被58同城对IP地址进行暂时封掉，ershoufang58Url = " + ershoufang58Url);
-//                            continue;
-//                        }
-//                        Elements pElements = ershoufang58Doc.getElementsByTag("p");          //获取a标签
-//                        for (Element element : pElements) {
-//                            String className = element.attr("class");
-//                            if("phone-num".equals(className)){
-//                                String phone = element.html();
-//                                logger.info("contactNameFlag = " + contactNameFlag + " ， phone = " + phone + " , phoneList.size() = " + phoneList.size());
-//                                if(!phoneList.contains(phone)){
-//                                    phoneList.add(phone);
-//                                }
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        logger.error("打开【二手房详情页面】失败，页面打开超时或者为连接不上网络，ershoufang58Url = " + ershoufang58Url);
-//                    }
-////                    if(i == 4) {
-////                        break;
-////                    }
-//                }
-//                //3.入库
-//                for (String phone : phoneList) {
-//                    Map<String, Object> paramMap = Maps.newHashMap();
-//                    paramMap.put("phone", phone);
-//                    Integer num = wxContactDao.checkContactByPhone(paramMap);
-//                    if(num != null && num > 0){     //该联系人已存在
-//                        continue;
-//                    } else {                        //该联系人不存在，直接插入
-//                        //3.1.获取最大联系人的ID
-//                        Integer maxId = 0;
-//                        paramMap.clear();
-//                        paramMap.put("remark", contactNameFlag);
-//                        Map<String, Object> maxContactMap = wxContactDao.getMaxIdByName(paramMap);
-//                        if(maxContactMap != null && maxContactMap.size() > 0){
-//                            String maxContactName = maxContactMap.get("name")!=null?maxContactMap.get("name").toString():"";
-//                            if(!"".equals(maxContactName)){
-//                                String maxIdStr = maxContactName.substring(maxContactName.length() - 6);
-//                                maxId = Integer.parseInt(maxIdStr);
-//                                if(maxId == null){
-//                                    maxId = 0;
-//                                }
-//                            }
-//                        }
-//                        maxId++;
-//                        String maxIdStr = "000000" + maxId.toString();
-//                        maxIdStr = maxIdStr.substring(maxIdStr.length() - 6);
-//                        String name = contactNameFlag + "_" + maxIdStr;
-//                        //3.2.插入联系人
-//                        paramMap.clear();
-//                        paramMap.put("name", name);
-//                        paramMap.put("phone", phone);
-//                        paramMap.put("remark", contactNameFlag);
-//                        paramMap.put("createTime", TimestampUtil.getTimestamp());
-//                        paramMap.put("updateTime", TimestampUtil.getTimestamp());
-//                        wxContactDao.addContact(paramMap);
-//                    }
-//                }
-//            }
+                }
+                //3.入库
+                for (String phone : phoneList) {
+                    Map<String, Object> paramMap = Maps.newHashMap();
+                    paramMap.put("phone", phone);
+                    Integer num = wxContactDao.checkContactByPhone(paramMap);
+                    if(num != null && num > 0){     //该联系人已存在
+                        continue;
+                    } else {                        //该联系人不存在，直接插入
+                        //3.1.获取最大联系人的ID
+                        Integer maxId = 0;
+                        paramMap.clear();
+                        paramMap.put("remark", contactNameFlag);
+                        Map<String, Object> maxContactMap = wxContactDao.getMaxIdByName(paramMap);
+                        if(maxContactMap != null && maxContactMap.size() > 0){
+                            String maxContactName = maxContactMap.get("name")!=null?maxContactMap.get("name").toString():"";
+                            if(!"".equals(maxContactName)){
+                                String maxIdStr = maxContactName.substring(maxContactName.length() - 6);
+                                maxId = Integer.parseInt(maxIdStr);
+                                if(maxId == null){
+                                    maxId = 0;
+                                }
+                            }
+                        }
+                        maxId++;
+                        String maxIdStr = "000000" + maxId.toString();
+                        maxIdStr = maxIdStr.substring(maxIdStr.length() - 6);
+                        String name = contactNameFlag + "_" + maxIdStr;
+                        //3.2.插入联系人
+                        paramMap.clear();
+                        paramMap.put("name", name);
+                        paramMap.put("phone", phone);
+                        paramMap.put("remark", contactNameFlag);
+                        paramMap.put("createTime", TimestampUtil.getTimestamp());
+                        paramMap.put("updateTime", TimestampUtil.getTimestamp());
+                        wxContactDao.addContact(paramMap);
+                    }
+                }
+            }
             //4.整合数据库中数据变成vcf文件
             StringBuffer contact_stringBuffer = new StringBuffer();
             Map<String, Object> paramMap = Maps.newHashMap();
