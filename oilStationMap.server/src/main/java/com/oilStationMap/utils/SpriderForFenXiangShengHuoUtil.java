@@ -30,8 +30,8 @@ public class SpriderForFenXiangShengHuoUtil {
      */
     public static void getFenXiangShengHuoProduct(Map<String, Object> paramMap) {
         List<String> productSqlList = Lists.newArrayList();
-        String[] excelHeader = {"产品名称", "产品原价", "淘口令优惠价", "淘口令", "备注"};
-        int[] excelHeaderWidth = {500, 100, 150, 800, 200};
+        String[] excelHeader = {"产品名称", "产品原价", "券后优惠价", "专属领券链接/淘口令", "备注"};
+        int[] excelHeaderWidth = {500, 100, 150, 400, 200};
         String fenXiangProductPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/json/";
         //获取当前文件夹下的所有文件
         File fenXiangProductPathDir = new File(fenXiangProductPath);
@@ -62,7 +62,7 @@ public class SpriderForFenXiangShengHuoUtil {
                         calendar.setTime(currentDate);
                         calendar.add(Calendar.DAY_OF_MONTH, -1);
                         HSSFWorkbook wb = new HSSFWorkbook();
-                        HSSFSheet sheet = wb.createSheet(productCatoryName + "_淘口令隐藏优惠券");
+                        HSSFSheet sheet = wb.createSheet(productCatoryName + "_隐藏优惠券");
                         // 设置标题头居中样式
                         HSSFCellStyle headStyle = wb.createCellStyle();
                         headStyle.setBorderBottom(HSSFCellStyle.BORDER_DOUBLE); //下边框
@@ -118,20 +118,20 @@ public class SpriderForFenXiangShengHuoUtil {
                                 //淘口令
                                 String taoBaoToken = productData.getString("shareUrl");
 
-                                // 设置 行 居中样式
-                                HSSFCellStyle rowStyle = wb.createCellStyle();
-                                rowStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT); // 水平居左
-                                rowStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 垂直居中
+                                // 设置 单元格 居中样式
+                                HSSFCellStyle cellStyle = wb.createCellStyle();
+                                cellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT); // 水平居左
+                                cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 垂直居中
 
                                 row = sheet.createRow(j + 1);
                                 row.setHeightInPoints((short)25);
 
                                 HSSFCell cell_0 = row.createCell(0);
-                                cell_0.setCellStyle(rowStyle);
+                                cell_0.setCellStyle(cellStyle);
                                 cell_0.setCellValue(productName != null ? productName : "");                    //产品名称
 
                                 HSSFCell cell_1 = row.createCell(1);
-                                cell_1.setCellStyle(rowStyle);
+                                cell_1.setCellStyle(cellStyle);
                                 Double productPrice_double = 0D;
                                 try{
                                     if(productPrice != null){
@@ -143,7 +143,7 @@ public class SpriderForFenXiangShengHuoUtil {
                                 cell_1.setCellValue(productPrice_double != null ? productPrice_double.toString() : "");       //产品原价
 
                                 HSSFCell cell_2 = row.createCell(2);
-                                cell_2.setCellStyle(rowStyle);
+                                cell_2.setCellStyle(cellStyle);
                                 Double productDiscountPrice_double = 0D;
                                 try{
                                     if(productPrice != null){
@@ -155,11 +155,11 @@ public class SpriderForFenXiangShengHuoUtil {
                                 cell_2.setCellValue(productDiscountPrice_double != null  ? productDiscountPrice_double.toString() : "");  //淘口令优惠价
 
                                 HSSFCell cell_3 = row.createCell(3);
-                                cell_3.setCellStyle(rowStyle);
+                                cell_3.setCellStyle(cellStyle);
                                 cell_3.setCellValue(taoBaoToken != null ? taoBaoToken : "");                    //淘口令
 
                                 HSSFCell cell_4 = row.createCell(4);
-                                cell_4.setCellStyle(rowStyle);
+                                cell_4.setCellStyle(cellStyle);
                                 cell_4.setCellValue("抓紧了，秒慢无!!!");                                         //备注
 
                             } catch (Exception e) {
@@ -171,7 +171,7 @@ public class SpriderForFenXiangShengHuoUtil {
                         String exlsFilePath = FileUtil.createFile(
                                 wb,
                                 productCatoryFile.getPath()+"/",
-                                productCatoryName+"_淘口令隐藏优惠券",
+                                productCatoryName+"_隐藏优惠券",
                                 "xls"
                         );
                         logger.info("exlsFilePath = " + exlsFilePath);
