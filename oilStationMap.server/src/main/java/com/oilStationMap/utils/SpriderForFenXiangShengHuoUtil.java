@@ -11,7 +11,11 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,8 +34,8 @@ public class SpriderForFenXiangShengHuoUtil {
      */
     public static void getFenXiangShengHuoProduct(Map<String, Object> paramMap) {
         List<String> productSqlList = Lists.newArrayList();
-        String[] excelHeader = {"产品名称", "产品原价", "券后优惠价", "专属领券链接/淘口令", "备注"};
-        int[] excelHeaderWidth = {500, 100, 150, 400, 200};
+        String[] excelHeader = {"产品图片", "产品名称", "产品价格", "优惠券金额","券后价格", "专属领券链接/淘口令", "备注"};
+        int[] excelHeaderWidth = {300, 400, 125, 125, 125, 270, 250};
         String fenXiangProductPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/json/";
         //获取当前文件夹下的所有文件
         File fenXiangProductPathDir = new File(fenXiangProductPath);
@@ -109,29 +113,52 @@ public class SpriderForFenXiangShengHuoUtil {
                                 String productId = productData.getString("itemIdStr");
                                 //产品名称
                                 String productName = productData.getString("itemTitle");
-                                //产品图片--暂时不插入
+                                //产品图片
                                 String productHeadImage = productData.getString("itemPicUrl");
                                 //产品原价
                                 Integer productPrice = productData.getInteger("itemPrice");
-                                //产品折扣价
+                                //券后价格
                                 Integer productDiscountPrice = productData.getInteger("itemDiscountPrice");
                                 //淘口令
                                 String taoBaoToken = productData.getString("shareUrl");
 
                                 // 设置 单元格 居中样式
                                 HSSFCellStyle cellStyle = wb.createCellStyle();
-                                cellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT); // 水平居左
+                                cellStyle.setBorderBottom(HSSFCellStyle.BORDER_DASH_DOT); //下边框
+                                cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 水平居中
                                 cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 垂直居中
+                                HSSFFont cellFont = wb.createFont();
+                                cellFont.setColor(HSSFColor.BLACK.index);
+                                cellFont.setFontHeightInPoints((short) 14);//设置字体大小
+                                cellFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//粗体显示
+                                cellStyle.setFont(cellFont);
 
                                 row = sheet.createRow(j + 1);
-                                row.setHeightInPoints((short)25);
+                                row.setHeightInPoints((short)150);
 
-                                HSSFCell cell_0 = row.createCell(0);
-                                cell_0.setCellStyle(cellStyle);
-                                cell_0.setCellValue(productName != null ? productName : "");                    //产品名称
+
+                                try{
+                                    ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();               //图片
+                                    URL productHeadImgUrl = new URL(productHeadImage);
+                                    BufferedImage bufferImg = ImageIO.read(productHeadImgUrl);
+                                    ImageIO.write(bufferImg, "jpg", byteArrayOut);
+                                    HSSFPatriarch patri_item = sheet.createDrawingPatriarch();
+                                    short startRowIndex = (short) (1 + j);
+                                    short endRowIndex = (short) (2 + j);
+                                    HSSFClientAnchor anchor_item = new HSSFClientAnchor(0, 0, 0, 0, (short)0, startRowIndex, (short)1, endRowIndex);
+                                    patri_item.createPicture(anchor_item , wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+                                } catch (Exception e) {
+                                    logger.info("产品图片 异常， productHeadImgUrl = " + productHeadImage);
+                                }
+
 
                                 HSSFCell cell_1 = row.createCell(1);
                                 cell_1.setCellStyle(cellStyle);
+                                cell_1.setCellValue(productName != null ? productName : "");                    //产品名称
+
+
+                                HSSFCell cell_2 = row.createCell(2);
+                                cell_2.setCellStyle(cellStyle);
                                 Double productPrice_double = 0D;
                                 try{
                                     if(productPrice != null){
@@ -140,27 +167,45 @@ public class SpriderForFenXiangShengHuoUtil {
                                 } catch (Exception e) {
                                     logger.info("产品原价 异常， productPrice = " + productPrice);
                                 }
-                                cell_1.setCellValue(productPrice_double != null ? productPrice_double.toString() : "");       //产品原价
+                                cell_2.setCellValue((productPrice_double != null ? productPrice_double.toString() : "") + " 元");       //产品原价
 
-                                HSSFCell cell_2 = row.createCell(2);
-                                cell_2.setCellStyle(cellStyle);
+
+                                HSSFCell cell_4 = row.createCell(4);
+                                cell_4.setCellStyle(cellStyle);
                                 Double productDiscountPrice_double = 0D;
                                 try{
                                     if(productPrice != null){
                                         productDiscountPrice_double = NumberUtil.getPointTowNumber(((double)productDiscountPrice / 100));
                                     }
                                 } catch (Exception e) {
-                                    logger.info("淘口令优惠价 异常， productDiscountPrice = " + productDiscountPrice);
+                                    logger.info("券后价格 异常， productDiscountPrice = " + productDiscountPrice);
                                 }
-                                cell_2.setCellValue(productDiscountPrice_double != null  ? productDiscountPrice_double.toString() : "");  //淘口令优惠价
+                                cell_4.setCellValue((productDiscountPrice_double != null  ? productDiscountPrice_double.toString() : "") + " 元");  //券后价格
 
+
+                                HSSFCellStyle tempCellStyle = wb.createCellStyle();
+                                tempCellStyle.setBorderBottom(HSSFCellStyle.BORDER_DASH_DOT); //下边框
+                                tempCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 水平居中
+                                tempCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 垂直居中
+                                HSSFFont tempCellFont = wb.createFont();
+                                tempCellFont.setColor(HSSFColor.RED.index);
+                                tempCellFont.setFontHeightInPoints((short) 14);//设置字体大小
+                                tempCellFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//粗体显示
+                                tempCellStyle.setFont(tempCellFont);
                                 HSSFCell cell_3 = row.createCell(3);
-                                cell_3.setCellStyle(cellStyle);
-                                cell_3.setCellValue(taoBaoToken != null ? taoBaoToken : "");                    //淘口令
+                                cell_3.setCellStyle(tempCellStyle);
+                                Double discountPrice = productPrice_double-productDiscountPrice_double;
+                                cell_3.setCellValue(discountPrice.toString() + " 元");          //优惠券金额
 
-                                HSSFCell cell_4 = row.createCell(4);
-                                cell_4.setCellStyle(cellStyle);
-                                cell_4.setCellValue("抓紧了，秒慢无!!!");                                         //备注
+
+                                HSSFCell cell_5 = row.createCell(5);
+                                cell_5.setCellStyle(cellStyle);
+                                cell_5.setCellValue(taoBaoToken != null ? taoBaoToken : "");                    //淘口令
+
+
+                                HSSFCell cell_6 = row.createCell(6);
+                                cell_6.setCellStyle(cellStyle);
+                                cell_6.setCellValue("抓紧了，优惠券秒慢无!!!");                                    //备注
 
                             } catch (Exception e) {
                                 System.out.println("路径："+productPath+"的数据有问题.");
@@ -168,6 +213,7 @@ public class SpriderForFenXiangShengHuoUtil {
                                 continue;
                             }
                         }
+
                         String exlsFilePath = FileUtil.createFile(
                                 wb,
                                 productCatoryFile.getPath()+"/",
