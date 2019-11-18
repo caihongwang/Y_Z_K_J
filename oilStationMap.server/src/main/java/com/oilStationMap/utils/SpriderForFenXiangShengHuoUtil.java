@@ -50,7 +50,8 @@ public class SpriderForFenXiangShengHuoUtil {
                 if (productCategryFile.isDirectory()) {
                     String productCatoryName = productCategryFile.getName();
                     //删除已有的商品类目,如果存在则删除
-                    String currentPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/excel/";
+//                    String currentPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/excel/";              //服务器地址
+                    String currentPath = "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/粉象生活/excel/";        //ownCloud同步地址
                     File productCatoryFile = new File(currentPath + productCatoryName);
 //                    if(productCatoryFile.exists()){
 //                        boolean deleteFlag = FileUtil.deleteDir(productCatoryFile);
