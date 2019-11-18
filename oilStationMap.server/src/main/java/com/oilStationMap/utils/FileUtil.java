@@ -253,7 +253,7 @@ public class FileUtil {
                     dirFile.mkdir();
                 }
                 Date currentDate = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
                 fileUploadUrl_temp = currentFileUploadUrl + fileName + "_" + formatter.format(currentDate) + "." + fileSuffix;
                 File fileUploadUrl_tempFile = new File(fileUploadUrl_temp);
                 if(fileUploadUrl_tempFile.exists()){

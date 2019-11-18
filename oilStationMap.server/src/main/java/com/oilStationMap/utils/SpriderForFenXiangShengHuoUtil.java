@@ -207,6 +207,8 @@ public class SpriderForFenXiangShengHuoUtil {
                                 cell_6.setCellStyle(cellStyle);
                                 cell_6.setCellValue("抓紧了，优惠券秒慢无!!!");                                    //备注
 
+                                logger.info("类目【"+productCatoryName+"】 ， 商品【"+productName+"】");
+
                             } catch (Exception e) {
                                 System.out.println("路径："+productPath+"的数据有问题.");
                                 e.printStackTrace();
