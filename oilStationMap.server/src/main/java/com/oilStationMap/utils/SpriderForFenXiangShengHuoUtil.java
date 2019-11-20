@@ -35,8 +35,9 @@ public class SpriderForFenXiangShengHuoUtil {
     public static void getFenXiangShengHuoProduct(Map<String, Object> paramMap) {
         List<String> productSqlList = Lists.newArrayList();
         String[] excelHeader = {"产品图片", "产品名称", "产品价格", "优惠券金额","券后价格", "专属领券链接/淘口令", "备注"};
-        int[] excelHeaderWidth = {300, 400, 125, 125, 125, 270, 250};
-        String fenXiangProductPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/json/";
+        int[] excelHeaderWidth = {300, 400, 125, 125, 125, 270, 600};
+//        String fenXiangProductPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/json/";                         //服务器地址
+        String fenXiangProductPath = "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/粉象生活/json/";               //ownCloud同步地址
         //获取当前文件夹下的所有文件
         File fenXiangProductPathDir = new File(fenXiangProductPath);
         if (fenXiangProductPathDir.isDirectory()) {
@@ -50,8 +51,8 @@ public class SpriderForFenXiangShengHuoUtil {
                 if (productCategryFile.isDirectory()) {
                     String productCatoryName = productCategryFile.getName();
                     //删除已有的商品类目,如果存在则删除
-//                    String currentPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/excel/";              //服务器地址
-                    String currentPath = "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/粉象生活/excel/";        //ownCloud同步地址
+//                    String currentPath = "/opt/resourceOfOilStationMap/webapp/fen_xiang_sheng_huo/excel/";                    //服务器地址
+                    String currentPath = "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/粉象生活/excel/";          //ownCloud同步地址
                     File productCatoryFile = new File(currentPath + productCatoryName);
 //                    if(productCatoryFile.exists()){
 //                        boolean deleteFlag = FileUtil.deleteDir(productCatoryFile);
@@ -206,7 +207,7 @@ public class SpriderForFenXiangShengHuoUtil {
 
                                 HSSFCell cell_6 = row.createCell(6);
                                 cell_6.setCellStyle(cellStyle);
-                                cell_6.setCellValue("抓紧了，优惠券秒慢无!!!");                                    //备注
+                                cell_6.setCellValue("抓紧了，⏫京东官方链接⏫，优惠券秒慢无，放心下单！");                                    //备注
 
                                 logger.info("类目【"+productCatoryName+"】 ， 商品【"+productName+"】");
 

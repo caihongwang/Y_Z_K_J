@@ -37,29 +37,158 @@ public class SpiderFor58Util {
         List<Map<String, String>> ipList = Lists.newLinkedList();
 
         Map<String, Object> cityAndDistinctMap = Maps.newHashMap();
+
+        List<String> gyDistinctList = Lists.newLinkedList();        //贵阳下属地区名称
+        gyDistinctList.add("nanming");       //南明
+        gyDistinctList.add("jinyangxinqu");   //观山湖
+        gyDistinctList.add("yunyan");    //云岩
+        gyDistinctList.add("huaxi");      //花溪
+        gyDistinctList.add("baiyunqv");    //白云
+        gyDistinctList.add("wudang");    //乌当
+        gyDistinctList.add("qingzhengy");   //清镇
+        gyDistinctList.add("xiuwenxw");      //修文
+        gyDistinctList.add("kaiyanggy");     //开阳
+        gyDistinctList.add("xifenggy");   //息烽
+        gyDistinctList.add("xiaohequ");   //小河经开区
+        cityAndDistinctMap.put("gy", gyDistinctList);               //贵阳市 二手房
+
+        List<String> zyDistinctList = Lists.newLinkedList();        //遵义下属地区名称
+        zyDistinctList.add("honghuagangqu");       //红花岗
+        zyDistinctList.add("huichuanqu");   //汇川
+        zyDistinctList.add("bozhouqu");       //播州
+        zyDistinctList.add("xinpuxinqu");      //新浦新区
+        zyDistinctList.add("zunyixian");    //南白
+        zyDistinctList.add("tongzixian");   //桐梓
+        zyDistinctList.add("meitanxian");      //湄潭
+        zyDistinctList.add("chishuishi");     //习水
+        zyDistinctList.add("xishuix");   //习水
+        zyDistinctList.add("zhenganxian");   //正安
+        zyDistinctList.add("suiyangxian");   //绥阳
+        zyDistinctList.add("zunyirenhuai");   //仁怀市
+        zyDistinctList.add("daozhenxian");   //道真
+        zyDistinctList.add("wuchuanxian");   //务川
+        zyDistinctList.add("yuqingxian");   //余庆
+        zyDistinctList.add("fenggangxian");   //凤冈
+        cityAndDistinctMap.put("zy", zyDistinctList);               //遵义市 二手房
+
+        List<String> qdnDistinctList = Lists.newLinkedList();        //黔东南下属地区名称
+        qdnDistinctList.add("kaili");       //凯里
+        qdnDistinctList.add("liping");       //黎平
+        qdnDistinctList.add("huangping");       //黄平
+        qdnDistinctList.add("zhenyuan");       //镇远
+        qdnDistinctList.add("tianzhux");       //天柱
+        qdnDistinctList.add("congjiang");       //从江
+        qdnDistinctList.add("leishan");       //雷山
+        qdnDistinctList.add("majiang");       //麻江
+        qdnDistinctList.add("rongjiang");       //榕江
+        qdnDistinctList.add("sansui");       //三穗
+        qdnDistinctList.add("taijiangx");       //台江
+        qdnDistinctList.add("jinpingx");       //锦屏
+        qdnDistinctList.add("cengong");       //岑巩
+        qdnDistinctList.add("shibing");       //施秉
+        qdnDistinctList.add("danzhai");       //丹寨
+        qdnDistinctList.add("jianhe");       //剑河
+        qdnDistinctList.add("qdnzhoubian");       //黔东南周边
+        cityAndDistinctMap.put("qdn", qdnDistinctList);               //黔东南 二手房
+
+        List<String> qnDistinctList = Lists.newLinkedList();        //黔南下属地区名称
+        qnDistinctList.add("duyun");       //都匀
+        qnDistinctList.add("wengan");       //瓮安
+        qnDistinctList.add("longli");       //龙里
+        qnDistinctList.add("fuquan");       //福泉
+        qnDistinctList.add("guiding");       //贵定
+        qnDistinctList.add("dushan");       //独山
+        qnDistinctList.add("huishui");       //惠水
+        qnDistinctList.add("pingtang");       //平塘
+        qnDistinctList.add("luodian");       //罗甸
+        qnDistinctList.add("sandushuizu");       //三都
+        qnDistinctList.add("libo");       //荔波
+        qnDistinctList.add("changshun");       //长顺
+        qnDistinctList.add("qiannanzb");       //黔南周边
+        cityAndDistinctMap.put("qn", qnDistinctList);               //黔南 二手房
+
+        List<String> lpsDistinctList = Lists.newLinkedList();        //六盘水下属地区名称
+        lpsDistinctList.add("zhongshanq");       //钟山
+        lpsDistinctList.add("panx");       //盘州
+        lpsDistinctList.add("shuicheng");       //水城
+        lpsDistinctList.add("liuzhi");       //六枝特
+        lpsDistinctList.add("liupanshuizb");       //六盘水周边
+        cityAndDistinctMap.put("lps", lpsDistinctList);               //六盘水 二手房
+
+        List<String> bijieDistinctList = Lists.newLinkedList();        //毕节下属地区名称
+        bijieDistinctList.add("bjqxg");       //七星关
+        bijieDistinctList.add("qianxi");       //黔西
+        bijieDistinctList.add("zhijin");       //织金
+        bijieDistinctList.add("jinshax");       //金沙
+        bijieDistinctList.add("dafang");       //大方
+        bijieDistinctList.add("weining");       //威宁
+        bijieDistinctList.add("nayong");       //纳雍
+        bijieDistinctList.add("hezhang");       //赫章
+        bijieDistinctList.add("bjbldj");       //百里杜鹃
+        bijieDistinctList.add("bijiezhoubian");       //毕节周边
+        cityAndDistinctMap.put("bijie", bijieDistinctList);               //毕节 二手房
+
         List<String> trDistinctList = Lists.newLinkedList();        //铜仁下属地区名称
-        trDistinctList.add("trbj");       //铜仁碧江
-        trDistinctList.add("wangshan");   //铜仁万山
-        trDistinctList.add("songtao");    //铜仁松桃
-        trDistinctList.add("sinan");      //铜仁思南
-        trDistinctList.add("dejiang");    //铜仁德江
-        trDistinctList.add("shiqian");    //铜仁石阡
-        trDistinctList.add("jiangkou");   //铜仁江口
-        trDistinctList.add("yanhe");      //铜仁沿河
-        trDistinctList.add("yuping");     //铜仁玉屏
-        trDistinctList.add("yinjiang");   //铜仁印江
-        cityAndDistinctMap.put("tr_esf", trDistinctList);               //铜仁市 二手房
+        trDistinctList.add("trbj");       //碧江
+        trDistinctList.add("wangshan");   //万山
+        trDistinctList.add("songtao");    //松桃
+        trDistinctList.add("sinan");      //思南
+        trDistinctList.add("dejiang");    //德江
+        trDistinctList.add("shiqian");    //石阡
+        trDistinctList.add("jiangkou");   //江口
+        trDistinctList.add("yanhe");      //沿河
+        trDistinctList.add("yuping");     //玉屏
+        trDistinctList.add("yinjiang");   //印江
+        cityAndDistinctMap.put("tr", trDistinctList);               //铜仁市 二手房
+
+        List<String> anshunDistinctList = Lists.newLinkedList();        //安顺下属地区名称
+        anshunDistinctList.add("xixiuqu");       //西秀
+        anshunDistinctList.add("pingbaxian");       //平坝
+        anshunDistinctList.add("aszhenning");       //镇宁
+        anshunDistinctList.add("pudingxian");       //普定县
+        anshunDistinctList.add("jjkfqas");       //经济开发区
+        anshunDistinctList.add("asziyun");       //紫云
+        anshunDistinctList.add("asguanling");       //关岭
+        anshunDistinctList.add("anshunzhoubian");       //安顺周边
+        cityAndDistinctMap.put("anshun", anshunDistinctList);               //安顺 二手房
+
+        List<String> qxnDistinctList = Lists.newLinkedList();        //黔西南下属地区名称
+        qxnDistinctList.add("xingyi");       //兴义
+        qxnDistinctList.add("xingren");       //兴仁
+        qxnDistinctList.add("anlong");       //安龙
+        qxnDistinctList.add("zhenfeng");       //贞丰
+        qxnDistinctList.add("puan");       //普安
+        qxnDistinctList.add("qinglongx");       //晴隆
+        qxnDistinctList.add("ceheng");       //册亨
+        qxnDistinctList.add("wangmo");       //望谟
+        qxnDistinctList.add("qianxinanzb");       //黔西南周边
+        cityAndDistinctMap.put("qxn", qxnDistinctList);               //黔西南 二手房
+
+        List<String> renhuaishiDistinctList = Lists.newLinkedList();        //仁怀市下属地区名称
+        renhuaishiDistinctList.add("yanjinjiedao");       //盐津
+        renhuaishiDistinctList.add("zhongshujiedao");       //中枢
+        renhuaishiDistinctList.add("lubanjiedao");       //鲁班
+        renhuaishiDistinctList.add("canglongjiedao");       //苍龙
+        renhuaishiDistinctList.add("tanchangjiedao");       //坛厂
+        renhuaishiDistinctList.add("renhuaishiqita");       //其他
+        cityAndDistinctMap.put("renhuaishi", renhuaishiDistinctList);               //仁怀市 二手房
+
+        List<String> qingzhenDistinctList = Lists.newLinkedList();        //清镇下属地区名称
+        qingzhenDistinctList.add("qingzhencq");       //城区
+        qingzhenDistinctList.add("qingzhenqt");       //其他
+        cityAndDistinctMap.put("qingzhen", qingzhenDistinctList);               //清镇 二手房
 
         for (Map.Entry<String, Object> tempMap : cityAndDistinctMap.entrySet()) {
             List<String> phoneList = Lists.newArrayList();
             String cityName = tempMap.getKey();     //城市简称
+            String cityNameFlag = cityName + "_esf";     //城市标识
             List<String> distinctList = (List<String>)tempMap.getValue();     //城市所属地区
             List<String> ershoufang58UrlList = Lists.newArrayList();
             for(String distinct : distinctList){
-                String contactNameFlag = cityName + "_" + distinct;
+                String contactNameFlag = cityName + "_esf_" + distinct;
                 //1.获取信息列表
                 for(int pageNum = 1; pageNum <= 30; pageNum++){
-                    String ershoufang58PageUrl = "https://tr.58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
+                    String ershoufang58PageUrl = "https://"+cityName+".58.com/"+distinct+"/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
                     logger.info("contactNameFlag = " + contactNameFlag + " ， 第 " + pageNum + " 页, ershoufang58PageUrl = " + ershoufang58PageUrl);
                     try {
                         //获取代理IP地址
@@ -211,7 +340,7 @@ public class SpiderFor58Util {
             //4.整合数据库中数据变成vcf文件
             StringBuffer contact_stringBuffer = new StringBuffer();
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("remark", cityName);           //根据城市名称获取联系人
+            paramMap.put("remark", cityNameFlag);           //根据城市名称获取联系人
             List<Map<String, Object>> contactList = wxContactDao.getAllContactList(paramMap);
             for(Map<String, Object> contactMap : contactList){
                 String name = contactMap.get("name")!=null?contactMap.get("name").toString():"";
@@ -230,7 +359,7 @@ public class SpiderFor58Util {
             try {
                 Date currentDate = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                String vcfFilePath = contactPath + cityName + "_联系人_" + formatter.format(currentDate) + ".vcf";
+                String vcfFilePath = contactPath + cityNameFlag + "_联系人_" + formatter.format(currentDate) + ".vcf";
                 File vcfFile = new File(vcfFilePath);
                 vcfFile.createNewFile();
                 writeFileContent(vcfFilePath, contact_stringBuffer.toString());
