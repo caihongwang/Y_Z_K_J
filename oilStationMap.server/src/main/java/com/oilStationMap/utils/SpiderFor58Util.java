@@ -36,8 +36,8 @@ public class SpiderFor58Util {
      * 从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式
      */
     public static void getContactFromWeb() {
-        getContactFrom58ErShouFang();       //58同城-房产-中介和个人-联系电话
         getContactFromMeiTuanMeiShi();       //美团-美食-商家-联系电话
+        getContactFrom58ErShouFang();       //58同城-房产-中介和个人-联系电话
     }
 
     /**
