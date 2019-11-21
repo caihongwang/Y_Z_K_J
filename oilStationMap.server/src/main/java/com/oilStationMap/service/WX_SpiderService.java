@@ -13,9 +13,9 @@ import java.util.Map;
 public interface WX_SpiderService {
 
     /**
-     * 从58二手房爬取手机号并整合入库
+     * 从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式
      * @param paramMap
      * @return
      */
-    ResultMapDTO getContactFrom58ErShouFang(Map<String, Object> paramMap);
+    ResultMapDTO getContactFromWeb(Map<String, Object> paramMap);
 }

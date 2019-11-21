@@ -31,7 +31,7 @@ public class SpiderFor58UtilTest extends MySuperTest {
 ////            Thread.sleep(5000);
 //        }
 
-        SpiderFor58Util.getContactFrom58ErShouFang();
+        SpiderFor58Util.getContactFromWeb();
     }
 
 

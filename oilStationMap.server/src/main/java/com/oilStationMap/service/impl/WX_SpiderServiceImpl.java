@@ -18,17 +18,17 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
     private static final Logger logger = LoggerFactory.getLogger(WX_SpiderServiceImpl.class);
 
     /**
-     * 从58二手房爬取手机号并整合入库
+     * 从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式
      * @param paramMap
      * @return
      */
     @Override
-    public ResultMapDTO getContactFrom58ErShouFang(Map<String, Object> paramMap) {
-        SpiderFor58Util.getContactFrom58ErShouFang();
+    public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap) {
+        SpiderFor58Util.getContactFromWeb();
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        logger.info("在service中爬取58二手房爬取手机号并整合入库-getContactFrom58ErShouFang,结果-result:" + resultMapDTO);
+        logger.info("在service中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 }

@@ -21,20 +21,20 @@ public class WX_SpiderHandler {
     private WX_SpiderService wxSpiderService;
 
 
-    public ResultDTO getContactFrom58ErShouFang(Map<String, String> paramMap) {
-        logger.info("在hanlder中爬取58二手房爬取手机号并整合入库-getContactFrom58ErShouFang,请求-paramMap:" + paramMap);
+    public ResultDTO getContactFromWeb(Map<String, String> paramMap) {
+        logger.info("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         new Thread(){
             public void run(){
                 try {
-                    wxSpiderService.getContactFrom58ErShouFang(objectParamMap);
+                    wxSpiderService.getContactFromWeb(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在hanlder中爬取58二手房爬取手机号并整合入库-getContactFrom58ErShouFang is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb is error, paramMap : " + paramMap + ", e : " + e);
                 }
             }
         }.start();
-        logger.info("在hanlder中爬取58二手房爬取手机号并整合入库-getContactFrom58ErShouFang,响应-response:" + resultDTO);
+        logger.info("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,响应-response:" + resultDTO);
         return resultDTO;
     }
 }
