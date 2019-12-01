@@ -20,7 +20,6 @@ public class WX_SpiderHandler {
     @Autowired
     private WX_SpiderService wxSpiderService;
 
-
     public ResultDTO getContactFromWeb(Map<String, String> paramMap) {
         logger.info("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
@@ -35,6 +34,23 @@ public class WX_SpiderHandler {
             }
         }.start();
         logger.info("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
+    public ResultDTO sendFriendCircle(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,进行自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread(){
+            public void run(){
+                try {
+                    wxSpiderService.sendFriendCircle(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,进行自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        logger.info("在hanlder中启动appium,进行自动化发送微信朋友圈-sendFriendCircle,响应-response:" + resultDTO);
         return resultDTO;
     }
 }

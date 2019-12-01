@@ -18,4 +18,11 @@ public interface WX_SpiderService {
      * @return
      */
     ResultMapDTO getContactFromWeb(Map<String, Object> paramMap);
+
+    /**
+     * 启动appium,进行自动化发送微信朋友圈
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO sendFriendCircle(Map<String, Object> paramMap);
 }
