@@ -11,6 +11,16 @@ public interface WX_DicDao {
     /**
      * 根据条件查询字典信息
      */
+    List<Map<String, Object>> getLatelyDicByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询字典信息总数
+     */
+    Integer getLatelyDicTotalByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询字典信息
+     */
     List<Map<String, Object>> getSimpleDicByCondition(Map<String, Object> paramMap);
 
     /**

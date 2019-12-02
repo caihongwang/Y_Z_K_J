@@ -113,4 +113,58 @@
         <include refid="queryConditions"/>
     </select>
 
+    <select id="getLatelyDicByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_dic od
+        <where>od.dic_status='0'
+            <if test="id != null and id != ''">
+                AND od.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND od.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND od.dic_code = #{dicCode}
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND od.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND od.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+        ORDER BY od.create_time desc
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT 0,1
+        </if>
+    </select>
+
+    <select id="getLatelyDicTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_dic od
+        <where>od.dic_status='0'
+            <if test="id != null and id != ''">
+                AND od.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND od.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND od.dic_code = #{dicCode}
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND od.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND od.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+        ORDER BY od.create_time desc
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT 0,1
+        </if>
+    </select>
+
 </mapper>
