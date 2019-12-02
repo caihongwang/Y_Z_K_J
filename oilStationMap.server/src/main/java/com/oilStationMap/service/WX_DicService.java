@@ -19,6 +19,11 @@ public interface WX_DicService {
     ResultMapDTO getMoreDicByCondition(Map<String, Object> paramMap);
 
     /**
+     * 获取最近的单一的字典信息
+     */
+    ResultDTO getLatelyDicByCondition(Map<String, Object> paramMap);
+
+    /**
      * 添加或者修改字典信息
      */
     BoolDTO addDic(Map<String, Object> paramMap);

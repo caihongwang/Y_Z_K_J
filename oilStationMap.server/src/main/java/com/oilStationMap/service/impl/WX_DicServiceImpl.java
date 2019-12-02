@@ -135,6 +135,49 @@ public class WX_DicServiceImpl implements WX_DicService {
         return boolDTO;
     }
 
+    /**
+     * 获取最近的单一的字典信息
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getLatelyDicByCondition(Map<String, Object> paramMap) {
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> dicStrList = Lists.newArrayList();
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "";
+        String dicCode = paramMap.get("dicCode") != null ? paramMap.get("dicCode").toString() : "";
+        if (!"".equals(dicType) || !"".equals(dicCode)) {
+            List<Map<String, Object>> dicList = wxDicDao.getLatelyDicByCondition(paramMap);
+            if (dicList != null && dicList.size() > 0) {
+                for (Map<String, Object> dicMap : dicList) {
+                    String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
+                    if (!"".equals(dicRemark)) {
+                        Map<String, Object> dicRemarkMap = JSONObject.parseObject(dicRemark, Map.class);
+                        dicMap.remove("dicRemark");
+                        dicMap.putAll(dicRemarkMap);
+                    }
+                }
+                dicStrList = MapUtil.getStringMapList(dicList);
+                Integer total = wxDicDao.getLatelyDicTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(dicStrList);
+                resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+                resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(OilStationMapCode.DIC_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(OilStationMapCode.DIC_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:" + resultDTO);
+        return resultDTO;
+    }
+
 
     /**
      * 获取单一的字典信息
