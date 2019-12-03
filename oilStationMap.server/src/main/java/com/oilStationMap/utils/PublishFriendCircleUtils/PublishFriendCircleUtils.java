@@ -1,6 +1,9 @@
 package com.oilStationMap.utils.PublishFriendCircleUtils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
@@ -22,93 +25,119 @@ public class PublishFriendCircleUtils {
 
     public static WX_DicService wxDicService = (WX_DicService) ApplicationContextUtils.getBeanByClass(WX_DicServiceImpl.class);
 
+    public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
+
     /**
      * 发布朋友圈for所有设备
-     * @param paramMap
      */
-    public static void sendFriendCircle(Map<String, Object> paramMap){
-        //此处可以从数据库获取类名,通过反射一次性执行,后期就只需要维护数据库脚本即可
-//        try{
-//            new HuaWeiP20Pro().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new HuaWeiMate7Index1().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new HuaWeiMate7Index2().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new HuaWeiMate7Index4().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new ZhongXing529Index5().sendFriendCircle(paramMap);            //未成功
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        try{
-            new HuaWeiMate8Index6().sendFriendCircle(paramMap);
-            Thread.sleep(5000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        try{
-//            new HuaWeiMate8Index7().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new HuaWeiMate8Index8().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new HuaWeiMate8Index9().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try{
-//            new XiaoMiMax3().sendFriendCircle(paramMap);
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public static void main(String[] args) {
+    public static void sendFriendCircle(){
         Map<String, Object> paramMap = Maps.newHashMap();
-
-//        paramMap.put("action", "textMessageFriendCircle");
-//        paramMap.put("content", "/玫瑰我们做的是广告，广告的目的是广而告之。 /微笑央视同样不保证效果，广告推广的意义就在于提高产品的知名度和覆盖面。/愉快推广面越广，覆盖人群越多，才越容易被接受。正规公司，全国统一价。 /勾引谈的是价值，不是价格。正品和高仿，您更愿意选择哪个？ /闪电不值得的花一分钱也是多， /闪电值得的一百万也值得。 /闪电 认准品牌， /闪电认准实力。/强 /强 /强 ");
-
-//        paramMap.put("action", "imgMessageFriendCircle");
-//        paramMap.put("photoNum", "1");
-//        paramMap.put("content", "/玫瑰我们做的是广告，广告的目的是广而告之。 /微笑央视同样不保证效果，广告推广的意义就在于提高产品的知名度和覆盖面。/愉快推广面越广，覆盖人群越多，才越容易被接受。正规公司，全国统一价。 /勾引谈的是价值，不是价格。正品和高仿，您更愿意选择哪个？ /闪电不值得的花一分钱也是多， /闪电值得的一百万也值得。 /闪电 认准品牌， /闪电认准实力。/强 /强 /强 ");
-
         paramMap.put("dicType", "publishFriendCircle");
         ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
         List<Map<String, String>> resultList = resultDTO.getResultList();
         if(resultList != null && resultList.size() > 0){
+            //获取发送朋友圈的内容信息.
             Map<String, Object> sendFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));
-            new PublishFriendCircleUtils().sendFriendCircle(sendFriendCircleParam);
+            //设备：华为 Mate 8 发送朋友圈
+            paramMap.clear();
+            paramMap.put("dicType", "deviceNameList");
+            paramMap.put("dicCode", "HuaWeiMate8DeviceNameList");
+            List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
+            if(list != null && list.size() > 0){
+                String deviceNameListStr = list.get(0).get("dicRemark")!=null?list.get(0).get("dicRemark").toString():"";
+                List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                if(deviceNameList != null && deviceNameList.size() > 0){
+                    for(Map<String, Object> deviceNameMap : deviceNameList){
+                        sendFriendCircleParam.putAll(deviceNameMap);
+                        try{
+                            new HuaWeiMate8().sendFriendCircle(sendFriendCircleParam);
+                            Thread.sleep(5000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } else {
+                logger.info("华为 Mate 8 没有设备号，请使用adb命令查询设备号并入库.");
+            }
+//            设备：华为 P20 Pro
+//            try{
+//                new HuaWeiP20Pro().sendFriendCircle(paramMap);
+//                Thread.sleep(5000);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            小米 Max 3
+//            try{
+//                new XiaoMiMax3().sendFriendCircle(paramMap);
+//                Thread.sleep(5000);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            华为 Mate 7
+//            try{
+//                new HuaWeiMate7Index1().sendFriendCircle(paramMap);
+//                Thread.sleep(5000);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            try{
+//                new HuaWeiMate7Index2().sendFriendCircle(paramMap);
+//                Thread.sleep(5000);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            try{
+//                new HuaWeiMate7Index4().sendFriendCircle(paramMap);
+//                Thread.sleep(5000);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            try{
+//                new ZhongXing529Index5().sendFriendCircle(paramMap);            //未成功
+//                Thread.sleep(5000);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        } else {
+            logger.info("获取发送朋友圈信息失败.");
         }
 
+        paramMap.clear();
+        paramMap.put("dicType", "chatByNickName");
+        resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
+        resultList = resultDTO.getResultList();
+        if(resultList != null && resultList.size() > 0){
+            //获取通过昵称聊天通知对方已发朋友圈的内容信息.
+            Map<String, Object> chatByNickNameParam = MapUtil.getObjectMap(resultList.get(0));
+            //设备：华为 Mate 8 通过昵称聊天通知对方已发朋友圈
+            paramMap.clear();
+            paramMap.put("dicType", "deviceNameList");
+            paramMap.put("dicCode", "HuaWeiMate8DeviceNameList");
+            List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
+            if(list != null && list.size() > 0){
+                String deviceNameListStr = list.get(0).get("dicRemark")!=null?list.get(0).get("dicRemark").toString():"";
+                List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                if(deviceNameList != null && deviceNameList.size() > 0){
+                    for(Map<String, Object> deviceNameMap : deviceNameList){
+                        chatByNickNameParam.putAll(deviceNameMap);
+                        try{
+                            new HuaWeiMate8().chatByNickName(chatByNickNameParam);
+                            Thread.sleep(5000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } else {
+                logger.info("华为 Mate 8 没有设备号，请使用adb命令查询设备号并入库.");
+            }
+        } else {
+            logger.info("通过昵称聊天通知对方已发朋友圈失败.");
+        }
+    }
 
-
+    public static void main(String[] args) {
+        new PublishFriendCircleUtils().sendFriendCircle();
     }
 }

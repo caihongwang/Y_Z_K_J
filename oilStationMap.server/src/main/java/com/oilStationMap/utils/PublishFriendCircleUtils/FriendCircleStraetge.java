@@ -17,4 +17,11 @@ public interface FriendCircleStraetge {
      * @throws Exception
      */
     public void sendFriendCircle(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 根据微信昵称，通知对方进行点赞，达到聊天鲜果
+     * @param paramMap
+     * @throws Exception
+     */
+    public void chatByNickName(Map<String, Object> paramMap) throws Exception;
 }

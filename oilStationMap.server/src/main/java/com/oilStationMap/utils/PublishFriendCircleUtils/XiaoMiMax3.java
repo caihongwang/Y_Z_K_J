@@ -188,4 +188,14 @@ public class XiaoMiMax3 implements FriendCircleStraetge{
         }
         System.out.println( "设备描述["+deviceNameDesc+"]设备编码[" + deviceName + "]操作[" + action + "] 发送成功!!!");
     }
+
+    /**
+     * 根据微信昵称，通知对方进行点赞，达到聊天鲜果
+     * @param paramMap
+     * @throws Exception
+     */
+    @Override
+    public void chatByNickName(Map<String, Object> paramMap) throws Exception {
+
+    }
 }

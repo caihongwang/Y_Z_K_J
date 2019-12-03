@@ -40,7 +40,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO sendFriendCircle(Map<String, Object> paramMap) {
-        PublishFriendCircleUtils.sendFriendCircle(paramMap);
+        PublishFriendCircleUtils.sendFriendCircle();
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());

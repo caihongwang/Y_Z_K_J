@@ -134,10 +134,7 @@
                 AND od.dic_remark like concat('%',#{dicRemark},'%')
             </if>
         </where>
-        ORDER BY od.create_time desc
-        <if test="start != null and start != '' and size != null and size != ''">
-            LIMIT 0,1
-        </if>
+        ORDER BY od.create_time desc LIMIT 0,1
     </select>
 
     <select id="getLatelyDicTotalByCondition" resultType="java.lang.Integer">
@@ -161,10 +158,6 @@
                 AND od.dic_remark like concat('%',#{dicRemark},'%')
             </if>
         </where>
-        ORDER BY od.create_time desc
-        <if test="start != null and start != '' and size != null and size != ''">
-            LIMIT 0,1
-        </if>
     </select>
 
 </mapper>

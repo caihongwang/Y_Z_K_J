@@ -55,7 +55,8 @@
         <zookeeper.version>3.4.8</zookeeper.version>
         <com.br.hermes.api.version>1.0.1-SNAPSHOT</com.br.hermes.api.version>
         <org.apache.hbase.client>1.2.4</org.apache.hbase.client>
-        <com.google.guava.version>16.0</com.google.guava.version>
+<!--        <com.google.guava.version>16.0</com.google.guava.version>-->
+        <com.google.guava.version>22.0</com.google.guava.version>
         <com.jfdd.version>1.0.0</com.jfdd.version>
         <org.dom4j>1.6.1</org.dom4j>
         <org.apache.poi.version>3.11</org.apache.poi.version>

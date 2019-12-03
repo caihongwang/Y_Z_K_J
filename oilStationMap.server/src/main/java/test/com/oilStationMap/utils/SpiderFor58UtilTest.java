@@ -2,6 +2,7 @@ package com.oilStationMap.utils;
 
 import com.google.common.collect.Lists;
 import com.oilStationMap.MySuperTest;
+import com.oilStationMap.utils.PublishFriendCircleUtils.PublishFriendCircleUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,7 +32,9 @@ public class SpiderFor58UtilTest extends MySuperTest {
 ////            Thread.sleep(5000);
 //        }
 
-        SpiderFor58Util.getContactFromWeb();
+//        SpiderFor58Util.getContactFromWeb();
+
+        PublishFriendCircleUtils.sendFriendCircle();
     }
 
 
