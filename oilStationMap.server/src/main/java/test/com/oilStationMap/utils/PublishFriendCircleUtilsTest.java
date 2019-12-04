@@ -1,13 +1,13 @@
 package test.com.oilStationMap.utils;
 
+import com.google.common.collect.Maps;
 import com.oilStationMap.MySuperTest;
-import com.oilStationMap.utils.PublishFriendCircleUtils.PublishFriendCircleUtils;
-import com.oilStationMap.utils.SpiderFor58Util;
+import com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils.PublishFriendCircleUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * Created by caihongwang on 2019/6/12.
@@ -19,7 +19,8 @@ public class PublishFriendCircleUtilsTest extends MySuperTest {
     @Test
     public void Test() {
 
-        PublishFriendCircleUtils.sendFriendCircle();
+        Map<String, Object> paramMap = Maps.newHashMap();
+        PublishFriendCircleUtils.sendFriendCircle(paramMap);
     }
 
 }

@@ -52,17 +52,59 @@ public class WX_SpiderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在controller中启动appium,进行自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
+        logger.info("在controller中启动appium,自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
         try {
             ResultDTO resultDTO = wxSpiderHandler.sendFriendCircle(paramMap);
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中启动appium,进行自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("在controller中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在controller中启动appium,进行自动化发送微信朋友圈-sendFriendCircle,响应-response:" + resultMap);
+        logger.info("在controller中启动appium,自动化发送微信朋友圈-sendFriendCircle,响应-response:" + resultMap);
+        return resultMap;
+    }
+
+    @RequestMapping("/chatByNickName")
+    @ResponseBody
+    public Map<String, Object> chatByNickName(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中启动appium,根据微信昵称进行聊天-chatByNickName,请求-paramMap:" + paramMap);
+        try {
+            ResultDTO resultDTO = wxSpiderHandler.chatByNickName(paramMap);
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中启动appium,根据微信昵称进行聊天-chatByNickName,响应-response:" + resultMap);
+        return resultMap;
+    }
+
+    @RequestMapping("/shareArticleToFriendCircle")
+    @ResponseBody
+    public Map<String, Object> shareArticleToFriendCircle(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,请求-paramMap:" + paramMap);
+        try {
+            ResultDTO resultDTO = wxSpiderHandler.shareArticleToFriendCircle(paramMap);
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,响应-response:" + resultMap);
         return resultMap;
     }
 

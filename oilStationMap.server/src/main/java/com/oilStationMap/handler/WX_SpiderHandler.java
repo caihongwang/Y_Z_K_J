@@ -38,7 +38,7 @@ public class WX_SpiderHandler {
     }
 
     public ResultDTO sendFriendCircle(Map<String, String> paramMap) {
-        logger.info("在hanlder中启动appium,进行自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
+        logger.info("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         new Thread(){
@@ -46,11 +46,45 @@ public class WX_SpiderHandler {
                 try {
                     wxSpiderService.sendFriendCircle(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在hanlder中启动appium,进行自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
                 }
             }
         }.start();
-        logger.info("在hanlder中启动appium,进行自动化发送微信朋友圈-sendFriendCircle,响应-response:" + resultDTO);
+        logger.info("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
+    public ResultDTO chatByNickName(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread(){
+            public void run(){
+                try {
+                    wxSpiderService.chatByNickName(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        logger.info("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
+    public ResultDTO shareArticleToFriendCircle(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread(){
+            public void run(){
+                try {
+                    wxSpiderService.shareArticleToFriendCircle(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,响应-response:" + resultDTO);
         return resultDTO;
     }
 }

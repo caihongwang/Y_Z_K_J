@@ -1,7 +1,6 @@
-package com.oilStationMap.utils.PublishFriendCircleUtils;
+package com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
@@ -30,9 +29,10 @@ public class PublishFriendCircleUtils {
     /**
      * 发布朋友圈for所有设备
      */
-    public static void sendFriendCircle(){
-        Map<String, Object> paramMap = Maps.newHashMap();
+    public static void sendFriendCircle(Map<String, Object> paramMap){
+        String chatByNickNameCode = paramMap.get("chatByNickNameCode")!=null?paramMap.get("dicCode").toString():"";
         paramMap.put("dicType", "publishFriendCircle");
+        paramMap.put("dicCode", chatByNickNameCode);        //指定 某一个朋友圈内容 发送
         ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
         List<Map<String, String>> resultList = resultDTO.getResultList();
         if(resultList != null && resultList.size() > 0){
@@ -102,42 +102,5 @@ public class PublishFriendCircleUtils {
         } else {
             logger.info("获取发送朋友圈信息失败.");
         }
-
-        paramMap.clear();
-        paramMap.put("dicType", "chatByNickName");
-        resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
-        resultList = resultDTO.getResultList();
-        if(resultList != null && resultList.size() > 0){
-            //获取通过昵称聊天通知对方已发朋友圈的内容信息.
-            Map<String, Object> chatByNickNameParam = MapUtil.getObjectMap(resultList.get(0));
-            //设备：华为 Mate 8 通过昵称聊天通知对方已发朋友圈
-            paramMap.clear();
-            paramMap.put("dicType", "deviceNameList");
-            paramMap.put("dicCode", "HuaWeiMate8DeviceNameList");
-            List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-            if(list != null && list.size() > 0){
-                String deviceNameListStr = list.get(0).get("dicRemark")!=null?list.get(0).get("dicRemark").toString():"";
-                List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                if(deviceNameList != null && deviceNameList.size() > 0){
-                    for(Map<String, Object> deviceNameMap : deviceNameList){
-                        chatByNickNameParam.putAll(deviceNameMap);
-                        try{
-                            new HuaWeiMate8().chatByNickName(chatByNickNameParam);
-                            Thread.sleep(5000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } else {
-                logger.info("华为 Mate 8 没有设备号，请使用adb命令查询设备号并入库.");
-            }
-        } else {
-            logger.info("通过昵称聊天通知对方已发朋友圈失败.");
-        }
-    }
-
-    public static void main(String[] args) {
-        new PublishFriendCircleUtils().sendFriendCircle();
     }
 }

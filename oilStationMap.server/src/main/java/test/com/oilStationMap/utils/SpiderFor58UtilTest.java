@@ -1,20 +1,14 @@
 package com.oilStationMap.utils;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.oilStationMap.MySuperTest;
-import com.oilStationMap.utils.PublishFriendCircleUtils.PublishFriendCircleUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
+import com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils.PublishFriendCircleUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 /**
  * Created by caihongwang on 2019/6/12.
@@ -33,8 +27,8 @@ public class SpiderFor58UtilTest extends MySuperTest {
 //        }
 
 //        SpiderFor58Util.getContactFromWeb();
-
-        PublishFriendCircleUtils.sendFriendCircle();
+        Map<String, Object> paramMap = Maps.newHashMap();
+        PublishFriendCircleUtils.sendFriendCircle(paramMap);
     }
 
 

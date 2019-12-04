@@ -154,14 +154,13 @@ public class TimeTaskOfQuartz {
         }
     }
 
-
-    /**
-     * 每天早上09:00，装一网 爬取站点 以及 发起预约
-     */
-    @Scheduled(cron = "0 0 10 * * ?")
-    public void do_SpiderForZhuangYitUtil_For_OilStationMap() {
-        SpiderForZhuangYitUtil.subscribeRenovation("");
-    }
+//    /**
+//     * 每天早上09:00，装一网 爬取站点 以及 发起预约
+//     */
+//    @Scheduled(cron = "0 0 10 * * ?")
+//    public void do_SpiderForZhuangYitUtil_For_OilStationMap() {
+//        SpiderForZhuangYitUtil.subscribeRenovation("");
+//    }
 
     /**
      * 每月第一天02:30:30，定时更新https协议证书
