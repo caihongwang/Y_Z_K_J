@@ -1,4 +1,4 @@
-package com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils;
+package com.oilStationMap.utils.wxAdAutomation.sendFriendCircle;
 
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
@@ -12,11 +12,11 @@ import java.time.Duration;
 import java.util.Map;
 
 /**
- * 小米 Max3 发布朋友圈 策略
+ * 华为 P20 Pro 发布朋友圈 策略
  */
-public class XiaoMiMax3 implements FriendCircleStraetge{
+public class HuaWeiP20Pro implements FriendCircleStraetge{
 
-    public static final Logger logger = LoggerFactory.getLogger(XiaoMiMax3.class);
+    public static final Logger logger = LoggerFactory.getLogger(HuaWeiP20Pro.class);
 
     /**
      * 发送朋友圈
@@ -29,8 +29,8 @@ public class XiaoMiMax3 implements FriendCircleStraetge{
         String action = paramMap.get("action")!=null?paramMap.get("action").toString():"textMessageFriendCircle";                       //操作:纯文字朋友圈和图片文字朋友圈
         String content = paramMap.get("content")!=null?paramMap.get("content").toString():"/玫瑰我们做的是广告，广告的目的是广而告之。 /微笑央视同样不保证效果，广告推广的意义就在于提高产品的知名度和覆盖面。/愉快推广面越广，覆盖人群越多，才越容易被接受。正规公司，全国统一价。 /勾引谈的是价值，不是价格。正品和高仿，您更愿意选择哪个？ /闪电不值得的花一分钱也是多， /闪电值得的一百万也值得。 /闪电 认准品牌， /闪电认准实力。/强 /强 /强 ";                     //朋友圈文本
         String photoNumStr = paramMap.get("photoNum")!=null?paramMap.get("photoNum").toString():"1";                     //朋友圈文本
-        String deviceName = "9f4eda95";               //设备编码
-        String deviceNameDesc = "小米 Max3";       //设备描述
+        String deviceName = "D5F0218325003946";               //设备编码
+        String deviceNameDesc = "华为 P20 Pro";       //设备描述
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try{
@@ -62,10 +62,10 @@ public class XiaoMiMax3 implements FriendCircleStraetge{
         //Dao操作数据库,并整理坐标
         //Dao操作数据库,并整理坐标
         String findBtnLocaltion = "//android.widget.RelativeLayout[3]";        //坐标:发现
-        String friendCircleBtnLocation = "//android.widget.LinearLayout[@resource-id='com.tencent.mm:id/aoi'][1]"; //坐标:朋友圈
+        String friendCircleBtnLocation = "//android.widget.LinearLayout[@resource-id='com.tencent.mm:id/dkm'][1]"; //坐标:朋友圈
         String cameraLocaltion = "//android.widget.ImageButton[@content-desc=\"拍照分享\"]";            //坐标:相机
-        String textInputLocaltion = "//android.widget.EditText[@resource-id='com.tencent.mm:id/d41']";  //坐标:文本输入框
-        String publishOrCompleteBtnLocaltion = "com.tencent.mm:id/ln";                   //坐标:发表/完成
+        String textInputLocaltion = "//android.widget.EditText[@resource-id='com.tencent.mm:id/d3k']";  //坐标:文本输入框
+        String publishOrCompleteBtnLocaltion = "com.tencent.mm:id/lm";                   //坐标:发表/完成
 
         String selectFromPhotosBtnLocaltion = "//android.widget.LinearLayout[2]/android.widget.RelativeLayout/android.widget.TextView";     //坐标：从相册中选择
         String photoBtnPreLocation = "//android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.GridView/android.widget.RelativeLayout[";    //坐标前缀：相片前缀

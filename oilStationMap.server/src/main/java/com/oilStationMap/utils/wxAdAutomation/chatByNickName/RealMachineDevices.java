@@ -13,11 +13,12 @@ import java.time.Duration;
 import java.util.Map;
 
 /**
- * 华为 Mate 8 _ 6 根据微信昵称进行聊天 策略
+ * 真机设备 根据微信昵称进行聊天 策略
+ * 默认 华为 Mate 8
  */
-public class HuaWeiMate8 implements ChatByNickName{
+public class RealMachineDevices implements ChatByNickName{
 
-    public static final Logger logger = LoggerFactory.getLogger(HuaWeiMate8.class);
+    public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
     /**
      * 根据微信昵称进行聊天
@@ -48,9 +49,9 @@ public class HuaWeiMate8 implements ChatByNickName{
                         paramMap.get("nickName").toString():
                                 "御景西城贵公子";
         //微信昵称
-        String chatContent =
-                paramMap.get("chatContent")!=null?
-                        paramMap.get("chatContent").toString():
+        String textMessage =
+                paramMap.get("textMessage")!=null?
+                        paramMap.get("textMessage").toString():
                                 "亲！您的内容已转发朋友圈，快去评论吧，评论可以置顶，更多人能看得到！";
         //坐标:搜索
         String searchLocaltionStr =
@@ -85,16 +86,20 @@ public class HuaWeiMate8 implements ChatByNickName{
                         paramMap.get("chatInputLocation").toString():
                                 "//android.widget.EditText[@resource-id='com.tencent.mm:id/aqe']";
         //坐标:发送
-        String sendBtnLocaltionStr =
+//        String sendBtnLocaltionStr =
+//                paramMap.get("sendBtnLocaltion")!=null?
+//                        paramMap.get("sendBtnLocaltion").toString():
+//                                "{\n" +
+//                                "        \"sendBtnLocaltion_x1\":896,\n" +
+//                                "        \"sendBtnLocaltion_y1\":1694,\n" +
+//                                "        \"sendBtnLocaltion_x2\":1058,\n" +
+//                                "        \"sendBtnLocaltion_y2\":1780\n" +
+//                                "    }";
+//        Map<String, Integer> sendBtnLocaltion = JSONObject.parseObject(sendBtnLocaltionStr, Map.class);
+        String sendBtnLocaltion =
                 paramMap.get("sendBtnLocaltion")!=null?
                         paramMap.get("sendBtnLocaltion").toString():
-                                "{\n" +
-                                "        \"sendBtnLocaltion_x1\":896,\n" +
-                                "        \"sendBtnLocaltion_y1\":1694,\n" +
-                                "        \"sendBtnLocaltion_x2\":1058,\n" +
-                                "        \"sendBtnLocaltion_y2\":1780\n" +
-                                "    }";
-        Map<String, Integer> sendBtnLocaltion = JSONObject.parseObject(sendBtnLocaltionStr, Map.class);
+                                "com.tencent.mm:id/aql";
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try{
@@ -107,6 +112,7 @@ public class HuaWeiMate8 implements ChatByNickName{
             desiredCapabilities.setCapability("noReset", true);                     //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);             //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
+            desiredCapabilities.setCapability("newCommandTimeout", "60");           //在下一个命令执行之前的等待最大时长,单位为秒
             URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                                 //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】启动链接成功....");
@@ -158,7 +164,7 @@ public class HuaWeiMate8 implements ChatByNickName{
         }
         //5.点击坐标【聊天输入框】
         try {
-            driver.findElementByXPath(chatInputLocation).sendKeys(chatContent);
+            driver.findElementByXPath(chatInputLocation).sendKeys(textMessage);
             logger.info("点击坐标【聊天输入框】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
@@ -166,20 +172,27 @@ public class HuaWeiMate8 implements ChatByNickName{
             throw new Exception("长按坐标【聊天输入框】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
         }
         //5.点击坐标【发送】
-        try {
-            Integer sendBtnLocaltion_x1 = sendBtnLocaltion.get("sendBtnLocaltion_x1")!=null?sendBtnLocaltion.get("sendBtnLocaltion_x1"):896;
-            Integer sendBtnLocaltion_y1 = sendBtnLocaltion.get("sendBtnLocaltion_y1")!=null?sendBtnLocaltion.get("sendBtnLocaltion_y1"):1694;
-            Integer sendBtnLocaltion_x2 = sendBtnLocaltion.get("sendBtnLocaltion_x2")!=null?sendBtnLocaltion.get("sendBtnLocaltion_x2"):1058;
-            Integer sendBtnLocaltion_y2 = sendBtnLocaltion.get("sendBtnLocaltion_y2")!=null?sendBtnLocaltion.get("sendBtnLocaltion_y2"):1780;
-            Integer sendBtnLocaltion_x = (int)(Math.random()*(sendBtnLocaltion_x2 - sendBtnLocaltion_x1) + sendBtnLocaltion_x1);
-            Integer sendBtnLocaltion_y = (int)(Math.random()*(sendBtnLocaltion_y2 - sendBtnLocaltion_y1) + sendBtnLocaltion_y1);
-            Duration duration = Duration.ofMillis(500);
-            new TouchAction(driver).press(sendBtnLocaltion_x, sendBtnLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
-            logger.info("点击坐标【发送】,x = " + sendBtnLocaltion_x + " , y = " + sendBtnLocaltion_y + "成功....");
+//        try {
+//            Integer sendBtnLocaltion_x1 = sendBtnLocaltion.get("sendBtnLocaltion_x1")!=null?sendBtnLocaltion.get("sendBtnLocaltion_x1"):896;
+//            Integer sendBtnLocaltion_y1 = sendBtnLocaltion.get("sendBtnLocaltion_y1")!=null?sendBtnLocaltion.get("sendBtnLocaltion_y1"):1694;
+//            Integer sendBtnLocaltion_x2 = sendBtnLocaltion.get("sendBtnLocaltion_x2")!=null?sendBtnLocaltion.get("sendBtnLocaltion_x2"):1058;
+//            Integer sendBtnLocaltion_y2 = sendBtnLocaltion.get("sendBtnLocaltion_y2")!=null?sendBtnLocaltion.get("sendBtnLocaltion_y2"):1780;
+//            Integer sendBtnLocaltion_x = (int)(Math.random()*(sendBtnLocaltion_x2 - sendBtnLocaltion_x1) + sendBtnLocaltion_x1);
+//            Integer sendBtnLocaltion_y = (int)(Math.random()*(sendBtnLocaltion_y2 - sendBtnLocaltion_y1) + sendBtnLocaltion_y1);
+//            Duration duration = Duration.ofMillis(500);
+//            new TouchAction(driver).press(sendBtnLocaltion_x, sendBtnLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
+//            logger.info("点击坐标【发送】,x = " + sendBtnLocaltion_x + " , y = " + sendBtnLocaltion_y + "成功....");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new Exception("点击按坐标【发送】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
+//        }
+        try{
+            driver.findElementById(sendBtnLocaltion).click();
+            logger.info("点击坐标【发送】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("点击按坐标【发送】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
+            throw new Exception("点击坐标[发送]出现异常,请检查设备描述["+deviceNameDesc+"]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因");
         }
         //6.退出驱动
         try {
@@ -198,7 +211,7 @@ public class HuaWeiMate8 implements ChatByNickName{
         try{
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("action", "chatByNickName");
-            new HuaWeiMate8().chatByNickName(paramMap);
+            new RealMachineDevices().chatByNickName(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();

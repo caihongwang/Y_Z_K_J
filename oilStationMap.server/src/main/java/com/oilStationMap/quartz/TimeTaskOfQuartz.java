@@ -1,15 +1,12 @@
 package com.oilStationMap.quartz;
 
-import com.alibaba.fastjson.JSONObject;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.BoolDTO;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
-import com.oilStationMap.service.*;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.LonLatUtil;
-import com.oilStationMap.utils.SpiderForZhuangYitUtil;
 import com.oilStationMap.utils.TimestampUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

@@ -1,4 +1,4 @@
-package com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils;
+package com.oilStationMap.utils.wxAdAutomation.sendFriendCircle;
 
 import java.util.Map;
 

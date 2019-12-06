@@ -14,8 +14,8 @@ public class SpiderForZhuangYitUtilTest extends MySuperTest {
     public void Test() {
 
         //发起装修预定
-        String baseUrl = "http://tr.zhuangyi.com";
-        SpiderForZhuangYitUtil.subscribeRenovation(baseUrl);
+//        String baseUrl = "http://tr.zhuangyi.com";
+//        SpiderForZhuangYitUtil.subscribeRenovation(baseUrl);
 
 //        //装修地区链接
 //        String baseUrl = "http://tr.zhuangyi.com";

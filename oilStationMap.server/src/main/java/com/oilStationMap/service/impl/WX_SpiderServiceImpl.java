@@ -4,7 +4,7 @@ import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
-import com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils.PublishFriendCircleUtils;
+import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
 import com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils.ShareArticleToFriendCircleUtils;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO sendFriendCircle(Map<String, Object> paramMap) {
-        PublishFriendCircleUtils.sendFriendCircle(paramMap);
+        SendFriendCircleUtils.sendFriendCircle(paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());

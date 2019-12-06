@@ -2,7 +2,7 @@ package com.oilStationMap.utils;
 
 import com.google.common.collect.Maps;
 import com.oilStationMap.MySuperTest;
-import com.oilStationMap.utils.wxAdAutomation.publishFriendCircleUtils.PublishFriendCircleUtils;
+import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class SpiderFor58UtilTest extends MySuperTest {
 
 //        SpiderFor58Util.getContactFromWeb();
         Map<String, Object> paramMap = Maps.newHashMap();
-        PublishFriendCircleUtils.sendFriendCircle(paramMap);
+        SendFriendCircleUtils.sendFriendCircle(paramMap);
     }
 
 
