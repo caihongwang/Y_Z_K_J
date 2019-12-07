@@ -79,6 +79,7 @@ public class ShareArticleToFriendCircleUtils {
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
                                         if(currentDate.after(startTime) && currentDate.before(endTime)){
+                                            logger.info( "设备描述【"+shareArticleToFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+shareArticleToFriendCircleParam.get("deviceName")+"】操作【"+shareArticleToFriendCircleParam.get("action")+"】昵称【"+nickName+"】的朋友圈即将开始发送.....");
                                             new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam);
                                             Thread.sleep(5000);
                                         } else {

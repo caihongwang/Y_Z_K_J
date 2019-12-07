@@ -75,7 +75,7 @@ public class SendFriendCircleUtils {
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
                                         if(currentDate.after(startTime) && currentDate.before(endTime)){
-                                            logger.info("昵称【" + nickName + "】的朋友圈即将开始发送....");
+                                            logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的朋友圈即将开始发送.....");
                                             new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
                                             Thread.sleep(5000);
                                         } else {

@@ -3,6 +3,7 @@ package com.oilStationMap.utils.wxAdAutomation.sendFriendCircle;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oilStationMap.utils.CommandUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
@@ -152,20 +153,22 @@ public class RealMachineDevices implements FriendCircleStraetge{
         try{
             DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
             desiredCapabilities.setCapability("platformName", "Android");           //Android设备
-            desiredCapabilities.setCapability("deviceName", deviceName);                   //设备
-            desiredCapabilities.setCapability("udid", deviceName);                         //设备唯一标识
+            desiredCapabilities.setCapability("deviceName", deviceName);                  //设备
+            desiredCapabilities.setCapability("udid", deviceName);                        //设备唯一标识
             desiredCapabilities.setCapability("appPackage", "com.tencent.mm");      //打开 微信
             desiredCapabilities.setCapability("appActivity", "ui.LauncherUI");      //首个 页面
             desiredCapabilities.setCapability("noReset", true);                     //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);             //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
             desiredCapabilities.setCapability("newCommandTimeout", "60");           //在下一个命令执行之前的等待最大时长,单位为秒
-            URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                                 //连接本地的appium
+            desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
+            URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                           //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】启动链接成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
+            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("配置连接android驱动出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的环境是否正常运行等原因");
         }
         //2.将图片保存到【手机本地的微信图片路径】
@@ -246,6 +249,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
+            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("点击坐标【发现】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
         }
         //5.点击坐标【朋友圈】
@@ -262,6 +266,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
+            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
         }
         //6.具体操作
@@ -280,6 +285,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(1500);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.2.输入文本
@@ -289,6 +295,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("输入文字出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.3.点击坐标【发表】
@@ -298,6 +305,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("点击坐标【发表】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
         } else if (action.equals("imgMessageFriendCircle")) {        //图片信息朋友圈
@@ -315,6 +323,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.4.点击坐标【从相册选择】
@@ -331,6 +340,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【从相册选择】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.5.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】
@@ -351,6 +361,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(2000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【完成】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.7.点击【输入文字】
@@ -360,6 +371,7 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.8.点击坐标【发布】
@@ -369,21 +381,67 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
         }
         //7.退出驱动
+        this.quitDriver(driver, deviceNameDesc, deviceName);
+        logger.info( "设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】操作【" + action + "】 发送成功!!!");
+    }
+
+    /**
+     * 退出驱动并重启手机
+     * @param driver
+     * @param deviceNameDesc
+     * @param deviceName
+     */
+    public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
         try {
-            Thread.sleep(5000);
-            if(driver!=null){
+            Thread.sleep(3000);
+            if (driver != null) {
                 driver.quit();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("退出driver异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的连接等原因");
+            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
         }
-        logger.info( "设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】操作【" + action + "】 发送成功!!!");
     }
+
+    /**
+     * 退出驱动并重启手机
+     * @param driver
+     * @param deviceNameDesc
+     * @param deviceName
+     */
+    public void quitDriverAndReboot(AndroidDriver driver, String deviceNameDesc, String deviceName){
+        try {
+            Thread.sleep(3000);
+            if(driver!=null){
+                driver.quit();
+            }
+            try{
+                //重启android设备
+                Thread.sleep(2000);
+                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+                logger.info("重启成功，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+            } catch (Exception e1) {
+                logger.info("重启失败，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("退出driver异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的连接等原因");
+            try{
+                //重启android设备
+                Thread.sleep(2000);
+                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+                logger.info("重启成功，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+            } catch (Exception e1) {
+                logger.info("重启失败，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+            }
+        }
+    }
+
     public static void main(String[] args) {
         try{
             Map<String, Object> paramMap = Maps.newHashMap();

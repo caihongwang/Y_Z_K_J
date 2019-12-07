@@ -65,7 +65,7 @@ public class ChatByNickNameUtils {
                             for(Map<String, Object> deviceNameMap : deviceNameList){
                                 chatByNickNameParam.putAll(deviceNameMap);
                                 try{
-                                    logger.info("昵称【" + nickName + "】的朋友圈即将开始发送....");
+                                    logger.info( "设备描述【"+chatByNickNameParam.get("deviceNameDesc")+"】设备编码【"+chatByNickNameParam.get("deviceName")+"】操作【"+chatByNickNameParam.get("action")+"】昵称【"+nickName+"】的朋友圈即将开始发送.....");
                                     new RealMachineDevices().chatByNickName(chatByNickNameParam);
                                     Thread.sleep(5000);
                                 } catch (Exception e) {

@@ -2,6 +2,7 @@ package test.com.oilStationMap.utils;
 
 import com.google.common.collect.Maps;
 import com.oilStationMap.MySuperTest;
+import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
