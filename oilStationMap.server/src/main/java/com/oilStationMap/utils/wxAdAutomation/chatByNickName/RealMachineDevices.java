@@ -113,7 +113,7 @@ public class RealMachineDevices implements ChatByNickName{
             desiredCapabilities.setCapability("noReset", true);                     //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);             //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
-            desiredCapabilities.setCapability("newCommandTimeout", "60");           //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("newCommandTimeout", 300);                                //在下一个命令执行之前的等待最大时长,单位为秒
 //            desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                          //连接本地的appium
             long startTime = System.currentTimeMillis();
