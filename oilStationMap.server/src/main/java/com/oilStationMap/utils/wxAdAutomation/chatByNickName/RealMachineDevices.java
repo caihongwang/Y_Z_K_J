@@ -115,7 +115,9 @@ public class RealMachineDevices implements ChatByNickName{
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
             desiredCapabilities.setCapability("newCommandTimeout", 60);                                 //在下一个命令执行之前的等待最大时长,单位为秒
 //            desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
-            URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                          //连接本地的appium
+//            URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                          //连接本地的appium
+//            URL remoteUrl = new URL("http://192.168.43.181:"+4723+"/wd/hub");                          //连接本地的appium
+            URL remoteUrl = new URL("http://0.0.0.0:"+4723+"/wd/hub");                          //连接本地的appium
             long startTime = System.currentTimeMillis();
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             long endTime = System.currentTimeMillis();
@@ -216,15 +218,15 @@ public class RealMachineDevices implements ChatByNickName{
      * @param deviceName
      */
     public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
-        try {
-            Thread.sleep(3000);
-            if (driver != null) {
-                driver.quit();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
-        }
+//        try {
+//            Thread.sleep(3000);
+//            if (driver != null) {
+//                driver.quit();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
+//        }
     }
 
     /**
@@ -234,31 +236,31 @@ public class RealMachineDevices implements ChatByNickName{
      * @param deviceName
      */
     public void quitDriverAndReboot(AndroidDriver driver, String deviceNameDesc, String deviceName){
-        try {
-            Thread.sleep(3000);
-            if(driver!=null){
-                driver.quit();
-            }
-            try{
-                //重启android设备
-                Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
-                logger.info("重启成功，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
-            } catch (Exception e1) {
-                logger.info("重启失败，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("退出driver异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的连接等原因");
-            try{
-                //重启android设备
-                Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
-                logger.info("重启成功，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
-            } catch (Exception e1) {
-                logger.info("重启失败，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
-            }
-        }
+//        try {
+//            Thread.sleep(3000);
+//            if(driver!=null){
+//                driver.quit();
+//            }
+//            try{
+//                //重启android设备
+//                Thread.sleep(2000);
+//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+//                logger.info("重启成功，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+//            } catch (Exception e1) {
+//                logger.info("重启失败，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.info("退出driver异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的连接等原因");
+//            try{
+//                //重启android设备
+//                Thread.sleep(2000);
+//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+//                logger.info("重启成功，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+//            } catch (Exception e1) {
+//                logger.info("重启失败，设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】");
+//            }
+//        }
     }
 
     public static void main(String[] args) {

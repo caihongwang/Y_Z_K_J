@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * 发布朋友圈工具
- * appium -p 4723 -bp 4724 --session-override
+ * appium -p 4723 -bp 4724 --session-override --command-timeout 600
  */
 public class SendFriendCircleUtils {
 

@@ -349,7 +349,11 @@ public class RealMachineDevices implements FriendCircleStraetge{
                     driver.findElementByXPath( photoBtnPreLocation+ i + photoBtnSufLocation).click();
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    imageNum++;
+                    if(imageNum <= 100){
+                        imageNum++;
+                    } else {
+                        break;
+                    }
                     continue;
                 }
             }
