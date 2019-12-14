@@ -163,8 +163,10 @@ public class RealMachineDevices implements FriendCircleStraetge{
             desiredCapabilities.setCapability("newCommandTimeout", "60");           //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                           //连接本地的appium
+            long startTime = System.currentTimeMillis();
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】启动链接成功....");
+            long endTime = System.currentTimeMillis();
+            logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】连接Appium成功，总共花费 "+((endTime-startTime)/1000)+" 秒....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();

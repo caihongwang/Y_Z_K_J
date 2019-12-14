@@ -48,7 +48,7 @@ public class RealMachineDevices implements ChatByNickName{
         String nickName =
                 paramMap.get("nickName")!=null?
                         paramMap.get("nickName").toString():
-                                "御景西城贵公子";
+                                "caihongwang976499921";
         //微信昵称
         String textMessage =
                 paramMap.get("textMessage")!=null?
@@ -115,13 +115,12 @@ public class RealMachineDevices implements ChatByNickName{
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
             desiredCapabilities.setCapability("newCommandTimeout", 60);                                 //在下一个命令执行之前的等待最大时长,单位为秒
 //            desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
-//            URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                          //连接本地的appium
+            URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                          //连接本地的appium
 //            URL remoteUrl = new URL("http://192.168.43.181:"+4723+"/wd/hub");                          //连接本地的appium
-            URL remoteUrl = new URL("http://0.0.0.0:"+4723+"/wd/hub");                          //连接本地的appium
             long startTime = System.currentTimeMillis();
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             long endTime = System.currentTimeMillis();
-            logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】连接Appium成功，总共花费 "+((startTime-endTime)/1000)+" 秒....");
+            logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】连接Appium成功，总共花费 "+((endTime-startTime)/1000)+" 秒....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
@@ -267,6 +266,8 @@ public class RealMachineDevices implements ChatByNickName{
         try{
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("action", "chatByNickName");
+            paramMap.put("deviceName", "QVM0216226010000");
+            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 5");
             new RealMachineDevices().chatByNickName(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
