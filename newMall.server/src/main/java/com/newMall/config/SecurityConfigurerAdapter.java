@@ -41,6 +41,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "/resourceOfNewMall/**",
                 "/wxOrder/wxPayNotifyForPayTheBillInMiniProgram",
                 "/wxOrder/wxPayNotifyForPurchaseProductInMiniProgram",
+                "/wxProduct/getOrUpdateProductFrom7Dingdong",           //从企叮咚获取或者更新商品信息
+                "/wxShop/getShopMiniProgramCode",           //获取商家小程序码
                 "/product/**",
                 "/js/**",
                 "/css/**",

@@ -478,7 +478,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             if(shopList != null && shopList.size() > 0){
                 shopId = shopList.get(0).get("shopId").toString();
                 shopTitle = shopList.get(0).get("shopTitle").toString();
-                shopMiniProgramCodePath = shopMiniProgramCodePath + shopTitle + "/";
+                String shopMiniProgramCodePathTemp = shopMiniProgramCodePath + shopTitle + "/";
                 if(!"".equals(shopId)){
                     String scene = "shopId=" + shopId;
                     resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
@@ -486,7 +486,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                             NewMallCode.WX_MINI_PROGRAM_SECRET,
                             page,
                             scene,
-                            shopMiniProgramCodePath);
+                            shopMiniProgramCodePathTemp);
                     if(resultMap != null && resultMap.size() > 0){
                         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
                         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());

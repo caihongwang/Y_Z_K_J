@@ -617,8 +617,9 @@ public class WX_PublicNumberUtil {
                     out.flush();
                     out.close();
                     inStream.close();
-                    shopMiniProgramCodePath = shopMiniProgramCodePath.substring(28);
-                    String miniProgramCodeUrl = NewMallCode.THE_DOMAIN + shopMiniProgramCodePath;
+                    resultMap.put("miniProgramCodePath", shopMiniProgramCodePath);
+                    shopMiniProgramCodePath = shopMiniProgramCodePath.substring(5);
+                    String miniProgramCodeUrl = NewMallCode.THE_DOMAIN + "newMall/"+ shopMiniProgramCodePath;
                     resultMap.put("miniProgramCodeUrl", miniProgramCodeUrl);
                 } else {
                     logger.error("向微信服务器发送请求获取，获取二维码失败，accessToken=" + accessToken + ",page=" + page + ",scene=" + scene);
