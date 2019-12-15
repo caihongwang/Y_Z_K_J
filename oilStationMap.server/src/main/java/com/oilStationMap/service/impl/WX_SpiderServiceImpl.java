@@ -3,6 +3,7 @@ package com.oilStationMap.service.impl;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
+import com.oilStationMap.utils.SpiderForMeiTuanUtil;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
@@ -27,7 +28,8 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap) {
-        SpiderFor58Util.getContactFromWeb();
+        SpiderFor58Util.getContactFrom58ErShouFang();
+        SpiderForMeiTuanUtil.getContactFromMeiTuanMeiShi();
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
