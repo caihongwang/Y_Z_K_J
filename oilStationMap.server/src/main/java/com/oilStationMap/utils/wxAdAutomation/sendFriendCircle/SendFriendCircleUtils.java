@@ -13,9 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 发布朋友圈工具
@@ -36,6 +34,7 @@ public class SendFriendCircleUtils {
         String nickNameListStr = paramMap.get("nickNameListStr")!=null?paramMap.get("nickNameListStr").toString():"";
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for(String nickName : nickNameList){
+            List<HashMap<String, Object>> rebootDeviceNameList = Lists.newArrayList();          //执行失败的设备列表，待重新执行
             paramMap.put("dicType", "sendFriendCircle");
             paramMap.put("dicCode", nickName);        //指定转发微信昵称朋友圈内容
             ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
@@ -47,8 +46,10 @@ public class SendFriendCircleUtils {
                 //获取设备列表和配套的坐标配置
                 List<String> dicCodeList = Lists.newArrayList();
                 dicCodeList.add("HuaWeiMate8ListAndSendFriendCircleLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
+                dicCodeList.add("HuaWeiMate8HListAndSendFriendCircleLocaltion");//获取 华为 Mate 8 海外版 设备列表和配套的坐标配置
                 dicCodeList.add("HuaWeiP20ProListAndSendFriendCircleLocaltion");//获取 华为 P20 Pro 设备列表和配套的坐标配置
                 dicCodeList.add("XiaoMiMax3ListAndSendFriendCircleLocaltion");//获取 小米 Max 3 设备列表和配套的坐标配置
+                dicCodeList.add("HuaWeiMate7ListAndSendFriendCircleLocaltion");//获取 华为 Mate 7 设备列表和配套的坐标配置
                 for(String dicCode : dicCodeList){
                     paramMap.clear();
                     paramMap.put("dicType", "deviceNameListAndLocaltion");
@@ -76,7 +77,7 @@ public class SendFriendCircleUtils {
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
                                         if(currentDate.after(startTime) && currentDate.before(endTime)){
-                                            logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的朋友圈即将开始发送.....");
+                                            logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送.....");
                                             new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
                                             Thread.sleep(5000);
                                         } else {
@@ -84,6 +85,9 @@ public class SendFriendCircleUtils {
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();
+                                        HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
+                                        rebootDeviceNameMap.putAll(sendFriendCircleParam);
+                                        rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                                     }
                                 } else {
                                     Map<String, Object> tempMap = Maps.newHashMap();
@@ -100,6 +104,39 @@ public class SendFriendCircleUtils {
                 }
             } else {
                 logger.info("发布朋友圈 失败.");
+            }
+            //对执行失败的设备列表进行重新执行,最多循环执行5遍
+            Integer index = 1;
+            while (rebootDeviceNameList.size() > 0) {
+                //等待所有设备重启
+                try {
+                    Thread.sleep(90000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if(index > 5){
+                    break;
+                }
+                logger.info("第【"+index+"】次批量重新执行失败的设备....");
+                Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
+                while (iterator.hasNext()) {
+                    Map<String, Object> deviceNameMap = iterator.next();
+                    try {
+                        logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的发送朋友圈即将开始发送.....");
+                        new RealMachineDevices().sendFriendCircle(deviceNameMap);
+                        Thread.sleep(5000);
+                        iterator.remove();
+                    } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
+                        e.printStackTrace();
+                    }
+                }
+                index++;
+            }
+            logger.info("【发送朋友圈】已经执行完毕......");
+            logger.info("【发送朋友圈】已经执行完毕......");
+            logger.info("【发送朋友圈】已经执行完毕......");
+            for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
+                logger.info("设备描述【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
             }
         }
     }

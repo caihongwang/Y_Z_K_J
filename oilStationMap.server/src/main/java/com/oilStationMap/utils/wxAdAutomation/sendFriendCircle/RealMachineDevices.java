@@ -160,8 +160,10 @@ public class RealMachineDevices implements FriendCircleStraetge{
             desiredCapabilities.setCapability("noReset", true);                     //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);             //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
-            desiredCapabilities.setCapability("newCommandTimeout", "60");           //在下一个命令执行之前的等待最大时长,单位为秒
-            desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
+            desiredCapabilities.setCapability("newCommandTimeout", 60);                                  //在下一个命令执行之前的等待最大时长,单位为秒
+//            desiredCapabilities.setCapability("deviceReadyTimeout", 60);                                 //等待设备就绪的时间,单位为秒
+//            desiredCapabilities.setCapability("androidDeviceReadyTimeout", 75);                          //等待设备在启动应用后超时时间，单位秒
+            desiredCapabilities.setCapability("autoAcceptAlerts", true);             //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             URL remoteUrl = new URL("http://localhost:"+4723+"/wd/hub");                           //连接本地的appium
             long startTime = System.currentTimeMillis();
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
@@ -346,19 +348,32 @@ public class RealMachineDevices implements FriendCircleStraetge{
                 throw new Exception("长按坐标【从相册选择】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
             }
             //6.5.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】
+
             for (int i = 1; i <= imageNum; i++) {
-                try {
-                    driver.findElementByXPath( photoBtnPreLocation+ i + photoBtnSufLocation).click();
+                try{
+                    driver.findElementByXPath(photoBtnPreLocation + i + photoBtnSufLocation).click();
+                    logger.info("点击坐标选择第" + i + "张图片....");
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    if(imageNum <= 100){
-                        imageNum++;
-                    } else {
-                        break;
-                    }
-                    continue;
+                    e.printStackTrace();
+                    this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                    throw new Exception("点击坐标【选择第"+i+"张张片】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因");
                 }
             }
+//            for (int i = 1; i <= imageNum; i++) {
+//                try {
+//                    driver.findElementByXPath( photoBtnPreLocation + i + photoBtnSufLocation).click();
+//                    logger.info("点击坐标选择第"+i+"张图片....");
+//                    Thread.sleep(1000);
+//                } catch (Exception e) {
+//                    if(imageNum <= 15){
+//                        imageNum++;
+//                    } else {
+//                        break;
+//                    }
+//                    continue;
+//                }
+//            }
             logger.info("点击坐标【选择图片】成功....");
             //6.6.点击坐标【完成】
             try {
@@ -451,6 +466,8 @@ public class RealMachineDevices implements FriendCircleStraetge{
     public static void main(String[] args) {
         try{
             Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("deviceName", "APU0216117000376");
+            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 3");
             paramMap.put("action", "imgMessageFriendCircle");
             new RealMachineDevices().sendFriendCircle(paramMap);
             Thread.sleep(5000);

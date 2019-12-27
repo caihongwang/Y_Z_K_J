@@ -37,7 +37,7 @@ public class WX_SpiderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("在controller中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb is error, paramMap : " + paramMap + ", e : ", e);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
@@ -58,7 +58,7 @@ public class WX_SpiderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("在controller中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
@@ -79,7 +79,7 @@ public class WX_SpiderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("在controller中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : ", e);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
@@ -100,7 +100,7 @@ public class WX_SpiderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("在controller中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
             resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }

@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +22,28 @@ public class IpDaiLIUtilTest extends MySuperTest {
 
     @Test
     public void Test() {
-        List<Map<String, String>> ipList = IpDaiLiUtil.getDaiLiIpList();
-        for(Map ipMap : ipList){
-            System.out.println("ip ---->>>>" + ipMap.toString());
+//        List<Map<String, String>> ipList = IpDaiLiUtil.getDaiLiIpList();
+//        for(Map ipMap : ipList){
+//            System.out.println("ip ---->>>>" + ipMap.toString());
+//        }
+
+        // TODO Auto-generated method stub
+        List<Integer> listA=new ArrayList<>();
+        listA.add(1);
+        listA.add(2);
+        listA.add(3);
+        listA.add(4);
+        listA.add(5);
+        listA.add(6);
+        Iterator<Integer> it_b=listA.iterator();
+        while(it_b.hasNext()){
+            Integer a=it_b.next();
+            if (a==4) {
+                it_b.remove();
+            }
+        }
+        for(Integer b:listA){
+            System.out.println(b);
         }
     }
 
