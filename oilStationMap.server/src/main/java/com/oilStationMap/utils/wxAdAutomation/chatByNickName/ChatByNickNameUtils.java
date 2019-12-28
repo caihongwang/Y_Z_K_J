@@ -6,7 +6,9 @@ import com.google.common.collect.Maps;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.WX_DicService;
+import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
+import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.ApplicationContextUtils;
 import com.oilStationMap.utils.MapUtil;
 import org.slf4j.Logger;
@@ -23,9 +25,11 @@ public class ChatByNickNameUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(ChatByNickNameUtils.class);
 
+    public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
+
     public static WX_DicService wxDicService = (WX_DicService) ApplicationContextUtils.getBeanByClass(WX_DicServiceImpl.class);
 
-    public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
+    public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
 
     /**
      * 根据微信昵称进行聊天for所有设备
@@ -116,8 +120,18 @@ public class ChatByNickNameUtils {
             logger.info("【根据微信昵称进行聊天】已经执行完毕......");
             logger.info("【根据微信昵称进行聊天】已经执行完毕......");
             logger.info("【根据微信昵称进行聊天】已经执行完毕......");
+            String exceptionDevices = "异常设备列表";
             for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
-                logger.info("设备描述【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
+                exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
+                logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
+            }
+            try {
+                Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
+                exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
+                exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+                wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
