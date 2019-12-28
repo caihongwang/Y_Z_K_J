@@ -178,6 +178,26 @@ public class TimeTaskOfQuartz {
         }
     }
 
+
+    /**
+     * 每天上午05:00，mysql数据库备份异常
+     */
+    @Scheduled(cron = "0 0 5 * * ?")
+    public void do_mysqlDataBak_For_OilStationMap() {
+        Map<String, Object> paramMap = Maps.newHashMap();
+        try{
+            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/mysqlDataBak/mysqldump.sh");
+        } catch (Exception e) {
+            logger.error(">>>>>>>>>>>>>>>>>>>mysql数据库备份异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error(">>>>>>>>>>>>>>>>>>>mysql数据库备份异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error(">>>>>>>>>>>>>>>>>>>mysql数据库备份异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error("mysql数据库备份异常，e :", e);
+            logger.error(">>>>>>>>>>>>>>>>>>>mysql数据库备份异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error(">>>>>>>>>>>>>>>>>>>mysql数据库备份异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error(">>>>>>>>>>>>>>>>>>>mysql数据库备份异常<<<<<<<<<<<<<<<<<<<<<<");
+        }
+    }
+
     /**
      * 每天下午17:00，定时油价资讯通知
      */
