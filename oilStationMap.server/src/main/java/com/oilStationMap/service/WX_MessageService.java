@@ -70,4 +70,10 @@ public interface WX_MessageService {
    * @param paramMap
    */
   public ResultMapDTO dailyGetFenXiangShengHuoProduct(Map<String, Object> paramMap) throws Exception;
+
+  /**
+   * 根据OpenID向 管理员 发【微信广告自动化过程中的异常设备】
+   * @param paramMap
+   */
+  public ResultMapDTO exceptionDevicesMessageSend(Map<String, Object> paramMap) throws Exception;
 }
