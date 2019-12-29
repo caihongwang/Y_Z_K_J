@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
 /**
@@ -24,12 +25,12 @@ public class WX_SpiderHandler {
         logger.info("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     wxSpiderService.getContactFromWeb(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
@@ -41,12 +42,12 @@ public class WX_SpiderHandler {
         logger.info("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     wxSpiderService.sendFriendCircle(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
@@ -58,12 +59,12 @@ public class WX_SpiderHandler {
         logger.info("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     wxSpiderService.chatByNickName(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
@@ -75,12 +76,12 @@ public class WX_SpiderHandler {
         logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
                     wxSpiderService.shareArticleToFriendCircle(objectParamMap);
                 } catch (Exception e) {
-                    logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : " + e);
+                    logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();

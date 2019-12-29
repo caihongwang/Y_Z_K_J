@@ -153,4 +153,30 @@ public class WX_MessageHandler {
         return resultMapDTO;
     }
 
+    /**
+     * 微信广告自动化过程中的异常设备
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO exceptionDevicesMessageSend(Map<String, String> paramMap) {
+        logger.info("【hanlder】微信广告自动化过程中的异常设备-exceptionDevicesMessageSend,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        new Thread(){
+            public void run(){
+                Map<String, Object> objectParamMap = Maps.newHashMap();
+                try {
+                    wxMessageService.exceptionDevicesMessageSend(objectParamMap);
+                } catch (Exception e) {
+                    resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                    resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                    logger.error("【hanlder】微信广告自动化过程中的异常设备-exceptionDevicesMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("【hanlder】微信广告自动化过程中的异常设备-exceptionDevicesMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
 }

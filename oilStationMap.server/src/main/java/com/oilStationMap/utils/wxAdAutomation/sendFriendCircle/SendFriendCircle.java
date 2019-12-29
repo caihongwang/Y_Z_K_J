@@ -2,7 +2,7 @@ package com.oilStationMap.utils.wxAdAutomation.sendFriendCircle;
 
 import java.util.Map;
 
-public interface FriendCircleStraetge {
+public interface SendFriendCircle {
 
     /**
      * 发送朋友圈

@@ -147,4 +147,28 @@ public class WX_MessageController {
         return resultMap;
     }
 
+    @RequestMapping("/exceptionDevicesMessageSend")
+    @ResponseBody
+    public Map<String, Object> exceptionDevicesMessageSend(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】微信广告自动化过程中的异常设备-exceptionDevicesMessageSend,请求-paramMap:" + paramMap);
+        try {
+            ResultMapDTO resultMapDTO = wx_MessageHandler.exceptionDevicesMessageSend(paramMap);
+            resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
+            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】微信广告自动化过程中的异常设备-exceptionDevicesMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】微信广告自动化过程中的异常设备-exceptionDevicesMessageSend,响应-response:" + resultMap);
+        return resultMap;
+    }
+
 }

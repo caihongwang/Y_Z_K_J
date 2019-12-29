@@ -10,6 +10,7 @@ import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.ApplicationContextUtils;
+import com.oilStationMap.utils.HttpsUtil;
 import com.oilStationMap.utils.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,10 @@ public class ShareArticleToFriendCircleUtils {
                                             new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam);
                                             Thread.sleep(5000);
                                         } else {
+                                            Map<String, Object> tempMap = Maps.newHashMap();
+                                            tempMap.put("id", theId);
+                                            tempMap.put("dicStatus", 1);
+                                            wxDicService.updateDic(tempMap);    //更新这条转发微信昵称朋友圈内容为已删除
                                             logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容已到期....");
                                         }
                                     } catch (Exception e) {
@@ -98,10 +103,6 @@ public class ShareArticleToFriendCircleUtils {
                                         rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                                     }
                                 } else {
-                                    Map<String, Object> tempMap = Maps.newHashMap();
-                                    tempMap.put("id", theId);
-                                    tempMap.put("status", 1);
-                                    wxDicService.updateDic(tempMap);    //更新这条转发微信昵称朋友圈内容为已删除
                                     logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容推广日期不能为空....");
                                 }
                             }
@@ -140,21 +141,40 @@ public class ShareArticleToFriendCircleUtils {
                 }
                 index++;
             }
-            logger.info("【分享微信文章到微信朋友圈】已经执行完毕......");
-            logger.info("【分享微信文章到微信朋友圈】已经执行完毕......");
-            logger.info("【分享微信文章到微信朋友圈】已经执行完毕......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
             String exceptionDevices = "异常设备列表";
             for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
                 exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
                 logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
             }
-            try {
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
+                //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                HttpsUtil httpsUtil = new HttpsUtil();
                 Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
-                exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
+                exceptionDevicesParamMap.put("nickName", nickName);
+                exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
                 exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
-            } catch (Exception e) {
-                e.printStackTrace();
+                String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                String resultJson = httpsUtil.postJson(exceptionDevicesNotifyUrl, JSONObject.toJSONString(exceptionDevicesParamMap));
+                logger.info("微信消息异常发送反馈：" + resultJson);
+                //本地发送，但是基于IP不断变化，不建议
+//                try {
+//                    Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
+//                    exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
+//                    exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+//                    wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         }
     }

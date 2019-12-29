@@ -51,9 +51,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
                         paramMap.get("action").toString():
                         "shareArticleToFriendCircle";
         //微信群昵称
-        String nickName =
-                paramMap.get("nickName")!=null?
-                        paramMap.get("nickName").toString():
+        String targetGroup =
+                paramMap.get("targetGroup")!=null?
+                        paramMap.get("targetGroup").toString():
                         "内部交流群";
         //微信分享文章URL
         String shareArticleUrl =
@@ -207,7 +207,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //3.点击坐标【输入昵称到搜索框】
         try {
-            driver.findElementByXPath(searchInputLocaltion).sendKeys(nickName);
+            driver.findElementByXPath(searchInputLocaltion).sendKeys(targetGroup);
             logger.info("点击坐标【输入昵称到搜索框】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {

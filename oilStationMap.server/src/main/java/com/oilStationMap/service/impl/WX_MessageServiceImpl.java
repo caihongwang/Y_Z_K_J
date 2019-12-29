@@ -975,6 +975,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         logger.info("【service】发布微信广告自动化过程中的异常设备-devicesExceptionMessageSend,请求-paramMap:" + paramMap);
+        String nickName = paramMap.get("nickName")!=null?paramMap.get("nickName").toString():"未知";
         String operatorName = paramMap.get("operatorName")!=null?paramMap.get("operatorName").toString():"无";
         String exceptionDevices = paramMap.get("exceptionDevices")!=null?paramMap.get("exceptionDevices").toString():"无";
         //1.获取所有的微信公众号账号
@@ -1003,7 +1004,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                             Map<String, Object> dataMap = Maps.newHashMap();
 
                             Map<String, Object> firstMap = Maps.newHashMap();
-                            firstMap.put("value", operatorName + "-发生异常，按照提示操作...");
+                            firstMap.put("value", nickName + "-" + operatorName + "-发生异常，按照提示操作...");
                             firstMap.put("color", "#0017F5");
                             dataMap.put("first", firstMap);
 

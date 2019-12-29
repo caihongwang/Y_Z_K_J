@@ -26,7 +26,7 @@ import java.util.Map;
  * 真机设备 发布朋友圈 策略
  * 默认 华为 Mate 8
  */
-public class RealMachineDevices implements FriendCircleStraetge{
+public class RealMachineDevices implements SendFriendCircle {
 
     public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
