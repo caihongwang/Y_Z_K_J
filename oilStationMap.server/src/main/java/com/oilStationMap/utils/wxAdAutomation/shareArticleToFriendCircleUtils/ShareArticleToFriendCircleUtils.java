@@ -159,12 +159,12 @@ public class ShareArticleToFriendCircleUtils {
             if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();
-                Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
+                Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
                 exceptionDevicesParamMap.put("nickName", nickName);
                 exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
                 exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
                 String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                String resultJson = httpsUtil.postJson(exceptionDevicesNotifyUrl, JSONObject.toJSONString(exceptionDevicesParamMap));
+                String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                 logger.info("微信消息异常发送反馈：" + resultJson);
                 //本地发送，但是基于IP不断变化，不建议
 //                try {

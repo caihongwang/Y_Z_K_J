@@ -163,7 +163,7 @@ public class WX_MessageHandler {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         new Thread(){
             public void run(){
-                Map<String, Object> objectParamMap = Maps.newHashMap();
+                Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
                 try {
                     wxMessageService.exceptionDevicesMessageSend(objectParamMap);
                 } catch (Exception e) {

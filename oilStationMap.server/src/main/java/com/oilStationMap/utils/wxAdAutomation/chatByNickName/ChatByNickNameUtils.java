@@ -82,6 +82,9 @@ public class ChatByNickNameUtils {
                                     rebootDeviceNameMap.putAll(chatByNickNameParam);
                                     rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                                 }
+                                HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
+                                rebootDeviceNameMap.putAll(chatByNickNameParam);
+                                rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                             }
                         }
                     } else {
@@ -136,12 +139,12 @@ public class ChatByNickNameUtils {
             if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();
-                Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
+                Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
                 exceptionDevicesParamMap.put("nickName", nickName);
                 exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
                 exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
                 String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                String resultJson = httpsUtil.postJson(exceptionDevicesNotifyUrl, JSONObject.toJSONString(exceptionDevicesParamMap));
+                String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                 logger.info("微信消息异常发送反馈：" + resultJson);
 //                try {
 //                    Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
