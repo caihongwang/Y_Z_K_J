@@ -137,7 +137,7 @@ public class WX_PayServiceImpl implements WX_PayService {
                     }
                 }
                 resultMap.put("openId", openId);
-                String paymentUrl = OilStationMapCode.WX_PAY_DOMAIN + "/resourceOfOilStationMap/payment.html?openId=" + openId;
+                String paymentUrl = OilStationMapCode.WX_PAY_DOMAIN + "/resourceOfOilStationMap/webapp/payment.html?openId=" + openId;
                 resultMap.put("paymentUrl", paymentUrl);
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
 
