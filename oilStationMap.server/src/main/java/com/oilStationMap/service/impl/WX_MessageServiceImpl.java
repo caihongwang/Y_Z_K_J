@@ -998,7 +998,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         List<String> openIdList = Lists.newArrayList();
                         openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId - 蔡红旺
-
+                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
+                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //智恵油站的openId - 何金蓉
                         for(String openId : openIdList) {
                             //向 管理员汇报 已更新油价
                             paramMap.clear();//清空参数，重新准备参数
