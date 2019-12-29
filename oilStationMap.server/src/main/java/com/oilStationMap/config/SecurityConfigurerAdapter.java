@@ -44,6 +44,7 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "/wxCommon/getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber",
                 "/wxPay/unifiedOrderPay",
                 "/wxPay/toOauthUrlForPaymentPage",
+                "/wxPay/getPaymentPage",
                 //微信客服
                 "/wxCommon/receviceAndSendCustomMessage",
                 //更新油价资讯

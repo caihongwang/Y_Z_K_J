@@ -82,9 +82,6 @@ public class ChatByNickNameUtils {
                                     rebootDeviceNameMap.putAll(chatByNickNameParam);
                                     rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                                 }
-                                HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
-                                rebootDeviceNameMap.putAll(chatByNickNameParam);
-                                rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                             }
                         }
                     } else {
