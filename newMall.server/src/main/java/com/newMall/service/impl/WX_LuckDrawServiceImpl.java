@@ -15,6 +15,7 @@ import com.newMall.dao.WX_OrderDao;
 import com.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.newMall.utils.NumberUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +109,10 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                         List<Map<String, String>> luckDrawProductList = getLuckDrawProductList(LuckDrawProductParamMap).getResultList();
                         if(luckDrawProductList != null && luckDrawProductList.size() > 0){
                             //根据抽奖概率选出抽到的奖品
-                            Double currentProbability = Math.random()*100;                 //当前openId对应的微信用户的中间概率
+                            Double max = 100.00;
+                            Double min = 80.00;
+                            Double currentProbability = (Double) (min + Math.random() * (max - min + 1));
+                            currentProbability = NumberUtil.getPointTowNumber(currentProbability);      //当前openId对应的微信用户的中间概率
                             for (Map<String, String> luckDrawProductMap: luckDrawProductList) {
                                 String probabilityMinStr = luckDrawProductMap.get("probabilityMin")!=null?luckDrawProductMap.get("probabilityMin").toString():"0%";
                                 String[] probabilityMinArr = probabilityMinStr.split("%");
@@ -1084,6 +1088,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         }
         logger.info("【service】奖励兑换用户余额-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 1000; i++) {
+            Double max = 100.00;
+            Double min = 80.00;
+            Double num = (Double) (min + Math.random() * (max - min + 1));
+            System.out.println("num = " + num);
+        }
     }
 
 }
