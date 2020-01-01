@@ -167,9 +167,10 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             desiredCapabilities.setCapability("noReset", true);                     //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);             //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
-            desiredCapabilities.setCapability("newCommandTimeout", 20);                                 //在下一个命令执行之前的等待最大时长,单位为秒
-            desiredCapabilities.setCapability("deviceReadyTimeout", 10);                                //等待设备就绪的时间,单位为秒
+            desiredCapabilities.setCapability("newCommandTimeout", 30);                                 //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
+            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                      //连接本地的appium
@@ -204,9 +205,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //3.点击坐标【输入昵称到搜索框】
         try {
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(searchInputLocaltion), 10);
-            webElement.sendKeys(targetGroup);
-//            driver.findElementByXPath(searchInputLocaltion).sendKeys(targetGroup);
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(searchInputLocaltion), 10);
+//            webElement.sendKeys(targetGroup);
+            driver.findElementByXPath(searchInputLocaltion).sendKeys(targetGroup);
             sw.split();
             logger.info("点击坐标【输入昵称到搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
@@ -237,9 +238,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //5.点击坐标【输入微信文章链接】
         try {
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(chatInputLocation), 10);
-            webElement.sendKeys(shareArticleUrl);
-//            driver.findElementByXPath(chatInputLocation).sendKeys(shareArticleUrl);
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(chatInputLocation), 10);
+//            webElement.sendKeys(shareArticleUrl);
+            driver.findElementByXPath(chatInputLocation).sendKeys(shareArticleUrl);
             sw.split();
             logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
@@ -251,9 +252,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //6.点击坐标【发送】
         try{
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
-            webElement.click();
-//            driver.findElementById(sendBtnLocaltion).click();
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
+//            webElement.click();
+            driver.findElementById(sendBtnLocaltion).click();
             sw.split();
             logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
@@ -321,9 +322,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //10.点击坐标【输入分享文本内容】
         try {
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(shareArticleTitleLocaltion), 10);
-            webElement.sendKeys(shareArticleTitle);
-//            driver.findElementByXPath(shareArticleTitleLocaltion).sendKeys(shareArticleTitle);
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(shareArticleTitleLocaltion), 10);
+//            webElement.sendKeys(shareArticleTitle);
+            driver.findElementByXPath(shareArticleTitleLocaltion).sendKeys(shareArticleTitle);
             sw.split();
             logger.info("点击坐标【输入分享文本内容】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
@@ -345,7 +346,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             new TouchAction(driver).press(publishBtnLocaltion_x, publishBtnLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
             sw.split();
             logger.info("点击坐标【发表】,x = " + publishBtnLocaltion_x + " , y = " + publishBtnLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();

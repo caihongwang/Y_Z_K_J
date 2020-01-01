@@ -151,9 +151,9 @@ public class RealMachineDevices implements ChatByNickName {
         }
         //3.点击坐标【搜索框】
         try {
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(searchInputLocaltion), 10);
-            webElement.sendKeys(nickName);
-//            driver.findElementByXPath(searchInputLocaltion).sendKeys(nickName);
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(searchInputLocaltion), 10);
+//            webElement.sendKeys(nickName);
+            driver.findElementByXPath(searchInputLocaltion).sendKeys(nickName);
             sw.split();
             logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1500);
@@ -184,9 +184,9 @@ public class RealMachineDevices implements ChatByNickName {
         }
         //5.点击坐标【聊天输入框】
         try {
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(chatInputLocation), 10);
-            webElement.sendKeys(textMessage);
-//            driver.findElementByXPath(chatInputLocation).sendKeys(textMessage);
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(chatInputLocation), 10);
+//            webElement.sendKeys(textMessage);
+            driver.findElementByXPath(chatInputLocation).sendKeys(textMessage);
             sw.split();
             logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1500);
@@ -198,12 +198,12 @@ public class RealMachineDevices implements ChatByNickName {
         }
         //5.点击坐标【发送】
         try {
-            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
-            webElement.click();
-//            driver.findElementById(sendBtnLocaltion).click();
+//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
+//            webElement.click();
+            driver.findElementById(sendBtnLocaltion).click();
             sw.split();
             logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1500);
+            Thread.sleep(3000);
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();

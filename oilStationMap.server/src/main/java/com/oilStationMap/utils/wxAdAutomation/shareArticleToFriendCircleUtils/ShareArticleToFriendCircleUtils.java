@@ -10,6 +10,7 @@ import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.ApplicationContextUtils;
+import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.HttpsUtil;
 import com.oilStationMap.utils.MapUtil;
 import org.slf4j.Logger;
@@ -39,6 +40,14 @@ public class ShareArticleToFriendCircleUtils {
      * @throws Exception
      */
     public static void shareArticleToFriendCircle(Map<String, Object> paramMap){
+        try{
+            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
+            Thread.sleep(30000);    //等待重启30秒
+        } catch (Exception e) {
+            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error("重启所有手机异常，e :", e);
+            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
+        }
         String nickNameListStr = paramMap.get("nickNameListStr")!=null?paramMap.get("nickNameListStr").toString():"";
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for(String nickName : nickNameList){
@@ -141,21 +150,21 @@ public class ShareArticleToFriendCircleUtils {
                 }
                 index++;
             }
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下......");
             String exceptionDevices = "异常设备列表";
             for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
                 exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
                 logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
             }
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上......");
             if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();

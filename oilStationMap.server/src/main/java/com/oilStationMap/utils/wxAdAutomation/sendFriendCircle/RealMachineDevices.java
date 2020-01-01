@@ -162,16 +162,17 @@ public class RealMachineDevices implements SendFriendCircle {
             desiredCapabilities.setCapability("deviceName", deviceName);                  //设备
             desiredCapabilities.setCapability("udid", deviceName);                        //设备唯一标识
             desiredCapabilities.setCapability("appPackage", "com.tencent.mm");      //打开 微信
-            desiredCapabilities.setCapability("appActivity", ".ui.LauncherUI");      //首个 页面
+            desiredCapabilities.setCapability("appActivity", ".ui.LauncherUI");     //首个 页面
             desiredCapabilities.setCapability("noReset", true);                     //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);             //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");
-            desiredCapabilities.setCapability("newCommandTimeout", 20);                                 //在下一个命令执行之前的等待最大时长,单位为秒
-            desiredCapabilities.setCapability("deviceReadyTimeout", 10);                                //等待设备就绪的时间,单位为秒
+            desiredCapabilities.setCapability("newCommandTimeout", 30);                                 //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
+            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);            //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
-            URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                       //连接本地的appium
+            URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                      //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             sw.split();
             logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -277,9 +278,9 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //6.2.输入文本
             try{
-                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
-                webElement.sendKeys(textMessage);
-//                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
+//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
+//                webElement.sendKeys(textMessage);
+                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(5000);
@@ -291,12 +292,12 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //6.3.点击坐标【发表】
             try{
-                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
-                webElement.click();
-//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
+//                webElement.click();
+                driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             } catch (Exception e) {
                 sw.split();
                 e.printStackTrace();
@@ -345,9 +346,9 @@ public class RealMachineDevices implements SendFriendCircle {
             //6.5.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             for (int i = 1; i <= imageNum; i++) {
                 try {
-                    WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(photoBtnPreLocation + i + photoBtnSufLocation), 10);
-                    webElement.click();
-//                    driver.findElementByXPath( photoBtnPreLocation + i + photoBtnSufLocation).click();
+//                    WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(photoBtnPreLocation + i + photoBtnSufLocation), 10);
+//                    webElement.click();
+                    driver.findElementByXPath( photoBtnPreLocation + i + photoBtnSufLocation).click();
                     sw.split();
                     logger.info("点击坐标选择第"+i+"张图片，总共花费 " + sw.toSplitString() + " 秒....");
                     Thread.sleep(1000);
@@ -364,9 +365,9 @@ public class RealMachineDevices implements SendFriendCircle {
             logger.info("点击坐标【选择图片】成功，总共花费 " + sw.toSplitString() + " 秒....");
             //6.6.点击坐标【完成】
             try {
-                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
-                webElement.click();
-//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
+//                webElement.click();
+                driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
                 logger.info("点击坐标【完成】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -392,12 +393,12 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //6.8.点击坐标【发布】
             try {
-                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
-                webElement.click();
-//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
+//                webElement.click();
+                driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             } catch (Exception e) {
                 sw.split();
                 e.printStackTrace();
