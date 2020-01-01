@@ -49,11 +49,11 @@ public class ChatByNickNameUtils {
                 Map<String, Object> chatByNickNameParam = MapUtil.getObjectMap(resultList.get(0));
                 //获取设备列表和配套的坐标配置
                 List<String> dicCodeList = Lists.newArrayList();
-                dicCodeList.add("HuaWeiMate8ListAndChatByNickNameLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
+//                dicCodeList.add("HuaWeiMate8ListAndChatByNickNameLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
                 dicCodeList.add("HuaWeiMate8HListAndChatByNickNameLocaltion");//获取 华为 Mate 8 海外版 设备列表和配套的坐标配置
-                dicCodeList.add("HuaWeiP20ProListAndChatByNickNameLocaltion");//获取 华为 P20 Pro 设备列表和配套的坐标配置
-                dicCodeList.add("XiaoMiMax3ListAndChatByNickNameLocaltion");//获取 小米 Max 3 设备列表和配套的坐标配置
-                dicCodeList.add("HuaWeiMate7ListAndChatByNickNameLocaltion");//获取 华为 Mate 7 设备列表和配套的坐标配置
+//                dicCodeList.add("HuaWeiP20ProListAndChatByNickNameLocaltion");//获取 华为 P20 Pro 设备列表和配套的坐标配置
+//                dicCodeList.add("XiaoMiMax3ListAndChatByNickNameLocaltion");//获取 小米 Max 3 设备列表和配套的坐标配置
+//                dicCodeList.add("HuaWeiMate7ListAndChatByNickNameLocaltion");//获取 华为 Mate 7 设备列表和配套的坐标配置
                 for (String dicCode : dicCodeList) {
                     paramMap.clear();
                     paramMap.put("dicType", "deviceNameListAndLocaltion");
