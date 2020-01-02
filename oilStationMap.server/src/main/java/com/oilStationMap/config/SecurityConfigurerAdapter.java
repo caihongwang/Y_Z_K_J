@@ -57,6 +57,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "/wxSpider/**",
                 //消息类请求
                 "/wxMessage/**",
+                //字典类请求
+                "/wxDic/**",
                 //网页静态资源
                 "/js/**",
                 "/css/**",

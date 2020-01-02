@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
+import com.oilStationMap.utils.EmojiUtil;
 import com.oilStationMap.utils.wxAdAutomation.ElementJudgeMethodUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
@@ -101,6 +102,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("textMessage")!=null?
                         paramMap.get("textMessage").toString():
                                 "选择有效的推广方式更为重要![闪电][闪电]早上第一件事干什么？刷微信；上班忙里偷闲干什么？刷微信；中午吃饭你还在干什么？刷微信；晚上回家干什么？刷微信；睡觉前最一件事干什么？还是刷微信。现在是微信时代，还在担心人脉不多知名度低？交给我们一切就是这么简单[拳头][拥抱][拥抱]";
+        textMessage = EmojiUtil.emojiRecovery(textMessage);
         //坐标:文本输入框
         String textInputLocaltion =
                 paramMap.get("textInputLocaltion")!=null?
@@ -183,41 +185,7 @@ public class RealMachineDevices implements SendFriendCircle {
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("配置连接android驱动出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的环境是否正常运行等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //2.将图片保存到【手机本地的微信图片路径】
-        if(imgList != null && imgList.size() > 0){
-            for(String imgPath : imgList){
-                try {
-                    //从Url获取
-                    URL imgUrl = new URL(imgPath);
-                    URLConnection con = imgUrl.openConnection();
-                    con.setConnectTimeout(10000);
-                    InputStream imgInputStream = con.getInputStream();
-                    ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024];
-                    int len = 0;
-                    while ((len = imgInputStream.read(buffer)) != -1) {
-                        imgOutStream.write(buffer, 0, len);
-                    }
-                    byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
-                    imgInputStream.close();
-                    imgOutStream.close();
-                    Date currentDate = new Date();
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                    String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
-                    driver.pushFile(imgName, imgData);
-                    sw.split();
-                    logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    sw.split();
-                    logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-                    continue;
-                }
-            }
-        }
-        sw.split();
-        logger.info("将图片保存到【手机本地的微信图片路径】成功，总共花费 " + sw.toSplitString() + " 秒....");
-        //4.点击坐标【发现】
+        //2.点击坐标【发现】
         try{
             Integer findBtnLocaltion_x1 = findBtnLocaltion.get("findBtnLocaltion_x1")!=null?findBtnLocaltion.get("findBtnLocaltion_x1"):540;
             Integer findBtnLocaltion_y1 = findBtnLocaltion.get("findBtnLocaltion_y1")!=null?findBtnLocaltion.get("findBtnLocaltion_y1"):1661;
@@ -236,7 +204,7 @@ public class RealMachineDevices implements SendFriendCircle {
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("点击坐标【发现】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //5.点击坐标【朋友圈】
+        //3.点击坐标【朋友圈】
         try{
             Integer friendCircleBtnLocation_x1 = friendCircleBtnLocation.get("friendCircleBtnLocation_x1")!=null?friendCircleBtnLocation.get("friendCircleBtnLocation_x1"):0;
             Integer friendCircleBtnLocation_y1 = friendCircleBtnLocation.get("friendCircleBtnLocation_y1")!=null?friendCircleBtnLocation.get("friendCircleBtnLocation_y1"):202;
@@ -255,9 +223,9 @@ public class RealMachineDevices implements SendFriendCircle {
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //6.具体操作
+        //4.具体操作
         if (action.equals("textMessageFriendCircle")) {             //文字信息朋友圈
-            //6.1.长按坐标【相机】
+            //5.1.长按坐标【相机】
             try{
                 Integer cameraLocaltion_x1 = cameraLocaltion.get("cameraLocaltion_x1")!=null?cameraLocaltion.get("cameraLocaltion_x1"):929;
                 Integer cameraLocaltion_y1 = cameraLocaltion.get("cameraLocaltion_y1")!=null?cameraLocaltion.get("cameraLocaltion_y1"):72;
@@ -276,7 +244,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //6.2.输入文本
+            //5.2.输入文本
             try{
 //                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
 //                webElement.sendKeys(textMessage);
@@ -290,7 +258,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 sw.split();
                 throw new Exception("输入文字出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //6.3.点击坐标【发表】
+            //5.3.点击坐标【发表】
             try{
 //                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
 //                webElement.click();
@@ -305,7 +273,41 @@ public class RealMachineDevices implements SendFriendCircle {
                 throw new Exception("点击坐标【发表】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
         } else if (action.equals("imgMessageFriendCircle")) {        //图片信息朋友圈
-            //6.3.点击坐标【相机】
+            //5.1.将图片保存到【手机本地的微信图片路径】
+            if(imgList != null && imgList.size() > 0){
+                for(String imgPath : imgList){
+                    try {
+                        //从Url获取
+                        URL imgUrl = new URL(imgPath);
+                        URLConnection con = imgUrl.openConnection();
+                        con.setConnectTimeout(10000);
+                        InputStream imgInputStream = con.getInputStream();
+                        ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        int len = 0;
+                        while ((len = imgInputStream.read(buffer)) != -1) {
+                            imgOutStream.write(buffer, 0, len);
+                        }
+                        byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
+                        imgInputStream.close();
+                        imgOutStream.close();
+                        Date currentDate = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                        String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
+                        driver.pushFile(imgName, imgData);
+                        sw.split();
+                        logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        sw.split();
+                        logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
+                        continue;
+                    }
+                }
+            }
+            sw.split();
+            logger.info("将图片保存到【手机本地的微信图片路径】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            //5.2.点击坐标【相机】
             try {
                 Integer cameraLocaltion_x1 = cameraLocaltion.get("cameraLocaltion_x1")!=null?cameraLocaltion.get("cameraLocaltion_x1"):540;
                 Integer cameraLocaltion_y1 = cameraLocaltion.get("cameraLocaltion_y1")!=null?cameraLocaltion.get("cameraLocaltion_y1"):1661;
@@ -324,7 +326,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //6.4.点击坐标【从相册选择】
+            //5.3.点击坐标【从相册选择】
             try {
                 Integer selectFromPhotosBtnLocaltion_x1 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x1")!=null?selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x1"):119;
                 Integer selectFromPhotosBtnLocaltion_y1 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y1")!=null?selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y1"):942;
@@ -343,7 +345,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【从相册选择】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //6.5.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
+            //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             for (int i = 1; i <= imageNum; i++) {
                 try {
 //                    WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(photoBtnPreLocation + i + photoBtnSufLocation), 10);
@@ -363,7 +365,7 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             sw.split();
             logger.info("点击坐标【选择图片】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            //6.6.点击坐标【完成】
+            //5.5.点击坐标【完成】
             try {
 //                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
 //                webElement.click();
@@ -377,11 +379,11 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【完成】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //6.7.点击【输入文字】
+            //5.6.点击【输入文字】
             try {
-                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
-                webElement.sendKeys(textMessage);
-//                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
+//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
+//                webElement.sendKeys(textMessage);
+                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(5000);
@@ -391,7 +393,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //6.8.点击坐标【发布】
+            //5.7.点击坐标【发布】
             try {
 //                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
 //                webElement.click();
@@ -406,7 +408,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
         }
-        //7.退出驱动
+        //6.退出驱动
         this.quitDriver(driver, deviceNameDesc, deviceName);
         sw.split();
         logger.info( "设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】操作【" + action + "】 发送成功，总共花费 " + sw.toSplitString() + " 秒....");
