@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONObject;
 import com.newMall.secuity.WX_User;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -109,17 +108,6 @@ public class MyRedisTokenStore implements TokenStore {
                 this.storeAccessToken(accessToken, authentication);
             }
         }
-
-        //start for 自测
-        conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
-        System.out.println("=========================================================");
-        System.out.println("=========================================================");
-        System.out.println("getAccessToken for uid="+wxCurrentUser.getUid());
-        System.out.println("getAccessToken for accessKey="+new String(serializedKey));
-        System.out.println("=========================================================");
-        System.out.println("=========================================================");
-        //end for 自测
-
         return accessToken;
     }
 
@@ -177,16 +165,6 @@ public class MyRedisTokenStore implements TokenStore {
             conn.stringCommands().set(accessKey, serializedAccessToken);
             conn.stringCommands().set(authKey, serializedAuth);
             conn.stringCommands().set(authToAccessKey, serializedAccessToken);
-
-            //start for 自测
-            conn.stringCommands().set(wxCurrentUser.getUid().getBytes(), JSONObject.toJSONBytes(wxCurrentUser));
-            System.out.println("=========================================================");
-            System.out.println("=========================================================");
-            System.out.println("storeAccessToken for uid="+wxCurrentUser.getUid());
-            System.out.println("storeAccessToken for authToAccessKey="+new String(authToAccessKey));
-            System.out.println("=========================================================");
-            System.out.println("=========================================================");
-            //end for 自测
 
             if (!authentication.isClientOnly()) {
                 conn.rPush(approvalKey, serializedAccessToken);

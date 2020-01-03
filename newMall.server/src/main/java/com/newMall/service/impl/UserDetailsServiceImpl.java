@@ -9,8 +9,11 @@ import com.newMall.service.WX_UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,9 +42,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String code) throws UsernameNotFoundException {
+        //获取 authenticationUser
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticationUser = (User)authentication.getPrincipal();
+
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("code", code);
+        paramMap.put("accountId", authenticationUser.getUsername());
         resultMapDTO = wxUserService.login(paramMap);
         //登陆后的用户信息
         Map<String, String> userInfoMap = resultMapDTO.getResultMap();
@@ -62,6 +70,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> perms = Sets.newHashSet();
         perms.add(userMap.get("grayStatus").toString());
         Set<GrantedAuthority> authorities = perms.stream().filter(Objects::nonNull).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+        logger.info("spring UserDetailsService 中获取的用户uid="+uid+",openId="+openId);
         return new WX_User(nickName, password, uid, openId, nickName, userInfoMap, authorities);
     }
 }
