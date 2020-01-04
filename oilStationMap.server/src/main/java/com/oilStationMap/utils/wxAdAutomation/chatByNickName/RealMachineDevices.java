@@ -3,21 +3,16 @@ package com.oilStationMap.utils.wxAdAutomation.chatByNickName;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.wxAdAutomation.ElementJudgeMethodUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
 import org.apache.commons.lang.time.StopWatch;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.time.Duration;
-import java.util.List;
 import java.util.Map;
 
 /**

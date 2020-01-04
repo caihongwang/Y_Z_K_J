@@ -1,4 +1,4 @@
-package com.oilStationMap.utils.wxAdAutomation;
+package com.oilStationMap.utils.wxAdAutomation.appiumUtil;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.functions.ExpectedCondition;

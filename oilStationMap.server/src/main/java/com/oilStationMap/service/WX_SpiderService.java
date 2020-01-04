@@ -40,4 +40,12 @@ public interface WX_SpiderService {
      * @return
      */
     public ResultMapDTO shareArticleToFriendCircle(Map<String, Object> paramMap);
+
+    /**
+     * 前置条件：将微信文章群发到【内部交流群】里面
+     * 点击微信文章中的广告
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO clickArticleAd(Map<String, Object> paramMap);
 }

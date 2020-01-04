@@ -5,6 +5,7 @@ import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.SpiderForMeiTuanUtil;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
+import com.oilStationMap.utils.wxAdAutomation.clickArticleAd.ClickArticleAdUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
 import com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils.ShareArticleToFriendCircleUtils;
@@ -80,6 +81,22 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在service中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 前置条件：将微信文章群发到【内部交流群】里面
+     * 启动appium,点击微信文章中的广告
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO clickArticleAd(Map<String, Object> paramMap) {
+        ClickArticleAdUtils.clickArticleAd(paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在service中启动appium,点击微信文章中的广告-clickArticleAd,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 }

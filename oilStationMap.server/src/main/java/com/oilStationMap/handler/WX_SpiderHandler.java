@@ -88,4 +88,21 @@ public class WX_SpiderHandler {
         logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,响应-response:" + resultDTO);
         return resultDTO;
     }
+
+    public ResultDTO clickArticleAd(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,点击微信文章中的广告-clickArticleAd,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread() {
+            public void run() {
+                try {
+                    wxSpiderService.clickArticleAd(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,点击微信文章中的广告-clickArticleAd is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        logger.info("在hanlder中启动appium,点击微信文章中的广告-clickArticleAd,响应-response:" + resultDTO);
+        return resultDTO;
+    }
 }

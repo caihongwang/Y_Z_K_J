@@ -3,21 +3,17 @@ package com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.wxAdAutomation.ElementJudgeMethodUtil;
+import com.oilStationMap.utils.wxAdAutomation.appiumUtil.SwipeUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
 import org.apache.commons.lang.time.StopWatch;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.time.Duration;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -282,7 +278,27 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【点击微信文章链接】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //8.点击坐标【右上角的横三点】
+        //8.向上滑动微信文章
+        for(int i = 0; i <= 10; i++){
+            SwipeUtil.SwipeDown(driver);
+            sw.split();
+            logger.info("向上滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            int max = 2000;
+            int min = 1000;
+            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+            Thread.sleep(sleppTime);
+        }
+        //9.向上滑动微信文章
+        for(int i = 0; i <= 3; i++){
+            SwipeUtil.SwipeUp(driver);
+            sw.split();
+            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            int max = 2000;
+            int min = 1000;
+            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+            Thread.sleep(sleppTime);
+        }
+        //9.点击坐标【右上角的横三点】
         try {
             Integer rightThreePointLocaltion_x1 = rightThreePointLocaltion.get("rightThreePointLocaltion_x1")!=null?rightThreePointLocaltion.get("rightThreePointLocaltion_x1"):929;
             Integer rightThreePointLocaltion_y1 = rightThreePointLocaltion.get("rightThreePointLocaltion_y1")!=null?rightThreePointLocaltion.get("rightThreePointLocaltion_y1"):72;
@@ -301,7 +317,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【右上角的横三点】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //9.点击坐标【分享朋友圈】
+        //10.点击坐标【分享朋友圈】
         try {
             Integer shareFriendCircleLocaltion_x1 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x1")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x1"):215;
             Integer shareFriendCircleLocaltion_y1 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y1")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y1"):981;
@@ -320,7 +336,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【分享朋友圈】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //10.点击坐标【输入分享文本内容】
+        //11.点击坐标【输入分享文本内容】
         try {
 //            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(shareArticleTitleLocaltion), 10);
 //            webElement.sendKeys(shareArticleTitle);
@@ -334,7 +350,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【输入分享文本内容】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //11.点击坐标【发表】
+        //12.点击坐标【发表】
         try {
             Integer publishBtnLocaltion_x1 = publishBtnLocaltion.get("publishBtnLocaltion_x1")!=null?publishBtnLocaltion.get("publishBtnLocaltion_x1"):875;
             Integer publishBtnLocaltion_y1 = publishBtnLocaltion.get("publishBtnLocaltion_y1")!=null?publishBtnLocaltion.get("publishBtnLocaltion_y1"):94;
@@ -353,7 +369,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【发表】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //12.退出驱动
+        //13.退出驱动
         this.quitDriver(driver, deviceNameDesc, deviceName);
         sw.split();
         logger.info( "设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】操作【" + action + "】 发送成功，总共花费 " + sw.toSplitString() + " 秒....");
