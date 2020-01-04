@@ -400,13 +400,6 @@
             <artifactId>spring-cloud-openfeign-core</artifactId>
             <version>RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>com.oilStationMap</groupId>
-            <artifactId>oilStationMap.server</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-
     </dependencies>
 
     <dependencyManagement>
