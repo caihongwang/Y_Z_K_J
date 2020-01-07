@@ -105,10 +105,14 @@ public class RealMachineDevices implements SendFriendCircle {
                         "选择有效的推广方式更为重要![闪电][闪电]早上第一件事干什么？刷微信；上班忙里偷闲干什么？刷微信；中午吃饭你还在干什么？刷微信；晚上回家干什么？刷微信；睡觉前最一件事干什么？还是刷微信。现在是微信时代，还在担心人脉不多知名度低？交给我们一切就是这么简单[拳头][拥抱][拥抱]";
         textMessage = EmojiUtil.emojiRecovery(textMessage);
         //坐标:文本输入框
+//        String textInputLocaltion =
+//                paramMap.get("textInputLocaltion") != null ?
+//                        paramMap.get("textInputLocaltion").toString() :
+//                        "//android.widget.EditText[@resource-id='com.tencent.mm:id/d41']";
         String textInputLocaltion =
                 paramMap.get("textInputLocaltion") != null ?
                         paramMap.get("textInputLocaltion").toString() :
-                        "//android.widget.EditText[@resource-id='com.tencent.mm:id/d41']";
+                        "com.tencent.mm:id/d41";
         //坐标:发表/完成
         String publishOrCompleteBtnLocaltion =
                 paramMap.get("publishOrCompleteBtnLocaltion") != null ?
@@ -257,7 +261,8 @@ public class RealMachineDevices implements SendFriendCircle {
             try {
 //                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
 //                webElement.sendKeys(textMessage);
-                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
+//                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
+                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -410,7 +415,8 @@ public class RealMachineDevices implements SendFriendCircle {
             try {
 //                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
 //                webElement.sendKeys(textMessage);
-                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
+//                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
+                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);

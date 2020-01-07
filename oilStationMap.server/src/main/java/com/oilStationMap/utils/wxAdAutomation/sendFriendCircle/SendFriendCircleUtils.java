@@ -124,14 +124,18 @@ public class SendFriendCircleUtils {
             while (rebootDeviceNameList.size() > 0) {
                 //等待所有设备重启
                 try {
-                    Thread.sleep(90000);
+                    Thread.sleep(75000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if(index > 5){
                     break;
                 }
-                logger.info("第【"+index+"】次批量重新执行失败的设备....");
+                logger.info("第【"+index+"】次批量重新执行失败的设备，剩余： "+rebootDeviceNameList.size()+"....");
+                logger.info("第【"+index+"】次批量重新执行失败的设备，剩余： "+rebootDeviceNameList.size()+"....");
+                logger.info("第【"+index+"】次批量重新执行失败的设备，剩余： "+rebootDeviceNameList.size()+"....");
+                logger.info("第【"+index+"】次批量重新执行失败的设备，剩余： "+rebootDeviceNameList.size()+"....");
+                logger.info("第【"+index+"】次批量重新执行失败的设备，剩余： "+rebootDeviceNameList.size()+"....");
                 Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
                 while (iterator.hasNext()) {
                     Map<String, Object> deviceNameMap = iterator.next();
