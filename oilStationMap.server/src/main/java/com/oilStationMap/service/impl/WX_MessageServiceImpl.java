@@ -1000,6 +1000,10 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId - 蔡红旺
                         openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
                         openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //智恵油站的openId - 何金蓉
+                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
+                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //智恵油站的openId - 沿河微帮
+                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
+                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //智恵油站的openId - 积极向上
                         for(String openId : openIdList) {
                             //向 管理员汇报 已更新油价
                             paramMap.clear();//清空参数，重新准备参数
