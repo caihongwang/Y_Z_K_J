@@ -1,4 +1,4 @@
-package com.oilStationMap.utils.wxAdAutomation.appiumUtil;
+package com.oilStationMap.utils.appiumUtil;
 
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;

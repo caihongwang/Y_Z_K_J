@@ -3,7 +3,7 @@ package com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.wxAdAutomation.appiumUtil.SwipeUtil;
+import com.oilStationMap.utils.appiumUtil.SwipeUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
