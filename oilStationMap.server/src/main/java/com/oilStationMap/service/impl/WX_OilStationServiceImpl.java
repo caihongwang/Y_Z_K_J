@@ -628,6 +628,44 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     oilStationStrMap.remove("oilStationPayType");
                     oilStationStrMap.remove("oilStationAreaSpell");
                     oilStationStrMap.remove("oilStationPosition");
+                    //对招人网址进行检测
+                    String oilStationHireUrl = oilStationStrMap.get("oilStationHireUrl");
+                    if(oilStationHireUrl != null && !"".equals(oilStationHireUrl)){
+                        String oilStationHireUrlFilePath = oilStationHireUrl.replace("https://www.91caihongwang.com/", "/opt/");
+                        File oilStationHireUrlFile = new File(oilStationHireUrlFilePath);
+                        File parentDir = oilStationHireUrlFile.getParentFile();
+                        if(!parentDir.isDirectory()){            //加油站名称的英文编码的文件夹
+                            parentDir.mkdir();
+                        }
+                        //获取加油站转义文件夹名称
+                        String oilStationName_En = "";
+                        String oilStationNameTemp = oilStationStrMap.get("oilStationName");
+                        oilStationNameTemp = oilStationNameTemp.replace("/", "");
+                        char[] tempArr = oilStationNameTemp.toCharArray();
+                        for(int i = 0; i < tempArr.length; i++){
+                            char temp = tempArr[i];
+                            if(i == 0){
+                                oilStationName_En = oilStationName_En + PingYingUtil.getPingYin(temp+"");
+                            } else {
+                                oilStationName_En = oilStationName_En + "_" + PingYingUtil.getPingYin(temp+"");
+                            }
+                        }
+                        if(!oilStationHireUrlFile.exists() || oilStationHireUrlFile.length() <= 0 || !oilStationName_En.equals(parentDir.getName())){
+                            //重新创建招聘文件
+                            Map<String, Object> paramMapTemp = Maps.newHashMap();
+                            paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                            paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
+                            paramMapTemp.put("id", oilStationStrMap.get("id"));
+                            wxOilStationDao.updateOilStation(paramMapTemp);
+                        }
+                    } else {
+                        //重新创建招聘文件
+                        Map<String, Object> paramMapTemp = Maps.newHashMap();
+                        paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                        paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
+                        paramMapTemp.put("id", oilStationStrMap.get("id"));
+                        wxOilStationDao.updateOilStation(paramMapTemp);
+                    }
                 }
 
                 resultDTO.setResultList(oilStationStrList);
@@ -826,6 +864,44 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 oilStationStrMap.remove("oilStationPayType");
                 oilStationStrMap.remove("oilStationAreaSpell");
                 oilStationStrMap.remove("oilStationPosition");
+                //对招人网址进行检测
+                String oilStationHireUrl = oilStationStrMap.get("oilStationHireUrl");
+                if(oilStationHireUrl != null && !"".equals(oilStationHireUrl)){
+                    String oilStationHireUrlFilePath = oilStationHireUrl.replace("https://www.91caihongwang.com/", "/opt/");
+                    File oilStationHireUrlFile = new File(oilStationHireUrlFilePath);
+                    File parentDir = oilStationHireUrlFile.getParentFile();
+                    if(!parentDir.isDirectory()){            //加油站名称的英文编码的文件夹
+                        parentDir.mkdir();
+                    }
+                    //获取加油站转义文件夹名称
+                    String oilStationName_En = "";
+                    String oilStationNameTemp = oilStationStrMap.get("oilStationName");
+                    oilStationNameTemp = oilStationNameTemp.replace("/", "");
+                    char[] tempArr = oilStationNameTemp.toCharArray();
+                    for(int i = 0; i < tempArr.length; i++){
+                        char temp = tempArr[i];
+                        if(i == 0){
+                            oilStationName_En = oilStationName_En + PingYingUtil.getPingYin(temp+"");
+                        } else {
+                            oilStationName_En = oilStationName_En + "_" + PingYingUtil.getPingYin(temp+"");
+                        }
+                    }
+                    if(!oilStationHireUrlFile.exists() || oilStationHireUrlFile.length() <= 0 || !oilStationName_En.equals(parentDir.getName())){
+                        //重新创建招聘文件
+                        Map<String, Object> paramMapTemp = Maps.newHashMap();
+                        paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                        paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
+                        paramMapTemp.put("id", oilStationStrMap.get("id"));
+                        wxOilStationDao.updateOilStation(paramMapTemp);
+                    }
+                } else {
+                    //重新创建招聘文件
+                    Map<String, Object> paramMapTemp = Maps.newHashMap();
+                    paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                    paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
+                    paramMapTemp.put("id", oilStationStrMap.get("id"));
+                    wxOilStationDao.updateOilStation(paramMapTemp);
+                }
             }
             //list 删除除第一个之外，后续所有的元素，避免所有元素传输暂用网络带宽
             if(oilStationStrList.size() >= 2) {
@@ -1479,7 +1555,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
             System.out.println("======================================================");
             System.out.println(resultMapDTO);
         } else {
-
             resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
         }
