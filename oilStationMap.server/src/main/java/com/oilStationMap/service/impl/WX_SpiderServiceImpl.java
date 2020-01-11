@@ -5,7 +5,6 @@ import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.SpiderForMeiTuanUtil;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
-import com.oilStationMap.utils.wxAdAutomation.clickArticleAd.ClickArticleAdUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
 import com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils.ShareArticleToFriendCircleUtils;
@@ -92,7 +91,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO clickArticleAd(Map<String, Object> paramMap) {
-        ClickArticleAdUtils.clickArticleAd(paramMap);
+//        ClickArticleAdUtils.clickArticleAd(paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
