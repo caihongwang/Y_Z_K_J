@@ -278,26 +278,26 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【点击微信文章链接】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //8.向上滑动微信文章
-        for(int i = 0; i <= 10; i++){
-            SwipeUtil.SwipeDown(driver);
-            sw.split();
-            logger.info("向上滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            int max = 2000;
-            int min = 1000;
-            int sleppTime = (int)(min + Math.random() * (max - min + 1));
-            Thread.sleep(sleppTime);
-        }
-        //9.向上滑动微信文章
-        for(int i = 0; i <= 3; i++){
-            SwipeUtil.SwipeUp(driver);
-            sw.split();
-            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            int max = 2000;
-            int min = 1000;
-            int sleppTime = (int)(min + Math.random() * (max - min + 1));
-            Thread.sleep(sleppTime);
-        }
+//        //8.向上滑动微信文章
+//        for(int i = 0; i <= 3; i++){
+//            SwipeUtil.SwipeDown(driver);
+//            sw.split();
+//            logger.info("向上滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+//            int max = 2000;
+//            int min = 1000;
+//            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+//            Thread.sleep(sleppTime);
+//        }
+//        //9.向上滑动微信文章
+//        for(int i = 0; i <= 1; i++){
+//            SwipeUtil.SwipeUp(driver);
+//            sw.split();
+//            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+//            int max = 2000;
+//            int min = 1000;
+//            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+//            Thread.sleep(sleppTime);
+//        }
         //9.点击坐标【右上角的横三点】
         try {
             Integer rightThreePointLocaltion_x1 = rightThreePointLocaltion.get("rightThreePointLocaltion_x1")!=null?rightThreePointLocaltion.get("rightThreePointLocaltion_x1"):929;

@@ -9,10 +9,7 @@ import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
-import com.oilStationMap.utils.ApplicationContextUtils;
-import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.HttpsUtil;
-import com.oilStationMap.utils.MapUtil;
+import com.oilStationMap.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,10 +87,12 @@ public class SendFriendCircleUtils {
                                         Date startTime = sdf.parse(startTimeStr);
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
-                                        if(currentDate.after(startTime) && currentDate.before(endTime)){
+                                        if(DateUtil.isEffectiveDate(currentDate, startTime, endTime)){
                                             logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送.....");
                                             new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
                                             Thread.sleep(5000);
+                                        } else if(DateUtil.isBeforeDate(currentDate, startTime)){
+                                            logger.info("尚未开始，暂不处理....");
                                         } else {
                                             Map<String, Object> tempMap = Maps.newHashMap();
                                             tempMap.put("id", theId);

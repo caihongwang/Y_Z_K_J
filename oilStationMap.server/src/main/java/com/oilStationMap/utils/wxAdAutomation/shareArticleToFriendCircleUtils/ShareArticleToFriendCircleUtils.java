@@ -9,10 +9,7 @@ import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
-import com.oilStationMap.utils.ApplicationContextUtils;
-import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.HttpsUtil;
-import com.oilStationMap.utils.MapUtil;
+import com.oilStationMap.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,10 +91,12 @@ public class ShareArticleToFriendCircleUtils {
                                         Date startTime = sdf.parse(startTimeStr);
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
-                                        if(currentDate.after(startTime) && currentDate.before(endTime)){
+                                        if(DateUtil.isEffectiveDate(currentDate, startTime, endTime)){
                                             logger.info( "设备描述【"+shareArticleToFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+shareArticleToFriendCircleParam.get("deviceName")+"】操作【"+shareArticleToFriendCircleParam.get("action")+"】昵称【"+nickName+"】的将微信文章群发到朋友圈即将开始发送.....");
                                             new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam);
                                             Thread.sleep(5000);
+                                        } else if(DateUtil.isBeforeDate(currentDate, startTime)){
+                                            logger.info("尚未开始，暂不处理....");
                                         } else {
                                             Map<String, Object> tempMap = Maps.newHashMap();
                                             tempMap.put("id", theId);
