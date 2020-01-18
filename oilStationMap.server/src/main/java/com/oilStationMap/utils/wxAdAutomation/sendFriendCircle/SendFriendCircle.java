@@ -1,5 +1,7 @@
 package com.oilStationMap.utils.wxAdAutomation.sendFriendCircle;
 
+import org.apache.commons.lang.time.StopWatch;
+
 import java.util.Map;
 
 public interface SendFriendCircle {
@@ -9,5 +11,5 @@ public interface SendFriendCircle {
      * @param paramMap
      * @throws Exception
      */
-    public void sendFriendCircle(Map<String, Object> paramMap) throws Exception;
+    public void sendFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception;
 }

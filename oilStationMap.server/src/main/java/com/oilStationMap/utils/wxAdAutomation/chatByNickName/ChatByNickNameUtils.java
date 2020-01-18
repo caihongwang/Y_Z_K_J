@@ -13,6 +13,7 @@ import com.oilStationMap.utils.ApplicationContextUtils;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.HttpsUtil;
 import com.oilStationMap.utils.MapUtil;
+import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,8 @@ public class ChatByNickNameUtils {
      * 根据微信昵称进行聊天for所有设备
      */
     public static void chatByNickName(Map<String, Object> paramMap) {
+        StopWatch sw = new StopWatch();
+        sw.start();
         try{
             CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
             Thread.sleep(30000);    //等待重启30秒
@@ -83,7 +86,7 @@ public class ChatByNickNameUtils {
                                 chatByNickNameParam.putAll(deviceNameMap);
                                 try {
                                     logger.info("设备描述【" + chatByNickNameParam.get("deviceNameDesc") + "】设备编码【" + chatByNickNameParam.get("deviceName") + "】操作【" + chatByNickNameParam.get("action") + "】昵称【" + nickName + "】的聊天即将开始发送.....");
-                                    new RealMachineDevices().chatByNickName(chatByNickNameParam);
+                                    new RealMachineDevices().chatByNickName(chatByNickNameParam, sw);
                                     Thread.sleep(5000);
                                 } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                                     e.printStackTrace();
@@ -105,7 +108,7 @@ public class ChatByNickNameUtils {
             while (rebootDeviceNameList.size() > 0) {
                 //等待所有设备重启
                 try {
-                    Thread.sleep(90000);
+                    Thread.sleep(60000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -118,7 +121,7 @@ public class ChatByNickNameUtils {
                     Map<String, Object> deviceNameMap = iterator.next();
                     try {
                         logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的聊天即将开始发送.....");
-                        new RealMachineDevices().chatByNickName(deviceNameMap);
+                        new RealMachineDevices().chatByNickName(deviceNameMap, sw);
                         Thread.sleep(5000);
                         iterator.remove();
                     } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
@@ -127,21 +130,21 @@ public class ChatByNickNameUtils {
                 }
                 index++;
             }
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下......");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
             String exceptionDevices = "异常设备列表";
             for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
                 exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
                 logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
             }
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上......");
-            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上......");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
             if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();

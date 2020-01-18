@@ -30,9 +30,7 @@ public class RealMachineDevices implements ChatByNickName {
      * @throws Exception
      */
     @Override
-    public void chatByNickName(Map<String, Object> paramMap) throws Exception {
-        StopWatch sw = new StopWatch();
-        sw.start();
+    public void chatByNickName(Map<String, Object> paramMap, StopWatch sw) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -221,9 +219,9 @@ public class RealMachineDevices implements ChatByNickName {
     public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
         try {
             Thread.sleep(3000);
-            if (driver != null) {
-                driver.quit();
-            }
+//            if (driver != null) {
+//                driver.quit();
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
@@ -239,13 +237,13 @@ public class RealMachineDevices implements ChatByNickName {
      */
     public void quitDriverAndReboot(AndroidDriver driver, String deviceNameDesc, String deviceName) {
         try {
-            Thread.sleep(3000);
-            if (driver != null) {
-                driver.quit();
-            }
+//            Thread.sleep(3000);
+//            if (driver != null) {
+//                driver.quit();
+//            }
             try {
                 //重启android设备
-                Thread.sleep(2000);
+//                Thread.sleep(2000);
                 CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
@@ -267,11 +265,13 @@ public class RealMachineDevices implements ChatByNickName {
 
     public static void main(String[] args) {
         try {
+            StopWatch sw = new StopWatch();
+            sw.start();
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("action", "chatByNickName");
             paramMap.put("deviceName", "AXS0216620000895");
             paramMap.put("deviceNameDesc", "华为 Mate 8 _ 2");
-            new RealMachineDevices().chatByNickName(paramMap);
+            new RealMachineDevices().chatByNickName(paramMap, sw);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();

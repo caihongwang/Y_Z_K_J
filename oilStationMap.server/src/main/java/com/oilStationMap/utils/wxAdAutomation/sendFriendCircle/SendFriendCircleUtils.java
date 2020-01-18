@@ -10,6 +10,7 @@ import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.*;
+import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,8 @@ public class SendFriendCircleUtils {
      * 发布朋友圈for所有设备
      */
     public static void sendFriendCircle(Map<String, Object> paramMap){
+        StopWatch sw = new StopWatch();
+        sw.start();
         try{
             CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
             Thread.sleep(30000);    //等待重启30秒
@@ -89,7 +92,7 @@ public class SendFriendCircleUtils {
                                         Date currentDate = new Date();
                                         if(DateUtil.isEffectiveDate(currentDate, startTime, endTime)){
                                             logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送.....");
-                                            new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
+                                            new RealMachineDevices().sendFriendCircle(sendFriendCircleParam, sw);
                                             Thread.sleep(5000);
                                         } else if(DateUtil.isBeforeDate(currentDate, startTime)){
                                             logger.info("尚未开始，暂不处理....");
@@ -123,7 +126,7 @@ public class SendFriendCircleUtils {
             while (rebootDeviceNameList.size() > 0) {
                 //等待所有设备重启
                 try {
-                    Thread.sleep(75000);
+                    Thread.sleep(60000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -140,7 +143,7 @@ public class SendFriendCircleUtils {
                     Map<String, Object> deviceNameMap = iterator.next();
                     try {
                         logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的发送朋友圈即将开始发送.....");
-                        new RealMachineDevices().sendFriendCircle(deviceNameMap);
+                        new RealMachineDevices().sendFriendCircle(deviceNameMap, sw);
                         Thread.sleep(5000);
                         iterator.remove();
                     } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
@@ -149,21 +152,21 @@ public class SendFriendCircleUtils {
                 }
                 index++;
             }
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下......");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
             String exceptionDevices = "异常设备列表";
             for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
                 exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
                 logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
             }
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上......");
-            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上......");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("【发送朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
             if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();
