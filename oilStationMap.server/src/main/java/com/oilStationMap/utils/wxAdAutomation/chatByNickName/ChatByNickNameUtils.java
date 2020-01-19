@@ -130,6 +130,7 @@ public class ChatByNickNameUtils {
                 }
                 index++;
             }
+            sw.split();
             logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
             logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
             logger.info("【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");

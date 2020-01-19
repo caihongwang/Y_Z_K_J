@@ -152,6 +152,7 @@ public class ShareArticleToFriendCircleUtils {
                 }
                 index++;
             }
+            sw.split();
             logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
             logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
             logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
