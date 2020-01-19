@@ -651,17 +651,21 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                             }
                         }
                         if(!oilStationHireUrlFile.exists() || oilStationHireUrlFile.length() <= 0 || !oilStationName_En.equals(parentDir.getName())){
+                            oilStationHireUrl = this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address"));
+                            oilStationStrMap.put("oilStationHireUrl", oilStationHireUrl);
                             //重新创建招聘文件
                             Map<String, Object> paramMapTemp = Maps.newHashMap();
-                            paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                            paramMapTemp.put("oilStationHireUrl", oilStationHireUrl);
                             paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
                             paramMapTemp.put("id", oilStationStrMap.get("id"));
                             wxOilStationDao.updateOilStation(paramMapTemp);
                         }
                     } else {
+                        oilStationHireUrl = this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address"));
+                        oilStationStrMap.put("oilStationHireUrl", oilStationHireUrl);
                         //重新创建招聘文件
                         Map<String, Object> paramMapTemp = Maps.newHashMap();
-                        paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                        paramMapTemp.put("oilStationHireUrl", oilStationHireUrl);
                         paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
                         paramMapTemp.put("id", oilStationStrMap.get("id"));
                         wxOilStationDao.updateOilStation(paramMapTemp);
@@ -887,17 +891,21 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                         }
                     }
                     if(!oilStationHireUrlFile.exists() || oilStationHireUrlFile.length() <= 0 || !oilStationName_En.equals(parentDir.getName())){
+                        oilStationHireUrl = this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address"));
+                        oilStationStrMap.put("oilStationHireUrl", oilStationHireUrl);
                         //重新创建招聘文件
                         Map<String, Object> paramMapTemp = Maps.newHashMap();
-                        paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                        paramMapTemp.put("oilStationHireUrl", oilStationHireUrl);
                         paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
                         paramMapTemp.put("id", oilStationStrMap.get("id"));
                         wxOilStationDao.updateOilStation(paramMapTemp);
                     }
                 } else {
+                    oilStationHireUrl = this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address"));
+                    oilStationStrMap.put("oilStationHireUrl", oilStationHireUrl);
                     //重新创建招聘文件
                     Map<String, Object> paramMapTemp = Maps.newHashMap();
-                    paramMapTemp.put("oilStationHireUrl", this.createOilStationHireInfoUrl(oilStationStrMap.get("oilStationName"), oilStationStrMap.get("address")));
+                    paramMapTemp.put("oilStationHireUrl", oilStationHireUrl);
                     paramMapTemp.put("oilStationHireTitle", oilStationStrMap.get("oilStationName")+"--招聘");
                     paramMapTemp.put("id", oilStationStrMap.get("id"));
                     wxOilStationDao.updateOilStation(paramMapTemp);
