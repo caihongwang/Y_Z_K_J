@@ -1,5 +1,7 @@
 package com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils;
 
+import org.apache.commons.lang.time.StopWatch;
+
 import java.util.Map;
 
 public interface ShareArticleToFriendCircle {
@@ -10,5 +12,5 @@ public interface ShareArticleToFriendCircle {
      * @param paramMap
      * @throws Exception
      */
-    public void shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception;
+    public void shareArticleToFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception;
 }

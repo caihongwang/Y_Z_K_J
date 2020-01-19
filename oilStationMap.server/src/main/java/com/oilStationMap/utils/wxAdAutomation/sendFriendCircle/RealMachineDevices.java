@@ -41,9 +41,7 @@ public class RealMachineDevices implements SendFriendCircle {
      * @throws Exception
      */
     @Override
-    public void sendFriendCircle(Map<String, Object> paramMap) throws Exception {
-        StopWatch sw = new StopWatch();
-        sw.start();
+    public void sendFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -455,10 +453,10 @@ public class RealMachineDevices implements SendFriendCircle {
      */
     public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
         try {
-            Thread.sleep(3000);
-            if (driver != null) {
-                driver.quit();
-            }
+//            Thread.sleep(3000);
+//            if (driver != null) {
+//                driver.quit();
+//            }
             logger.info("退出driver成功,设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
         } catch (Exception e) {
             e.printStackTrace();
@@ -475,13 +473,13 @@ public class RealMachineDevices implements SendFriendCircle {
      */
     public void quitDriverAndReboot(AndroidDriver driver, String deviceNameDesc, String deviceName) {
         try {
-            Thread.sleep(3000);
-            if (driver != null) {
-                driver.quit();
-            }
+//            Thread.sleep(3000);
+//            if (driver != null) {
+//                driver.quit();
+//            }
             try {
                 //重启android设备
-                Thread.sleep(2000);
+//                Thread.sleep(2000);
                 CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
@@ -503,11 +501,13 @@ public class RealMachineDevices implements SendFriendCircle {
 
     public static void main(String[] args) {
         try {
+            StopWatch sw = new StopWatch();
+            sw.start();
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("deviceName", "APU0216117000376");
             paramMap.put("deviceNameDesc", "华为 Mate 8 _ 3");
             paramMap.put("action", "imgMessageFriendCircle");
-            new RealMachineDevices().sendFriendCircle(paramMap);
+            new RealMachineDevices().sendFriendCircle(paramMap, sw);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
