@@ -94,6 +94,9 @@ public class RealMachineDevices implements ChatByNickName {
                 paramMap.get("sendBtnLocaltion") != null ?
                         paramMap.get("sendBtnLocaltion").toString() :
                         "com.tencent.mm:id/aql";
+        if("QVM0216304003850".equals(deviceName)){
+            System.out.println("deviceName = " + deviceName);
+        }
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -106,16 +109,15 @@ public class RealMachineDevices implements ChatByNickName {
             desiredCapabilities.setCapability("noReset", true);                                         //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);                                 //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");                        //UI定位器2
-            desiredCapabilities.setCapability("newCommandTimeout", 30);                                 //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("newCommandTimeout", 15);                                 //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
             desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
+            desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
             URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            Duration timeout = Duration.ofMillis(10000);
-            driver.configuratorSetWaitForSelectorTimeout(timeout);         //查找组件的超时时间
             sw.split();
             logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
@@ -152,6 +154,7 @@ public class RealMachineDevices implements ChatByNickName {
             sw.split();
             logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1500);
+
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();
@@ -246,7 +249,7 @@ public class RealMachineDevices implements ChatByNickName {
             try {
                 //重启android设备
 //                Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk-mac/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
                 logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
@@ -257,7 +260,7 @@ public class RealMachineDevices implements ChatByNickName {
             try {
                 //重启android设备
                 Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk-mac/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
                 logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");

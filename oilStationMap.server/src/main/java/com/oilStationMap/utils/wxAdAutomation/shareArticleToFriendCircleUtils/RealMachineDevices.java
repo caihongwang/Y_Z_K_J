@@ -167,6 +167,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
+            desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
             URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             Duration timeout = Duration.ofMillis(10000);
