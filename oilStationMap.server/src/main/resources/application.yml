@@ -1,4 +1,0 @@
-# 本配置文件不允许修改
-spring:
-  profiles:
-    active: publish
