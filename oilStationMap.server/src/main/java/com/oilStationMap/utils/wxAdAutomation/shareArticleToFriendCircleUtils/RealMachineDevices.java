@@ -161,7 +161,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             desiredCapabilities.setCapability("noReset", true);                                         //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);                                 //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");                        //UI定位器2
-            desiredCapabilities.setCapability("newCommandTimeout", 30);                                 //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("newCommandTimeout", 15);                                 //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
             desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
@@ -170,8 +170,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
             URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            Duration timeout = Duration.ofMillis(10000);
-            driver.configuratorSetWaitForSelectorTimeout(timeout);         //查找组件的超时时间
             sw.split();
             logger.info("设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
