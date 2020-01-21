@@ -40,14 +40,14 @@ public class ChatByNickNameUtils {
     public static void chatByNickName(Map<String, Object> paramMap) {
         StopWatch sw = new StopWatch();
         sw.start();
-//        try{
-//            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
-//            Thread.sleep(30000);    //等待重启30秒
-//        } catch (Exception e) {
-//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-//            logger.error("重启所有手机异常，e :", e);
-//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-//        }
+        try {
+            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
+            Thread.sleep(30000);    //等待重启30秒
+        } catch (Exception e) {
+            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
+            logger.error("重启所有手机异常，e :", e);
+            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
+        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for (String nickName : nickNameList) {
@@ -89,6 +89,11 @@ public class ChatByNickNameUtils {
                                     logger.info("设备描述【" + chatByNickNameParam.get("deviceNameDesc") + "】设备编码【" + chatByNickNameParam.get("deviceName") + "】操作【" + chatByNickNameParam.get("action") + "】昵称【" + nickName + "】的聊天即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                                     new RealMachineDevices().chatByNickName(chatByNickNameParam, sw);
                                     Thread.sleep(5000);
+
+                                    HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
+                                    rebootDeviceNameMap.putAll(chatByNickNameParam);
+                                    rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
+
                                 } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                                     e.printStackTrace();
                                     HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
@@ -132,49 +137,49 @@ public class ChatByNickNameUtils {
                 }
                 index++;
             }
-//            sw.split();
-//            if(rebootDeviceNameList.size() > 0){
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-//                String exceptionDevices = "异常设备列表";
-//                for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
-//                    exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
-//                    logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
-//                }
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-//                if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
-//                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-//                    HttpsUtil httpsUtil = new HttpsUtil();
-//                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-//                    exceptionDevicesParamMap.put("nickName", nickName);
-//                    exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
-//                    exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-//                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-//                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-//                    logger.info("微信消息异常发送反馈：" + resultJson);
-////                    try {
-////                        Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
-////                        exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
-////                        exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-////                        wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
-////                    } catch (Exception e) {
-////                        e.printStackTrace();
-////                    }
-//                }
-//            } else {
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-//                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-//            }
+            sw.split();
+            if(rebootDeviceNameList.size() > 0){
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                String exceptionDevices = "异常设备列表";
+                for(HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList){
+                    exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
+                    logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
+                }
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
+                if(rebootDeviceNameList != null && rebootDeviceNameList.size() > 0){
+                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                    HttpsUtil httpsUtil = new HttpsUtil();
+                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+                    exceptionDevicesParamMap.put("nickName", nickName);
+                    exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
+                    exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+                    logger.info("微信消息异常发送反馈：" + resultJson);
+//                    try {
+//                        Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
+//                        exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
+//                        exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+//                        wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+                }
+            } else {
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
+            }
         }
     }
 }

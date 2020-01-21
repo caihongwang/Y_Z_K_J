@@ -184,7 +184,7 @@ public class RealMachineDevices implements ChatByNickName {
             driver.findElementByXPath(chatInputLocation).sendKeys(textMessage);
             sw.split();
             logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
-//            Thread.sleep(1500);
+            Thread.sleep(1500);
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();
@@ -195,7 +195,6 @@ public class RealMachineDevices implements ChatByNickName {
         try {
 //            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
 //            webElement.click();
-            Thread.sleep(15000);
             driver.findElementById(sendBtnLocaltion).click();
             sw.split();
             logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -247,7 +246,7 @@ public class RealMachineDevices implements ChatByNickName {
             try {
                 //重启android设备
 //                Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk-mac/platform-tools/adb -s " + deviceName + " reboot");
+                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
                 logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
@@ -258,7 +257,7 @@ public class RealMachineDevices implements ChatByNickName {
             try {
                 //重启android设备
                 Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk-mac/platform-tools/adb -s " + deviceName + " reboot");
+                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
                 logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
