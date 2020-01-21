@@ -178,7 +178,6 @@ public class TimeTaskOfQuartz {
         }
     }
 
-
     /**
      * 每天上午05:00，mysql数据库备份异常
      */
@@ -203,26 +202,22 @@ public class TimeTaskOfQuartz {
      */
     @Scheduled(cron = "0 0 17 * * ?")
     public void do_OilPrizeMessage_For_OilStationMap() {
-        if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
-            Map<String, Object> paramMap = Maps.newHashMap();
-            new Thread(){
-                public void run(){
-                    try {
-                        wxMessageService.dailyMessageSend(paramMap);
-                    } catch (Exception e) {
-                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                        logger.error("发送油价资讯通知时异常，e :", e);
-                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                        logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
-                    }
+        Map<String, Object> paramMap = Maps.newHashMap();
+        new Thread(){
+            public void run(){
+                try {
+                    wxMessageService.dailyMessageSend(paramMap);
+                } catch (Exception e) {
+                    logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                    logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                    logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                    logger.error("发送油价资讯通知时异常，e :", e);
+                    logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                    logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
+                    logger.error(">>>>>>>>>>>>>>>>>>>发送油价资讯通知时异常<<<<<<<<<<<<<<<<<<<<<<");
                 }
-            }.start();
-        } else {
-            logger.info("当前环境不是【预发环境】，不执行任务：每天下午17:00，定时油价资讯通知");
-        }
+            }
+        }.start();
     }
 
     /**
@@ -292,125 +287,6 @@ public class TimeTaskOfQuartz {
         BoolDTO boolDTO = new BoolDTO();
         boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-    }
-
-    /**
-     * 每天下午16:00，定时提交企业安全管理平台的隐患排查表单
-     * 企业安全管理平台的隐患排查
-     */
-    @Scheduled(cron = "0 0 16 * * ?")
-    public void do_LoginAndOperator_For_EnterpriseSafetyManagementPlatform()     {
-        logger.info("【定时任务】企业安全管理平台的隐患排查 当前环境 useEnvironmental = " + useEnvironmental);
-        if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
-            try {
-                //1.准备参数
-                String username = "caizhiwen";          //用户名
-                String password = "caizhiwen";          //密码
-                String loginUrl = "http://corp.unicom-ptt.com:8/html/user/login/main";          //登录url
-                String operatorUrl = "http://corp.unicom-ptt.com:8/html/danger/add3/add3";      //操作url
-                //准备 隐患排查 项目名称
-                List<String> operatorList = Lists.newArrayList();
-                //第一横排
-                operatorList.add("资质证照");
-                operatorList.add("安全生产管理机构及人员");
-                operatorList.add("安全规章制度");
-                operatorList.add("安全教育培训");
-                operatorList.add("安全投入");
-                operatorList.add("相关方管理");
-                //第二横排
-                operatorList.add("重大危险源管理");
-                operatorList.add("个体防护");
-                operatorList.add("职业健康");
-                operatorList.add("应急管理");
-                operatorList.add("隐患排查治理");
-                operatorList.add("事故报告、调查和处理");
-                //第三横排
-                operatorList.add("作业场所");
-                //operatorList.add("设备设施");
-                operatorList.add("防护、保险、信号等装置设备");
-                operatorList.add("原辅物料、产品");
-                operatorList.add("安全技能");
-                operatorList.add("作业许可");
-                //当前天时间
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                String currentDateStr = formatter.format(new Date());
-                //2.开始模拟登陆并操作
-                //准备联网的 httpClient
-                RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD_STRICT).build();
-                CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
-                //准备登录
-                List<NameValuePair> valuePairs = new LinkedList<NameValuePair>();
-                valuePairs.add(new BasicNameValuePair("username", username));
-                valuePairs.add(new BasicNameValuePair("password", password));
-                HttpPost postLogin = new HttpPost(loginUrl);
-                postLogin.setEntity(new UrlEncodedFormEntity(valuePairs));
-                postLogin.setEntity(new UrlEncodedFormEntity(valuePairs));
-                HttpResponse loginResponse = httpClient.execute(postLogin);
-                StatusLine loginResponseState = loginResponse.getStatusLine();
-                logger.info("用户名密码登陆--->>状态:" + ("302".equals(loginResponseState) ? "登录成功" : "登录失败"));
-                logger.info(loginResponseState.toString());
-                //准备操作
-                for (String operatorNameStr : operatorList) {
-                    HttpPost postOperator = new HttpPost(operatorUrl);
-                    Header[] headers = loginResponse.getHeaders("Set-Cookie");
-                    for (int i = 0; i < headers.length; i++) {
-                        postOperator.addHeader(headers[i]);
-                    }
-                    StringBody check_type = new StringBody(operatorNameStr, Charset.forName("utf-8"));
-                    StringBody result = new StringBody("1", Charset.forName("utf-8"));
-                    StringBody is_update = new StringBody("1", Charset.forName("utf-8"));
-                    StringBody check_time = new StringBody(currentDateStr, Charset.forName("utf-8"));
-                    StringBody organ_id = new StringBody("0", Charset.forName("utf-8"));
-                    StringBody organ_name = new StringBody("企业本级", Charset.forName("utf-8"));
-                    StringBody person_id = new StringBody("ee9de767-622d-43c6-9368-76443a049063", Charset.forName("utf-8"));
-                    StringBody person_name = new StringBody("蔡红旺", Charset.forName("utf-8"));
-                    StringBody addr = new StringBody("大路田坝加油站", Charset.forName("utf-8"));
-                    StringBody duty_unit = new StringBody("企业本级", Charset.forName("utf-8"));
-                    StringBody workshop = new StringBody("良好，一切正常.", Charset.forName("utf-8"));
-                    StringBody factory = new StringBody("良好，一切正常.", Charset.forName("utf-8"));
-                    HttpEntity reqEntity = MultipartEntityBuilder.create()
-                            .addPart("check_type", check_type)
-                            .addPart("result", result)
-                            .addPart("is_update", is_update)
-                            .addPart("check_time", check_time)
-                            .addPart("organ_id", organ_id)
-                            .addPart("organ_name", organ_name)
-                            .addPart("person_id", person_id)
-                            .addPart("person_name", person_name)
-                            .addPart("addr", addr)
-                            .addPart("duty_unit", duty_unit)
-                            .addPart("workshop", workshop)
-                            .addPart("factory", factory)
-                            .build();
-                    postOperator.setEntity(reqEntity);
-                    HttpResponse postOperatorResponse = httpClient.execute(postOperator);
-                    StatusLine operatorResponseState = postOperatorResponse.getStatusLine();
-                    logger.info("用户名密码登陆--->>状态: " + ("302".equals(loginResponseState) ? "登录成功" : "登录失败"));
-                    logger.info("操作:【 " + operatorNameStr + " 】--->>状态: " + ("302".equals(loginResponseState) ? "操作成功" : "操作失败"));
-                    logger.info(operatorResponseState.toString());
-                    //沉睡5秒
-                    Thread.sleep(5000);
-                }
-                logger.info("============================================================");
-                logger.info("============================================================");
-                logger.info("============================================================");
-                logger.info("时间：【 " + currentDateStr + " 】的企业安全管理平台的隐患排查已登记完毕=======");
-                logger.info("时间：【 " + currentDateStr + " 】的企业安全管理平台的隐患排查已登记完毕=======");
-                logger.info("时间：【 " + currentDateStr + " 】的企业安全管理平台的隐患排查已登记完毕=======");
-                logger.info("============================================================");
-                logger.info("============================================================");
-                logger.info("============================================================");
-            } catch (Exception e) {
-                Map<String, Object> commentsMap = Maps.newHashMap();
-                commentsMap.put("comments", e.getMessage());
-                commentsMap.put("uid", "1");
-                commentsMap.put("createTime", TimestampUtil.getTimestamp());
-                commentsMap.put("updateTime", TimestampUtil.getTimestamp());
-                WXCommentsService.addComments(commentsMap);
-            }
-        } else {
-            logger.info("当前环境不是【预发环境】，不执行任务：每天下午16:00，定时提交企业安全管理平台的隐患排查表单");
-        }
     }
 
 }
