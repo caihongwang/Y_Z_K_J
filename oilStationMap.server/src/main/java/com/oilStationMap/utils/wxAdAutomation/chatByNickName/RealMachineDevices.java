@@ -94,9 +94,6 @@ public class RealMachineDevices implements ChatByNickName {
                 paramMap.get("sendBtnLocaltion") != null ?
                         paramMap.get("sendBtnLocaltion").toString() :
                         "com.tencent.mm:id/aql";
-        if("QVM0216304003850".equals(deviceName)){
-            System.out.println("deviceName = " + deviceName);
-        }
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -115,12 +112,12 @@ public class RealMachineDevices implements ChatByNickName {
             desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
-            desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
+            desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);                         //寻找组件的超时时间，单位毫秒
             URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             sw.split();
             logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
+            Thread.sleep(5000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();
@@ -187,7 +184,7 @@ public class RealMachineDevices implements ChatByNickName {
             driver.findElementByXPath(chatInputLocation).sendKeys(textMessage);
             sw.split();
             logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1500);
+//            Thread.sleep(1500);
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();
@@ -198,6 +195,7 @@ public class RealMachineDevices implements ChatByNickName {
         try {
 //            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
 //            webElement.click();
+            Thread.sleep(15000);
             driver.findElementById(sendBtnLocaltion).click();
             sw.split();
             logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -223,7 +221,7 @@ public class RealMachineDevices implements ChatByNickName {
      */
     public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
         try {
-            Thread.sleep(3000);
+//            Thread.sleep(3000);
 //            if (driver != null) {
 //                driver.quit();
 //            }

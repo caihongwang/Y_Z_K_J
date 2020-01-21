@@ -91,7 +91,8 @@ public class SendFriendCircleUtils {
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
                                         if(DateUtil.isEffectiveDate(currentDate, startTime, endTime)){
-                                            logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送.....");
+                                            sw.split();
+                                            logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                                             new RealMachineDevices().sendFriendCircle(sendFriendCircleParam, sw);
                                             Thread.sleep(5000);
                                         } else if(DateUtil.isBeforeDate(currentDate, startTime)){
@@ -142,7 +143,8 @@ public class SendFriendCircleUtils {
                 while (iterator.hasNext()) {
                     Map<String, Object> deviceNameMap = iterator.next();
                     try {
-                        logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的发送朋友圈即将开始发送.....");
+                        sw.split();
+                        logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                         new RealMachineDevices().sendFriendCircle(deviceNameMap, sw);
                         Thread.sleep(5000);
                         iterator.remove();

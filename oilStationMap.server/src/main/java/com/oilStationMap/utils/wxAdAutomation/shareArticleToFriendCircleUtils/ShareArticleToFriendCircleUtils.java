@@ -95,7 +95,8 @@ public class ShareArticleToFriendCircleUtils {
                                         Date endTime = sdf.parse(endTimeStr);
                                         Date currentDate = new Date();
                                         if(DateUtil.isEffectiveDate(currentDate, startTime, endTime)){
-                                            logger.info( "设备描述【"+shareArticleToFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+shareArticleToFriendCircleParam.get("deviceName")+"】操作【"+shareArticleToFriendCircleParam.get("action")+"】昵称【"+nickName+"】的将微信文章群发到朋友圈即将开始发送.....");
+                                            sw.split();
+                                            logger.info( "设备描述【"+shareArticleToFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+shareArticleToFriendCircleParam.get("deviceName")+"】操作【"+shareArticleToFriendCircleParam.get("action")+"】昵称【"+nickName+"】的将微信文章群发到朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                                             new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam, sw);
                                             Thread.sleep(5000);
                                         } else if(DateUtil.isBeforeDate(currentDate, startTime)){
@@ -142,7 +143,8 @@ public class ShareArticleToFriendCircleUtils {
                 while (iterator.hasNext()) {
                     Map<String, Object> deviceNameMap = iterator.next();
                     try {
-                        logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的将微信文章群发到朋友圈即将开始发送.....");
+                        sw.split();
+                        logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的将微信文章群发到朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                         new RealMachineDevices().shareArticleToFriendCircle(deviceNameMap, sw);
                         Thread.sleep(5000);
                         iterator.remove();
@@ -153,7 +155,6 @@ public class ShareArticleToFriendCircleUtils {
                 index++;
             }
             sw.split();
-
             if(rebootDeviceNameList.size() > 0){
                 logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
                 logger.info("【"+nickName+"】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
