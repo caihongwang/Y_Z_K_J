@@ -70,35 +70,35 @@ echo "--------------------------------- start【eureka.server】 done-----------
 
 
 
-echo "-------------------kill【zuul.server】 pid will sleep 20s.---------------------"
-rm /opt/zuul.server/run.sh
-cp /opt/deployAllApplication/Y_Z_K_J/zuul.server/bin/run.sh /opt/zuul.server/run.sh
-sh /opt/zuul.server/run.sh stop
+echo "-------------------kill【admin.server】 pid will sleep 20s.---------------------"
+rm /opt/admin.server/run.sh
+cp /opt/deployAllApplication/Y_Z_K_J/admin.server/bin/run.sh /opt/admin.server/run.sh
+sh /opt/admin.server/run.sh stop
 sleep 20s
-echo "-------------------kill【zuul.server】 pid done.-------------------------------"
+echo "-------------------kill【admin.server】 pid done.-------------------------------"
 
 
 
 
 
 
-echo "-------------------start 【zuul.server】 project  will sleep 30s.--------------"
-rm -r /opt/zuul.server/logs
-rm /opt/zuul.server/zuul.server.jar
-cp /opt/deployAllApplication/Y_Z_K_J/zuul.server/target/zuul.server.jar /opt/zuul.server/zuul.server.jar
-cd /opt/zuul.server
-sh /opt/zuul.server/run.sh start
+echo "-------------------start 【admin.server】 project  will sleep 30s.--------------"
+rm -r /opt/admin.server/logs
+rm /opt/admin.server/admin.server.jar
+cp /opt/deployAllApplication/Y_Z_K_J/admin.server/target/admin.server.jar /opt/admin.server/admin.server.jar
+cd /opt/admin.server
+sh /opt/admin.server/run.sh start
 sleep 20s
-echo "-------------------start 【zuul.server】 project  done.------------------------"
+echo "-------------------start 【admin.server】 project  done.------------------------"
 
 
 
 
 
 
-echo "--------------------------------- start【zuul.server】 done--------------------"
-echo "--------------------------------- start【zuul.server】 done--------------------"
-echo "--------------------------------- start【zuul.server】 done--------------------"
+echo "--------------------------------- start【admin.server】 done--------------------"
+echo "--------------------------------- start【admin.server】 done--------------------"
+echo "--------------------------------- start【admin.server】 done--------------------"
 
 
 

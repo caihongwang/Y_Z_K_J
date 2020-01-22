@@ -16,8 +16,10 @@
     <modules>
         <module>eureka.server</module>
         <module>zuul.server</module>
-        <module>oilStationMap.server</module>
         <module>newMall.server</module>
+        <module>oilStationMap.server</module>
+        <module>xxl-job-core</module>
+        <module>admin.server</module>
     </modules>
 
 
