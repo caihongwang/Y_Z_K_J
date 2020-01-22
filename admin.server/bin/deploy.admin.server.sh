@@ -55,7 +55,7 @@ echo "-------------------kill【admin.server】 pid done.-----------------------
 
 
 echo "-------------------start 【admin.server】 project  will sleep 30s.--------------"
-rm -r /opt/admin.server/logs
+rm -r /opt/admin.server/logs/*.*
 rm /opt/admin.server/admin.server.jar
 cp /opt/deployAllApplication/Y_Z_K_J/admin.server/target/admin.server.jar /opt/admin.server/admin.server.jar
 cd /opt/admin.server
