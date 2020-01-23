@@ -45,3 +45,15 @@ mybatis:
 
 logging:
   config-locations: log4j2.xml
+
+xxl:
+  job:
+    accessToken:
+    admin:
+      address: http://127.0.0.1:9020/admin.server
+    executor:
+      appname: oil-station-map-server
+      ip: 127.0.0.1
+      port: 9999
+      logpath: /opt/oilStationMap.server/logs
+      logretentiondays: 30

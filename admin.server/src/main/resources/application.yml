@@ -65,7 +65,6 @@ xxl:
         max: 100
     logretentiondays: 30
 
-
 mybatis:
   mapper-locations: classpath:/mybatis-mapper/*Mapper.xml
 

@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Y_Z_K_J.iml" filepath="$PROJECT_DIR$/.idea/Y_Z_K_J.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin.server/admin.server.iml" filepath="$PROJECT_DIR$/admin.server/admin.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka.server/eureka.server.iml" filepath="$PROJECT_DIR$/eureka.server/eureka.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/newMall.server/newMall.server.iml" filepath="$PROJECT_DIR$/newMall.server/newMall.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/oilStationMap.server/oilStationMap.server.iml" filepath="$PROJECT_DIR$/oilStationMap.server/oilStationMap.server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job-core/xxl-job-core.iml" filepath="$PROJECT_DIR$/xxl-job-core/xxl-job-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/zuul.server/zuul.server.iml" filepath="$PROJECT_DIR$/zuul.server/zuul.server.iml" />
     </modules>
   </component>

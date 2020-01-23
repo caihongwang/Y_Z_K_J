@@ -42,6 +42,14 @@ echo "----------------------------clone and package 【oilStationMap.server】 d
 
 
 
+echo "----------------------------install 【xxl-job-core】-------------------"
+cd xxl-job-core
+mvn clean install
+echo "----------------------------install 【xxl-job-core】 done--------------------"
+
+
+
+
 
 echo "-------------------kill【oilStationMap.server】 pid will sleep 20s.---------------------"
 rm /opt/oilStationMap.server/run.sh
