@@ -6,7 +6,7 @@ eureka:
 server:
   port: 9020
   servlet:
-    context-path: /admin.server
+    context-path: /admin
 
 management:
   context-path: /actuator
