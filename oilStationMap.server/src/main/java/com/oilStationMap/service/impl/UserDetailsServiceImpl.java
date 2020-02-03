@@ -61,7 +61,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String isAdmin = userMap.get("isAdmin")!=null?userMap.get("isAdmin").toString():"false";
         //用户昵称
         String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"点击账户登录";
-        //用户昵称
+        //用户头像
         String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"https://www.91caihongwang.com/resourceOfOilStationMap/user/defaultavatar.png";
         //微信openId
         String openId = userMap.get("openId").toString();
