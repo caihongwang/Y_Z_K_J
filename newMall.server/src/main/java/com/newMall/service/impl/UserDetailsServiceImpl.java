@@ -62,7 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Map<String, Object> userMap = userList.get(0);
         //用户昵称
         String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"默认用户";
-        //用户昵称
+        //用户头像
         String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"https://www.91caihongwang.com/resourceOfNewMall/user/defaultavatar.png";
         //微信openId
         String openId = userMap.get("openId").toString();
