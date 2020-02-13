@@ -6,7 +6,7 @@
 
 1.启动eureka.server 注册中心
 
-2.启动zuul.server 网关
+2.启动admin.server 任务中心
 
 3.启动oilStationMap.server 油站服务: 油价地图、看看油价、瞧瞧油价、瞅瞅油价...
 

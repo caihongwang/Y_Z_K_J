@@ -11,14 +11,14 @@ server:
   servlet:
     context-path: /oilStationMap
 
-#测试环境
+#预发环境
 
 spring:
   profiles: prepub
   application:
     name: oilStationMap
   datasource:
-    url: jdbc:mysql://192.168.43.181:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://112.74.177.170:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: caihongwang
     password: hejinrong@520
   jackson:

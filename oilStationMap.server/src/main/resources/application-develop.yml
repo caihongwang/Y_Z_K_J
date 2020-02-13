@@ -11,10 +11,10 @@ server:
   servlet:
     context-path: /oilStationMap
 
-#本地环境
+#开发环境
 
 spring:
-  profiles: local
+  profiles: develop
   application:
     name: oilStationMap
   datasource:
@@ -26,7 +26,7 @@ spring:
     time-zone: GMT+8
   redis:
       database: 1
-      host: 112.74.177.170
+      host: 192.168.43.181
       port: 6379
       password:
       jedis:
@@ -50,10 +50,10 @@ xxl:
   job:
     accessToken:
     admin:
-      address: http://127.0.0.1:9020/admin
+      address: http://112.74.177.170:9020/admin
     executor:
       appname: oil-station-map-server
-      ip: 127.0.0.1
+      ip: 112.74.177.170
       port: 9999
       logpath: /opt/oilStationMap.server/logs
       logretentiondays: 30
