@@ -89,11 +89,6 @@ public class ChatByNickNameUtils {
                                     logger.info("设备描述【" + chatByNickNameParam.get("deviceNameDesc") + "】设备编码【" + chatByNickNameParam.get("deviceName") + "】操作【" + chatByNickNameParam.get("action") + "】昵称【" + nickName + "】的聊天即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                                     new RealMachineDevices().chatByNickName(chatByNickNameParam, sw);
                                     Thread.sleep(5000);
-
-                                    HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
-                                    rebootDeviceNameMap.putAll(chatByNickNameParam);
-                                    rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
-
                                 } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                                     e.printStackTrace();
                                     HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
