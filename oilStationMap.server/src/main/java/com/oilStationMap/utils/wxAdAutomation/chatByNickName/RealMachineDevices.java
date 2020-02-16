@@ -108,8 +108,8 @@ public class RealMachineDevices implements ChatByNickName {
             desiredCapabilities.setCapability("automationName", "UiAutomator2");                        //UI定位器2
             desiredCapabilities.setCapability("newCommandTimeout", 15);                                 //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
-            desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
-            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
+            desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 15000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
+            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 15000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);                         //寻找组件的超时时间，单位毫秒
@@ -117,7 +117,7 @@ public class RealMachineDevices implements ChatByNickName {
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             sw.split();
             logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(5000);                                                                     //加载安卓页面10秒,保证xml树完全加载
+            Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();
