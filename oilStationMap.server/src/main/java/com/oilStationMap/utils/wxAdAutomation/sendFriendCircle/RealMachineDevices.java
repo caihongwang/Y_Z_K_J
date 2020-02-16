@@ -318,6 +318,9 @@ public class RealMachineDevices implements SendFriendCircle {
                 }
             }
             sw.split();
+            logger.info("将图片保存到【手机本地的微信图片路径】成功，盛水6秒，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
+            Thread.sleep(6000);
+            sw.split();
             logger.info("将图片保存到【手机本地的微信图片路径】成功，总共花费 " + sw.toSplitString() + " 秒....");
             //5.2.点击坐标【相机】
             try {
