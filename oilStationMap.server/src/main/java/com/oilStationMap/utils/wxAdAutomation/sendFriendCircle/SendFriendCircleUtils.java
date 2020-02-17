@@ -93,6 +93,7 @@ public class SendFriendCircleUtils {
                                         if(DateUtil.isEffectiveDate(currentDate, startTime, endTime)){
                                             sw.split();
                                             logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+                                            sendFriendCircleParam.put("index", 0);
                                             new RealMachineDevices().sendFriendCircle(sendFriendCircleParam, sw);
                                             Thread.sleep(5000);
                                         } else if(DateUtil.isBeforeDate(currentDate, startTime)){
@@ -145,6 +146,7 @@ public class SendFriendCircleUtils {
                     try {
                         sw.split();
                         logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+                        deviceNameMap.put("index", index);
                         new RealMachineDevices().sendFriendCircle(deviceNameMap, sw);
                         Thread.sleep(5000);
                         iterator.remove();

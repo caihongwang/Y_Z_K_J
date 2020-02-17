@@ -44,6 +44,11 @@ public class RealMachineDevices implements SendFriendCircle {
     public void sendFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception {
         //0.获取参数
         //设备编码
+        Integer index =
+                paramMap.get("index") != null ?
+                        Integer.parseInt(paramMap.get("index").toString()) :
+                            0;
+        //设备编码
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
@@ -318,8 +323,11 @@ public class RealMachineDevices implements SendFriendCircle {
                 }
             }
             sw.split();
-            logger.info("将图片保存到【手机本地的微信图片路径】成功，盛水6秒，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(6000);
+            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡5秒，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
+            Thread.sleep(5000);
+            if(index == 0){             //重启设备确保图片流在真机上完全变成文件
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            }
             sw.split();
             logger.info("将图片保存到【手机本地的微信图片路径】成功，总共花费 " + sw.toSplitString() + " 秒....");
             //5.2.点击坐标【相机】
