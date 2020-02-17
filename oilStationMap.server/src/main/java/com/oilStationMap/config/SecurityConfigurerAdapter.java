@@ -48,13 +48,13 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 //微信客服
                 "/wxCommon/receviceAndSendCustomMessage",
                 //更新油价资讯
-                "wxOilStation/getOilPriceFromOilUsdCnyCom",
+                "/wxOilStation/getOilPriceFromOilUsdCnyCom",
                 //更新油站信息
-                "wxOilStation/updateOilStationHireInfo",
+                "/wxOilStation/updateOilStationHireInfo",
                 //车主福利for车用尿素
-                "wxOilStation/dailyCarUreaMessageSend",
+                "/wxOilStation/dailyCarUreaMessageSend",
                 //根据经纬度设置用户位置中心
-                "wxOilStation/setLocaltionByUid",
+                "/wxOilStation/setLocaltionByUid",
                 //爬虫类请求
                 "/wxSpider/**",
                 //消息类请求
