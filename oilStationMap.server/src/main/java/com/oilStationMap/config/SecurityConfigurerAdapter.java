@@ -53,6 +53,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "wxOilStation/updateOilStationHireInfo",
                 //车主福利for车用尿素
                 "wxOilStation/dailyCarUreaMessageSend",
+                //根据经纬度设置用户位置中心
+                "wxOilStation/setLocaltionByUid",
                 //爬虫类请求
                 "/wxSpider/**",
                 //消息类请求
