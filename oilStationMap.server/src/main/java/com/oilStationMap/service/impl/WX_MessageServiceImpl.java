@@ -1077,4 +1077,114 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         logger.info("【service】发布微信广告自动化过程中的异常设备-devicesExceptionMessageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }
+
+    /**
+     * 根据OpenID向 管理员 发【小寨家里公网IP地址发生变化】
+     * @param paramMap
+     */
+    @Override
+    public ResultMapDTO exceptionDomainMessageSend(Map<String, Object> paramMap) throws Exception {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        logger.info("【service】发布小寨家里公网IP地址发生变化-exceptionDomainMessageSend,请求-paramMap:" + paramMap);
+        String publicIp = paramMap.get("publicIp")!=null?paramMap.get("publicIp").toString():"未知";
+        //1.获取所有的微信公众号账号
+        paramMap.clear();
+        List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
+        paramMap.put("dicType", "customMessageAccount");
+        ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        customMessageAccountList = resultDTO.getResultList();
+        if (customMessageAccountList != null && customMessageAccountList.size() > 0) {
+            for (int i = 0; i < customMessageAccountList.size(); i++) {
+                Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
+                String dicName = customMessageAccountMap.get("dicName");
+                if (dicName.contains("公众号")) {
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String exceptionDevicesTemplateId = customMessageAccountMap.get("exceptionDevicesTemplateId")!=null?customMessageAccountMap.get("exceptionDevicesTemplateId").toString():"jc3BrNm_fy3My21kgz8zWaKQNIMp7piMHTQDCw8kOEc";
+                    if(!"".equals(appId) && !"".equals(secret)){
+                        //发送消息
+                        List<String> openIdList = Lists.newArrayList();
+                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //智恵油站的openId - 蔡红旺
+                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
+                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //智恵油站的openId - 何金蓉
+                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
+                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //智恵油站的openId - 沿河微帮
+                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
+                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //智恵油站的openId - 积极向上
+                        for(String openId : openIdList) {
+                            //向 管理员汇报 已更新油价
+                            paramMap.clear();//清空参数，重新准备参数
+                            Map<String, Object> dataMap = Maps.newHashMap();
+
+                            Map<String, Object> firstMap = Maps.newHashMap();
+                            firstMap.put("value", "公网IP发生变化，owncloud访问失败，按照提示操作...");
+                            firstMap.put("color", "#0017F5");
+                            dataMap.put("first", firstMap);
+
+                            //异常原因
+                            Map<String, Object> keyword1Map = Maps.newHashMap();
+                            keyword1Map.put("value", "Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配");
+                            keyword1Map.put("color", "#0017F5");
+                            dataMap.put("keyword1", keyword1Map);
+
+                            //异常设备
+                            Map<String, Object> keyword2Map = Maps.newHashMap();
+                            keyword2Map.put("value", "笔记本-华硕XA501");
+                            keyword2Map.put("color", "#0017F5");
+                            dataMap.put("keyword2", keyword2Map);
+
+                            //异常地点
+                            Map<String, Object> keyword3Map = Maps.newHashMap();
+                            keyword3Map.put("value", "贵州省铜仁市松桃县孟溪镇");
+                            keyword3Map.put("color", "#0017F5");
+                            dataMap.put("keyword3", keyword3Map);
+
+                            //异常时间
+                            Date currentDate = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Map<String, Object> keyword4Map = Maps.newHashMap();
+                            keyword4Map.put("value", sdf.format(currentDate));
+                            keyword4Map.put("color", "#0017F5");
+                            dataMap.put("keyword4", keyword4Map);
+
+                            //操作提示
+                            Map<String, Object> keyword5Map = Maps.newHashMap();
+                            keyword5Map.put("value", "公网IP："+publicIp+" 或者 请使用teamview远程登陆该机器，通过浏览器进入路由获取的公网IP地址，然后登陆阿里云域名管理，将域名解析到该公网IP地址下.");
+                            keyword5Map.put("color", "#0017F5");
+                            dataMap.put("keyword5", keyword5Map);
+
+                            //备注
+                            Map<String, Object> remarkMap = Maps.newHashMap();
+                            remarkMap.put("value", "如果登陆不上，请打电话13096869668，检查电脑电路问题.");
+                            remarkMap.put("color", "#0017F5");
+                            dataMap.put("remark", remarkMap);
+
+                            paramMap.put("data", JSONObject.toJSONString(dataMap));
+                            paramMap.put("url", "https://mp.weixin.qq.com/s/_Na1Cq5Dt44T8DavY1fbgQ");       //智慧油站-公众号文章
+
+                            paramMap.put("appId", appId);
+                            paramMap.put("secret", secret);
+                            paramMap.put("openId", openId);
+                            paramMap.put("template_id", exceptionDevicesTemplateId);
+
+                            Thread.sleep(2000);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+
+                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                        }
+                    } else {
+                        resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+                    }
+                }
+            }
+        }
+        logger.info("【service】发布小寨家里公网IP地址发生变化-exceptionDomainMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
 }

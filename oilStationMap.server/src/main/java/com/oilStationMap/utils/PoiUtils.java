@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * Created by zhenle.li on 17/3/13.
+ * Created by caihongwang on 17/3/13.
  */
 public class PoiUtils {
     public static <T> HSSFWorkbook writeToExcel(String sheetName, List<T> objectList, Class<T> clazz) throws Exception {

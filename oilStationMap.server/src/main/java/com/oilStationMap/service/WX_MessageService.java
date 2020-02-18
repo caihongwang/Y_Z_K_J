@@ -76,4 +76,10 @@ public interface WX_MessageService {
    * @param paramMap
    */
   public ResultMapDTO exceptionDevicesMessageSend(Map<String, Object> paramMap) throws Exception;
+
+  /**
+   * 根据OpenID向 管理员 发【小寨家里公网IP地址发生变化】
+   * @param paramMap
+   */
+  public ResultMapDTO exceptionDomainMessageSend(Map<String, Object> paramMap) throws Exception;
 }

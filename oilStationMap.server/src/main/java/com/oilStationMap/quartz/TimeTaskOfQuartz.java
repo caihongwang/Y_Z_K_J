@@ -6,6 +6,7 @@ import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.CommandUtil;
+import com.oilStationMap.utils.HttpsUtil;
 import com.oilStationMap.utils.LonLatUtil;
 import com.oilStationMap.utils.TimestampUtil;
 import com.google.common.collect.Lists;
@@ -23,6 +24,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +34,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,11 +51,11 @@ import java.util.*;
 @Lazy(false)
 public class TimeTaskOfQuartz {
 
-//    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TimeTaskOfQuartz.class);
-//
-//    //使用环境
-//    @Value("${useEnvironmental}")
-//    private String useEnvironmental;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TimeTaskOfQuartz.class);
+
+    //使用环境
+    @Value("${useEnvironmental}")
+    private String useEnvironmental;
 //
 //    @Autowired
 //    private WX_DicService WXDicService;
@@ -71,6 +81,67 @@ public class TimeTaskOfQuartz {
 //    @Autowired
 //    private WX_RedPacketHistoryService WXRedPacketHistoryService;
 //
+    /**
+     * 检测域名是否可以访问
+     */
+    @Scheduled(cron = "0 */5 * * * ?")
+    public void do_checkDomain() {
+        if("prepub".equals(useEnvironmental)){
+            Integer timeOutMillSeconds = 5000;     //超时时间60秒
+            String urlString = "http://www.yzkj.store:3380/owncloud";
+            long lo = System.currentTimeMillis();
+            URL url;
+            try {
+                url = new URL(urlString);
+                URLConnection co =  url.openConnection();
+                co.setConnectTimeout(timeOutMillSeconds);
+                co.connect();
+                System.out.println("连接可用");
+            } catch (Exception e1) {
+                logger.info("路由器的公网IP地址已经发生变化，即将微信模板消息进行通知.");
+                String publicIp = "";   //公网IP
+                InputStream ins = null;
+                try {
+                    url = new URL("http://2000019.ip138.com/");
+                    URLConnection con = url.openConnection();
+                    ins = con.getInputStream();
+                    InputStreamReader isReader = new InputStreamReader(ins, "GB2312");
+                    BufferedReader bReader = new BufferedReader(isReader);
+                    StringBuffer webContent = new StringBuffer();
+                    String str = null;
+                    while ((str = bReader.readLine()) != null) {
+                        webContent.append(str);
+                    }
+                    int start = webContent.indexOf("[") + 1;
+                    int end = webContent.indexOf("]");
+                    publicIp =  webContent.substring(start, end);
+                } catch (Exception e) {
+                    publicIp = "公网IP查询失败，teamview登陆查询";
+                    e.printStackTrace();
+                } finally {
+                    if (ins != null) {
+                        try {
+                            ins.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                    HttpsUtil httpsUtil = new HttpsUtil();
+                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+                    exceptionDevicesParamMap.put("publicIp", publicIp);
+                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
+                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new TimeTaskOfQuartz().do_checkDomain();
+    }
+
+
 //    /**
 //     * 每天早上09:00，定时发送红包
 //     * 对小程序(油价地图)上操作【添加油站】和【纠正油价】的用户直接发送红包
