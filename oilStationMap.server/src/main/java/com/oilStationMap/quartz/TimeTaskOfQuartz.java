@@ -87,7 +87,7 @@ public class TimeTaskOfQuartz {
     @Scheduled(cron = "0 */5 * * * ?")
     public void do_checkDomain() {
         if("prepub".equals(useEnvironmental)){
-            Integer timeOutMillSeconds = 5000;     //超时时间60秒
+            Integer timeOutMillSeconds = 30000;     //超时时间30秒
             String urlString = "http://www.yzkj.store:3380/owncloud";
             long lo = System.currentTimeMillis();
             URL url;
