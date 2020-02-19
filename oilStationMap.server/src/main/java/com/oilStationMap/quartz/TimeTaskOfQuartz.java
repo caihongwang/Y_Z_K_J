@@ -96,7 +96,7 @@ public class TimeTaskOfQuartz {
                 URLConnection co =  url.openConnection();
                 co.setConnectTimeout(timeOutMillSeconds);
                 co.connect();
-                System.out.println("连接可用");
+                System.out.println("路由器的公网IP地址未发生变化，域名仍可继续使用.");
             } catch (Exception e1) {
                 logger.info("路由器的公网IP地址已经发生变化，即将微信模板消息进行通知.");
                 String publicIp = "";   //公网IP
