@@ -30,7 +30,7 @@ public class TimeTaskOfXxl {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TimeTaskOfXxl.class);
 
     //使用环境
-    @Value("${useEnvironmental}")
+    @Value("${spring.profiles.active}")
     private String useEnvironmental;
 
     @Autowired

@@ -54,7 +54,7 @@ public class TimeTaskOfQuartz {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TimeTaskOfQuartz.class);
 
     //使用环境
-    @Value("${useEnvironmental}")
+    @Value("${spring.profiles.active}")
     private String useEnvironmental;
 //
 //    @Autowired
@@ -84,8 +84,9 @@ public class TimeTaskOfQuartz {
     /**
      * 检测域名是否可以访问
      */
-    @Scheduled(cron = "0 */5 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void do_checkDomain() {
+        logger.info("每分钟-检测域名是否可以访问");
         if("prepub".equals(useEnvironmental)){
             Integer timeOutMillSeconds = 30000;     //超时时间30秒
             String urlString = "http://www.yzkj.store:3380/owncloud";
@@ -96,7 +97,8 @@ public class TimeTaskOfQuartz {
                 URLConnection co =  url.openConnection();
                 co.setConnectTimeout(timeOutMillSeconds);
                 co.connect();
-                System.out.println("连接可用");
+                logger.info("http://www.yzkj.store:3380/owncloud , 连接可用");
+                throw new Exception();
             } catch (Exception e1) {
                 logger.info("路由器的公网IP地址已经发生变化，即将微信模板消息进行通知.");
                 String publicIp = "";   //公网IP
