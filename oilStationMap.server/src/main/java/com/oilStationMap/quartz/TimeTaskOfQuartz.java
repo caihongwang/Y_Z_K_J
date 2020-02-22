@@ -98,7 +98,6 @@ public class TimeTaskOfQuartz {
                 co.setConnectTimeout(timeOutMillSeconds);
                 co.connect();
                 logger.info("http://www.yzkj.store:3380/owncloud , 连接可用");
-                throw new Exception();
             } catch (Exception e1) {
                 logger.info("路由器的公网IP地址已经发生变化，即将微信模板消息进行通知.");
                 String publicIp = "";   //公网IP
