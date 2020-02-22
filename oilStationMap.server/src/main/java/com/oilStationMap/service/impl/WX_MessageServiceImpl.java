@@ -1126,7 +1126,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
 
                             //异常原因
                             Map<String, Object> keyword1Map = Maps.newHashMap();
-                            keyword1Map.put("value", "Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配");
+                            keyword1Map.put("value", "电信宽带提供的公网IP是不固定的，平均每天变更一次.");
                             keyword1Map.put("color", "#0017F5");
                             dataMap.put("keyword1", keyword1Map);
 
