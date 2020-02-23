@@ -26,6 +26,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,60 +83,91 @@ public class TimeTaskOfQuartz {
 //    private WX_RedPacketHistoryService WXRedPacketHistoryService;
 //
     /**
+     * 每天早上07:00
      * 检测域名是否可以访问
      */
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 0 7 * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
     public void do_checkDomain() {
-        logger.info("每分钟-检测域名是否可以访问");
+        logger.info("每天早上07:00 , 获取公网IP...");
         if("prepub".equals(useEnvironmental)){
-            Integer timeOutMillSeconds = 30000;     //超时时间30秒
-            String urlString = "http://www.yzkj.store:3380/owncloud";
-            long lo = System.currentTimeMillis();
-            URL url;
-            try {
-                url = new URL(urlString);
-                URLConnection co =  url.openConnection();
-                co.setConnectTimeout(timeOutMillSeconds);
-                co.connect();
-                logger.info("http://www.yzkj.store:3380/owncloud , 连接可用");
-            } catch (Exception e1) {
-                logger.info("路由器的公网IP地址已经发生变化，即将微信模板消息进行通知.");
-                String publicIp = "";   //公网IP
-                InputStream ins = null;
-                try {
-                    url = new URL("http://2000019.ip138.com/");
-                    URLConnection con = url.openConnection();
-                    ins = con.getInputStream();
-                    InputStreamReader isReader = new InputStreamReader(ins, "GB2312");
-                    BufferedReader bReader = new BufferedReader(isReader);
-                    StringBuffer webContent = new StringBuffer();
-                    String str = null;
-                    while ((str = bReader.readLine()) != null) {
-                        webContent.append(str);
-                    }
-                    int start = webContent.indexOf("[") + 1;
-                    int end = webContent.indexOf("]");
-                    publicIp =  webContent.substring(start, end);
-                } catch (Exception e) {
-                    publicIp = "公网IP查询失败，teamview登陆查询";
-                    e.printStackTrace();
-                } finally {
-                    if (ins != null) {
-                        try {
-                            ins.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                    HttpsUtil httpsUtil = new HttpsUtil();
-                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                    exceptionDevicesParamMap.put("publicIp", publicIp);
-                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
-                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+            String publicIp = "公网IP获取失败";
+            try{
+                String url = "https://www.ip.cn";
+                Document ipDoc = null;
+                ipDoc = Jsoup.connect(url)
+                        .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+                        .timeout(15000).get();
+                String ipHtml = ipDoc.html();
+                String[] ipHtmlArr = ipHtml.split("您现在的 IP：<code>");
+                if(ipHtmlArr.length >= 2){
+                    String tempStr = ipHtmlArr[1];
+                    String[] tempStrArr = tempStr.split("</code></p><p>所在地理位置");
+                    publicIp = tempStrArr[0];
+                    logger.info("公网IP = " + publicIp);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+            HttpsUtil httpsUtil = new HttpsUtil();
+            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+            exceptionDevicesParamMap.put("publicIp", publicIp);
+            String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
+            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
         }
+
+
+
+//        if("prepub".equals(useEnvironmental)){
+//            Integer timeOutMillSeconds = 30000;     //超时时间30秒
+//            String urlString = "http://www.yzkj.store:3380/owncloud";
+//            long lo = System.currentTimeMillis();
+//            URL url;
+//            try {
+//                url = new URL(urlString);
+//                URLConnection co =  url.openConnection();
+//                co.setConnectTimeout(timeOutMillSeconds);
+//                co.connect();
+//                logger.info(urlString + " , 连接可用");
+//            } catch (Exception e2) {
+//                logger.info("路由器的公网IP地址已经发生变化，即将微信模板消息进行通知. e : ", e2);
+//                String publicIp = "";   //公网IP
+//                InputStream ins = null;
+//                try {
+//                    url = new URL("http://2000019.ip138.com/");
+//                    URLConnection con = url.openConnection();
+//                    ins = con.getInputStream();
+//                    InputStreamReader isReader = new InputStreamReader(ins, "GB2312");
+//                    BufferedReader bReader = new BufferedReader(isReader);
+//                    StringBuffer webContent = new StringBuffer();
+//                    String str = null;
+//                    while ((str = bReader.readLine()) != null) {
+//                        webContent.append(str);
+//                    }
+//                    int start = webContent.indexOf("[") + 1;
+//                    int end = webContent.indexOf("]");
+//                    publicIp =  webContent.substring(start, end);
+//                } catch (Exception e1) {
+//                    publicIp = "公网IP查询失败，teamview登陆查询";
+//                    e1.printStackTrace();
+//                } finally {
+//                    if (ins != null) {
+//                        try {
+//                            ins.close();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+//                    HttpsUtil httpsUtil = new HttpsUtil();
+//                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+//                    exceptionDevicesParamMap.put("publicIp", publicIp);
+//                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
+//                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+//                }
+//            }
+//        }
     }
 
     public static void main(String[] args) {
