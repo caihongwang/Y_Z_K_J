@@ -56,6 +56,13 @@ public interface WX_OilStationService {
     ResultDTO getOilStationList(Map<String, Object> paramMap);
 
     /**
+     * 获取加油站列表For管理中心
+     * @param paramMap
+     * @return
+     */
+    ResultDTO getOilStationListForAdmin(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询加油站信息
      */
     ResultDTO getSimpleOilStationByCondition(Map<String, Object> paramMap);

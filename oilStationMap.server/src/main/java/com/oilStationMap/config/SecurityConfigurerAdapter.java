@@ -47,6 +47,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "/wxPay/getPaymentPage",
                 //微信客服
                 "/wxCommon/receviceAndSendCustomMessage",
+                //获取加油站列表For管理中心
+                "/wxOilStation/getOilStationListForAdmin",
                 //更新油价资讯
                 "/wxOilStation/getOilPriceFromOilUsdCnyCom",
                 //更新油站信息

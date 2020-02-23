@@ -1453,6 +1453,35 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         return resultDTO;
     }
 
+
+    /**
+     * 获取加油站列表For管理中心
+     *
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getOilStationListForAdmin(Map<String, Object> paramMap) {
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, String> resultMap = Maps.newHashMap();
+        List<Map<String, String>> oilStationStrList = Lists.newArrayList();
+        List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
+        if (oilStationList != null && oilStationList.size() > 0) {
+            oilStationStrList = MapUtil.getStringMapList(oilStationList);
+            Integer total = wxOilStationDao.getSimpleOilStationTotalByCondition(paramMap);
+            resultDTO.setResultListTotal(total);
+            resultDTO.setResultList(oilStationStrList);
+            resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+            resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        } else {
+            resultDTO.setResultList(oilStationStrList);
+            resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
+        }
+        logger.info("在【Service】中获取加油站列表For管理中心-getOilStationListForAdmin,结果-result:" + resultDTO);
+        return resultDTO;
+    }
+
     /**
      * 通过excel的方式导入加油站数据
      */

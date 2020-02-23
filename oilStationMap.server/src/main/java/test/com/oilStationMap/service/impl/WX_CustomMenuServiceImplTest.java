@@ -27,7 +27,7 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
         //油价地图
 //        paramMap.put("appId", "wxf768b49ad0a4630c");
 //        paramMap.put("secret", "a481dd6bc40c9eec3e57293222e8246f");
-//        //智恵油站
+//        //
         paramMap.put("appId", "wx469a910e7e87b9d4");
         paramMap.put("secret", "327047cc315d0c5ab24e62d2efd958c0");
         this.createCustomMenu(paramMap);
@@ -64,7 +64,7 @@ public class WX_CustomMenuServiceImplTest extends MySuperTest {
                     "            \"type\":\"miniprogram\",\n" +
                     "            \"name\":\"加油红包\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx6c1c911d03a1251b\",\n" +     //智恵油站
+                    "            \"appid\":\"wx6c1c911d03a1251b\",\n" +     //
                     "            \"pagepath\":\"pages/other/activity/redActivity/index\"\n" +
                     "        },\n" +
                     "        {\n" +
