@@ -82,6 +82,9 @@
             <!--<if test="oilStationType == null or oilStationType == ''">-->
             <!--AND oos.oil_station_type <![CDATA[ <> ]]> "民营"-->
             <!--</if>-->
+            <if test="shareTitle != null and shareTitle != ''">
+                AND oos.share_title = #{shareTitle}
+            </if>
             <if test="oilStationCategory != null and oilStationCategory != ''">
                 AND oos.oil_station_category = #{oilStationCategory}
             </if>
