@@ -199,7 +199,7 @@
                 oos.is_manual_modify = #{isManualModify},
             </if>
             <if test="shareTitle != null and shareTitle != ''">
-                oos.share_title = #{shareTitle}
+                oos.share_title = #{shareTitle},
             </if>
             <if test="oilStationCategory != null and oilStationCategory != ''">
                 oos.oil_station_category = #{oilStationCategory},
