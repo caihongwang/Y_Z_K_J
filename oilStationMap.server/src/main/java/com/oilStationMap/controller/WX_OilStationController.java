@@ -174,39 +174,6 @@ public class WX_OilStationController {
         return resultMap;
     }
 
-
-
-    @RequestMapping("/getOilStationListForAdmin")
-    @ResponseBody
-    public Map<String, Object> getOilStationListForAdmin(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        //获取请求参数能够获取到并解析
-        paramMap = HttpUtil.getRequestParams(request);
-
-        Integer start = paramMap.get("start")!=null?Integer.parseInt(paramMap.get("start")):0;
-        Integer size = paramMap.get("size")!=null?Integer.parseInt(paramMap.get("size")):10;
-        paramMap.put("start", start.toString());
-        paramMap.put("size", size.toString());
-
-        logger.info("在controller中获取加油站列表For管理中心-getOilStationListForAdmin,请求-paramMap:" + paramMap);
-        try {
-            ResultDTO resultDTO = wxOilStationHandler.getOilStationListForAdmin(paramMap);
-            resultMap.put("recordsTotal", resultDTO.getResultListTotal());      // 总记录数
-            resultMap.put("recordsFiltered", resultDTO.getResultList().size()); // 过滤后的总记录数
-            resultMap.put("data", resultDTO.getResultList());                   // 分页列表
-            resultMap.put("code", resultDTO.getCode());
-            resultMap.put("message", resultDTO.getMessage());
-        } catch (Exception e) {
-            logger.error("在controller中获取加油站列表For管理中心-getOilStationListForAdmin is error, paramMap : " + paramMap + ", e : " + e);
-            resultMap.put("success", false);
-            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
-            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
-        }
-        logger.info("在controller中获取加油站列表For管理中心-getOilStationListForAdmin,响应-response:" + resultMap);
-        return resultMap;
-    }
-
     @RequestMapping("/getOilStationByLonLat")
     @ResponseBody
     public Map<String, Object> getOilStationByLonLat(HttpServletRequest request) {
@@ -255,4 +222,57 @@ public class WX_OilStationController {
         return resultMap;
     }
 
+    @RequestMapping("/getOilStationListForAdmin")
+    @ResponseBody
+    public Map<String, Object> getOilStationListForAdmin(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+
+        Integer start = paramMap.get("start")!=null?Integer.parseInt(paramMap.get("start")):0;
+        Integer size = paramMap.get("size")!=null?Integer.parseInt(paramMap.get("size")):10;
+        paramMap.put("start", start.toString());
+        paramMap.put("size", size.toString());
+
+        logger.info("在controller中获取加油站列表For管理中心-getOilStationListForAdmin,请求-paramMap:" + paramMap);
+        try {
+            ResultDTO resultDTO = wxOilStationHandler.getOilStationListForAdmin(paramMap);
+            resultMap.put("recordsTotal", resultDTO.getResultListTotal());      // 总记录数
+            resultMap.put("recordsFiltered", resultDTO.getResultList().size()); // 过滤后的总记录数
+            resultMap.put("data", resultDTO.getResultList());                   // 分页列表
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中获取加油站列表For管理中心-getOilStationListForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中获取加油站列表For管理中心-getOilStationListForAdmin,响应-response:" + resultMap);
+        return resultMap;
+    }
+
+    @RequestMapping("/updateOilStationForAdmin")
+    @ResponseBody
+    public Map<String, Object> updateOilStationForAdmin(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】更新加油站For管理中心-updateOilStationForAdmin,请求-paramMap:" + paramMap);
+        try {
+            BoolDTO boolDTO = wxOilStationHandler.updateOilStationForAdmin(paramMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】更新加油站For管理中心-updateOilStationForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】更新加油站For管理中心-updateOilStationForAdmin,响应-response:" + resultMap);
+        return resultMap;
+    }
 }

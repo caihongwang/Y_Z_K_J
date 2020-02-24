@@ -1453,35 +1453,6 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         return resultDTO;
     }
 
-
-    /**
-     * 获取加油站列表For管理中心
-     *
-     * @param paramMap
-     * @return
-     */
-    @Override
-    public ResultDTO getOilStationListForAdmin(Map<String, Object> paramMap) {
-        ResultDTO resultDTO = new ResultDTO();
-        Map<String, String> resultMap = Maps.newHashMap();
-        List<Map<String, String>> oilStationStrList = Lists.newArrayList();
-        List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
-        if (oilStationList != null && oilStationList.size() > 0) {
-            oilStationStrList = MapUtil.getStringMapList(oilStationList);
-            Integer total = wxOilStationDao.getSimpleOilStationTotalByCondition(paramMap);
-            resultDTO.setResultListTotal(total);
-            resultDTO.setResultList(oilStationStrList);
-            resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-            resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        } else {
-            resultDTO.setResultList(oilStationStrList);
-            resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
-            resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
-        }
-        logger.info("在【Service】中获取加油站列表For管理中心-getOilStationListForAdmin,结果-result:" + resultDTO);
-        return resultDTO;
-    }
-
     /**
      * 通过excel的方式导入加油站数据
      */
@@ -1659,6 +1630,70 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
         }
         return oilStationHireInfoUrl;
     }
+
+
+
+
+    /**
+     * 获取加油站列表For管理中心
+     *
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getOilStationListForAdmin(Map<String, Object> paramMap) {
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, String> resultMap = Maps.newHashMap();
+        List<Map<String, String>> oilStationStrList = Lists.newArrayList();
+        List<Map<String, Object>> oilStationList = wxOilStationDao.getSimpleOilStationByCondition(paramMap);
+        if (oilStationList != null && oilStationList.size() > 0) {
+            oilStationStrList = MapUtil.getStringMapList(oilStationList);
+            Integer total = wxOilStationDao.getSimpleOilStationTotalByCondition(paramMap);
+            resultDTO.setResultListTotal(total);
+            resultDTO.setResultList(oilStationStrList);
+            resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+            resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        } else {
+            resultDTO.setResultList(oilStationStrList);
+            resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
+        }
+        logger.info("在【Service】中获取加油站列表For管理中心-getOilStationListForAdmin,结果-result:" + resultDTO);
+        return resultDTO;
+    }
+
+    /**
+     * 更新加油站For管理中心
+     *
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public BoolDTO updateOilStationForAdmin(Map<String, Object> paramMap) {
+        Integer updateNum = 0;
+        BoolDTO boolDTO = new BoolDTO();
+        String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
+        String oilStationCode = paramMap.get("oilStationCode") != null ? paramMap.get("oilStationCode").toString() : "";
+        if (!"".equals(id) || !"".equals(oilStationCode)) {
+            updateNum = wxOilStationDao.updateOilStation(paramMap);
+            if (updateNum != null && updateNum > 0) {
+
+                boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+                boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+            } else {
+
+                boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
+            }
+        } else {
+
+            boolDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】更新加油站For管理中心-updateOilStationForAdmin,结果-result:" + boolDTO);
+        return boolDTO;
+    }
+
 }
 
 

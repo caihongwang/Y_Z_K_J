@@ -161,30 +161,6 @@ public class WX_OilStationHandler {
     }
 
 
-    public ResultDTO getOilStationListForAdmin(Map<String, String> paramMap) {
-        logger.info("在【Handle】中获取加油站列表For管理中心-getOilStationListForAdmin,请求-paramMap:" + paramMap);
-        ResultDTO resultDTO = new ResultDTO();
-        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
-        if (paramMap.size() > 0) {
-            try {
-                resultDTO = wxOilStationService.getOilStationListForAdmin(objectParamMap);
-            } catch (Exception e) {
-                List<Map<String, String>> resultList = Lists.newArrayList();
-                resultDTO.setResultListTotal(0);
-                resultDTO.setResultList(resultList);
-                resultDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
-                logger.error("在【Handle】中获取加油站列表For管理中心-getOilStationListForAdmin is error, paramMap : " + paramMap + ", e : " + e);
-            }
-        } else {
-            resultDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
-        }
-        logger.info("在【Handle】中获取加油站列表For管理中心-getOilStationListForAdmin,响应-response:" + resultDTO);
-        return resultDTO;
-    }
-
-
     public ResultMapDTO getOneOilStationByCondition(Map<String, String> paramMap) {
         logger.info("在hanlder中获取单一加油站信息-getSimpleOilStationByCondition,请求-paramMap:" + paramMap);
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -232,5 +208,48 @@ public class WX_OilStationHandler {
         }
         logger.info("在hanlder中根据经纬度地址获取所处的加油站-getOilStationByLonLat,响应-response:" + resultDTO);
         return resultDTO;
+    }
+
+    public ResultDTO getOilStationListForAdmin(Map<String, String> paramMap) {
+        logger.info("在【Handle】中获取加油站列表For管理中心-getOilStationListForAdmin,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxOilStationService.getOilStationListForAdmin(objectParamMap);
+            } catch (Exception e) {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                logger.error("在【Handle】中获取加油站列表For管理中心-getOilStationListForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            }
+        } else {
+            resultDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【Handle】中获取加油站列表For管理中心-getOilStationListForAdmin,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
+    public BoolDTO updateOilStationForAdmin(Map<String, String> paramMap) {
+        logger.info("在【hanlder】更新加油站For管理中心-updateOilStationForAdmin,请求-paramMap:" + paramMap);
+        BoolDTO boolDTO = new BoolDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                boolDTO = wxOilStationService.updateOilStationForAdmin(objectParamMap);
+            } catch (Exception e) {
+                boolDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                boolDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                logger.error("在【hanlder】更新加油站For管理中心-updateOilStationForAdmin is addOilStation, paramMap : " + paramMap + ", e : " + e);
+            }
+        } else {
+            boolDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+            boolDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】更新加油站For管理中心-updateOilStationForAdmin,响应-response:" + boolDTO);
+        return boolDTO;
     }
 }
