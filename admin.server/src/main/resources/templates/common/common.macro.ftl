@@ -141,7 +141,8 @@
                     <li class="nav-click <#if pageName == "jobgroup">active</#if>" ><a href="${request.contextPath}/jobgroup"><i class="fa fa-circle-o text-red"></i><span>${I18n.jobgroup_name}</span></a></li>
                     <li class="nav-click <#if pageName == "user">active</#if>" ><a href="${request.contextPath}/user"><i class="fa fa-circle-o text-purple"></i><span>${I18n.user_manage}</span></a></li>
 				</#if>
-				<li class="nav-click <#if pageName == "oilStationInfo">active</#if>" ><a href="${request.contextPath}/oilStationInfo"><i class="fa fa-circle-o text-gray"></i><span>${I18n.oilStationInfo}</span></a></li>
+				<li class="nav-click <#if pageName == "dicInfo">active</#if>" ><a href="${request.contextPath}/dicInfo"><i class="fa fa-circle-o text-info"></i><span>${I18n.dicInfo}</span></a></li>
+				<li class="nav-click <#if pageName == "oilStationInfo">active</#if>" ><a href="${request.contextPath}/oilStationInfo"><i class="fa fa-circle-o text-danger"></i><span>${I18n.oilStationInfo}</span></a></li>
 				<!-- <li class="nav-click <#if pageName == "help">active</#if>" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-gray"></i><span>${I18n.job_help}</span></a></li> -->
 			</ul>
 		</section>
