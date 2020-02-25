@@ -20,6 +20,7 @@
         od.dic_code as "dicCode",
         od.dic_name as "dicName",
         od.dic_remark as "dicRemark",
+        od.dic_status as "dicStatus",
         date_format(od.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
         date_format(od.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
     </sql>
@@ -33,7 +34,7 @@
                 AND od.dic_type = #{dicType}
             </if>
             <if test="dicCode != null and dicCode != ''">
-                AND od.dic_code = #{dicCode}
+                AND od.dic_code like concat('%',#{dicCode},'%')
             </if>
             <if test="dicName != null and dicName != ''">
                 AND od.dic_name like concat('%',#{dicName},'%')
@@ -61,7 +62,7 @@
     </insert>
 
     <delete id="deleteDic">
-        DELETE FROM o_dic WHERE 1=1
+        update o_dic set dic_status=1 where 1=1
         <if test="id != null and id != ''">
             AND id = #{id}
         </if>
@@ -71,6 +72,16 @@
         <if test="dicCode != null and dicCode != ''">
             AND dic_code = #{dicCode}
         </if>
+<!--        DELETE FROM o_dic WHERE 1=1-->
+<!--        <if test="id != null and id != ''">-->
+<!--            AND id = #{id}-->
+<!--        </if>-->
+<!--        <if test="dicType != null and dicType != ''">-->
+<!--            AND dic_type = #{dicType}-->
+<!--        </if>-->
+<!--        <if test="dicCode != null and dicCode != ''">-->
+<!--            AND dic_code = #{dicCode}-->
+<!--        </if>-->
     </delete>
 
     <update id="updateDic">
@@ -101,7 +112,7 @@
         <include refid="TColumnList"/>
         FROM o_dic od
         <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>
