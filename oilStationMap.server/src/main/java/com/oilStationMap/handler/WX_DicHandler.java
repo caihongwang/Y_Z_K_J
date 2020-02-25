@@ -131,4 +131,27 @@ public class WX_DicHandler {
         return resultMapDTO;
     }
 
+    public ResultDTO getDicListByConditionForAdmin(Map<String, String> paramMap) {
+        logger.info("在【hanlder】获取单一的字典列表For管理中心-getDicListByConditionForAdmin,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxDicService.getDicListByConditionForAdmin(objectParamMap);
+            } catch (Exception e) {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                logger.error("在【hanlder】获取单一的字典列表For管理中心-getDicListByConditionForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            }
+        } else {
+            resultDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】获取单一的字典列表For管理中心-getDicListByConditionForAdmin,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
 }

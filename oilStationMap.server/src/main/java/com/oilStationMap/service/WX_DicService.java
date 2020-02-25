@@ -9,6 +9,11 @@ import java.util.Map;
 public interface WX_DicService {
 
     /**
+     * 获取单一的字典列表For管理中心
+     */
+    ResultDTO getDicListByConditionForAdmin(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询字典信息
      */
     ResultDTO getSimpleDicByCondition(Map<String, Object> paramMap);

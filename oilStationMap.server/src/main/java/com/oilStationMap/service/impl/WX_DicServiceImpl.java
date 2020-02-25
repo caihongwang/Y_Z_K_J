@@ -45,15 +45,14 @@ public class WX_DicServiceImpl implements WX_DicService {
         if (!"".equals(dicType) && !"".equals(dicCode) && !"".equals(dicName)) {
             Map<String, Object> paramMap_temp = Maps.newHashMap();
             paramMap_temp.put("dicCode", dicCode);
+            paramMap_temp.put("dicStatus", "0");
             Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap_temp);
             if (total != null && total <= 0) {
                 addNum = wxDicDao.addDic(paramMap);
                 if (addNum != null && addNum > 0) {
-
                     boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
                     boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
                 } else {
-
                     boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
                     boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                 }
@@ -178,7 +177,6 @@ public class WX_DicServiceImpl implements WX_DicService {
         return resultDTO;
     }
 
-
     /**
      * 获取单一的字典信息
      *
@@ -273,6 +271,44 @@ public class WX_DicServiceImpl implements WX_DicService {
         }
         logger.info("在service中获取多个的字典-getMoreDicByCondition,结果-result:" + resultMapDTO);
         return resultMapDTO;
+    }
+
+
+    /**
+     * 获取单一的字典列表For管理中心
+     *
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getDicListByConditionForAdmin(Map<String, Object> paramMap) {
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> dicStrList = Lists.newArrayList();
+        List<Map<String, Object>> dicList = wxDicDao.getSimpleDicByCondition(paramMap);
+        if (dicList != null && dicList.size() > 0) {
+//            for (Map<String, Object> dicMap : dicList) {
+//                String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
+//                if (!"".equals(dicRemark)) {
+//                    Map<String, Object> dicRemarkMap = JSONObject.parseObject(dicRemark, Map.class);
+//                    dicMap.remove("dicRemark");
+//                    dicMap.putAll(dicRemarkMap);
+//                }
+//            }
+            dicStrList = MapUtil.getStringMapList(dicList);
+            Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
+            resultDTO.setResultListTotal(total);
+            resultDTO.setResultList(dicStrList);
+            resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+            resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        } else {
+            List<Map<String, String>> resultList = Lists.newArrayList();
+            resultDTO.setResultListTotal(0);
+            resultDTO.setResultList(resultList);
+            resultDTO.setCode(OilStationMapCode.DIC_LIST_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.DIC_LIST_IS_NULL.getMessage());
+        }
+        logger.info("【service】获取单一的字典列表For管理中心-getDicListByConditionForAdmin,结果-result:" + resultDTO);
+        return resultDTO;
     }
 
 }
