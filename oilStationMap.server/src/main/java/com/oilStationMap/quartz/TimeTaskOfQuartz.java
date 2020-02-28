@@ -86,8 +86,7 @@ public class TimeTaskOfQuartz {
      * 每天早上07:00
      * 检测域名是否可以访问
      */
-    @Scheduled(cron = "0 0 7 * * ?")
-//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 0 */4 * * ?")
     public void do_checkDomain() {
         logger.info("每天早上07:00 , 获取公网IP...");
         if("prepub".equals(useEnvironmental)){
