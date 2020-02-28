@@ -292,7 +292,18 @@ public class RealMachineDevices implements SendFriendCircle {
         } else if (action.equals("imgMessageFriendCircle")) {        //图片信息朋友圈
             //5.1.将图片保存到【手机本地的微信图片路径】
             if (imgList != null && imgList.size() > 0) {
-                for (String imgPath : imgList) {
+                for (int i = 0; i < imgList.size(); i++) {
+                    String imgPath = imgList.get(i);
+//                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+//                    String imgName = i + imgPath.substring(imgPath.lastIndexOf("."));  //1.jpeg
+//                    String imgFilePath = tempDirPath + "/" + imgName;
+//                    File imgFile = FileUtil.saveUrlAs(imgPath, imgFilePath, "GET");
+//                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFilePath + " " + phoneLocalPath;
+//                    CommandUtil.run(pushCommandStr);
+//                    Thread.sleep(1000);
+//                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d " + phoneLocalPath + imgName;
+//                    CommandUtil.run(refreshCommandStr);
+                    //2.使用appium的AndroidDriver传输文件到手机，流程java--->>>appium-->>>adb---->>>手机，无法完全确保成功
                     try {
                         //从Url获取
                         URL imgUrl = new URL(imgPath);
@@ -369,23 +380,6 @@ public class RealMachineDevices implements SendFriendCircle {
                 throw new Exception("长按坐标【从相册选择】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
             //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
-//            for (int i = 1; i <= imageNum; i++) {
-//                try {
-////                    WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(photoBtnPreLocation + i + photoBtnSufLocation), 10);
-////                    webElement.click();
-//                    driver.findElementByXPath( photoBtnPreLocation + i + photoBtnSufLocation).click();
-//                    sw.split();
-//                    logger.info("点击坐标选择第"+i+"张图片，总共花费 " + sw.toSplitString() + " 秒....");
-//                    Thread.sleep(1000);
-//                } catch (Exception e) {
-//                    if(imageNum <= 15){
-//                        imageNum++;
-//                    } else {
-//                        break;
-//                    }
-//                    continue;
-//                }
-//            }
             try {
 //                WebElement allPhotoElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(allPhotoLocaltion), 10);
                 WebElement allPhotoElement = driver.findElementById(allPhotoLocaltion);

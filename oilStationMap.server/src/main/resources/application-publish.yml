@@ -18,9 +18,19 @@ spring:
   application:
     name: oilStationMap
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://112.74.177.170:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: caihongwang
     password: hejinrong@520
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 60000
+      pool-name: HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
   jackson:
     date-format: yyyy-MM-dd
     time-zone: GMT+8
