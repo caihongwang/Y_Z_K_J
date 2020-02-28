@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.EmojiUtil;
+import com.oilStationMap.utils.FileUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Encoder;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -295,6 +297,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 for (int i = 0; i < imgList.size(); i++) {
                     String imgPath = imgList.get(i);
 //                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+//                    String tempDirPath = "/opt/resourceOfOilStationMap/webapp/wxImg";
 //                    String imgName = i + imgPath.substring(imgPath.lastIndexOf("."));  //1.jpeg
 //                    String imgFilePath = tempDirPath + "/" + imgName;
 //                    File imgFile = FileUtil.saveUrlAs(imgPath, imgFilePath, "GET");
@@ -510,8 +513,8 @@ public class RealMachineDevices implements SendFriendCircle {
             StopWatch sw = new StopWatch();
             sw.start();
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("deviceName", "APU0216117000376");
-            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 3");
+            paramMap.put("deviceName", "5LM0216122009385");
+            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
             paramMap.put("action", "imgMessageFriendCircle");
             new RealMachineDevices().sendFriendCircle(paramMap, sw);
             Thread.sleep(5000);
