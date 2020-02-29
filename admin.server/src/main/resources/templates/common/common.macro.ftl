@@ -143,7 +143,9 @@
 				</#if>
 				<li class="nav-click <#if pageName == "dicInfo">active</#if>" ><a href="${request.contextPath}/dicInfo"><i class="fa fa-circle-o text-info"></i><span>${I18n.dicInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "oilStationInfo">active</#if>" ><a href="${request.contextPath}/oilStationInfo"><i class="fa fa-circle-o text-danger"></i><span>${I18n.oilStationInfo}</span></a></li>
-				<!-- <li class="nav-click <#if pageName == "help">active</#if>" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-gray"></i><span>${I18n.job_help}</span></a></li> -->
+				<li class="nav-click <#if pageName == "webDiskInfo">active</#if>" ><a href="${request.contextPath}/webDiskInfo"><i class="fa fa-circle-o text-blue"></i><span>${I18n.webDiskInfo}</span></a></li>
+				<li class="nav-click <#if pageName == "databaseInfo">active</#if>" ><a href="${request.contextPath}/databaseInfo"><i class="fa fa-circle-o text-justify"></i><span>${I18n.databaseInfo}</span></a></li>
+				<li class="nav-click <#if pageName == "help">active</#if>" ><a href="${request.contextPath}/help"><i class="fa fa-circle-o text-gray"></i><span>${I18n.job_help}</span></a></li>
 			</ul>
 		</section>
 		<!-- /.sidebar -->

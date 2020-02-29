@@ -82,6 +82,16 @@ public class IndexController {
         return "help";
     }
 
+    @RequestMapping("/webDiskInfo")
+    public String webDiskInfo() {
+        return "webDiskInfo/webDiskInfo.index";
+    }
+
+    @RequestMapping("/databaseInfo")
+    public String databaseInfo() {
+        return "databaseInfo/databaseInfo.index";
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
