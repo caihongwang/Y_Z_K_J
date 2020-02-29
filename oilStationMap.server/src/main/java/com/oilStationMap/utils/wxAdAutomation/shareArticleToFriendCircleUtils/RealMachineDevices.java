@@ -161,7 +161,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             desiredCapabilities.setCapability("noReset", true);                                         //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);                                 //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");                        //UI定位器2
-            desiredCapabilities.setCapability("newCommandTimeout", 15);                                 //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("newCommandTimeout", 20);                                 //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
             desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
@@ -277,26 +277,26 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【点击微信文章链接】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-//        //8.向上滑动微信文章
-//        for(int i = 0; i <= 3; i++){
-//            SwipeUtil.SwipeDown(driver);
-//            sw.split();
-//            logger.info("向上滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-//            int max = 2000;
-//            int min = 1000;
-//            int sleppTime = (int)(min + Math.random() * (max - min + 1));
-//            Thread.sleep(sleppTime);
-//        }
-//        //9.向上滑动微信文章
-//        for(int i = 0; i <= 1; i++){
-//            SwipeUtil.SwipeUp(driver);
-//            sw.split();
-//            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-//            int max = 2000;
-//            int min = 1000;
-//            int sleppTime = (int)(min + Math.random() * (max - min + 1));
-//            Thread.sleep(sleppTime);
-//        }
+        //8.向上滑动微信文章
+        for(int i = 0; i < 3; i++){
+            SwipeUtil.SwipeDown(driver);
+            sw.split();
+            logger.info("向上滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            int max = 2000;
+            int min = 1000;
+            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+            Thread.sleep(sleppTime);
+        }
+        //9.向上滑动微信文章
+        for(int i = 0; i < 3; i++){
+            SwipeUtil.SwipeUp(driver);
+            sw.split();
+            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            int max = 2000;
+            int min = 1000;
+            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+            Thread.sleep(sleppTime);
+        }
         //9.点击坐标【右上角的横三点】
         try {
             Integer rightThreePointLocaltion_x1 = rightThreePointLocaltion.get("rightThreePointLocaltion_x1")!=null?rightThreePointLocaltion.get("rightThreePointLocaltion_x1"):929;
@@ -318,10 +318,10 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //10.点击坐标【分享朋友圈】
         try {
-            Integer shareFriendCircleLocaltion_x1 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x1")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x1"):215;
-            Integer shareFriendCircleLocaltion_y1 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y1")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y1"):981;
-            Integer shareFriendCircleLocaltion_x2 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x2")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x2"):366;
-            Integer shareFriendCircleLocaltion_y2 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y2")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y2"):1132;
+            Integer shareFriendCircleLocaltion_x1 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x1")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x1"):950;
+            Integer shareFriendCircleLocaltion_y1 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y1")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y1"):100;
+            Integer shareFriendCircleLocaltion_x2 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x2")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_x2"):1050;
+            Integer shareFriendCircleLocaltion_y2 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y2")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y2"):200;
             Integer shareFriendCircleLocaltion_x = (int)(Math.random()*(shareFriendCircleLocaltion_x2 - shareFriendCircleLocaltion_x1) + shareFriendCircleLocaltion_x1);
             Integer shareFriendCircleLocaltion_y = (int)(Math.random()*(shareFriendCircleLocaltion_y2 - shareFriendCircleLocaltion_y1) + shareFriendCircleLocaltion_y1);
             Duration duration = Duration.ofMillis(500);
@@ -347,7 +347,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             sw.split();
             e.printStackTrace();
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-            throw new Exception("长按坐标【输入分享文本内容】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+            throw new Exception("点击坐标【输入分享文本内容】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
         //12.点击坐标【发表】
         try {
