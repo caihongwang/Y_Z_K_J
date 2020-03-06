@@ -78,7 +78,7 @@ public class SpiderForMeiTuanUtil {
                         //爬取网页
                         Document meiShiMeiTuanPageDoc = null;
                         Random rand = new Random();
-                        Integer requestTime = rand.nextInt(6) + 3;
+                        Integer requestTime = rand.nextInt(6) + 24;
                         requestTime = requestTime * 1000;
                         if(!"".equals(ip) && port != 0){
                             meiShiMeiTuanPageDoc = Jsoup.connect(meiShi58PageUrl)

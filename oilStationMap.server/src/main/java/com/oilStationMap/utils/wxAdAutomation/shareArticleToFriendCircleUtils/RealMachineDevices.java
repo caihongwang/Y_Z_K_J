@@ -167,7 +167,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
-            desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
+            desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
             URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             sw.split();
@@ -324,8 +324,8 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
             Integer shareFriendCircleLocaltion_y2 = shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y2")!=null?shareFriendCircleLocaltion.get("shareFriendCircleLocaltion_y2"):200;
             Integer shareFriendCircleLocaltion_x = (int)(Math.random()*(shareFriendCircleLocaltion_x2 - shareFriendCircleLocaltion_x1) + shareFriendCircleLocaltion_x1);
             Integer shareFriendCircleLocaltion_y = (int)(Math.random()*(shareFriendCircleLocaltion_y2 - shareFriendCircleLocaltion_y1) + shareFriendCircleLocaltion_y1);
-            Duration duration = Duration.ofMillis(500);
-            new TouchAction(driver).press(shareFriendCircleLocaltion_x, shareFriendCircleLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
+            Duration duration = Duration.ofMillis(100);
+            new TouchAction(driver).tap(shareFriendCircleLocaltion_x, shareFriendCircleLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
             sw.split();
             logger.info("点击坐标【分享朋友圈】,x = " + shareFriendCircleLocaltion_x + " , y = " + shareFriendCircleLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);

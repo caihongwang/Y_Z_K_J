@@ -28,8 +28,8 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap) {
-        SpiderFor58Util.getContactFrom58ErShouFang();
         SpiderForMeiTuanUtil.getContactFromMeiTuanMeiShi();
+        SpiderFor58Util.getContactFrom58ErShouFang();
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
