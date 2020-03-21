@@ -141,6 +141,7 @@
                     <li class="nav-click <#if pageName == "jobgroup">active</#if>" ><a href="${request.contextPath}/jobgroup"><i class="fa fa-circle-o text-red"></i><span>${I18n.jobgroup_name}</span></a></li>
                     <li class="nav-click <#if pageName == "user">active</#if>" ><a href="${request.contextPath}/user"><i class="fa fa-circle-o text-purple"></i><span>${I18n.user_manage}</span></a></li>
 				</#if>
+				<li class="nav-click <#if pageName == "stfControlInfo">active</#if>" ><a href="${request.contextPath}/stfControlInfo"><i class="fa fa-circle-o text-yellow"></i><span>${I18n.stfControlInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "dicInfo">active</#if>" ><a href="${request.contextPath}/dicInfo"><i class="fa fa-circle-o text-info"></i><span>${I18n.dicInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "oilStationInfo">active</#if>" ><a href="${request.contextPath}/oilStationInfo"><i class="fa fa-circle-o text-danger"></i><span>${I18n.oilStationInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "webDiskInfo">active</#if>" ><a href="${request.contextPath}/webDiskInfo"><i class="fa fa-circle-o text-blue"></i><span>${I18n.webDiskInfo}</span></a></li>

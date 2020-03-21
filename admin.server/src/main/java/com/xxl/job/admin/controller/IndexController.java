@@ -92,6 +92,11 @@ public class IndexController {
         return "databaseInfo/databaseInfo.index";
     }
 
+    @RequestMapping("/stfControlInfo")
+    public String stfControlInfo() {
+        return "stfControlInfo/stfControlInfo.index";
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
