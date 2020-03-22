@@ -18,7 +18,7 @@
 		<section class="content">
 			<div class="callout callout-info">
 				<p>
-					点击 <a target="_blank" href="http://192.18.43.110:7100/">STF-云控</a> 管理 （注：请在工作室内局域网打开）
+					点击 <a target="_blank" href="http://192.168.43.110:7100/">我的云控</a> 管理 （注：请在工作室内局域网打开）
 				</p>
 			</div>
 		</section>
