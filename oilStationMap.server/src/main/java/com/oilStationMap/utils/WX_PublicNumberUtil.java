@@ -681,7 +681,7 @@ public class WX_PublicNumberUtil {
         Map<String, Object> resultMap = Maps.newHashMap();
         String totalCountStr = "0";
         List<Map<String, Object>> resultMapList = Lists.newArrayList();
-        Map<String, Object> accessTokenMap = getAccessToken();
+        Map<String, Object> accessTokenMap = getAccessToken();      //@TODO 根据用户的uid-->>小程序原始ID--->>归属公众号的ID--->>获取accessToken
         if (accessTokenMap != null && accessTokenMap.size() > 0) {
             String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
             String batchgetMaterialUrl = batchget_material_url + accessToken;

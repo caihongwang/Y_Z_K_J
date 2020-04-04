@@ -156,14 +156,22 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("phoneLocalPath") != null ?
                         paramMap.get("phoneLocalPath").toString() :
                         "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
+        //1.使用adb传输文件到手机
         String imgListStr =
                 paramMap.get("imgList") != null ?
                         paramMap.get("imgList").toString() :
                         "[\n" +
-                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=171575470401_.pic_hd.jpg\",\n" +
-                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=181575470402_.pic_hd.jpg\",\n" +
-                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=191575470403_.pic_hd.jpg\"\n" +
+                                "        \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/今日油价/今日油价_2020_04_04.jpeg\",\n" +
                                 "    ]";
+        //2.使用appium的AndroidDriver传输文件到手机
+//        String imgListStr =
+//                paramMap.get("imgList") != null ?
+//                        paramMap.get("imgList").toString() :
+//                        "[\n" +
+//                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=171575470401_.pic_hd.jpg\",\n" +
+//                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=181575470402_.pic_hd.jpg\",\n" +
+//                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=191575470403_.pic_hd.jpg\"\n" +
+//                                "    ]";
         List<String> imgList = Lists.newArrayList();
         Integer imageNum = 0;
         if (!"".equals(imgListStr)) {
@@ -296,50 +304,52 @@ public class RealMachineDevices implements SendFriendCircle {
             if (imgList != null && imgList.size() > 0) {
                 for (int i = 0; i < imgList.size(); i++) {
                     String imgPath = imgList.get(i);
-//                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
 //                    String tempDirPath = "/opt/resourceOfOilStationMap/webapp/wxImg";
 //                    String imgName = i + imgPath.substring(imgPath.lastIndexOf("."));  //1.jpeg
 //                    String imgFilePath = tempDirPath + "/" + imgName;
-//                    File imgFile = FileUtil.saveUrlAs(imgPath, imgFilePath, "GET");
-//                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFilePath + " " + phoneLocalPath;
-//                    CommandUtil.run(pushCommandStr);
-//                    Thread.sleep(1000);
-//                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d " + phoneLocalPath + imgName;
-//                    CommandUtil.run(refreshCommandStr);
-                    //2.使用appium的AndroidDriver传输文件到手机，流程java--->>>appium-->>>adb---->>>手机，无法完全确保成功
-                    try {
-                        //从Url获取
-                        URL imgUrl = new URL(imgPath);
-                        URLConnection con = imgUrl.openConnection();
-                        con.setConnectTimeout(10000);
-                        InputStream imgInputStream = con.getInputStream();
-                        ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[1024];
-                        int len = 0;
-                        while ((len = imgInputStream.read(buffer)) != -1) {
-                            imgOutStream.write(buffer, 0, len);
-                        }
-                        byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
-                        imgInputStream.close();
-                        imgOutStream.close();
-                        Date currentDate = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                        String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
-                        driver.pushFile(imgName, imgData);
-                        sw.split();
-                        logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-                        sw.split();
-                        logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-                        continue;
-                    }
+                    File imgFile = new File(imgPath);
+                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgPath + " " + phoneLocalPath;
+                    CommandUtil.run(pushCommandStr);
+                    Thread.sleep(1000);
+                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                    CommandUtil.run(refreshCommandStr);
+//                    //2.使用appium的AndroidDriver传输文件到手机，流程java--->>>appium-->>>adb---->>>手机，无法完全确保成功
+//                    try {
+//                        //从Url获取
+//                        URL imgUrl = new URL(imgPath);
+//                        URLConnection con = imgUrl.openConnection();
+//                        con.setConnectTimeout(10000);
+//                        InputStream imgInputStream = con.getInputStream();
+//                        ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
+//                        byte[] buffer = new byte[1024];
+//                        int len = 0;
+//                        while ((len = imgInputStream.read(buffer)) != -1) {
+//                            imgOutStream.write(buffer, 0, len);
+//                        }
+//                        byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
+//                        imgInputStream.close();
+//                        imgOutStream.close();
+//                        Date currentDate = new Date();
+//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+//                        String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
+//                        driver.pushFile(imgName, imgData);
+//                        sw.split();
+//                        logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
+//                        Thread.sleep(1000);
+//                    } catch (Exception e) {
+//                        sw.split();
+//                        logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
+//                        continue;
+//                    }
                 }
             }
             sw.split();
             logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡5秒，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(5000);
             if(index == 0){             //重启设备确保图片流在真机上完全变成文件
+                sw.split();
+                logger.info("将图片保存到【手机本地的微信图片路径】成功，第"+(index+1)+"次主动重启，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             }
             sw.split();
@@ -516,6 +526,7 @@ public class RealMachineDevices implements SendFriendCircle {
             paramMap.put("deviceName", "5LM0216122009385");
             paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
             paramMap.put("action", "imgMessageFriendCircle");
+            paramMap.put("index", 1);
             new RealMachineDevices().sendFriendCircle(paramMap, sw);
             Thread.sleep(5000);
         } catch (Exception e) {
