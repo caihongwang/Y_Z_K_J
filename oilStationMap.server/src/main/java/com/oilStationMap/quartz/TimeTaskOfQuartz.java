@@ -95,8 +95,7 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈
      */
-//    @Scheduled(cron = "0 1 */1 * * ?")
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 1 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle() {
         new Thread() {
             public void run() {
