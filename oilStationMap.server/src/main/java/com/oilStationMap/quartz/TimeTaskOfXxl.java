@@ -34,6 +34,9 @@ public class TimeTaskOfXxl {
     private String useEnvironmental;
 
     @Autowired
+    private WX_SpiderService wxSpiderService;
+
+    @Autowired
     private WX_MessageService wxMessageService;
 
     @Autowired
@@ -61,6 +64,46 @@ public class TimeTaskOfXxl {
     public ReturnT<String> do_Test(String param) throws Exception {
         logger.info("XXL-JOB, Test Hello World. num = " + this.num);
         this.num++;
+        return ReturnT.SUCCESS;
+    }
+
+    /**
+     * 发布朋友圈
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    @XxlJob("do_SendFriendCircle")
+    public ReturnT<String> do_SendFriendCircle(String param) throws Exception {
+        if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
+            try {
+                Map<String, Object> paramMap = Maps.newHashMap();
+                paramMap.put("nickNameListStr", param);
+                wxSpiderService.sendFriendCircle(paramMap);
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-do_SendFriendCircle is error, paramMap : " + param + ", e : ", e);
+            }
+        }
+        return ReturnT.SUCCESS;
+    }
+
+    /**
+     * 分享微信文章到微信朋友圈
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    @XxlJob("do_ShareArticleToFriendCircle")
+    public ReturnT<String> do_ShareArticleToFriendCircle(String param) throws Exception {
+        if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
+            try {
+                Map<String, Object> paramMap = Maps.newHashMap();
+                paramMap.put("nickNameListStr", param);
+                wxSpiderService.sendFriendCircle(paramMap);
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + param + ", e : ", e);
+            }
+        }
         return ReturnT.SUCCESS;
     }
 
