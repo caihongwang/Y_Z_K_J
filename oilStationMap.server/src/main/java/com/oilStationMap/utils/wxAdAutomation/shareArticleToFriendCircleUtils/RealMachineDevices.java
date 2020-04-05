@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -149,6 +151,18 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
                                 "        \"publishBtnLocaltion_y2\":180\n" +
                                 "    }";
         Map<String, Integer> publishBtnLocaltion = JSONObject.parseObject(publishBtnLocaltionStr, Map.class);
+        //当前设备的执行小时时间
+        String startHour =
+                paramMap.get("startHour") != null ?
+                        paramMap.get("startHour").toString() :
+                        "";
+        String currentHour = new SimpleDateFormat("HH").format(new Date());
+        if(!startHour.equals(currentHour)){
+            sw.split();
+            logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，当前设备的执行时间第【startHour】小时，当前时间是第【currentHour】小时，总共花费 " + sw.toSplitString() + " 秒....");
+            return;
+        }
+
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try{
@@ -200,8 +214,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //3.点击坐标【输入昵称到搜索框】
         try {
-//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(searchInputLocaltion), 10);
-//            webElement.sendKeys(targetGroup);
             driver.findElementByXPath(searchInputLocaltion).sendKeys(targetGroup);
             sw.split();
             logger.info("点击坐标【输入昵称到搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -233,8 +245,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //5.点击坐标【输入微信文章链接】
         try {
-//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(chatInputLocation), 10);
-//            webElement.sendKeys(shareArticleUrl);
             driver.findElementByXPath(chatInputLocation).sendKeys(shareArticleUrl);
             sw.split();
             logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -247,8 +257,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //6.点击坐标【发送】
         try{
-//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(sendBtnLocaltion), 10);
-//            webElement.click();
             driver.findElementById(sendBtnLocaltion).click();
             sw.split();
             logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -337,8 +345,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //11.点击坐标【输入分享文本内容】
         try {
-//            WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(shareArticleTitleLocaltion), 10);
-//            webElement.sendKeys(shareArticleTitle);
             driver.findElementByXPath(shareArticleTitleLocaltion).sendKeys(shareArticleTitle);
             sw.split();
             logger.info("点击坐标【输入分享文本内容】成功，总共花费 " + sw.toSplitString() + " 秒....");

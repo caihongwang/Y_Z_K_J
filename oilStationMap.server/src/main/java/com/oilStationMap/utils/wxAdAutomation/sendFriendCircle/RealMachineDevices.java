@@ -99,20 +99,12 @@ public class RealMachineDevices implements SendFriendCircle {
                                 "    }";
         Map<String, Integer> cameraLocaltion = JSONObject.parseObject(cameraLocaltionStr, Map.class);
         //朋友圈文本内容
-//        String textMessageUrl =
-//                paramMap.get("textMessageUrl")!=null?
-//                        paramMap.get("textMessageUrl").toString():
-//                                "http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2FAAA%2FtextMessage&files=textMessage.txt";
         String textMessage =
                 paramMap.get("textMessage") != null ?
                         paramMap.get("textMessage").toString() :
                         "选择有效的推广方式更为重要![闪电][闪电]早上第一件事干什么？刷微信；上班忙里偷闲干什么？刷微信；中午吃饭你还在干什么？刷微信；晚上回家干什么？刷微信；睡觉前最一件事干什么？还是刷微信。现在是微信时代，还在担心人脉不多知名度低？交给我们一切就是这么简单[拳头][拥抱][拥抱]";
         textMessage = EmojiUtil.emojiRecovery(textMessage);
         //坐标:文本输入框
-//        String textInputLocaltion =
-//                paramMap.get("textInputLocaltion") != null ?
-//                        paramMap.get("textInputLocaltion").toString() :
-//                        "//android.widget.EditText[@resource-id='com.tencent.mm:id/d41']";
         String textInputLocaltion =
                 paramMap.get("textInputLocaltion") != null ?
                         paramMap.get("textInputLocaltion").toString() :
@@ -133,20 +125,11 @@ public class RealMachineDevices implements SendFriendCircle {
                                 "        \"selectFromPhotosBtnLocaltion_y2\":1092\n" +
                                 "    }";
         Map<String, Integer> selectFromPhotosBtnLocaltion = JSONObject.parseObject(selectFromPhotosBtnLocaltionStr, Map.class);
-        //坐标前缀：相片前缀
-//        String photoBtnPreLocation =
-//                paramMap.get("photoBtnPreLocation")!=null?
-//                        paramMap.get("photoBtnPreLocation").toString():
-//                                "//android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.GridView/android.widget.RelativeLayout[";
+        //相册坐标
         String allPhotoLocaltion =
                 paramMap.get("allPhotoLocaltion") != null ?
                         paramMap.get("allPhotoLocaltion").toString() :
                         "com.tencent.mm:id/el5";
-        //坐标后缀：相片后缀
-//        String photoBtnSufLocation =
-//                paramMap.get("photoBtnSufLocation")!=null?
-//                        paramMap.get("photoBtnSufLocation").toString():
-//                                "]/android.widget.CheckBox";
         String singlePhotoLocaltion =
                 paramMap.get("singlePhotoLocaltion") != null ?
                         paramMap.get("singlePhotoLocaltion").toString() :
@@ -156,14 +139,14 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("phoneLocalPath") != null ?
                         paramMap.get("phoneLocalPath").toString() :
                         "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
-        //1.使用adb传输文件到手机
+        //朋友圈图片，注：1.使用adb传输文件到手机
         String imgListStr =
                 paramMap.get("imgList") != null ?
                         paramMap.get("imgList").toString() :
                         "[\n" +
                                 "        \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/今日油价/今日油价_2020_04_04.jpeg\",\n" +
                                 "    ]";
-        //2.使用appium的AndroidDriver传输文件到手机
+        //朋友圈图片，注：2.使用appium的AndroidDriver传输文件到手机
 //        String imgListStr =
 //                paramMap.get("imgList") != null ?
 //                        paramMap.get("imgList").toString() :
@@ -181,6 +164,18 @@ public class RealMachineDevices implements SendFriendCircle {
             imgList = Lists.newArrayList();
             imageNum = 1;
         }
+        //当前设备的执行小时时间
+        String startHour =
+                paramMap.get("startHour") != null ?
+                        paramMap.get("startHour").toString() :
+                        "";
+        String currentHour = new SimpleDateFormat("HH").format(new Date());
+        if(!startHour.equals(currentHour)){
+            sw.split();
+            logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，当前设备的执行时间第【startHour】小时，当前时间是第【currentHour】小时，总共花费 " + sw.toSplitString() + " 秒....");
+            return;
+        }
+
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -272,9 +267,6 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.2.输入文本
             try {
-//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
-//                webElement.sendKeys(textMessage);
-//                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
                 driver.findElementById(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -287,8 +279,6 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.3.点击坐标【发表】
             try {
-//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
-//                webElement.click();
                 driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -305,9 +295,6 @@ public class RealMachineDevices implements SendFriendCircle {
                 for (int i = 0; i < imgList.size(); i++) {
                     String imgPath = imgList.get(i);
                     //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-//                    String tempDirPath = "/opt/resourceOfOilStationMap/webapp/wxImg";
-//                    String imgName = i + imgPath.substring(imgPath.lastIndexOf("."));  //1.jpeg
-//                    String imgFilePath = tempDirPath + "/" + imgName;
                     File imgFile = new File(imgPath);
                     String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgPath + " " + phoneLocalPath;
                     CommandUtil.run(pushCommandStr);
@@ -394,7 +381,6 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
-//                WebElement allPhotoElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(allPhotoLocaltion), 10);
                 WebElement allPhotoElement = driver.findElementById(allPhotoLocaltion);
                 List<WebElement> photoElementList = allPhotoElement.findElements(By.id(singlePhotoLocaltion));
                 for (int i = 0; i < photoElementList.size(); i++) {
@@ -415,8 +401,6 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.5.点击坐标【完成】
             try {
-//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
-//                webElement.click();
                 driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
                 logger.info("点击坐标【完成】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -429,9 +413,6 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.6.点击【输入文字】
             try {
-//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.xpath(textInputLocaltion), 10);
-//                webElement.sendKeys(textMessage);
-//                driver.findElementByXPath(textInputLocaltion).sendKeys(textMessage);
                 driver.findElementById(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -444,8 +425,6 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.7.点击坐标【发布】
             try {
-//                WebElement webElement = ElementJudgeMethodUtil.waitForElementPresent(driver, By.id(publishOrCompleteBtnLocaltion), 10);
-//                webElement.click();
                 driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");

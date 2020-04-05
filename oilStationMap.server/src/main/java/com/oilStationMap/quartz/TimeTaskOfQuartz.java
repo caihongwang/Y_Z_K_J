@@ -57,7 +57,10 @@ public class TimeTaskOfQuartz {
     //使用环境
     @Value("${spring.profiles.active}")
     private String useEnvironmental;
-//
+
+    @Autowired
+    private WX_SpiderService wxSpiderService;
+
 //    @Autowired
 //    private WX_DicService WXDicService;
 //
@@ -81,43 +84,65 @@ public class TimeTaskOfQuartz {
 //
 //    @Autowired
 //    private WX_RedPacketHistoryService WXRedPacketHistoryService;
-//
+
     /**
-     * 每天早上07:00
+     * 每天小时第10分钟执行一次
+     * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈
+     */
+    @Scheduled(cron = "0 10 */1 * * ?")
+    public void do_sendFriendCircle() {
+        new Thread() {
+            public void run() {
+                Map<String, Object> paramMap = Maps.newHashMap();
+                try {
+                    wxSpiderService.sendFriendCircle(paramMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+                }
+                try {
+                    wxSpiderService.shareArticleToFriendCircle(paramMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * 每天4个小时检测一次，注：域名已使用花生壳域名进行解决
      * 检测域名是否可以访问
      */
     @Scheduled(cron = "0 0 */4 * * ?")
     public void do_checkDomain() {
-        logger.info("每天早上07:00 , 获取公网IP...");
-        if("prepub".equals(useEnvironmental)){
-            String publicIp = "公网IP获取失败";
-            try{
-                String url = "https://www.ip.cn";
-                Document ipDoc = null;
-                ipDoc = Jsoup.connect(url)
-                        .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
-                        .timeout(15000).get();
-                String ipHtml = ipDoc.html();
-                String[] ipHtmlArr = ipHtml.split("您现在的 IP：<code>");
-                if(ipHtmlArr.length >= 2){
-                    String tempStr = ipHtmlArr[1];
-                    String[] tempStrArr = tempStr.split("</code></p><p>所在地理位置");
-                    publicIp = tempStrArr[0];
-                    logger.info("公网IP = " + publicIp);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-            HttpsUtil httpsUtil = new HttpsUtil();
-            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-            exceptionDevicesParamMap.put("publicIp", publicIp);
-            String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
-            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-        }
-
-
-
+//        logger.info("每天早上07:00 , 获取公网IP...");
+//        //方式1
+//        if("prepub".equals(useEnvironmental)){
+//            String publicIp = "公网IP获取失败";
+//            try{
+//                String url = "https://www.ip.cn";
+//                Document ipDoc = null;
+//                ipDoc = Jsoup.connect(url)
+//                        .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+//                        .timeout(15000).get();
+//                String ipHtml = ipDoc.html();
+//                String[] ipHtmlArr = ipHtml.split("您现在的 IP：<code>");
+//                if(ipHtmlArr.length >= 2){
+//                    String tempStr = ipHtmlArr[1];
+//                    String[] tempStrArr = tempStr.split("</code></p><p>所在地理位置");
+//                    publicIp = tempStrArr[0];
+//                    logger.info("公网IP = " + publicIp);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+//            HttpsUtil httpsUtil = new HttpsUtil();
+//            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+//            exceptionDevicesParamMap.put("publicIp", publicIp);
+//            String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
+//            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+//        }
+//        //方式2
 //        if("prepub".equals(useEnvironmental)){
 //            Integer timeOutMillSeconds = 30000;     //超时时间30秒
 //            String urlString = "http://www.yzkj.store:3380/owncloud";
@@ -168,11 +193,6 @@ public class TimeTaskOfQuartz {
 //            }
 //        }
     }
-
-    public static void main(String[] args) {
-        new TimeTaskOfQuartz().do_checkDomain();
-    }
-
 
 //    /**
 //     * 每天早上09:00，定时发送红包
