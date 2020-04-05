@@ -86,10 +86,10 @@ public class TimeTaskOfQuartz {
 //    private WX_RedPacketHistoryService WXRedPacketHistoryService;
 
     /**
-     * 每天小时第10分钟执行一次
+     * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈
      */
-    @Scheduled(cron = "0 10 */1 * * ?")
+    @Scheduled(cron = "0 1 */1 * * ?")
     public void do_sendFriendCircle() {
         new Thread() {
             public void run() {
