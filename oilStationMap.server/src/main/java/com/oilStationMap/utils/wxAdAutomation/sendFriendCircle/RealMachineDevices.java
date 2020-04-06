@@ -342,9 +342,9 @@ public class RealMachineDevices implements SendFriendCircle {
             Thread.sleep(5000);
             if(index == 0){             //重启设备确保图片流在真机上完全变成文件
                 sw.split();
-                logger.info("将图片保存到【手机本地的微信图片路径】成功，第 "+index+" 次主动重启，沉睡等待半小时，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("将图片保存到【手机本地的微信图片路径】成功，第 "+index+" 次主动重启，沉睡等待15分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-                Thread.sleep(1000*60*20);       //沉睡等待半小时
+                Thread.sleep(1000*60*15);       //沉睡等待15分钟
             }
             sw.split();
             logger.info("将图片保存到【手机本地的微信图片路径】成功，总共花费 " + sw.toSplitString() + " 秒....");
