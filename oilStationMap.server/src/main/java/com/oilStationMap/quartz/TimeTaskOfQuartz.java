@@ -97,45 +97,47 @@ public class TimeTaskOfQuartz {
      */
     @Scheduled(cron = "0 1 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle() {
-        new Thread() {
-            public void run() {
-                Map<String, Object> paramMap = Maps.newHashMap();
-                try {
-                    paramMap.clear();
-                    String jobDesc = "发布朋友圈";
-                    paramMap.put("start", 0);
-                    paramMap.put("size", 10);
-                    paramMap.put("jobDesc", jobDesc);
-                    List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
-                    if(list != null && list.size() > 0){
-                        Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
-                        String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam")!=null?sendFriendCircleJobInfoMap.get("executorParam").toString():"";
+        if("develop".equals(useEnvironmental)){
+            new Thread() {
+                public void run() {
+                    Map<String, Object> paramMap = Maps.newHashMap();
+                    try {
                         paramMap.clear();
-                        paramMap.put("nickNameListStr", nickNameListStr);
-                        wxSpiderService.sendFriendCircle(paramMap);
+                        String jobDesc = "发布朋友圈";
+                        paramMap.put("start", 0);
+                        paramMap.put("size", 10);
+                        paramMap.put("jobDesc", jobDesc);
+                        List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                        if(list != null && list.size() > 0){
+                            Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
+                            String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam")!=null?sendFriendCircleJobInfoMap.get("executorParam").toString():"";
+                            paramMap.clear();
+                            paramMap.put("nickNameListStr", nickNameListStr);
+                            wxSpiderService.sendFriendCircle(paramMap);
+                        }
+                    } catch (Exception e) {
+                        logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
                     }
-                } catch (Exception e) {
-                    logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
-                }
-                try {
-                    paramMap.clear();
-                    String jobDesc = "分享微信文章到微信朋友圈";
-                    paramMap.put("start", 0);
-                    paramMap.put("size", 10);
-                    paramMap.put("jobDesc", jobDesc);
-                    List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
-                    if(list != null && list.size() > 0){
-                        Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
-                        String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam")!=null?sendFriendCircleJobInfoMap.get("executorParam").toString():"";
+                    try {
                         paramMap.clear();
-                        paramMap.put("nickNameListStr", nickNameListStr);
-                        wxSpiderService.shareArticleToFriendCircle(paramMap);
+                        String jobDesc = "分享微信文章到微信朋友圈";
+                        paramMap.put("start", 0);
+                        paramMap.put("size", 10);
+                        paramMap.put("jobDesc", jobDesc);
+                        List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                        if(list != null && list.size() > 0){
+                            Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
+                            String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam")!=null?sendFriendCircleJobInfoMap.get("executorParam").toString():"";
+                            paramMap.clear();
+                            paramMap.put("nickNameListStr", nickNameListStr);
+                            wxSpiderService.shareArticleToFriendCircle(paramMap);
+                        }
+                    } catch (Exception e) {
+                        logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
                     }
-                } catch (Exception e) {
-                    logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
                 }
-            }
-        }.start();
+            }.start();
+        }
     }
 
     /**

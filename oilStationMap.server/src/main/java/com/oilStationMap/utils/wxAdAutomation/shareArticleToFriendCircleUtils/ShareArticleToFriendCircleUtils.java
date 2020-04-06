@@ -40,14 +40,14 @@ public class ShareArticleToFriendCircleUtils {
     public static void shareArticleToFriendCircle(Map<String, Object> paramMap){
         StopWatch sw = new StopWatch();
         sw.start();
-        try{
-            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
-            Thread.sleep(30000);    //等待重启30秒
-        } catch (Exception e) {
-            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-            logger.error("重启所有手机异常，e :", e);
-            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-        }
+//        try{
+//            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
+//            Thread.sleep(30000);    //等待重启30秒
+//        } catch (Exception e) {
+//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
+//            logger.error("重启所有手机异常，e :", e);
+//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
+//        }
         String nickNameListStr = paramMap.get("nickNameListStr")!=null?paramMap.get("nickNameListStr").toString():"";
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for(String nickName : nickNameList){
