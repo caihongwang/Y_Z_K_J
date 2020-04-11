@@ -441,6 +441,19 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
+            //5.8.将使用adb传输的图片删掉
+            if (imgList != null && imgList.size() > 0) {
+                for (int i = 0; i < imgList.size(); i++) {
+                    String imgPath = imgList.get(i);
+                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+                    File imgFile = new File(imgPath);
+                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + imgFile.getName();
+                    CommandUtil.run(pushCommandStr);
+                    Thread.sleep(1000);
+                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                    CommandUtil.run(refreshCommandStr);
+                }
+            }
         }
         //6.退出驱动
         this.quitDriver(driver, deviceNameDesc, deviceName);
