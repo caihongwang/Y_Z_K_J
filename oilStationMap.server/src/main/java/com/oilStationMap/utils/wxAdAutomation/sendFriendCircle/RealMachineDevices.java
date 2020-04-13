@@ -140,12 +140,26 @@ public class RealMachineDevices implements SendFriendCircle {
                         paramMap.get("phoneLocalPath").toString() :
                         "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
         //朋友圈图片，注：1.使用adb传输文件到手机
-        String imgListStr =
-                paramMap.get("imgList") != null ?
-                        paramMap.get("imgList").toString() :
-                        "[\n" +
-                                "        \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/今日油价/今日油价_2020_04_04.jpeg\",\n" +
-                                "    ]";
+//        String imgListStr =
+//                paramMap.get("imgList") != null ?
+//                        paramMap.get("imgList").toString() :
+//                        "[\n" +
+//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/大.jpg\",\n" +
+//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/事.jpg\",\n" +
+//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/件.jpg\"\n" +
+//                                "]";
+        String imgDirPath =
+                paramMap.get("imgDirPath") != null ?
+                        paramMap.get("imgDirPath").toString() :
+                        "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认";
+        File imgDir = new File(imgDirPath);
+        File[] imgFiles = imgDir.listFiles();
+        Integer imageNum = 0;
+        if("今日油价".equals(imgDir.getName())){
+            imageNum = 1;
+        } else {
+            imageNum = imgFiles.length;
+        }
         //朋友圈图片，注：2.使用appium的AndroidDriver传输文件到手机
 //        String imgListStr =
 //                paramMap.get("imgList") != null ?
@@ -155,31 +169,20 @@ public class RealMachineDevices implements SendFriendCircle {
 //                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=181575470402_.pic_hd.jpg\",\n" +
 //                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=191575470403_.pic_hd.jpg\"\n" +
 //                                "    ]";
-        List<String> imgList = Lists.newArrayList();
-        Integer imageNum = 0;
-        if (!"".equals(imgListStr)) {
-            imgList = JSONObject.parseObject(imgListStr, List.class);
-            imageNum = imgList.size();
-        } else {
-            imgList = Lists.newArrayList();
-            imageNum = 1;
-        }
+//        List<String> imgList = Lists.newArrayList();
+//        Integer imageNum = 0;
+//        if (!"".equals(imgListStr)) {
+//            imgList = JSONObject.parseObject(imgListStr, List.class);
+//            imageNum = imgList.size();
+//        } else {
+//            imgList = Lists.newArrayList();
+//            imageNum = 1;
+//        }
         //昵称
         String nickName =
                 paramMap.get("nickName") != null ?
                         paramMap.get("nickName").toString() :
                         "默认";
-        //当前设备的执行小时时间
-        String startHour =
-                paramMap.get("startHour") != null ?
-                        paramMap.get("startHour").toString() :
-                        "";
-        String currentHour = new SimpleDateFormat("HH").format(new Date());
-        if(!startHour.equals(currentHour)){
-            sw.split();
-            logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，当前设备的执行时间第【"+startHour+"】小时，当前时间是第【"+currentHour+"】小时，总共花费 " + sw.toSplitString() + " 秒....");
-            return;
-        }
 
         //1.配置连接android驱动
         AndroidDriver driver = null;
@@ -295,59 +298,53 @@ public class RealMachineDevices implements SendFriendCircle {
                 throw new Exception("点击坐标【发表】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
         } else if (action.equals("imgMessageFriendCircle")) {        //图片信息朋友圈
-            //5.1.将图片保存到【手机本地的微信图片路径】
-            if (imgList != null && imgList.size() > 0) {
-                for (int i = 0; i < imgList.size(); i++) {
-                    String imgPath = imgList.get(i);
-                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-                    File imgFile = new File(imgPath);
-                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgPath + " " + phoneLocalPath;
-                    CommandUtil.run(pushCommandStr);
-                    Thread.sleep(1000);
-                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                    CommandUtil.run(refreshCommandStr);
-//                    //2.使用appium的AndroidDriver传输文件到手机，流程java--->>>appium-->>>adb---->>>手机，无法完全确保成功
-//                    try {
-//                        //从Url获取
-//                        URL imgUrl = new URL(imgPath);
-//                        URLConnection con = imgUrl.openConnection();
-//                        con.setConnectTimeout(10000);
-//                        InputStream imgInputStream = con.getInputStream();
-//                        ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
-//                        byte[] buffer = new byte[1024];
-//                        int len = 0;
-//                        while ((len = imgInputStream.read(buffer)) != -1) {
-//                            imgOutStream.write(buffer, 0, len);
-//                        }
-//                        byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
-//                        imgInputStream.close();
-//                        imgOutStream.close();
-//                        Date currentDate = new Date();
-//                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-//                        String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
-//                        driver.pushFile(imgName, imgData);
-//                        sw.split();
-//                        logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-//                        Thread.sleep(1000);
-//                    } catch (Exception e) {
-//                        sw.split();
-//                        logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-//                        continue;
-//                    }
-                }
-            }
-            sw.split();
-            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡5秒，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(5000);
-            if(index == 0){             //重启设备确保图片流在真机上完全变成文件
-                sw.split();
-                logger.info("将图片保存到【手机本地的微信图片路径】成功，第 "+index+" 次主动重启，沉睡等待15分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
-                this.quitDriver(driver, deviceNameDesc, deviceName);
-                Thread.sleep(1000*60*15);       //沉睡等待15分钟
-            }
-            sw.split();
-            logger.info("将图片保存到【手机本地的微信图片路径】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            //5.2.点击坐标【相机】
+
+//            //0.将图片保存到【手机本地的微信图片路径】
+//            if (imgList != null && imgList.size() > 0) {
+//                for (int i = 0; i < imgList.size(); i++) {
+//                    String imgPath = imgList.get(i);
+//                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+//                    File imgFile = new File(imgPath);
+//                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgPath + " " + phoneLocalPath;
+//                    CommandUtil.run(pushCommandStr);
+//                    Thread.sleep(1000);
+//                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+//                    CommandUtil.run(refreshCommandStr);
+////                    //2.使用appium的AndroidDriver传输文件到手机，流程java--->>>appium-->>>adb---->>>手机，无法完全确保成功
+////                    try {
+////                        //从Url获取
+////                        URL imgUrl = new URL(imgPath);
+////                        URLConnection con = imgUrl.openConnection();
+////                        con.setConnectTimeout(10000);
+////                        InputStream imgInputStream = con.getInputStream();
+////                        ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
+////                        byte[] buffer = new byte[1024];
+////                        int len = 0;
+////                        while ((len = imgInputStream.read(buffer)) != -1) {
+////                            imgOutStream.write(buffer, 0, len);
+////                        }
+////                        byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
+////                        imgInputStream.close();
+////                        imgOutStream.close();
+////                        Date currentDate = new Date();
+////                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+////                        String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
+////                        driver.pushFile(imgName, imgData);
+////                        sw.split();
+////                        logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
+////                        Thread.sleep(1000);
+////                    } catch (Exception e) {
+////                        sw.split();
+////                        logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
+////                        continue;
+////                    }
+//                }
+//            }
+//            sw.split();
+//            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待15分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
+//            Thread.sleep(1000*60*15);       //沉睡等待15分钟
+
+            //5.1.点击坐标【相机】
             try {
                 Integer cameraLocaltion_x1 = cameraLocaltion.get("cameraLocaltion_x1") != null ? cameraLocaltion.get("cameraLocaltion_x1") : 540;
                 Integer cameraLocaltion_y1 = cameraLocaltion.get("cameraLocaltion_y1") != null ? cameraLocaltion.get("cameraLocaltion_y1") : 1661;
@@ -366,7 +363,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.3.点击坐标【从相册选择】
+            //5.2.点击坐标【从相册选择】
             try {
                 Integer selectFromPhotosBtnLocaltion_x1 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x1") != null ? selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x1") : 119;
                 Integer selectFromPhotosBtnLocaltion_y1 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y1") != null ? selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y1") : 942;
@@ -385,7 +382,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【从相册选择】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
+            //5.3.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
                 WebElement allPhotoElement = driver.findElementById(allPhotoLocaltion);
                 List<WebElement> photoElementList = allPhotoElement.findElements(By.id(singlePhotoLocaltion));
@@ -405,7 +402,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.5.点击坐标【完成】
+            //5.4.点击坐标【完成】
             try {
                 driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
@@ -417,7 +414,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.6.点击【输入文字】
+            //5.5.点击【输入文字】
             try {
                 driver.findElementById(textInputLocaltion).sendKeys(textMessage);
                 sw.split();
@@ -429,7 +426,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.7.点击坐标【发布】
+            //5.6.点击坐标【发布】
             try {
                 driver.findElementById(publishOrCompleteBtnLocaltion).click();
                 sw.split();
@@ -440,19 +437,6 @@ public class RealMachineDevices implements SendFriendCircle {
                 e.printStackTrace();
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
-            }
-            //5.8.将使用adb传输的图片删掉
-            if (imgList != null && imgList.size() > 0) {
-                for (int i = 0; i < imgList.size(); i++) {
-                    String imgPath = imgList.get(i);
-                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-                    File imgFile = new File(imgPath);
-                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + imgFile.getName();
-                    CommandUtil.run(pushCommandStr);
-                    Thread.sleep(1000);
-                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                    CommandUtil.run(refreshCommandStr);
-                }
             }
         }
         //6.退出驱动

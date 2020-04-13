@@ -438,8 +438,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                                 Date currentDate = new Date();
                                 //2.发送抽奖消息消息
                                 openIdList.clear();  //模拟只向管理员发送消息
-                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId
+//                                openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                                openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                                 for(String openId : openIdList) {
                                     paramMap.clear();//清空参数，重新准备参数
                                     Map<String, Object> dataMap = Maps.newHashMap();
@@ -533,8 +533,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
-                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId
+//                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                         for(String openId : openIdList) {
                             //向 管理员汇报 已更新油价
                             paramMap.clear();//清空参数，重新准备参数
@@ -624,8 +624,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
-                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId
+//                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                         for(String openId : openIdList) {
                             paramMap.clear();//清空参数，重新准备参数
                             //获取当前时间
@@ -711,8 +711,8 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
-                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
-                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId
+//                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                         for(String openId : openIdList) {
                             paramMap.clear();//清空参数，重新准备参数
                             //整合
@@ -872,7 +872,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
             openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
         }
         if(!openIdList.contains("ovrxT5trVCVftVpNznW7Rz-oXP5k")){
-            openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId
+            openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
         }
 
         //2.获取所有的微信公众号账号
@@ -996,14 +996,14 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
-                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
-                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId - 蔡红旺
-                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
-                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //的openId - 何金蓉
-                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
-                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //的openId - 沿河微帮
-                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
-                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //的openId - 积极向上
+//                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId - 蔡红旺
+//                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
+                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //油站科技的openId - 何金蓉
+//                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
+                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //油站科技的openId - 沿河微帮
+//                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
+                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //油站科技的openId - 积极向上
                         for(String openId : openIdList) {
                             //向 管理员汇报 已更新油价
                             paramMap.clear();//清空参数，重新准备参数
@@ -1106,14 +1106,14 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
                         List<String> openIdList = Lists.newArrayList();
-                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
-                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //的openId - 蔡红旺
-                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
-                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //的openId - 何金蓉
-                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
-                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //的openId - 沿河微帮
-                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
-                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //的openId - 积极向上
+//                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId - 蔡红旺
+//                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
+                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //油站科技的openId - 何金蓉
+//                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
+                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //油站科技的openId - 沿河微帮
+//                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
+                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //油站科技的openId - 积极向上
                         for(String openId : openIdList) {
                             //向 管理员汇报 已更新油价
                             paramMap.clear();//清空参数，重新准备参数
