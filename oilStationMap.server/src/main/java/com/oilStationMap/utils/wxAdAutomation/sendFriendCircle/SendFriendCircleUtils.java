@@ -72,6 +72,7 @@ public class SendFriendCircleUtils {
                                 sendFriendCircleParam.get("action").toString() :
                                 "textMessageFriendCircle";
                 if(action.equals("imgMessageFriendCircle")){
+                    boolean imgExistFlag = true;
                     for(String dicCode : dicCodeList) {         //通过action来判断
                         paramMap.clear();
                         paramMap.put("dicType", "deviceNameListAndLocaltion");
@@ -101,10 +102,14 @@ public class SendFriendCircleUtils {
                                                     sendFriendCircleParam.get("imgDirPath").toString() :
                                                     "";
                                     //将 图片文件 push 到安卓设备里面
-                                    pushImgFileToDevice(imgDirPath, deviceName);
+                                    imgExistFlag = pushImgFileToDevice(imgDirPath, deviceName);
                                 }
                             }
                         }
+                    }
+
+                    if(!imgExistFlag){          //如果 图片 不存在则直接下一个
+                        continue;
                     }
 
                     //2.沉睡等待15分钟，确保USB传输文件到达手机相册
@@ -296,7 +301,8 @@ public class SendFriendCircleUtils {
      * @param imgDirPath
      * @param deviceName
      */
-    public static void pushImgFileToDevice(String imgDirPath, String deviceName){
+    public static boolean pushImgFileToDevice(String imgDirPath, String deviceName){
+        boolean flag = false;
         String phoneLocalPath = "/storage/emulated/0/tencent/MicroMsg/WeiXin/";     //安卓设备的微信图片目录
         File[] imgFiles = null;
         if (!"".equals(imgDirPath)) {
@@ -304,8 +310,12 @@ public class SendFriendCircleUtils {
             if("今日油价".equals(imgDir.getName())){
                 imgFiles = new File[1];
                 try {
-                    File imgFile = new File(imgDir.getPath() + "今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
-                    imgFiles[0] = imgFile;
+                    File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
+                    if(imgFile.exists()){
+                        imgFiles[0] = imgFile;
+                    } else {
+                        return false;
+                    }
                 } catch (Exception e){
                     logger.error("获取 今日油价 图片失败.");
                 }
@@ -329,6 +339,7 @@ public class SendFriendCircleUtils {
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -344,7 +355,7 @@ public class SendFriendCircleUtils {
             if("今日油价".equals(imgDir.getName())){
                 imgFiles = new File[1];
                 try {
-                    File imgFile = new File(imgDir.getPath() + "今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
+                    File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
                     imgFiles[0] = imgFile;
                 } catch (Exception e){
                     logger.error("获取 今日油价 图片失败.");
