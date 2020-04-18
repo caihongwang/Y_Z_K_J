@@ -89,26 +89,16 @@ public class SendFriendCircleUtils {
                             String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                             List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                             allDeviceNameList.addAll(deviceNameList);
-                            if (deviceNameList != null && deviceNameList.size() > 0) {
-                                for(Map<String, Object> deviceNameMap : deviceNameList){
-                                    //设备编码
-                                    String deviceName =
-                                            deviceNameMap.get("deviceName") != null ?
-                                                    deviceNameMap.get("deviceName").toString() :
-                                                    "";
-                                    //图片文件
-                                    String imgDirPath =
-                                            sendFriendCircleParam.get("imgDirPath") != null ?
-                                                    sendFriendCircleParam.get("imgDirPath").toString() :
-                                                    "";
-                                    //将 图片文件 push 到安卓设备里面
-                                    imgExistFlag = pushImgFileToDevice(imgDirPath, deviceName);
-                                }
-                            }
+                            //将 图片文件 push 到安卓设备里面
+                            imgExistFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
                         }
                     }
 
-                    if(!imgExistFlag){          //如果 图片 不存在则直接下一个
+                    if(!imgExistFlag){          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
+                        if(action.equals("imgMessageFriendCircle")){
+                            //将 图片文件  从安卓设备里面 删除
+                            removeImgFileToDevice(allDeviceNameList, sendFriendCircleParam);
+                        }
                         continue;
                     }
 
@@ -169,6 +159,12 @@ public class SendFriendCircleUtils {
                                                 logger.info("设备描述【" + sendFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + sendFriendCircleParam.get("deviceName") + "】，当前设备的执行时间第【"+startHour+"】小时，当前时间是第【"+currentHour+"】小时，总共花费 " + sw.toSplitString() + " 秒....");
                                                 continue;
                                             }
+//                                            //开始发送朋友圈
+//                                            sw.split();
+//                                            logger.info( "设备描述【"+sendFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+sendFriendCircleParam.get("deviceName")+"】操作【"+sendFriendCircleParam.get("action")+"】昵称【"+nickName+"】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+//                                            sendFriendCircleParam.put("index", 0);
+//                                            new RealMachineDevices().sendFriendCircle(sendFriendCircleParam, sw);
+//                                            Thread.sleep(5000);
                                         } else if(DateUtil.isBeforeDate(currentDate, startTime)){
                                             logger.info("尚未开始，暂不处理....");
                                         } else {
@@ -230,20 +226,8 @@ public class SendFriendCircleUtils {
 
                 //5.将 图片文件 push 到安卓设备里面
                 if(action.equals("imgMessageFriendCircle")){
-                    for(Map<String, Object> deviceNameMap : allDeviceNameList){
-                        //设备编码
-                        String deviceName =
-                                deviceNameMap.get("deviceName") != null ?
-                                        deviceNameMap.get("deviceName").toString() :
-                                        "";
-                        //图片文件
-                        String imgDirPath =
-                                sendFriendCircleParam.get("imgDirPath") != null ?
-                                        sendFriendCircleParam.get("imgDirPath").toString() :
-                                        "";
-                        //将 图片文件  从安卓设备里面 删除
-                        removeImgFileToDevice(imgDirPath, deviceName);
-                    }
+                    //将 图片文件  从安卓设备里面 删除
+                    removeImgFileToDevice(allDeviceNameList, sendFriendCircleParam);
                 }
 
                 //6.发送微信通知消息进行手动录入.
@@ -296,87 +280,120 @@ public class SendFriendCircleUtils {
         }
     }
 
+
     /**
      * 将 图片文件 push 到安卓设备里面
      * @param imgDirPath
-     * @param deviceName
+     * @param deviceNameList
+     * @param sendFriendCircleParam
+     * @return
      */
-    public static boolean pushImgFileToDevice(String imgDirPath, String deviceName){
+    public static boolean pushImgFileToDevice(List<HashMap<String, Object>> deviceNameList, Map<String, Object> sendFriendCircleParam){
         boolean flag = false;
         String phoneLocalPath = "/storage/emulated/0/tencent/MicroMsg/WeiXin/";     //安卓设备的微信图片目录
         File[] imgFiles = null;
-        if (!"".equals(imgDirPath)) {
-            File imgDir = new File(imgDirPath);
-            if("今日油价".equals(imgDir.getName())){
-                imgFiles = new File[1];
-                try {
-                    File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
-                    if(imgFile.exists()){
-                        imgFiles[0] = imgFile;
+        if (deviceNameList != null && deviceNameList.size() > 0) {
+            for(Map<String, Object> deviceNameMap : deviceNameList){
+                //设备编码
+                String deviceName =
+                        deviceNameMap.get("deviceName") != null ?
+                                deviceNameMap.get("deviceName").toString() :
+                                "";
+                //图片文件
+                String imgDirPath =
+                        sendFriendCircleParam.get("imgDirPath") != null ?
+                                sendFriendCircleParam.get("imgDirPath").toString() :
+                                "";
+
+                if (!"".equals(imgDirPath)) {
+                    File imgDir = new File(imgDirPath);
+                    if("今日油价".equals(imgDir.getName())){
+                        imgFiles = new File[1];
+                        try {
+                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
+                            if(imgFile.exists()){
+                                imgFiles[0] = imgFile;
+                            } else {
+                                return false;
+                            }
+                        } catch (Exception e){
+                            logger.error("获取 今日油价 图片失败.");
+                        }
                     } else {
-                        return false;
+                        imgFiles = imgDir.listFiles();
                     }
-                } catch (Exception e){
-                    logger.error("获取 今日油价 图片失败.");
                 }
-            } else {
-                imgFiles = imgDir.listFiles();
-            }
-        }
-        if(imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
-            for (int i = 0; i < imgFiles.length; i++) {
-                try{
-                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-                    File imgFile = imgFiles[i];
-                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
-                    CommandUtil.run(pushCommandStr);
-                    Thread.sleep(1000);
-                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                    CommandUtil.run(refreshCommandStr);
-                    logger.info("将 图片文件 push 从安卓设备【"+deviceName+"】成功，imgFile = " + imgFile.getPath());
-                } catch (Exception e) {
-                    logger.info("将 图片文件 push 到安卓设备【"+deviceName+"】 失败，设备未连接到电脑上, e : ", e);
+                if(imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
+                    for (int i = 0; i < imgFiles.length; i++) {
+                        try{
+                            //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+                            File imgFile = imgFiles[i];
+                            String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
+                            CommandUtil.run(pushCommandStr);
+                            Thread.sleep(1000);
+                            String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                            CommandUtil.run(refreshCommandStr);
+                            logger.info("将 图片文件 push 从安卓设备【"+deviceName+"】成功，imgFile = " + imgFile.getPath());
+                        } catch (Exception e) {
+                            logger.info("将 图片文件 push 到安卓设备【"+deviceName+"】 失败，设备未连接到电脑上, e : ", e);
+                        }
+                    }
                 }
             }
         }
+
+
         return true;
     }
 
     /**
      * 将 图片文件  从安卓设备里面 删除
-     * @param imgDirPath
-     * @param deviceName
+     * @param allDeviceNameList
+     * @param sendFriendCircleParam
      */
-    public static void removeImgFileToDevice(String imgDirPath, String deviceName){
+    public static void removeImgFileToDevice(List<HashMap<String, Object>> allDeviceNameList, Map<String, Object> sendFriendCircleParam){
         String phoneLocalPath = "/storage/emulated/0/tencent/MicroMsg/WeiXin/";     //安卓设备的微信图片目录
         File[] imgFiles = null;
-        if (!"".equals(imgDirPath)) {
-            File imgDir = new File(imgDirPath);
-            if("今日油价".equals(imgDir.getName())){
-                imgFiles = new File[1];
-                try {
-                    File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
-                    imgFiles[0] = imgFile;
-                } catch (Exception e){
-                    logger.error("获取 今日油价 图片失败.");
+
+        for(Map<String, Object> deviceNameMap : allDeviceNameList){
+            //设备编码
+            String deviceName =
+                    deviceNameMap.get("deviceName") != null ?
+                            deviceNameMap.get("deviceName").toString() :
+                            "";
+            //图片文件
+            String imgDirPath =
+                    sendFriendCircleParam.get("imgDirPath") != null ?
+                            sendFriendCircleParam.get("imgDirPath").toString() :
+                            "";
+            if (!"".equals(imgDirPath)) {
+                File imgDir = new File(imgDirPath);
+                if("今日油价".equals(imgDir.getName())){
+                    imgFiles = new File[1];
+                    try {
+                        File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
+                        imgFiles[0] = imgFile;
+                    } catch (Exception e){
+                        logger.error("获取 今日油价 图片失败.");
+                    }
+                } else {
+                    imgFiles = imgDir.listFiles();
                 }
-            } else {
-                imgFiles = imgDir.listFiles();
             }
-        }
-        if(imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
-            for (int i = 0; i < imgFiles.length; i++) {
-                try{
-                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-                    File imgFile = imgFiles[i];
-                    String removeCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + imgFile.getName();
-                    CommandUtil.run(removeCommandStr);
-                    Thread.sleep(1000);
-                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                    CommandUtil.run(refreshCommandStr);
-                    logger.info("将 图片文件 remove 从安卓设备【"+deviceName+"】成功，imgFile = " + imgFile.getPath());
-                } catch (Exception e) {
-                    logger.info("将 图片文件 remove 从安卓设备【"+deviceName+"】失败，设备未连接到电脑上, e : ", e);
+            if(imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
+                for (int i = 0; i < imgFiles.length; i++) {
+                    try{
+                        //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+                        File imgFile = imgFiles[i];
+                        String removeCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + imgFile.getName();
+                        CommandUtil.run(removeCommandStr);
+                        Thread.sleep(1000);
+                        String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                        CommandUtil.run(refreshCommandStr);
+                        logger.info("将 图片文件 remove 从安卓设备【"+deviceName+"】成功，imgFile = " + imgFile.getPath());
+                    } catch (Exception e) {
+                        logger.info("将 图片文件 remove 从安卓设备【"+deviceName+"】失败，设备未连接到电脑上, e : ", e);
+                    }
                 }
             }
         }
