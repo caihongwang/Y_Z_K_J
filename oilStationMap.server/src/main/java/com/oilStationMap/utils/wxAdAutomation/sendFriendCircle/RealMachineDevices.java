@@ -275,7 +275,8 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.2.输入文本
             try {
-                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
+//                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
+                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+textInputLocaltion+"\")").sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -287,7 +288,8 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.3.点击坐标【发表】
             try {
-                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+publishOrCompleteBtnLocaltion+"\")").click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(3000);
@@ -384,8 +386,9 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.3.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
-                WebElement allPhotoElement = driver.findElementById(allPhotoLocaltion);
-                List<WebElement> photoElementList = allPhotoElement.findElements(By.id(singlePhotoLocaltion));
+//                WebElement allPhotoElement = driver.findElementById(allPhotoLocaltion);
+//                List<WebElement> photoElementList = allPhotoElement.findElements(By.id(singlePhotoLocaltion));
+                List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().resourceId(\""+singlePhotoLocaltion+"\")");
                 for (int i = 0; i < photoElementList.size(); i++) {
                     if (i < imageNum) {
                         WebElement photoElement = photoElementList.get(i);
@@ -404,7 +407,8 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.4.点击坐标【完成】
             try {
-                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+publishOrCompleteBtnLocaltion+"\")").click();
                 sw.split();
                 logger.info("点击坐标【完成】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -416,7 +420,8 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.5.点击【输入文字】
             try {
-                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
+//                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
+                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+textInputLocaltion+"\")").sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -428,7 +433,8 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.6.点击坐标【发布】
             try {
-                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+publishOrCompleteBtnLocaltion+"\")").click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(3000);
