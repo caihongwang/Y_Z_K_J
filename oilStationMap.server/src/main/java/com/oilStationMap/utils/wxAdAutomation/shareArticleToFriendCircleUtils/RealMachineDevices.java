@@ -257,7 +257,8 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //6.点击坐标【发送】
         try{
-            driver.findElementById(sendBtnLocaltion).click();
+//            driver.findElementById(sendBtnLocaltion).click();
+            driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+sendBtnLocaltion+"\")").click();
             sw.split();
             logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
@@ -297,13 +298,13 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
         }
         //9.向上滑动微信文章
         for(int i = 0; i < 3; i++){
-            SwipeUtil.SwipeUp(driver);
-            sw.split();
-            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            int max = 2000;
-            int min = 1000;
-            int sleppTime = (int)(min + Math.random() * (max - min + 1));
-            Thread.sleep(sleppTime);
+//            SwipeUtil.SwipeUp(driver);
+//            sw.split();
+//            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+//            int max = 2000;
+//            int min = 1000;
+//            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+//            Thread.sleep(sleppTime);
         }
         //9.点击坐标【右上角的横三点】
         try {
