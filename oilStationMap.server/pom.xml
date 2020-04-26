@@ -52,7 +52,7 @@
         <org.apache.poi>3.5-FINAL</org.apache.poi>
         <javax.mail>1.4.7</javax.mail>
         <zkclient.version>0.10</zkclient.version>
-        <zookeeper.version>3.4.8</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
         <com.br.hermes.api.version>1.0.1-SNAPSHOT</com.br.hermes.api.version>
         <org.apache.hbase.client>1.2.4</org.apache.hbase.client>
 <!--        <com.google.guava.version>16.0</com.google.guava.version>-->
