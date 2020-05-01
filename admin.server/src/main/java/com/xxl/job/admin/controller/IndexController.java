@@ -97,6 +97,11 @@ public class IndexController {
         return "stfControlInfo/stfControlInfo.index";
     }
 
+    @RequestMapping("/liveCodeInfo")
+    public String liveCodeInfo() {
+        return "liveCodeInfo/liveCodeInfo.index";
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

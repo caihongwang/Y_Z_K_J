@@ -47,6 +47,7 @@ public class SendFriendCircleUtils {
 //            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
+        Date currentDate = paramMap.get("currentDate") != null ? (Date)paramMap.get("currentDate") : new Date();
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for (String nickName : nickNameList) {
             List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
@@ -133,7 +134,6 @@ public class SendFriendCircleUtils {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                         Date startTime = sdf.parse(startTimeStr);
                                         Date endTime = sdf.parse(endTimeStr);
-                                        Date currentDate = new Date();
                                         if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
                                             //判断当前设备的执行小时时间是否与当前时间匹配
                                             String startHour =

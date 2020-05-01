@@ -49,6 +49,7 @@ import java.util.*;
 
 /**
  * 定时任务
+ * @Scheduled下次任务执行开始将在本次任务执行完毕后才开始
  */
 @Component
 @Lazy(false)
@@ -101,6 +102,8 @@ public class TimeTaskOfQuartz {
             new Thread() {
                 public void run() {
                     Map<String, Object> paramMap = Maps.newHashMap();
+                    Date currentDate = new Date();
+                    paramMap.put("currentDate", currentDate);
                     try {
                         paramMap.clear();
                         String jobDesc = "发布朋友圈";
