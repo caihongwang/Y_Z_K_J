@@ -73,7 +73,7 @@ public class SendFriendCircleUtils {
                                 sendFriendCircleParam.get("action").toString() :
                                 "textMessageFriendCircle";
                 if (action.equals("imgMessageFriendCircle")) {
-                    boolean imgExistFlag = true;
+                    boolean imgExistFlag = false;
                     for (String dicCode : dicCodeList) {         //通过action来判断
                         paramMap.clear();
                         paramMap.put("dicType", "deviceNameListAndLocaltion");
@@ -90,9 +90,14 @@ public class SendFriendCircleUtils {
                             String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                             List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                             allDeviceNameList.addAll(deviceNameList);
+                            //当前时间
+                            sendFriendCircleParam.put("currentDate", currentDate);
 
                             //将 图片文件 push 到安卓设备里面
-                            imgExistFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
+                            boolean tempFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
+                            if(!imgExistFlag && tempFlag){
+                                imgExistFlag = tempFlag;
+                            }
                         }
                     }
 
@@ -140,7 +145,7 @@ public class SendFriendCircleUtils {
                                                     sendFriendCircleParam.get("startHour") != null ?
                                                             sendFriendCircleParam.get("startHour").toString() :
                                                             "";
-                                            String currentHour = new SimpleDateFormat("HH").format(new Date());
+                                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                             if (startHour.equals(currentHour)) {
                                                 //开始发送朋友圈
                                                 sw.split();
@@ -292,19 +297,19 @@ public class SendFriendCircleUtils {
                 sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
                 String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
                 String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
+                Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date)sendFriendCircleParam.get("currentDate") : new Date();
                 if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date startTime = sdf.parse(startTimeStr);
                         Date endTime = sdf.parse(endTimeStr);
-                        Date currentDate = new Date();
                         if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
                             //判断当前设备的执行小时时间是否与当前时间匹配
                             String startHour =
                                     sendFriendCircleParam.get("startHour") != null ?
                                             sendFriendCircleParam.get("startHour").toString() :
                                             "";
-                            String currentHour = new SimpleDateFormat("HH").format(new Date());
+                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
                             if (startHour.equals(currentHour)) {
                                 //设备编码
                                 String deviceName =
@@ -322,7 +327,10 @@ public class SendFriendCircleUtils {
                                     if ("今日油价".equals(imgDir.getName())) {
                                         imgFiles = new File[1];
                                         try {
-                                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
+                                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
+                                            if(!imgFile.exists()){
+                                                imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
+                                            }
                                             if (imgFile.exists()) {
                                                 imgFiles[0] = imgFile;
                                             } else {
@@ -346,7 +354,9 @@ public class SendFriendCircleUtils {
                                             String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
                                             CommandUtil.run(refreshCommandStr);
                                             logger.info("将 图片文件 push 从安卓设备【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
-                                            flag = true;
+                                            if(!flag){
+                                                flag = true;
+                                            }
                                         } catch (Exception e) {
                                             logger.info("将 图片文件 push 到安卓设备【" + deviceName + "】 失败，设备未连接到电脑上, e : ", e);
                                         }
@@ -363,8 +373,6 @@ public class SendFriendCircleUtils {
                 }
             }
         }
-
-
         return flag;
     }
 
@@ -382,19 +390,19 @@ public class SendFriendCircleUtils {
                 sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
                 String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
                 String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
+                Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date)sendFriendCircleParam.get("currentDate") : new Date();
                 if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date startTime = sdf.parse(startTimeStr);
                         Date endTime = sdf.parse(endTimeStr);
-                        Date currentDate = new Date();
                         if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
                             //判断当前设备的执行小时时间是否与当前时间匹配
                             String startHour =
                                     sendFriendCircleParam.get("startHour") != null ?
                                             sendFriendCircleParam.get("startHour").toString() :
                                             "";
-                            String currentHour = new SimpleDateFormat("HH").format(new Date());
+                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
                             if (startHour.equals(currentHour)) {
                                 //设备编码
                                 String deviceName =
@@ -411,7 +419,10 @@ public class SendFriendCircleUtils {
                                     if ("今日油价".equals(imgDir.getName())) {
                                         imgFiles = new File[1];
                                         try {
-                                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(new Date()) + ".jpeg");
+                                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
+                                            if(!imgFile.exists()){
+                                                imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
+                                            }
                                             imgFiles[0] = imgFile;
                                         } catch (Exception e) {
                                             logger.error("获取 今日油价 图片失败.");

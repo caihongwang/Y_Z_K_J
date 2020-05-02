@@ -46,11 +46,6 @@ public class RealMachineDevices implements SendFriendCircle {
     public void sendFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception {
         //0.获取参数
         //设备编码
-        Integer index =
-                paramMap.get("index") != null ?
-                        Integer.parseInt(paramMap.get("index").toString()) :
-                            0;
-        //设备编码
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :

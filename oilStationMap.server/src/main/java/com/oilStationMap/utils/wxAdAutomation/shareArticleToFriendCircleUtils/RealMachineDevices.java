@@ -151,17 +151,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle{
                                 "        \"publishBtnLocaltion_y2\":180\n" +
                                 "    }";
         Map<String, Integer> publishBtnLocaltion = JSONObject.parseObject(publishBtnLocaltionStr, Map.class);
-        //当前设备的执行小时时间
-        String startHour =
-                paramMap.get("startHour") != null ?
-                        paramMap.get("startHour").toString() :
-                        "";
-        String currentHour = new SimpleDateFormat("HH").format(new Date());
-        if(!startHour.equals(currentHour)){
-            sw.split();
-            logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，当前设备的执行时间第【startHour】小时，当前时间是第【currentHour】小时，总共花费 " + sw.toSplitString() + " 秒....");
-            return;
-        }
 
         //1.配置连接android驱动
         AndroidDriver driver = null;
