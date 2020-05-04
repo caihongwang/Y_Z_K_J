@@ -6,6 +6,13 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class CommandUtil {
+
+    /**
+     * 执行shell文件
+     * @param command
+     * @return
+     * @throws IOException
+     */
     public static String run(String command) throws IOException {
         Scanner input = null;
         String result = "";
@@ -35,6 +42,12 @@ public class CommandUtil {
         return result;
     }
 
+    /**
+     * 执行单条命令
+     * @param command
+     * @return
+     * @throws IOException
+     */
     public static String run(String[] command) throws IOException {
         Scanner input = null;
         String result = "";
