@@ -61,88 +61,50 @@ public class RealMachineDevices implements SendFriendCircle {
                         paramMap.get("action").toString() :
                         "textMessageFriendCircle";
         //坐标:发现
-        String findBtnLocaltionStr =
+        String findBtnLocaltion =
                 paramMap.get("findBtnLocaltion") != null ?
                         paramMap.get("findBtnLocaltion").toString() :
-                        "{\n" +
-                                "        \"findBtnLocaltion_x1\":540,\n" +
-                                "        \"findBtnLocaltion_y1\":1661,\n" +
-                                "        \"findBtnLocaltion_x2\":810,\n" +
-                                "        \"findBtnLocaltion_y2\":1812\n" +
-                                "    }";
-        Map<String, Integer> findBtnLocaltion = JSONObject.parseObject(findBtnLocaltionStr, Map.class);
+                        "发现";
         //坐标:朋友圈
-        String friendCircleBtnLocationStr =
+        String friendCircleBtnLocation =
                 paramMap.get("friendCircleBtnLocation") != null ?
                         paramMap.get("friendCircleBtnLocation").toString() :
-                        "{\n" +
-                                "        \"friendCircleBtnLocation_x1\":0,\n" +
-                                "        \"friendCircleBtnLocation_y1\":202,\n" +
-                                "        \"friendCircleBtnLocation_x2\":1080,\n" +
-                                "        \"friendCircleBtnLocation_y2\":354\n" +
-                                "    }";
-        Map<String, Integer> friendCircleBtnLocation = JSONObject.parseObject(friendCircleBtnLocationStr, Map.class);
+                        "朋友圈";
         //坐标:相机
-        String cameraLocaltionStr =
+        String cameraLocaltion =
                 paramMap.get("cameraLocaltion") != null ?
                         paramMap.get("cameraLocaltion").toString() :
-                        "{\n" +
-                                "        \"cameraLocaltion_x1\":929,\n" +
-                                "        \"cameraLocaltion_y1\":72,\n" +
-                                "        \"cameraLocaltion_x2\":1080,\n" +
-                                "        \"cameraLocaltion_y2\":202\n" +
-                                "    }";
-        Map<String, Integer> cameraLocaltion = JSONObject.parseObject(cameraLocaltionStr, Map.class);
+                        "拍照分享";
         //朋友圈文本内容
         String textMessage =
                 paramMap.get("textMessage") != null ?
                         paramMap.get("textMessage").toString() :
                         "选择有效的推广方式更为重要![闪电][闪电]早上第一件事干什么？刷微信；上班忙里偷闲干什么？刷微信；中午吃饭你还在干什么？刷微信；晚上回家干什么？刷微信；睡觉前最一件事干什么？还是刷微信。现在是微信时代，还在担心人脉不多知名度低？交给我们一切就是这么简单[拳头][拥抱][拥抱]";
         textMessage = EmojiUtil.emojiRecovery(textMessage);
-        //坐标:文本输入框
+        //坐标:输入分享文本框
         String textInputLocaltion =
                 paramMap.get("textInputLocaltion") != null ?
                         paramMap.get("textInputLocaltion").toString() :
-                        "com.tencent.mm:id/d41";
-        //坐标:发表/完成
-        String publishOrCompleteBtnLocaltion =
-                paramMap.get("publishOrCompleteBtnLocaltion") != null ?
-                        paramMap.get("publishOrCompleteBtnLocaltion").toString() :
-                        "com.tencent.mm:id/ln";
-        //坐标：从相册中选择
-        String selectFromPhotosBtnLocaltionStr =
+                        "这一刻的想法...";
+        //坐标:发表
+        String publishBtnLocaltion =
+                paramMap.get("publishBtnLocaltion") != null ?
+                        paramMap.get("publishBtnLocaltion").toString() :
+                        "发表";
+        //坐标：从相册选择
+        String selectFromPhotosBtnLocaltion =
                 paramMap.get("selectFromPhotosBtnLocaltion") != null ?
                         paramMap.get("selectFromPhotosBtnLocaltion").toString() :
-                        "{\n" +
-                                "        \"selectFromPhotosBtnLocaltion_x1\":119,\n" +
-                                "        \"selectFromPhotosBtnLocaltion_y1\":942,\n" +
-                                "        \"selectFromPhotosBtnLocaltion_x2\":961,\n" +
-                                "        \"selectFromPhotosBtnLocaltion_y2\":1092\n" +
-                                "    }";
-        Map<String, Integer> selectFromPhotosBtnLocaltion = JSONObject.parseObject(selectFromPhotosBtnLocaltionStr, Map.class);
-        //相册坐标
-        String allPhotoLocaltion =
-                paramMap.get("allPhotoLocaltion") != null ?
-                        paramMap.get("allPhotoLocaltion").toString() :
-                        "com.tencent.mm:id/el5";
+                        "从相册选择";
         String singlePhotoLocaltion =
                 paramMap.get("singlePhotoLocaltion") != null ?
                         paramMap.get("singlePhotoLocaltion").toString() :
                         "com.tencent.mm:id/bws";
-        //手机本地的微信图片路径
-        String phoneLocalPath =
-                paramMap.get("phoneLocalPath") != null ?
-                        paramMap.get("phoneLocalPath").toString() :
-                        "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
-        //朋友圈图片，注：1.使用adb传输文件到手机
-//        String imgListStr =
-//                paramMap.get("imgList") != null ?
-//                        paramMap.get("imgList").toString() :
-//                        "[\n" +
-//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/大.jpg\",\n" +
-//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/事.jpg\",\n" +
-//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/件.jpg\"\n" +
-//                                "]";
+        //坐标：完成
+        String completeBtnLocaltion =
+                paramMap.get("completeBtnLocaltion") != null ?
+                        paramMap.get("completeBtnLocaltion").toString() :
+                        "完成";
         String imgDirPath =
                 paramMap.get("imgDirPath") != null ?
                         paramMap.get("imgDirPath").toString() :
@@ -150,34 +112,11 @@ public class RealMachineDevices implements SendFriendCircle {
         File imgDir = new File(imgDirPath);
         File[] imgFiles = imgDir.listFiles();
         Integer imageNum = 0;
-        if("今日油价".equals(imgDir.getName())){
+        if ("今日油价".equals(imgDir.getName())) {
             imageNum = 1;
         } else {
             imageNum = imgFiles.length;
         }
-        //朋友圈图片，注：2.使用appium的AndroidDriver传输文件到手机
-//        String imgListStr =
-//                paramMap.get("imgList") != null ?
-//                        paramMap.get("imgList").toString() :
-//                        "[\n" +
-//                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=171575470401_.pic_hd.jpg\",\n" +
-//                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=181575470402_.pic_hd.jpg\",\n" +
-//                                "        \"http://192.168.43.181/owncloud/index.php/s/6Y0lVeKWCarVgCF/download?path=%2F带图片For朋友圈%2F默认&files=191575470403_.pic_hd.jpg\"\n" +
-//                                "    ]";
-//        List<String> imgList = Lists.newArrayList();
-//        Integer imageNum = 0;
-//        if (!"".equals(imgListStr)) {
-//            imgList = JSONObject.parseObject(imgListStr, List.class);
-//            imageNum = imgList.size();
-//        } else {
-//            imgList = Lists.newArrayList();
-//            imageNum = 1;
-//        }
-        //昵称
-        String nickName =
-                paramMap.get("nickName") != null ?
-                        paramMap.get("nickName").toString() :
-                        "默认";
 
         //1.配置连接android驱动
         AndroidDriver driver = null;
@@ -211,16 +150,9 @@ public class RealMachineDevices implements SendFriendCircle {
         }
         //2.点击坐标【发现】
         try {
-            Integer findBtnLocaltion_x1 = findBtnLocaltion.get("findBtnLocaltion_x1") != null ? findBtnLocaltion.get("findBtnLocaltion_x1") : 540;
-            Integer findBtnLocaltion_y1 = findBtnLocaltion.get("findBtnLocaltion_y1") != null ? findBtnLocaltion.get("findBtnLocaltion_y1") : 1661;
-            Integer findBtnLocaltion_x2 = findBtnLocaltion.get("findBtnLocaltion_x2") != null ? findBtnLocaltion.get("findBtnLocaltion_x2") : 810;
-            Integer findBtnLocaltion_y2 = findBtnLocaltion.get("findBtnLocaltion_y2") != null ? findBtnLocaltion.get("findBtnLocaltion_y2") : 1812;
-            Integer findBtnLocaltion_x = (int) (Math.random() * (findBtnLocaltion_x2 - findBtnLocaltion_x1) + findBtnLocaltion_x1);
-            Integer findBtnLocaltion_y = (int) (Math.random() * (findBtnLocaltion_y2 - findBtnLocaltion_y1) + findBtnLocaltion_y1);
-            Duration duration = Duration.ofMillis(500);
-            new TouchAction(driver).press(findBtnLocaltion_x, findBtnLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")").click();
             sw.split();
-            logger.info("点击坐标【发现】,x = " + findBtnLocaltion_x + " , y = " + findBtnLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("点击坐标【发现】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
             sw.split();
@@ -230,17 +162,10 @@ public class RealMachineDevices implements SendFriendCircle {
         }
         //3.点击坐标【朋友圈】
         try {
-            Integer friendCircleBtnLocation_x1 = friendCircleBtnLocation.get("friendCircleBtnLocation_x1") != null ? friendCircleBtnLocation.get("friendCircleBtnLocation_x1") : 0;
-            Integer friendCircleBtnLocation_y1 = friendCircleBtnLocation.get("friendCircleBtnLocation_y1") != null ? friendCircleBtnLocation.get("friendCircleBtnLocation_y1") : 202;
-            Integer friendCircleBtnLocation_x2 = friendCircleBtnLocation.get("friendCircleBtnLocation_x2") != null ? friendCircleBtnLocation.get("friendCircleBtnLocation_x2") : 1080;
-            Integer friendCircleBtnLocation_y2 = friendCircleBtnLocation.get("friendCircleBtnLocation_y2") != null ? friendCircleBtnLocation.get("friendCircleBtnLocation_y2") : 354;
-            Integer friendCircleBtnLocation_x = (int) (Math.random() * (friendCircleBtnLocation_x2 - friendCircleBtnLocation_x1) + friendCircleBtnLocation_x1);
-            Integer friendCircleBtnLocation_y = (int) (Math.random() * (friendCircleBtnLocation_y2 - friendCircleBtnLocation_y1) + friendCircleBtnLocation_y1);
-            Duration duration = Duration.ofMillis(500);
-            new TouchAction(driver).press(friendCircleBtnLocation_x, friendCircleBtnLocation_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + friendCircleBtnLocation + "\")").click();
             sw.split();
-            logger.info("点击坐标【朋友圈】,x = " + friendCircleBtnLocation_x + " , y = " + friendCircleBtnLocation_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1000);
+            logger.info("点击坐标【朋友圈】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            Thread.sleep(5000);
         } catch (Exception e) {
             sw.split();
             e.printStackTrace();
@@ -251,16 +176,11 @@ public class RealMachineDevices implements SendFriendCircle {
         if (action.equals("textMessageFriendCircle")) {             //文字信息朋友圈
             //5.1.长按坐标【相机】
             try {
-                Integer cameraLocaltion_x1 = cameraLocaltion.get("cameraLocaltion_x1") != null ? cameraLocaltion.get("cameraLocaltion_x1") : 929;
-                Integer cameraLocaltion_y1 = cameraLocaltion.get("cameraLocaltion_y1") != null ? cameraLocaltion.get("cameraLocaltion_y1") : 72;
-                Integer cameraLocaltion_x2 = cameraLocaltion.get("cameraLocaltion_x2") != null ? cameraLocaltion.get("cameraLocaltion_x2") : 1080;
-                Integer cameraLocaltion_y2 = cameraLocaltion.get("cameraLocaltion_y2") != null ? cameraLocaltion.get("cameraLocaltion_y2") : 202;
-                Integer cameraLocaltion_x = (int) (Math.random() * (cameraLocaltion_x2 - cameraLocaltion_x1) + cameraLocaltion_x1);
-                Integer cameraLocaltion_y = (int) (Math.random() * (cameraLocaltion_y2 - cameraLocaltion_y1) + cameraLocaltion_y1);
+                WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + cameraLocaltion + "\")");
                 Duration duration = Duration.ofMillis(2000);
-                new TouchAction(driver).press(cameraLocaltion_x, cameraLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
+                new TouchAction(driver).press(canemerElement).waitAction(WaitOptions.waitOptions(duration)).release().perform();
                 sw.split();
-                logger.info("点击坐标【相机】,x = " + cameraLocaltion_x + " , y = " + cameraLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("点击坐标【相机】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(1500);
             } catch (Exception e) {
                 sw.split();
@@ -268,10 +188,9 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.2.输入文本
+            //5.2.输入分享文本框
             try {
-//                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
-                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+textInputLocaltion+"\")").sendKeys(textMessage);
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + textInputLocaltion + "\")").sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -283,8 +202,7 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.3.点击坐标【发表】
             try {
-//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
-                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+publishOrCompleteBtnLocaltion+"\")").click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + publishBtnLocaltion + "\")").click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(3000);
@@ -295,64 +213,11 @@ public class RealMachineDevices implements SendFriendCircle {
                 throw new Exception("点击坐标【发表】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
         } else if (action.equals("imgMessageFriendCircle")) {        //图片信息朋友圈
-
-//            //0.将图片保存到【手机本地的微信图片路径】
-//            if (imgList != null && imgList.size() > 0) {
-//                for (int i = 0; i < imgList.size(); i++) {
-//                    String imgPath = imgList.get(i);
-//                    //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-//                    File imgFile = new File(imgPath);
-//                    String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgPath + " " + phoneLocalPath;
-//                    CommandUtil.run(pushCommandStr);
-//                    Thread.sleep(1000);
-//                    String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-//                    CommandUtil.run(refreshCommandStr);
-////                    //2.使用appium的AndroidDriver传输文件到手机，流程java--->>>appium-->>>adb---->>>手机，无法完全确保成功
-////                    try {
-////                        //从Url获取
-////                        URL imgUrl = new URL(imgPath);
-////                        URLConnection con = imgUrl.openConnection();
-////                        con.setConnectTimeout(10000);
-////                        InputStream imgInputStream = con.getInputStream();
-////                        ByteArrayOutputStream imgOutStream = new ByteArrayOutputStream();
-////                        byte[] buffer = new byte[1024];
-////                        int len = 0;
-////                        while ((len = imgInputStream.read(buffer)) != -1) {
-////                            imgOutStream.write(buffer, 0, len);
-////                        }
-////                        byte[] imgData = new BASE64Encoder().encode(imgOutStream.toByteArray()).getBytes();
-////                        imgInputStream.close();
-////                        imgOutStream.close();
-////                        Date currentDate = new Date();
-////                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-////                        String imgName = phoneLocalPath + formatter.format(currentDate) + ".jpg";
-////                        driver.pushFile(imgName, imgData);
-////                        sw.split();
-////                        logger.info("将图片保存到【手机本地的微信图片路径】成功，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-////                        Thread.sleep(1000);
-////                    } catch (Exception e) {
-////                        sw.split();
-////                        logger.info("将图片保存到【手机本地的微信图片路径】失败，imgPath = " + imgPath + "，总共花费 " + sw.toSplitString() + " 秒....");
-////                        continue;
-////                    }
-//                }
-//            }
-//            sw.split();
-//            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待15分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
-//            Thread.sleep(1000*60*15);       //沉睡等待15分钟
-
             //5.1.点击坐标【相机】
             try {
-                Integer cameraLocaltion_x1 = cameraLocaltion.get("cameraLocaltion_x1") != null ? cameraLocaltion.get("cameraLocaltion_x1") : 540;
-                Integer cameraLocaltion_y1 = cameraLocaltion.get("cameraLocaltion_y1") != null ? cameraLocaltion.get("cameraLocaltion_y1") : 1661;
-                Integer cameraLocaltion_x2 = cameraLocaltion.get("cameraLocaltion_x2") != null ? cameraLocaltion.get("cameraLocaltion_x2") : 810;
-                Integer cameraLocaltion_y2 = cameraLocaltion.get("cameraLocaltion_y2") != null ? cameraLocaltion.get("cameraLocaltion_y2") : 1812;
-                Integer cameraLocaltion_x = (int) (Math.random() * (cameraLocaltion_x2 - cameraLocaltion_x1) + cameraLocaltion_x1);
-                Integer cameraLocaltion_y = (int) (Math.random() * (cameraLocaltion_y2 - cameraLocaltion_y1) + cameraLocaltion_y1);
-                Duration duration = Duration.ofMillis(100);
-                new TouchAction(driver).press(cameraLocaltion_x, cameraLocaltion_y).release().perform();
+                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + cameraLocaltion + "\")").click();
                 sw.split();
-                logger.info("点击坐标【相机】,x = " + cameraLocaltion_x + " , y = " + cameraLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("点击坐标【相机】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(1000);
             } catch (Exception e) {
                 sw.split();
@@ -362,16 +227,9 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.2.点击坐标【从相册选择】
             try {
-                Integer selectFromPhotosBtnLocaltion_x1 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x1") != null ? selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x1") : 119;
-                Integer selectFromPhotosBtnLocaltion_y1 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y1") != null ? selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y1") : 942;
-                Integer selectFromPhotosBtnLocaltion_x2 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x2") != null ? selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_x2") : 961;
-                Integer selectFromPhotosBtnLocaltion_y2 = selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y2") != null ? selectFromPhotosBtnLocaltion.get("selectFromPhotosBtnLocaltion_y2") : 1092;
-                Integer selectFromPhotosBtnLocaltion_x = (int) (Math.random() * (selectFromPhotosBtnLocaltion_x2 - selectFromPhotosBtnLocaltion_x1) + selectFromPhotosBtnLocaltion_x1);
-                Integer selectFromPhotosBtnLocaltion_y = (int) (Math.random() * (selectFromPhotosBtnLocaltion_y2 - selectFromPhotosBtnLocaltion_y1) + selectFromPhotosBtnLocaltion_y1);
-                Duration duration = Duration.ofMillis(500);
-                new TouchAction(driver).press(selectFromPhotosBtnLocaltion_x, selectFromPhotosBtnLocaltion_y).waitAction(WaitOptions.waitOptions(duration)).release().perform();
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + selectFromPhotosBtnLocaltion + "\")").click();
                 sw.split();
-                logger.info("点击坐标【从相册选择】,x = " + selectFromPhotosBtnLocaltion_x + " , y = " + selectFromPhotosBtnLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("点击坐标【从相册选择】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(5000);
             } catch (Exception e) {
                 sw.split();
@@ -381,9 +239,7 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.3.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
-//                WebElement allPhotoElement = driver.findElementById(allPhotoLocaltion);
-//                List<WebElement> photoElementList = allPhotoElement.findElements(By.id(singlePhotoLocaltion));
-                List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().resourceId(\""+singlePhotoLocaltion+"\")");
+                List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().resourceId(\"" + singlePhotoLocaltion + "\")");
                 for (int i = 0; i < photoElementList.size(); i++) {
                     if (i < imageNum) {
                         WebElement photoElement = photoElementList.get(i);
@@ -398,12 +254,11 @@ public class RealMachineDevices implements SendFriendCircle {
                 sw.split();
                 e.printStackTrace();
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-                throw new Exception("长按坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+                throw new Exception("长按坐标【选择图片】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
             //5.4.点击坐标【完成】
             try {
-//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
-                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+publishOrCompleteBtnLocaltion+"\")").click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + completeBtnLocaltion + "\")").click();
                 sw.split();
                 logger.info("点击坐标【完成】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -413,10 +268,9 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.5.点击【输入文字】
+            //5.5.点击【输入分享文本框】
             try {
-//                driver.findElementById(textInputLocaltion).sendKeys(textMessage);
-                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+textInputLocaltion+"\")").sendKeys(textMessage);
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + textInputLocaltion + "\")").sendKeys(textMessage);
                 sw.split();
                 logger.info("点击坐标【输入文字】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(2000);
@@ -426,10 +280,9 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.6.点击坐标【发布】
+            //5.6.点击坐标【发表】
             try {
-//                driver.findElementById(publishOrCompleteBtnLocaltion).click();
-                driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\""+publishOrCompleteBtnLocaltion+"\")").click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + publishBtnLocaltion + "\")").click();
                 sw.split();
                 logger.info("点击坐标【发表】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(3000);
@@ -516,7 +369,8 @@ public class RealMachineDevices implements SendFriendCircle {
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("deviceName", "5LM0216122009385");
             paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
-            paramMap.put("action", "imgMessageFriendCircle");
+//            paramMap.put("action", "imgMessageFriendCircle");
+            paramMap.put("action", "textMessageFriendCircle");
             paramMap.put("index", 1);
             new RealMachineDevices().sendFriendCircle(paramMap, sw);
             Thread.sleep(5000);

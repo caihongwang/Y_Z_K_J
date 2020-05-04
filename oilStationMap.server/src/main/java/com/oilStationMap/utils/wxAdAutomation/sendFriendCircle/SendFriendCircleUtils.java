@@ -47,7 +47,7 @@ public class SendFriendCircleUtils {
 //            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
-        Date currentDate = paramMap.get("currentDate") != null ? (Date)paramMap.get("currentDate") : new Date();
+        Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for (String nickName : nickNameList) {
             List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
@@ -95,7 +95,7 @@ public class SendFriendCircleUtils {
 
                             //将 图片文件 push 到安卓设备里面
                             boolean tempFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
-                            if(!imgExistFlag && tempFlag){
+                            if (!imgExistFlag && tempFlag) {
                                 imgExistFlag = tempFlag;
                             }
                         }
@@ -105,11 +105,14 @@ public class SendFriendCircleUtils {
                         //2.沉睡等待15分钟，确保USB传输文件到达手机相册
                         try {
                             sw.split();
-                            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待5分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
-                            Thread.sleep(1000 * 60 * 5);       //沉睡等待5分钟
+                            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
+                            Thread.sleep(1000 * 60 * 10);       //沉睡等待10分钟
                         } catch (Exception e) {
                             logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，失败...");
                         }
+                    } else {
+                        logger.error("发布朋友圈时，昵称【" + nickName + "】没有图片，异常退出.");
+                        continue;
                     }
                 }
 
@@ -146,7 +149,8 @@ public class SendFriendCircleUtils {
                                                             sendFriendCircleParam.get("startHour").toString() :
                                                             "";
                                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                            if (startHour.equals(currentHour)) {
+//                                            if (startHour.equals(currentHour)) {
+                                            if (startHour.equals("11")) {
                                                 //开始发送朋友圈
                                                 sw.split();
                                                 logger.info("设备描述【" + sendFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + sendFriendCircleParam.get("deviceName") + "】操作【" + sendFriendCircleParam.get("action") + "】昵称【" + nickName + "】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
@@ -195,7 +199,7 @@ public class SendFriendCircleUtils {
                 while (rebootDeviceNameList.size() > 0) {
                     //等待所有设备重启
                     try {
-                        Thread.sleep(30000);
+                        Thread.sleep(60000);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -278,11 +282,26 @@ public class SendFriendCircleUtils {
                 logger.info("发布朋友圈 失败.");
             }
         }
+
+        sw.split();
+        logger.info("【发送朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【发送朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【发送朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【发送朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【发送朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
     }
 
 
     /**
      * 将 图片文件 push 到安卓设备里面
+     * adb -s QVM0216331002197 push 大.jpg /storage/emulated/0/DCIM/Camera/
+     * adb -s QVM0216331002197 push 事.jpg /storage/emulated/0/DCIM/Camera/
+     * adb -s QVM0216331002197 push 件.jpg /storage/emulated/0/DCIM/Camera/
+     * <p>
+     * <p>
+     * adb -s QVM0216331002197 push 大.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s QVM0216331002197 push 事.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s QVM0216331002197 push 件.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
      *
      * @param deviceNameList
      * @param sendFriendCircleParam
@@ -297,7 +316,7 @@ public class SendFriendCircleUtils {
                 sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
                 String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
                 String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
-                Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date)sendFriendCircleParam.get("currentDate") : new Date();
+                Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date) sendFriendCircleParam.get("currentDate") : new Date();
                 if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -310,7 +329,8 @@ public class SendFriendCircleUtils {
                                             sendFriendCircleParam.get("startHour").toString() :
                                             "";
                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                            if (startHour.equals(currentHour)) {
+//                            if (startHour.equals(currentHour)) {
+                            if (startHour.equals("11")) {
                                 //设备编码
                                 String deviceName =
                                         deviceNameMap.get("deviceName") != null ?
@@ -328,7 +348,7 @@ public class SendFriendCircleUtils {
                                         imgFiles = new File[1];
                                         try {
                                             File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
-                                            if(!imgFile.exists()){
+                                            if (!imgFile.exists()) {
                                                 imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
                                             }
                                             if (imgFile.exists()) {
@@ -351,10 +371,12 @@ public class SendFriendCircleUtils {
                                             String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
                                             CommandUtil.run(pushCommandStr);
                                             Thread.sleep(1000);
-                                            String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                                            CommandUtil.run(refreshCommandStr);
+                                            for (int j = 1; j <= 200; j++) {
+                                                String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                                CommandUtil.run(refreshCommandStr);
+                                            }
                                             logger.info("将 图片文件 push 从安卓设备【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
-                                            if(!flag){
+                                            if (!flag) {
                                                 flag = true;
                                             }
                                         } catch (Exception e) {
@@ -390,7 +412,7 @@ public class SendFriendCircleUtils {
                 sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
                 String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
                 String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
-                Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date)sendFriendCircleParam.get("currentDate") : new Date();
+                Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date) sendFriendCircleParam.get("currentDate") : new Date();
                 if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -420,7 +442,7 @@ public class SendFriendCircleUtils {
                                         imgFiles = new File[1];
                                         try {
                                             File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
-                                            if(!imgFile.exists()){
+                                            if (!imgFile.exists()) {
                                                 imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
                                             }
                                             imgFiles[0] = imgFile;
@@ -436,11 +458,13 @@ public class SendFriendCircleUtils {
                                         try {
                                             //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
                                             File imgFile = imgFiles[i];
-                                            String removeCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + imgFile.getName();
+                                            String removeCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + "*";
                                             CommandUtil.run(removeCommandStr);
                                             Thread.sleep(1000);
-                                            String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                                            CommandUtil.run(refreshCommandStr);
+                                            for (int j = 1; j <= 200; j++) {
+                                                String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                                CommandUtil.run(refreshCommandStr);
+                                            }
                                             logger.info("将 图片文件 remove 从安卓设备【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
                                         } catch (Exception e) {
                                             logger.info("将 图片文件 remove 从安卓设备【" + deviceName + "】失败，设备未连接到电脑上, e : ", e);
