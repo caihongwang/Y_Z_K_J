@@ -257,11 +257,19 @@ public class RealMachineDevices implements SendFriendCircle {
                 } else {
                     for (int j = 1; j <= 200; j++) {
                         String refreshCommandStr = "";
-                        for (int i = 0; i < imageNum; i++) {
-                            refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
-                            CommandUtil.run(new String[]{refreshCommandStr});
-                            refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
-                            CommandUtil.run(new String[]{refreshCommandStr});
+                        for (int i = 1; i <= imageNum; i++) {
+                            try{
+                                refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
+                                CommandUtil.run(new String[]{refreshCommandStr});
+                            } catch (Exception e) {
+                                logger.info("点击坐标【选择图片】失败，更新到图片失败，即将重启.....");
+                            }
+                            try{
+                                refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
+                                CommandUtil.run(new String[]{refreshCommandStr});
+                            } catch (Exception e) {
+                                logger.info("点击坐标【选择图片】失败，更新到图片失败，即将重启.....");
+                            }
                         }
                     }
                     logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");

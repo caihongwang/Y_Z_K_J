@@ -295,14 +295,14 @@ public class SendFriendCircleUtils {
 
     /**
      * 将 图片文件 push 到安卓设备里面
-     * adb -s QVM0216331002197 push 大.jpg /storage/emulated/0/DCIM/Camera/
-     * adb -s QVM0216331002197 push 事.jpg /storage/emulated/0/DCIM/Camera/
-     * adb -s QVM0216331002197 push 件.jpg /storage/emulated/0/DCIM/Camera/
+     * adb -s QVM0216331002197 push 1.jpg /storage/emulated/0/DCIM/Camera/
+     * adb -s QVM0216331002197 push 2.jpg /storage/emulated/0/DCIM/Camera/
+     * adb -s QVM0216331002197 push 3.jpg /storage/emulated/0/DCIM/Camera/
      * <p>
      * <p>
-     * adb -s 5LM0216122009385 push 大.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
-     * adb -s 5LM0216122009385 push 事.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
-     * adb -s 5LM0216122009385 push 件.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s 5LM0216122009385 push 1.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s 5LM0216122009385 push 2.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s 5LM0216122009385 push 3.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
      *
      * @param deviceNameList
      * @param sendFriendCircleParam
