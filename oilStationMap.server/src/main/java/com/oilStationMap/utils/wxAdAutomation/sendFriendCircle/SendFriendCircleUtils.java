@@ -48,9 +48,9 @@ public class SendFriendCircleUtils {
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
-        try {
-            currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse("2020-05-05 21");
-        } catch (Exception e) {}
+//        try {
+//            currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse("2020-05-05 21");
+//        } catch (Exception e) {}
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for (String nickName : nickNameList) {
             List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
