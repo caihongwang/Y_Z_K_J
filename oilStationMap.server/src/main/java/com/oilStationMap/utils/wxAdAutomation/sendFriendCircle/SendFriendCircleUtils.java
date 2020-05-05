@@ -48,6 +48,9 @@ public class SendFriendCircleUtils {
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
+//        try {
+//            currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse("2020-05-05 14");
+//        } catch (Exception e) {}
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for (String nickName : nickNameList) {
             List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
@@ -104,13 +107,13 @@ public class SendFriendCircleUtils {
 
                     if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
                         //2.沉睡等待15分钟，确保USB传输文件到达手机相册
-                        try {
-                            sw.split();
-                            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
-                            Thread.sleep(1000 * 60 * 10);       //沉睡等待10分钟
-                        } catch (Exception e) {
-                            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，失败...");
-                        }
+//                        try {
+//                            sw.split();
+//                            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，确保USB传输文件到达手机相册，总共花费 " + sw.toSplitString() + " 秒....");
+//                            Thread.sleep(1000 * 60 * 10);       //沉睡等待10分钟
+//                        } catch (Exception e) {
+//                            logger.info("将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，失败...");
+//                        }
                     } else {
                         logger.error("发布朋友圈时，昵称【" + nickName + "】没有图片，异常退出.");
                         continue;
@@ -151,7 +154,6 @@ public class SendFriendCircleUtils {
                                                             "";
                                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                             if (startHour.equals(currentHour)) {
-//                                            if (startHour.equals("11")) {
                                                 //开始发送朋友圈
                                                 sw.split();
                                                 logger.info("设备描述【" + sendFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + sendFriendCircleParam.get("deviceName") + "】操作【" + sendFriendCircleParam.get("action") + "】昵称【" + nickName + "】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
@@ -200,7 +202,7 @@ public class SendFriendCircleUtils {
                 while (rebootDeviceNameList.size() > 0) {
                     //等待所有设备重启
                     try {
-                        Thread.sleep(60000);
+                        Thread.sleep(45000);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -332,7 +334,6 @@ public class SendFriendCircleUtils {
                                             "";
                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
                             if (startHour.equals(currentHour)) {
-//                            if (startHour.equals("11")) {
                                 //设备编码
                                 String deviceName =
                                         deviceNameMap.get("deviceName") != null ?
@@ -373,9 +374,29 @@ public class SendFriendCircleUtils {
                                             String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
                                             CommandUtil.run(pushCommandStr);
                                             Thread.sleep(1000);
-                                            for (int j = 1; j <= 200; j++) {
-                                                String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                            for (int j = 1; j <= 100; j++) {
+                                                String refreshCommandStr = "";
+                                                refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
                                                 CommandUtil.run(refreshCommandStr);
+//                                                try{
+//                                                    refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
+//                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
+//                                                } catch (Exception e) {
+//                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+//                                                }
+//                                                try{
+//                                                    refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
+//                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
+//                                                } catch (Exception e) {
+//                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+//                                                }
+//                                                try{
+//                                                    refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath;
+//                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
+//                                                } catch (Exception e) {
+//                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【文件夹】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+//                                                }
+                                                logger.info("将 图片文件 push 从安卓设备，第【"+j+"】次发送通知更新【"+sendFriendCircleParam.get("nickName")+"】"+imgFile.getName()+" 图片成功..... ");
                                             }
                                             logger.info("将 图片文件 push 从安卓设备【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
                                             if (!flag) {
@@ -464,9 +485,10 @@ public class SendFriendCircleUtils {
                                             String removeCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + "*";
                                             CommandUtil.run(removeCommandStr);
                                             Thread.sleep(1000);
-                                            for (int j = 1; j <= 200; j++) {
+                                            for (int j = 1; j <= 100; j++) {
                                                 String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
                                                 CommandUtil.run(refreshCommandStr);
+                                                logger.info("将 图片文件 remove 从安卓设备，第【"+j+"】次发送通知更新【"+sendFriendCircleParam.get("nickName")+"】"+imgFile.getName()+" 图片成功..... ");
                                             }
                                             logger.info("将 图片文件 remove 从安卓设备【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
                                         } catch (Exception e) {

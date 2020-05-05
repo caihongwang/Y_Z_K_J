@@ -193,7 +193,21 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【相机】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.2.输入分享文本框
+            //5.2【我知道了】
+            try {
+                WebElement knowElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "我知道了" + "\")");
+                if(knowElement != null){
+                    knowElement.click();
+                    sw.split();
+                    logger.info("点击坐标【我知道了】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    Thread.sleep(1500);
+                }
+                logger.info("点击坐标【我知道了】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            } catch (Exception e) {
+                sw.split();
+                logger.info("点击坐标【我知道了】已经点击过了，总共花费 " + sw.toSplitString() + " 秒....");
+            }
+            //5.3.输入分享文本框
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + textInputLocaltion + "\")").sendKeys(textMessage);
                 sw.split();
@@ -205,7 +219,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 sw.split();
                 throw new Exception("输入文字出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.3.点击坐标【发表】
+            //5.4.点击坐标【发表】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + publishBtnLocaltion + "\")").click();
                 sw.split();
@@ -242,10 +256,24 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【从相册选择】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.3.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
+            //5.3.点击坐标【我知道了】
+            try {
+                WebElement knowElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "我知道了" + "\")");
+                if(knowElement != null){
+                    knowElement.click();
+                    sw.split();
+                    logger.info("点击坐标【我知道了】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    Thread.sleep(1500);
+                }
+                logger.info("点击坐标【我知道了】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            } catch (Exception e) {
+                sw.split();
+                logger.info("点击坐标【我知道了】已经点击过了，总共花费 " + sw.toSplitString() + " 秒....");
+            }
+            //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
                 List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().resourceId(\"" + singlePhotoLocaltion + "\")");
-                if (photoElementList == null && photoElementList.size() > 0) {
+                if (photoElementList != null && photoElementList.size() > 0) {
                     for (int i = 0; i < photoElementList.size(); i++) {
                         if (i < imageNum) {
                             WebElement photoElement = photoElementList.get(i);
@@ -255,23 +283,24 @@ public class RealMachineDevices implements SendFriendCircle {
                         }
                     }
                 } else {
-                    for (int j = 1; j <= 200; j++) {
+                    for (int j = 1; j <= 100; j++) {
                         String refreshCommandStr = "";
                         for (int i = 1; i <= imageNum; i++) {
                             try{
                                 refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
-                                CommandUtil.run(new String[]{refreshCommandStr});
+                                CommandUtil.run(refreshCommandStr);
                             } catch (Exception e) {
-                                logger.info("点击坐标【选择图片】失败，更新到图片失败，即将重启.....");
+                                logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
                             }
                             try{
                                 refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
-                                CommandUtil.run(new String[]{refreshCommandStr});
                             } catch (Exception e) {
-                                logger.info("点击坐标【选择图片】失败，更新到图片失败，即将重启.....");
+                                logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
                             }
+                            logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新图片成功，即将重启..... ");
                         }
-                    }
+                    }//此处可以沉睡2秒等待处理更新图片通知
+                    Thread.sleep(2000);
                     logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
                     logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
                     logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
@@ -285,7 +314,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【选择图片】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.4.点击坐标【完成】
+            //5.5.点击坐标【完成】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + completeBtnLocaltion + "\")").click();
                 sw.split();
@@ -297,7 +326,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.5.点击【输入分享文本框】
+            //5.6.点击【输入分享文本框】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + textInputLocaltion + "\")").sendKeys(textMessage);
                 sw.split();
@@ -309,7 +338,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 throw new Exception("长按坐标【输入文字】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
-            //5.6.点击坐标【发表】
+            //5.7.点击坐标【发表】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + publishBtnLocaltion + "\")").click();
                 sw.split();
@@ -408,3 +437,5 @@ public class RealMachineDevices implements SendFriendCircle {
         }
     }
 }
+
+
