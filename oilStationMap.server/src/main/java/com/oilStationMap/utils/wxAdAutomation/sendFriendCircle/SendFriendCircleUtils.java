@@ -149,8 +149,8 @@ public class SendFriendCircleUtils {
                                                             sendFriendCircleParam.get("startHour").toString() :
                                                             "";
                                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
-//                                            if (startHour.equals(currentHour)) {
-                                            if (startHour.equals("11")) {
+                                            if (startHour.equals(currentHour)) {
+//                                            if (startHour.equals("11")) {
                                                 //开始发送朋友圈
                                                 sw.split();
                                                 logger.info("设备描述【" + sendFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + sendFriendCircleParam.get("deviceName") + "】操作【" + sendFriendCircleParam.get("action") + "】昵称【" + nickName + "】的发送朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
@@ -329,8 +329,8 @@ public class SendFriendCircleUtils {
                                             sendFriendCircleParam.get("startHour").toString() :
                                             "";
                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
-//                            if (startHour.equals(currentHour)) {
-                            if (startHour.equals("11")) {
+                            if (startHour.equals(currentHour)) {
+//                            if (startHour.equals("11")) {
                                 //设备编码
                                 String deviceName =
                                         deviceNameMap.get("deviceName") != null ?
