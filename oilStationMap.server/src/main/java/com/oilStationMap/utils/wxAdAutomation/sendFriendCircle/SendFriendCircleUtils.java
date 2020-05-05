@@ -59,6 +59,7 @@ public class SendFriendCircleUtils {
             if (resultList != null && resultList.size() > 0) {
                 //获取发送朋友圈的内容信息.
                 Map<String, Object> sendFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));
+                sendFriendCircleParam.put("phoneLocalPath", "/storage/emulated/0/tencent/MicroMsg/WeiXin/");
                 String theId = sendFriendCircleParam.get("id").toString();
                 //获取设备列表和配套的坐标配置
                 List<String> dicCodeList = Lists.newArrayList();
@@ -299,9 +300,9 @@ public class SendFriendCircleUtils {
      * adb -s QVM0216331002197 push 件.jpg /storage/emulated/0/DCIM/Camera/
      * <p>
      * <p>
-     * adb -s QVM0216331002197 push 大.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
-     * adb -s QVM0216331002197 push 事.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
-     * adb -s QVM0216331002197 push 件.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s 5LM0216122009385 push 大.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s 5LM0216122009385 push 事.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
+     * adb -s 5LM0216122009385 push 件.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
      *
      * @param deviceNameList
      * @param sendFriendCircleParam
@@ -309,7 +310,8 @@ public class SendFriendCircleUtils {
      */
     public static boolean pushImgFileToDevice(List<HashMap<String, Object>> deviceNameList, Map<String, Object> sendFriendCircleParam) {
         boolean flag = false;
-        String phoneLocalPath = "/storage/emulated/0/tencent/MicroMsg/WeiXin/";     //安卓设备的微信图片目录
+        //安卓设备的微信图片目录
+        String phoneLocalPath = sendFriendCircleParam.get("phoneLocalPath")!=null?sendFriendCircleParam.get("phoneLocalPath").toString():"/storage/emulated/0/tencent/MicroMsg/WeiXin/";
         File[] imgFiles = null;
         if (deviceNameList != null && deviceNameList.size() > 0) {
             for (Map<String, Object> deviceNameMap : deviceNameList) {
@@ -405,7 +407,8 @@ public class SendFriendCircleUtils {
      * @param sendFriendCircleParam
      */
     public static void removeImgFileToDevice(List<HashMap<String, Object>> deviceNameList, Map<String, Object> sendFriendCircleParam) {
-        String phoneLocalPath = "/storage/emulated/0/tencent/MicroMsg/WeiXin/";     //安卓设备的微信图片目录
+        //安卓设备的微信图片目录
+        String phoneLocalPath = sendFriendCircleParam.get("phoneLocalPath")!=null?sendFriendCircleParam.get("phoneLocalPath").toString():"/storage/emulated/0/tencent/MicroMsg/WeiXin/";
         File[] imgFiles = null;
         if (deviceNameList != null && deviceNameList.size() > 0) {
             for (Map<String, Object> deviceNameMap : deviceNameList) {

@@ -45,6 +45,11 @@ public class RealMachineDevices implements SendFriendCircle {
     @Override
     public void sendFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception {
         //0.获取参数
+        //手机的图片地址
+        String phoneLocalPath =
+                paramMap.get("phoneLocalPath") != null ?
+                        paramMap.get("phoneLocalPath").toString() :
+                        "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
         //设备编码
         String deviceName =
                 paramMap.get("deviceName") != null ?
@@ -240,13 +245,29 @@ public class RealMachineDevices implements SendFriendCircle {
             //5.3.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
                 List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().resourceId(\"" + singlePhotoLocaltion + "\")");
-                for (int i = 0; i < photoElementList.size(); i++) {
-                    if (i < imageNum) {
-                        WebElement photoElement = photoElementList.get(i);
-                        photoElement.click();
-                        sw.split();
-                        logger.info("点击坐标选择第" + i + "张图片，总共花费 " + sw.toSplitString() + " 秒....");
+                if (photoElementList == null && photoElementList.size() > 0) {
+                    for (int i = 0; i < photoElementList.size(); i++) {
+                        if (i < imageNum) {
+                            WebElement photoElement = photoElementList.get(i);
+                            photoElement.click();
+                            sw.split();
+                            logger.info("点击坐标选择第" + i + "张图片，总共花费 " + sw.toSplitString() + " 秒....");
+                        }
                     }
+                } else {
+                    for (int j = 1; j <= 200; j++) {
+                        String refreshCommandStr = "";
+                        for (int i = 0; i < imageNum; i++) {
+                            refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
+                            CommandUtil.run(new String[]{refreshCommandStr});
+                            refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
+                            CommandUtil.run(new String[]{refreshCommandStr});
+                        }
+                    }
+                    logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
+                    logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
+                    logger.info("点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
+                    this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 }
                 sw.split();
                 logger.info("点击坐标【选择图片】成功，总共花费 " + sw.toSplitString() + " 秒....");
@@ -369,8 +390,8 @@ public class RealMachineDevices implements SendFriendCircle {
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("deviceName", "5LM0216122009385");
             paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
-//            paramMap.put("action", "imgMessageFriendCircle");
-            paramMap.put("action", "textMessageFriendCircle");
+            paramMap.put("action", "imgMessageFriendCircle");
+//            paramMap.put("action", "textMessageFriendCircle");
             paramMap.put("index", 1);
             new RealMachineDevices().sendFriendCircle(paramMap, sw);
             Thread.sleep(5000);
