@@ -120,7 +120,6 @@ public class TimeTaskOfQuartz {
                     paramMap.put("nickNameListStr", nickNameListStr);
                     wxSpiderService.sendFriendCircle(paramMap);
                 }
-                Thread.sleep(1000*60*5);            //沉睡5分钟
             } catch (Exception e) {
                 logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
             }
@@ -138,7 +137,6 @@ public class TimeTaskOfQuartz {
                     paramMap.put("nickNameListStr", nickNameListStr);
                     wxSpiderService.shareArticleToFriendCircle(paramMap);
                 }
-                Thread.sleep(1000*60*5);            //沉睡5分钟
             } catch (Exception e) {
                 logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
             }

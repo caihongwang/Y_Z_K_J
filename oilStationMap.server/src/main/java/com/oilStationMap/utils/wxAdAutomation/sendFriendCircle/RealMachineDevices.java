@@ -272,7 +272,7 @@ public class RealMachineDevices implements SendFriendCircle {
             }
             //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
-                List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().resourceId(\"" + singlePhotoLocaltion + "\")");
+                List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + singlePhotoLocaltion + "\")");
                 if (photoElementList != null && photoElementList.size() > 0) {
                     for (int i = 0; i < photoElementList.size(); i++) {
                         if (i < imageNum) {
