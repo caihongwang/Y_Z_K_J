@@ -27,6 +27,13 @@ public interface WX_SpiderService {
     public ResultMapDTO sendFriendCircle(Map<String, Object> paramMap);
 
     /**
+     * 根据微信群昵称添加群成员为好友
+     * @param paramMap
+     * @throws Exception
+     */
+    public ResultMapDTO addGroupMembersAsFriends(Map<String, Object> paramMap);
+
+    /**
      * 根据微信昵称进行聊天
      * @param paramMap
      * @throws Exception

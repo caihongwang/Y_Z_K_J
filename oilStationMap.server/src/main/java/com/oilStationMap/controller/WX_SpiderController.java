@@ -45,6 +45,27 @@ public class WX_SpiderController {
         return resultMap;
     }
 
+    @RequestMapping("/addGroupMembersAsFriends")
+    @ResponseBody
+    public Map<String, Object> addGroupMembersAsFriends(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,请求-paramMap:" + paramMap);
+        try {
+            ResultDTO resultDTO = wxSpiderHandler.addGroupMembersAsFriends(paramMap);
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends is error, paramMap : " + paramMap + ", e : ", e);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/sendFriendCircle")
     @ResponseBody
     public Map<String, Object> sendFriendCircle(HttpServletRequest request) {

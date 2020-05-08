@@ -72,6 +72,23 @@ public class WX_SpiderHandler {
         return resultDTO;
     }
 
+    public ResultDTO addGroupMembersAsFriends(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread() {
+            public void run() {
+                try {
+                    wxSpiderService.addGroupMembersAsFriends(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        logger.info("在hanlder中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
     public ResultDTO shareArticleToFriendCircle(Map<String, String> paramMap) {
         logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();

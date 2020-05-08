@@ -4,6 +4,7 @@ import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.SpiderForMeiTuanUtil;
+import com.oilStationMap.utils.wxAdAutomation.addGroupMembersAsFriends.AddGroupMembersAsFriendsUtils;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
@@ -49,6 +50,21 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在service中启动appium,自动化发送微信朋友圈-sendFriendCircle,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 根据微信群昵称添加群成员为好友
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO addGroupMembersAsFriends(Map<String, Object> paramMap) {
+        AddGroupMembersAsFriendsUtils.addGroupMembersAsFriends(paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在service中启动appium,根据微信群昵称添加群成员为好友-chatByNickName,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 
