@@ -344,7 +344,6 @@ public class SendFriendCircleUtils {
                                         sendFriendCircleParam.get("imgDirPath") != null ?
                                                 sendFriendCircleParam.get("imgDirPath").toString() :
                                                 "";
-
                                 if (!"".equals(imgDirPath)) {
                                     File imgDir = new File(imgDirPath);
                                     if ("今日油价".equals(imgDir.getName())) {
@@ -371,6 +370,9 @@ public class SendFriendCircleUtils {
                                         try {
                                             //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
                                             File imgFile = imgFiles[i];
+                                            if(imgFile.getName().startsWith(".")){          //过滤部分操作系统的隐藏文件
+                                                continue;
+                                            }
                                             String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
                                             CommandUtil.run(pushCommandStr);
                                             Thread.sleep(1000);

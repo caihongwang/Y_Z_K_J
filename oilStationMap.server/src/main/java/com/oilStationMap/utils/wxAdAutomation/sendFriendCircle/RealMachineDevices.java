@@ -120,7 +120,15 @@ public class RealMachineDevices implements SendFriendCircle {
         if ("今日油价".equals(imgDir.getName())) {
             imageNum = 1;
         } else {
-            imageNum = imgFiles.length;
+            Integer tempNum = 0;
+            for (int i = 0; i < imgFiles.length; i++) {
+                File imgFile = imgFiles[i];
+                if(imgFile.getName().startsWith(".")){          //过滤部分操作系统的隐藏文件
+                    tempNum++;
+                    continue;
+                }
+            }
+            imageNum = imgFiles.length - tempNum;
         }
 
         //1.配置连接android驱动
