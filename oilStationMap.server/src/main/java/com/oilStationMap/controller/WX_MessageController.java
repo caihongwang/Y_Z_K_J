@@ -200,7 +200,6 @@ public class WX_MessageController {
     @ResponseBody
     public Map<String, Object> lidezhushou(HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("success", false);
         resultMap.put("code", "000");
         resultMap.put("data", "");
         resultMap.put("errorMessage", "");
