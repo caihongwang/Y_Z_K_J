@@ -195,4 +195,17 @@ public class WX_MessageController {
         return resultMap;
     }
 
+
+    @RequestMapping("/lidezhushou")
+    @ResponseBody
+    public Map<String, Object> lidezhushou(HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("success", false);
+        resultMap.put("code", "000");
+        resultMap.put("data", "");
+        resultMap.put("errorMessage", "");
+        logger.info("【controller】给里德助手发送心跳激活信息-exceptionDomainMessageSend,响应-response:" + resultMap);
+        return resultMap;
+    }
+
 }
