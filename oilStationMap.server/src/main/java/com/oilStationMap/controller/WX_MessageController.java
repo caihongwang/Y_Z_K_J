@@ -196,9 +196,9 @@ public class WX_MessageController {
     }
 
 
-    @RequestMapping("/lidezhushou")
+    @RequestMapping("/fpm/reportclick")
     @ResponseBody
-    public Map<String, Object> lidezhushou(HttpServletRequest request) {
+    public Map<String, Object> fpm_reportclick(HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("code", "000");
         resultMap.put("data", "");
