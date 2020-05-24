@@ -94,12 +94,12 @@
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">字典类型<font
 									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control" name="dicType" readonly="readonly"
+						<div class="col-sm-4"><input type="text" class="form-control" name="dicType"
 													 placeholder="${I18n.system_please_input}字典类型"
 													 maxlength="50"></div>
 						<label for="lastname" class="col-sm-2 control-label">字典编码<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"
+						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"  readonly="readonly"
 													 placeholder="${I18n.system_please_input}字典编码"
 													 maxlength="100"></div>
 					</div>
@@ -112,7 +112,7 @@
 													 maxlength="50"></div>
 						<label for="lastname" class="col-sm-2 control-label">字典状态<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicStatus" readonly="readonly"
+						<div class="col-sm-4"><input type="text" class="form-control"  name="dicStatus"
 													 placeholder="${I18n.system_please_input}字典状态"
 													 maxlength="100"></div>
 					</div>
@@ -175,7 +175,7 @@
 													 maxlength="50"></div>
 						<label for="lastname" class="col-sm-2 control-label">字典状态<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicStatus" readonly="readonly"
+						<div class="col-sm-4"><input type="text" class="form-control"  name="dicStatus"
 													 placeholder="${I18n.system_please_input}字典状态"
 													 maxlength="100"></div>
 					</div>

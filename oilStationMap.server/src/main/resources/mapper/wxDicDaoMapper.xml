@@ -171,4 +171,53 @@
         </where>
     </select>
 
+    <select id="getDicListByConditionForAdmin" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM o_dic od
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND od.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND od.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND od.dic_code like concat('%',#{dicCode},'%')
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND od.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND od.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getDicListTotalByConditionForAdmin" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from o_dic od
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND od.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND od.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND od.dic_code like concat('%',#{dicCode},'%')
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND od.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND od.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+    </select>
+
 </mapper>

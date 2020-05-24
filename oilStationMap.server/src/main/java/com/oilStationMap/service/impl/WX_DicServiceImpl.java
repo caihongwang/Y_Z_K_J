@@ -284,7 +284,7 @@ public class WX_DicServiceImpl implements WX_DicService {
     public ResultDTO getDicListByConditionForAdmin(Map<String, Object> paramMap) {
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> dicStrList = Lists.newArrayList();
-        List<Map<String, Object>> dicList = wxDicDao.getSimpleDicByCondition(paramMap);
+        List<Map<String, Object>> dicList = wxDicDao.getDicListByConditionForAdmin(paramMap);
         if (dicList != null && dicList.size() > 0) {
 //            for (Map<String, Object> dicMap : dicList) {
 //                String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
@@ -295,7 +295,7 @@ public class WX_DicServiceImpl implements WX_DicService {
 //                }
 //            }
             dicStrList = MapUtil.getStringMapList(dicList);
-            Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
+            Integer total = wxDicDao.getDicListTotalByConditionForAdmin(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(dicStrList);
             resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
