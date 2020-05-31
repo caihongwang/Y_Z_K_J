@@ -48,9 +48,15 @@ public class SendFriendCircleUtils {
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
-//        try {
-//            currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse("2020-05-05 21");
-//        } catch (Exception e) {}
+        String currentDateStr = paramMap.get("currentDateStr") != null ? paramMap.get("currentDateStr").toString() : "";
+        try {
+            if(!"".equals(currentDateStr)){
+                currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
+            }
+        } catch (Exception e) {
+            logger.error("解析当前时间失败，currentDateStr = " + currentDateStr + " ， e : ", currentDateStr);
+            currentDate = new Date();
+        }
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
         for (String nickName : nickNameList) {
             List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
@@ -62,9 +68,10 @@ public class SendFriendCircleUtils {
             if (resultList != null && resultList.size() > 0) {
                 //获取发送朋友圈的内容信息.
                 Map<String, Object> sendFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));
+                sendFriendCircleParam.put("nickName", sendFriendCircleParam.get("dicCode"));        //dicCode就是nickName
                 sendFriendCircleParam.put("phoneLocalPath", "/storage/emulated/0/tencent/MicroMsg/WeiXin/");
                 String theId = sendFriendCircleParam.get("id").toString();
-                //获取设备列表和配套的坐标配置
+                //获取设备列表和配套的坐标配置wxDic
                 List<String> dicCodeList = Lists.newArrayList();
                 dicCodeList.add("HuaWeiMate8ListAndSendFriendCircleLocaltion"); //获取 华为 Mate 8 设备列表和配套的坐标配置
                 dicCodeList.add("HuaWeiMate8HListAndSendFriendCircleLocaltion");//获取 华为 Mate 8 海外版 设备列表和配套的坐标配置
@@ -339,11 +346,12 @@ public class SendFriendCircleUtils {
                                         deviceNameMap.get("deviceName") != null ?
                                                 deviceNameMap.get("deviceName").toString() :
                                                 "";
-                                //图片文件
+                                //图片文件路径，总路径+微信昵称
                                 String imgDirPath =
                                         sendFriendCircleParam.get("imgDirPath") != null ?
                                                 sendFriendCircleParam.get("imgDirPath").toString() :
                                                 "";
+                                imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
                                 if (!"".equals(imgDirPath)) {
                                     File imgDir = new File(imgDirPath);
                                     if ("今日油价".equals(imgDir.getName())) {
@@ -462,6 +470,7 @@ public class SendFriendCircleUtils {
                                         sendFriendCircleParam.get("imgDirPath") != null ?
                                                 sendFriendCircleParam.get("imgDirPath").toString() :
                                                 "";
+                                imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
                                 if (!"".equals(imgDirPath)) {
                                     File imgDir = new File(imgDirPath);
                                     if ("今日油价".equals(imgDir.getName())) {

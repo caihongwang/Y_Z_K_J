@@ -63,11 +63,11 @@ $(function() {
                 "width": 100,
                 "render": function ( data, type, row ) {
                     if(data == "0"){
-                        return "使用中";
+                        return "正常";
                     } if(data == "1"){
-                        return "使用中";
+                        return "禁用";
                     } else {
-                        return "位置";
+                        return "未知";
                     }
                 }
             }, {

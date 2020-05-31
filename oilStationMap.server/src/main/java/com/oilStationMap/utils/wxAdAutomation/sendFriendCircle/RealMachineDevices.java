@@ -110,10 +110,12 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("completeBtnLocaltion") != null ?
                         paramMap.get("completeBtnLocaltion").toString() :
                         "完成";
+        //图片文件路径，总路径+微信昵称
         String imgDirPath =
                 paramMap.get("imgDirPath") != null ?
                         paramMap.get("imgDirPath").toString() :
                         "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认";
+        imgDirPath = imgDirPath + "/" + paramMap.get("nickName");
         File imgDir = new File(imgDirPath);
         File[] imgFiles = imgDir.listFiles();
         Integer imageNum = 0;
