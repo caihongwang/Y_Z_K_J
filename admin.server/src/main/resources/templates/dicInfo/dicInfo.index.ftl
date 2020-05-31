@@ -19,7 +19,7 @@
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1>字典管理</h1>
+			<h1>朋友圈管理</h1>
 		</section>
 
 		<!-- Main content -->
@@ -29,19 +29,19 @@
 				<div class="col-xs-2">
 					<div class="input-group">
 						<input type="text" class="form-control" id="dicType" autocomplete="on"
-							   placeholder="${I18n.system_please_input}字典类型">
+							   placeholder="${I18n.system_please_input}业务类型">
 					</div>
 				</div>
 				<div class="col-xs-2">
 					<div class="input-group">
 						<input type="text" class="form-control" id="dicCode" autocomplete="on"
-							   placeholder="${I18n.system_please_input}字典编码">
+							   placeholder="${I18n.system_please_input}微信昵称">
 					</div>
 				</div>
 				<div class="col-xs-2">
 					<div class="input-group">
 						<input type="text" class="form-control" id="dicName" autocomplete="on"
-							   placeholder="${I18n.system_please_input}字典名称">
+							   placeholder="${I18n.system_please_input}业务方式">
 					</div>
 				</div>
 				<div class="col-xs-1">
@@ -60,11 +60,11 @@
 								<thead>
 								<tr>
 									<th name="id">ID</th>
-									<th name="dicType">类型</th>
-									<th name="dicCode">编码</th>
-									<th name="dicName">名称</th>
-									<th name="dicRemark">详情</th>
-									<th name="dicStatus">状态</th>
+									<th name="dicType">业务类型</th>
+									<th name="dicCode">微信昵称</th>
+									<th name="dicName">业务方式</th>
+									<th name="dicRemark">业务详情</th>
+									<th name="dicStatus">业务状态</th>
 									<th>${I18n.system_opt}</th>
 								</tr>
 								</thead>
@@ -86,43 +86,60 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">更新字典</h4>
+				<h4 class="modal-title">更新【朋友圈】信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal form" role="form">
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">字典类型<font
+						<label for="lastname" class="col-sm-2 control-label">业务类型<font
 									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control" name="dicType" readonly="readonly"
-													 placeholder="${I18n.system_please_input}字典类型"
-													 maxlength="50"></div>
-						<label for="lastname" class="col-sm-2 control-label">字典编码<font
+						<div class="col-sm-4">
+<#--							<input type="text" class="form-control" name="dicType" readonly="readonly"-->
+<#--													 placeholder="${I18n.system_please_input}业务类型"-->
+<#--													 maxlength="50">-->
+							<select class="form-control" name="dicType">
+								<option value="sendFriendCircle">发送朋友圈</option>
+							</select>
+						</div>
+						<label for="lastname" class="col-sm-2 control-label">微信昵称<font
 									color="black">*</font></label>
 						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"
-													 placeholder="${I18n.system_please_input}字典编码"
+													 placeholder="${I18n.system_please_input}微信昵称"
 													 maxlength="100"></div>
 					</div>
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">字典名称<font
+						<label for="lastname" class="col-sm-2 control-label">业务方式<font
 									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control" name="dicName"
-													 placeholder="${I18n.system_please_input}字典名称"
-													 maxlength="50"></div>
-						<label for="lastname" class="col-sm-2 control-label">字典状态<font
+						<div class="col-sm-4">
+<#--							<input type="text" class="form-control" name="dicName"-->
+<#--													 placeholder="${I18n.system_please_input}业务方式"-->
+<#--													 maxlength="50">-->
+							<select class="form-control" name="dicName">
+								<option value="带图片-朋友圈-发送">带图片-朋友圈-发送</option>
+								<option value="纯文字-朋友圈-发送">纯文字-朋友圈-发送</option>
+							</select>
+						</div>
+						<label for="lastname" class="col-sm-2 control-label">业务状态<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicStatus" readonly="readonly"
-													 placeholder="${I18n.system_please_input}字典状态"
-													 maxlength="100"></div>
+						<div class="col-sm-4">
+<#--							<input type="text" class="form-control"  name="dicStatus" readonly="readonly"-->
+<#--													 placeholder="${I18n.system_please_input}业务状态"-->
+<#--													 maxlength="100">-->
+							<select class="form-control" name="dicStatus" disabled>
+								<option value="0">正常</option>
+								<option value="1">异常</option>
+							</select>
+						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">字典详情<font
+						<label for="firstname" class="col-sm-2 control-label">业务详情<font
 									color="black">*</font></label>
 						<div class="col-sm-10">
                             <textarea class="textarea form-control" name="dicRemark"
-									  placeholder="${I18n.system_please_input}字典详情"
+									  placeholder="${I18n.system_please_input}业务详情"
 									  maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
@@ -149,43 +166,61 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">添加字典</h4>
+				<h4 class="modal-title">添加【朋友圈】信息</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal form" role="form">
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">字典类型<font
+						<label for="lastname" class="col-sm-2 control-label">业务类型<font
 									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control" name="dicType"
-													 placeholder="${I18n.system_please_input}字典类型"
-													 maxlength="50"></div>
-						<label for="lastname" class="col-sm-2 control-label">字典编码<font
+						<div class="col-sm-4">
+<#--							<input type="text" class="form-control" name="dicType"-->
+<#--													 placeholder="${I18n.system_please_input}业务类型"-->
+<#--													 maxlength="50">-->
+							<select class="form-control" name="dicType">
+								<option value="sendFriendCircle">发送朋友圈</option>
+							</select>
+						</div>
+
+						<label for="lastname" class="col-sm-2 control-label">微信昵称<font
 									color="black">*</font></label>
 						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"
-													 placeholder="${I18n.system_please_input}字典编码"
+													 placeholder="${I18n.system_please_input}微信昵称"
 													 maxlength="100"></div>
 					</div>
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">字典名称<font
+						<label for="lastname" class="col-sm-2 control-label">业务方式<font
 									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control" name="dicName"
-													 placeholder="${I18n.system_please_input}字典名称"
-													 maxlength="50"></div>
-						<label for="lastname" class="col-sm-2 control-label">字典状态<font
+						<div class="col-sm-4">
+<#--							<input type="text" class="form-control" name="dicName"-->
+<#--													 placeholder="${I18n.system_please_input}业务方式"-->
+<#--													 maxlength="50">-->
+							<select class="form-control" name="dicName">
+								<option value="带图片-朋友圈-发送">带图片-朋友圈-发送</option>
+								<option value="纯文字-朋友圈-发送">纯文字-朋友圈-发送</option>
+							</select>
+						</div>
+						<label for="lastname" class="col-sm-2 control-label">业务状态<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicStatus" readonly="readonly"
-													 placeholder="${I18n.system_please_input}字典状态"
-													 maxlength="100"></div>
+						<div class="col-sm-4">
+<#--							<input type="text" class="form-control"  name="dicStatus" readonly="readonly"-->
+<#--													 placeholder="${I18n.system_please_input}业务状态"-->
+<#--													 maxlength="100">-->
+							<select class="form-control" name="dicStatus">
+								<option value="0">正常</option>
+								<option value="1">异常</option>
+							</select>
+						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">字典详情<font
+						<label for="firstname" class="col-sm-2 control-label">业务详情<font
 									color="black">*</font></label>
 						<div class="col-sm-10">
                             <textarea class="textarea form-control" name="dicRemark"
-									  placeholder="${I18n.system_please_input}字典详情"
+									  placeholder="${I18n.system_please_input}业务详情"
 									  maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
