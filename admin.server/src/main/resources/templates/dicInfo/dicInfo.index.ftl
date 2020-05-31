@@ -104,7 +104,7 @@
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">微信昵称<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"
+						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"  readonly="readonly"
 													 placeholder="${I18n.system_please_input}微信昵称"
 													 maxlength="100"></div>
 					</div>
@@ -124,10 +124,10 @@
 						<label for="lastname" class="col-sm-2 control-label">业务状态<font
 									color="black">*</font></label>
 						<div class="col-sm-4">
-<#--							<input type="text" class="form-control"  name="dicStatus" readonly="readonly"-->
+<#--							<input type="text" class="form-control"  name="dicStatus" -->
 <#--													 placeholder="${I18n.system_please_input}业务状态"-->
 <#--													 maxlength="100">-->
-							<select class="form-control" name="dicStatus" disabled>
+							<select class="form-control" name="dicStatus">
 								<option value="0">正常</option>
 								<option value="1">异常</option>
 							</select>
