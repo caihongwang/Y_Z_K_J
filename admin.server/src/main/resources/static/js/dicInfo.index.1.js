@@ -10,7 +10,8 @@ $(function() {
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
-				obj.start = 0;
+				// obj.start = 0;
+				obj.start = d.start;
 				obj.size = 10;
                 // obj.dicType = $('#dicType').val();
                 obj.dicType = $('#dicType').children('option:selected').val();
