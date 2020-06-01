@@ -226,6 +226,7 @@ public class WX_DicController {
         try {
             ResultDTO resultDTO = wxDicHandler.getDicListByConditionForAdmin(paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("recordsTotal", resultDTO.getResultListTotal());
             resultMap.put("data", resultDTO.getResultList());
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());

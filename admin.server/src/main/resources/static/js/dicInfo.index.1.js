@@ -12,9 +12,12 @@ $(function() {
 	        	var obj = {};
 				obj.start = 0;
 				obj.size = 10;
-                obj.dicType = $('#dicType').val();
+                // obj.dicType = $('#dicType').val();
+                obj.dicType = $('#dicType').children('option:selected').val();
                 obj.dicCode = $('#dicCode').val();
-                obj.dicName = $('#dicName').val();
+                // obj.dicName = $('#dicName').val();
+                obj.dicName = $('#dicName').children('option:selected').val();
+                console.log($('#dicName'));
                 return obj;
             }
 	    },
