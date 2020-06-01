@@ -238,8 +238,8 @@ public class WX_OilStationController {
         logger.info("在controller中获取加油站列表For管理中心-getOilStationListForAdmin,请求-paramMap:" + paramMap);
         try {
             ResultDTO resultDTO = wxOilStationHandler.getOilStationListForAdmin(paramMap);
-            resultMap.put("recordsTotal", resultDTO.getResultListTotal());      // 总记录数
             resultMap.put("recordsFiltered", resultDTO.getResultList().size()); // 过滤后的总记录数
+            resultMap.put("recordsTotal", resultDTO.getResultListTotal());      // 总记录数
             resultMap.put("data", resultDTO.getResultList());                   // 分页列表
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
