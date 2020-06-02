@@ -142,7 +142,7 @@ public class TimeTaskOfQuartz {
                     }
                     paramMap.clear();
                     paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
-                wxSpiderService.sendFriendCircle(paramMap);
+                    wxSpiderService.sendFriendCircle(paramMap);
                 } catch (Exception eee) {
                     eee.printStackTrace();
                 }
