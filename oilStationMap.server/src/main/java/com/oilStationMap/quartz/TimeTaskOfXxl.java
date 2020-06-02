@@ -1,5 +1,7 @@
 package com.oilStationMap.quartz;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.ResultDTO;
@@ -32,6 +34,9 @@ public class TimeTaskOfXxl {
     //使用环境
     @Value("${spring.profiles.active}")
     private String useEnvironmental;
+
+    @Autowired
+    private WX_DicService wxDicService;
 
     @Autowired
     private WX_SpiderService wxSpiderService;
@@ -68,7 +73,7 @@ public class TimeTaskOfXxl {
     }
 
     /**
-     * 发布朋友圈
+     * 发布朋友圈-当阿里云主机迁移到部署机器时可以使用当前任务
      * @param param
      * @return
      * @throws Exception
@@ -76,19 +81,34 @@ public class TimeTaskOfXxl {
     @XxlJob("do_SendFriendCircle")
     public ReturnT<String> do_SendFriendCircle(String param) throws Exception {
         if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            List<String> nickNameList = Lists.newArrayList();
             try {
-                Map<String, Object> paramMap = Maps.newHashMap();
-                paramMap.put("nickNameListStr", param);
+                //通过任务参数进行启动-发布朋友圈
+                String nickNameListStr = param;
+                nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+                paramMap.put("nickNameListStr", nickNameListStr);
                 wxSpiderService.sendFriendCircle(paramMap);
             } catch (Exception e) {
-                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-do_SendFriendCircle is error, paramMap : " + param + ", e : ", e);
+                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-do_SendFriendCircle is error,即将通过数据库获取数据发送朋友圈 paramMap : " + param + ", e : ", e);
+                //直接从现有的数据库中获取数据启动-发布朋友圈
+                paramMap.put("dicType", "sendFriendCircle");
+                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
+                    for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
+                        nickNameList.add(sendFriendCircleMap.get("dicCode"));
+                    }
+                }
+                paramMap.clear();
+                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                wxSpiderService.sendFriendCircle(paramMap);
             }
         }
         return ReturnT.SUCCESS;
     }
 
     /**
-     * 分享微信文章到微信朋友圈
+     * 分享微信文章到微信朋友圈-当阿里云主机迁移到部署机器时可以使用当前任务
      * @param param
      * @return
      * @throws Exception
@@ -96,12 +116,26 @@ public class TimeTaskOfXxl {
     @XxlJob("do_ShareArticleToFriendCircle")
     public ReturnT<String> do_ShareArticleToFriendCircle(String param) throws Exception {
         if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            List<String> nickNameList = Lists.newArrayList();
             try {
-                Map<String, Object> paramMap = Maps.newHashMap();
-                paramMap.put("nickNameListStr", param);
-                wxSpiderService.sendFriendCircle(paramMap);
+                //通过任务参数进行启动-分享微信文章到微信朋友圈
+                String nickNameListStr = param;
+                nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+                paramMap.put("nickNameListStr", nickNameListStr);
+                wxSpiderService.shareArticleToFriendCircle(paramMap);
             } catch (Exception e) {
-                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + param + ", e : ", e);
+                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + param + ", e : ", e);//直接从现有的数据库中获取数据启动-发布朋友圈
+                paramMap.put("dicType", "shareArticleToFriendCircle");
+                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
+                    for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
+                        nickNameList.add(sendFriendCircleMap.get("dicCode"));
+                    }
+                }
+                paramMap.clear();
+                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                wxSpiderService.shareArticleToFriendCircle(paramMap);
             }
         }
         return ReturnT.SUCCESS;

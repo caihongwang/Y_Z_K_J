@@ -31,7 +31,8 @@
 <#--						<input type="text" class="form-control" id="dicType" autocomplete="on"  readonly="readonly"-->
 <#--							   value="sendFriendCircle" placeholder="${I18n.system_please_input}业务类型">-->
 						<select class="form-control"  id="dicType" name="dicType" disabled>
-							<option value="sendFriendCircle" selected>朋友圈</option>
+							<option value="sendFriendCircle" selected>发布图片/文字朋友圈</option>
+							<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 						</select>
 					</div>
 				</div>
@@ -46,8 +47,9 @@
 <#--						<input type="text" class="form-control" id="dicName" autocomplete="on"-->
 <#--							   placeholder="${I18n.system_please_input}业务方式">-->
 						<select class="form-control"  id="dicName" name="dicName">
-							<option value="带图片-朋友圈-发送" selected>带图片-朋友圈-发送</option>
-							<option value="纯文字-朋友圈-发送">纯文字-朋友圈-发送</option>
+							<option value="发布图片内容到朋友圈">发布图片内容到朋友圈</option>
+							<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
+							<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
 						</select>
 					</div>
 				</div>
@@ -106,7 +108,8 @@
 <#--													 placeholder="${I18n.system_please_input}业务类型"-->
 <#--													 maxlength="50">-->
 							<select class="form-control" name="dicType">
-								<option value="sendFriendCircle">发送朋友圈</option>
+								<option value="sendFriendCircle" selected>发送朋友圈</option>
+								<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 							</select>
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">微信昵称<font
@@ -124,8 +127,9 @@
 <#--													 placeholder="${I18n.system_please_input}业务方式"-->
 <#--													 maxlength="50">-->
 							<select class="form-control" name="dicName">
-								<option value="带图片-朋友圈-发送">带图片-朋友圈-发送</option>
-								<option value="纯文字-朋友圈-发送">纯文字-朋友圈-发送</option>
+								<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
+								<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
+								<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
 							</select>
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">业务状态<font
@@ -135,7 +139,7 @@
 <#--													 placeholder="${I18n.system_please_input}业务状态"-->
 <#--													 maxlength="100">-->
 							<select class="form-control" name="dicStatus">
-								<option value="0">正常</option>
+								<option value="0" selected>正常</option>
 								<option value="1">异常</option>
 							</select>
 						</div>
@@ -187,6 +191,7 @@
 <#--													 maxlength="50">-->
 							<select class="form-control" name="dicType">
 								<option value="sendFriendCircle" selected>发送朋友圈</option>
+								<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 							</select>
 						</div>
 
@@ -205,8 +210,9 @@
 <#--													 placeholder="${I18n.system_please_input}业务方式"-->
 <#--													 maxlength="50">-->
 							<select class="form-control" name="dicName">
-								<option value="带图片-朋友圈-发送" selected>带图片-朋友圈-发送</option>
-								<option value="纯文字-朋友圈-发送">纯文字-朋友圈-发送</option>
+								<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
+								<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
+								<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
 							</select>
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">业务状态<font
