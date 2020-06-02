@@ -27,7 +27,7 @@
 
 			<div class="row">
 				<div class="col-xs-2">
-					<div class="input-group" style="width: 171px;">
+					<div class="input-group">
 <#--						<input type="text" class="form-control" id="dicType" autocomplete="on"  readonly="readonly"-->
 <#--							   value="sendFriendCircle" placeholder="${I18n.system_please_input}业务类型">-->
 						<select class="form-control"  id="dicType" name="dicType">
