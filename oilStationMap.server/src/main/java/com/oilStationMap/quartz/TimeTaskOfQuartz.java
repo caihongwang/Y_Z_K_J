@@ -102,7 +102,7 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈
      */
-    @Scheduled(cron = "0 45 */1 * * ?")
+    @Scheduled(cron = "0 01 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle() {
         if(!new SimpleDateFormat("yyyy-MM-dd HH").format(currentDate).equals(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()))){
             currentDate = new Date();
