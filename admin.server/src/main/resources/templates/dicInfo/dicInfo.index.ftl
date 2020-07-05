@@ -27,10 +27,10 @@
 
 			<div class="row">
 				<div class="col-xs-2">
-					<div class="input-group" style="width: 171px;">
+					<div class="input-group">
 <#--						<input type="text" class="form-control" id="dicType" autocomplete="on"  readonly="readonly"-->
 <#--							   value="sendFriendCircle" placeholder="${I18n.system_please_input}业务类型">-->
-						<select class="form-control"  id="dicType" name="dicType" disabled>
+						<select class="form-control"  id="dicType" name="dicType">
 							<option value="sendFriendCircle" selected>发布图片/文字朋友圈</option>
 							<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 						</select>
@@ -47,7 +47,7 @@
 						<#--						<input type="text" class="form-control" id="dicName" autocomplete="on"-->
 						<#--							   placeholder="${I18n.system_please_input}业务方式">-->
 						<select class="form-control"  id="dicName" name="dicName">
-							<option value="发布图片内容到朋友圈">发布图片内容到朋友圈</option>
+							<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
 							<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
 							<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
 						</select>
