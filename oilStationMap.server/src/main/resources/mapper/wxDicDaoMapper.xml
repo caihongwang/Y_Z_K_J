@@ -191,6 +191,9 @@
             <if test="dicRemark != null and dicRemark != ''">
                 AND od.dic_remark like concat('%',#{dicRemark},'%')
             </if>
+            <if test="dicStatus != null and dicStatus != ''">
+                AND od.dic_status = #{dicStatus}
+            </if>
         </where>
         <if test="start != null and size != null">
             LIMIT ${start},${size}
@@ -216,6 +219,9 @@
             </if>
             <if test="dicRemark != null and dicRemark != ''">
                 AND od.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+            <if test="dicStatus != null and dicStatus != ''">
+                AND od.dic_status = #{dicStatus}
             </if>
         </where>
     </select>
