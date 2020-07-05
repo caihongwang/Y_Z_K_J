@@ -43,7 +43,7 @@
         <!--<jackson.version>2.3.3</jackson.version>-->
         <com.esotericsoftware.kryo>4.0.0</com.esotericsoftware.kryo>
         <servlet.api>3.0-alpha-1</servlet.api>
-        <commons-beanutils>1.9.2</commons-beanutils>
+        <commons-beanutils>1.9.4</commons-beanutils>
         <org.bouncycastle.bcprov-jdk15on>1.47</org.bouncycastle.bcprov-jdk15on>
         <mysql-connector.version>5.1.38</mysql-connector.version>
         <junit.version>4.12</junit.version>
