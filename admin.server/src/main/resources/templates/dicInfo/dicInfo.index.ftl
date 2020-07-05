@@ -44,12 +44,20 @@
 				</div>
 				<div class="col-xs-2">
 					<div class="input-group">
-<#--						<input type="text" class="form-control" id="dicName" autocomplete="on"-->
-<#--							   placeholder="${I18n.system_please_input}业务方式">-->
+						<#--						<input type="text" class="form-control" id="dicName" autocomplete="on"-->
+						<#--							   placeholder="${I18n.system_please_input}业务方式">-->
 						<select class="form-control"  id="dicName" name="dicName">
 							<option value="发布图片内容到朋友圈">发布图片内容到朋友圈</option>
 							<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
 							<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-1">
+					<div class="input-group">
+						<select class="form-control"  id="dicStatus" name="dicStatus">
+							<option value="0"  selected>正常</option>
+							<option value="1">禁用</option>
 						</select>
 					</div>
 				</div>

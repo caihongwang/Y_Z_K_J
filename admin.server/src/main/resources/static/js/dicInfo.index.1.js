@@ -10,14 +10,12 @@ $(function() {
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
-				// obj.start = 0;
 				obj.start = d.start;
 				obj.size = 10;
-                // obj.dicType = $('#dicType').val();
                 obj.dicType = $('#dicType').children('option:selected').val();
                 obj.dicCode = $('#dicCode').val();
-                // obj.dicName = $('#dicName').val();
                 obj.dicName = $('#dicName').children('option:selected').val();
+                obj.dicStatus = $('#dicStatus').children('option:selected').val();
                 console.log($('#dicName'));
                 return obj;
             }
