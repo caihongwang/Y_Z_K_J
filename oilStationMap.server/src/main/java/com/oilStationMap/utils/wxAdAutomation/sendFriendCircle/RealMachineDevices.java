@@ -114,23 +114,25 @@ public class RealMachineDevices implements SendFriendCircle {
         String imgDirPath =
                 paramMap.get("imgDirPath") != null ?
                         paramMap.get("imgDirPath").toString() :
-                        "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认";
-        imgDirPath = imgDirPath + "/" + paramMap.get("nickName");
-        File imgDir = new File(imgDirPath);
-        File[] imgFiles = imgDir.listFiles();
+                        "/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务";
         Integer imageNum = 0;
-        if ("今日油价".equals(imgDir.getName())) {
-            imageNum = 1;
-        } else {
-            Integer tempNum = 0;
-            for (int i = 0; i < imgFiles.length; i++) {
-                File imgFile = imgFiles[i];
-                if(imgFile.getName().startsWith(".")){          //过滤部分操作系统的隐藏文件
-                    tempNum++;
-                    continue;
+        if (action.equals("imgMessageFriendCircle")) {
+            imgDirPath = imgDirPath + "/" + paramMap.get("nickName");
+            File imgDir = new File(imgDirPath);
+            File[] imgFiles = imgDir.listFiles();
+            if ("今日油价".equals(imgDir.getName())) {
+                imageNum = 1;
+            } else {
+                Integer tempNum = 0;
+                for (int i = 0; i < imgFiles.length; i++) {
+                    File imgFile = imgFiles[i];
+                    if(imgFile.getName().startsWith(".")){          //过滤部分操作系统的隐藏文件
+                        tempNum++;
+                        continue;
+                    }
                 }
+                imageNum = imgFiles.length - tempNum;
             }
-            imageNum = imgFiles.length - tempNum;
         }
 
         //1.配置连接android驱动

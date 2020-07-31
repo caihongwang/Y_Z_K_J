@@ -130,14 +130,14 @@ public class RealMachineDevices_Localtion implements SendFriendCircle {
 //                paramMap.get("imgList") != null ?
 //                        paramMap.get("imgList").toString() :
 //                        "[\n" +
-//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/大.jpg\",\n" +
-//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/事.jpg\",\n" +
-//                                "    \"/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认/件.jpg\"\n" +
+//                                "    \"/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务/默认/大.jpg\",\n" +
+//                                "    \"/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务/默认/事.jpg\",\n" +
+//                                "    \"/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务/默认/件.jpg\"\n" +
 //                                "]";
         String imgDirPath =
                 paramMap.get("imgDirPath") != null ?
                         paramMap.get("imgDirPath").toString() :
-                        "/Users/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信广告自动化/带图片For朋友圈/默认";
+                        "/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务/默认";
         File imgDir = new File(imgDirPath);
         File[] imgFiles = imgDir.listFiles();
         Integer imageNum = 0;

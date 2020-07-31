@@ -24,6 +24,8 @@
         is_manual_modify,
         oil_station_wx_payment_code_img_url,
         oil_station_category,
+        share_title,
+        share_img_url,
         oil_station_hire_url,
         oil_station_hire_title,
         create_time,
@@ -51,6 +53,7 @@
         oos.is_manual_modify as "isManualModify",
         oos.oil_station_category as "oilStationCategory",
         oos.share_title as "shareTitle",
+        oos.share_img_url as "shareImgUrl",
         oos.oil_station_hire_url as "oilStationHireUrl",
         oos.oil_station_hire_title as "oilStationHireTitle",
         oos.oil_station_wx_payment_code_img_url as
@@ -200,6 +203,9 @@
             </if>
             <if test="shareTitle != null and shareTitle != ''">
                 oos.share_title = #{shareTitle},
+            </if>
+            <if test="shareImgUrl != null and shareImgUrl != ''">
+                oos.share_img_url = #{shareImgUrl},
             </if>
             <if test="oilStationCategory != null and oilStationCategory != ''">
                 oos.oil_station_category = #{oilStationCategory},

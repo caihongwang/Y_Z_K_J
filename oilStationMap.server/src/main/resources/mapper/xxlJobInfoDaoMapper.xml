@@ -30,6 +30,9 @@
 
     <sql id="queryConditions"><!-- 查询条件 -->
         <where>1=1
+            <if test="id != null and id != ''">
+                AND xji.id = #{id}
+            </if>
             <if test="jobDesc != null and jobDesc != ''">
                 AND xji.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
             </if>

@@ -164,7 +164,7 @@ public class WX_UserHandler {
      * @param paramMap
      * @return
      */
-    public ResultMapDTO getWxAccessToken(Map<String, Object> paramMap){
+    public ResultMapDTO getWxAccessToken(Map<String, String> paramMap){
         logger.info("【hanlder】获取微信的AccessToken-getWxAccessToken,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);

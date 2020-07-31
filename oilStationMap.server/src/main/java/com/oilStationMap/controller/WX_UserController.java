@@ -157,7 +157,7 @@ public class WX_UserController {
      */
     @RequestMapping("/getWxAccessToken")
     @ResponseBody
-    public ResultMapDTO getWxAccessToken(HttpServletRequest request) {
+    public Map<String, Object> getWxAccessToken(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<String, String>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析

@@ -103,6 +103,7 @@ public class TimeTaskOfQuartz {
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈
      */
     @Scheduled(cron = "0 01 */1 * * ?")
+//    @Scheduled(cron = "0 50 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle() {
         if(!new SimpleDateFormat("yyyy-MM-dd HH").format(currentDate).equals(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()))){
             currentDate = new Date();
@@ -114,10 +115,10 @@ public class TimeTaskOfQuartz {
             try {
                 paramMap.clear();
                 nickNameList.clear();
-                String jobDesc = "发布朋友圈";
                 paramMap.put("start", 0);
                 paramMap.put("size", 10);
-                paramMap.put("jobDesc", jobDesc);
+                paramMap.put("id", "13");
+//                paramMap.put("jobDesc", "发布图片/文字到朋友圈");
                 List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
                 if (list != null && list.size() > 0) {
                     Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
@@ -150,10 +151,10 @@ public class TimeTaskOfQuartz {
             try {
                 paramMap.clear();
                 nickNameList.clear();
-                String jobDesc = "分享微信文章到微信朋友圈";
                 paramMap.put("start", 0);
                 paramMap.put("size", 10);
-                paramMap.put("jobDesc", jobDesc);
+//                paramMap.put("jobDesc", "分享文章l链接到朋友圈");
+                paramMap.put("id", "14");
                 List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
                 if (list != null && list.size() > 0) {
                     Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
