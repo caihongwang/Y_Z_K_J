@@ -77,6 +77,11 @@ $(function() {
                 "visible" : true,
                 "width": 500
             },{
+                "data": 'shareImgUrl',
+                "bSortable": false,
+                "visible" : true,
+                "width": 500
+            },{
                 "data": 'oilStationHireTitle',
                 "bSortable": false,
                 "visible" : true,
@@ -192,7 +197,8 @@ $(function() {
         $("#updateModal .form input[name='oilStationOwnerUid']").val( row.oilStationOwnerUid );     //加油站站长
         $("#updateModal .form input[name='oilStationCategory']").val( row.oilStationCategory );     //加油站站长
         $("#updateModal .form input[name='shareTitle']").val( row.shareTitle );                     //小程序-分享标题
-        $("#updateModal .form textarea[name='oilStationPrice']").val( row.oilStationPrice );           //加油站油价
+        $("#updateModal .form input[name='shareImgUrl']").val( row.shareImgUrl );                   //小程序-分享图片
+        $("#updateModal .form textarea[name='oilStationPrice']").val( row.oilStationPrice );         //加油站油价
 
         // show
         $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');

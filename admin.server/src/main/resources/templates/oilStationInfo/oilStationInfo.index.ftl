@@ -57,6 +57,7 @@
 									<th name="oilStationCategory">类型</th>
 									<th name="oilStationOwnerUid">站长</th>
 									<th name="shareTitle">分享标题</th>
+									<th name="shareImgUrl">分享图片</th>
 									<th name="oilStationHireTitle">招人H5标题</th>
 									<th name="oilStationHireUrl">招人H5地址</th>
 									<th>${I18n.system_opt}</th>
@@ -109,6 +110,14 @@
 						<div class="col-sm-4"><input type="text" class="form-control"  name="shareTitle"
 													 placeholder="${I18n.system_please_input}分享标题"
 													 maxlength="100"></div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-sm-2 control-label">分享图片<font
+									color="black">*</font></label>
+						<div class="col-sm-10"><input type="text"  class="form-control" name="shareImgUrl"
+													  placeholder="${I18n.system_please_input}分享图片"
+													  maxlength="102400"></div>
 					</div>
 
 					<div class="form-group">
