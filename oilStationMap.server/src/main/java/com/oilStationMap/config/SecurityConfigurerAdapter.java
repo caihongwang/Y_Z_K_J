@@ -68,6 +68,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "/wxMessage/**",
                 //字典类请求
                 "/wxDic/**",
+                //用户的微信AccessToken请求
+                "/wxUser/getWxAccessToken",
                 //网页静态资源
                 "/js/**",
                 "/css/**",

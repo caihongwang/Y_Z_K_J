@@ -159,4 +159,29 @@ public class WX_UserHandler {
         return resultMapDTO;
     }
 
+    /**
+     * 获取微信的AccessToken
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO getWxAccessToken(Map<String, Object> paramMap){
+        logger.info("【hanlder】获取微信的AccessToken-getWxAccessToken,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxUserService.getWxAccessToken(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取微信的AccessToken-getWxAccessToken is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取微信的AccessToken-getWxAccessToken,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
 }

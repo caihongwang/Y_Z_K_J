@@ -75,4 +75,10 @@ public interface WX_UserService {
      * 根据用户uid创建其用户的小程序吗
      */
     ResultMapDTO getUserMiniProgramCode(Map<String, Object> paramMap);
+
+
+    /**
+     * 获取微信的AccessToken
+     */
+    ResultMapDTO getWxAccessToken(Map<String, Object> paramMap);
 }

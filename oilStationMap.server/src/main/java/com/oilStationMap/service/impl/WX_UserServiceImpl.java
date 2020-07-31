@@ -43,6 +43,9 @@ public class WX_UserServiceImpl implements WX_UserService {
     private WX_UserDao wxUserDao;
 
     @Autowired
+    private WX_DicService wxDicService;
+
+    @Autowired
     private WX_CommonService wxCommonService;
 
     @Autowired
@@ -530,6 +533,44 @@ public class WX_UserServiceImpl implements WX_UserService {
             resultMapDTO.setMessage(OilStationMapCode.SHOP_UID_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
         }
         logger.info("【service】根据用户uid创建其用户的小程序码-getUserMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
+     * 获取微信的AccessToken
+     */
+    @Override
+    public ResultMapDTO getWxAccessToken(Map<String, Object> paramMap){
+        String accountId = paramMap.get("accountId")!=null?paramMap.get("accountId").toString():"gh_417c90af3488";  //默认油价地图的 原始ID
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        Map<String, Object> customMessageAccountParamMap = Maps.newHashMap();
+        customMessageAccountParamMap.put("dicType", "customMessageAccount");
+        customMessageAccountParamMap.put("dicCode", accountId);
+        ResultDTO customMessageAccountResultDTO = wxDicService.getSimpleDicByCondition(customMessageAccountParamMap);
+        if(customMessageAccountResultDTO != null && customMessageAccountResultDTO.getResultList() != null
+                && customMessageAccountResultDTO.getResultList().size() > 0){
+            Map<String, String> customMessageAccountMap = customMessageAccountResultDTO.getResultList().get(0);
+            String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName") != null ? customMessageAccountMap.get("customMessageAccountName").toString() : "";
+            String customMessageAccountAppId = customMessageAccountMap.get("customMessageAccountAppId") != null ? customMessageAccountMap.get("customMessageAccountAppId").toString() : "";
+            String customMessageAccountSecret = customMessageAccountMap.get("customMessageAccountSecret") != null ? customMessageAccountMap.get("customMessageAccountSecret").toString() : "";
+            resultMap = WX_PublicNumberUtil.getAccessToken(customMessageAccountAppId, customMessageAccountSecret);
+            if (resultMap.get("access_token") != null &&
+                    !"".equals(resultMap.get("access_token").toString())) {
+                String accessToken = resultMap.get("access_token").toString();
+                resultMap.put("accessToken", accessToken);
+                resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+            } else {
+                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                logger.info("【service】获取微信的AccessToken-getWxAccessToken 获取微信access_token失败.");
+            }
+        }else{
+            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
         return resultMapDTO;
     }
 
