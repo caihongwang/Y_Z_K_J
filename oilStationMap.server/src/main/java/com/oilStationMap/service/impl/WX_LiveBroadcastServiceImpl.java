@@ -48,7 +48,7 @@ public class WX_LiveBroadcastServiceImpl implements WX_LiveBroadcastService {
             String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName") != null ? customMessageAccountMap.get("customMessageAccountName").toString() : "";
             String customMessageAccountAppId = customMessageAccountMap.get("customMessageAccountAppId") != null ? customMessageAccountMap.get("customMessageAccountAppId").toString() : "";
             String customMessageAccountSecret = customMessageAccountMap.get("customMessageAccountSecret") != null ? customMessageAccountMap.get("customMessageAccountSecret").toString() : "";
-            resultMap = WX_PublicNumberUtil.getAccessToken(customMessageAccountAppId, customMessageAccountSecret);
+//            resultMap = WX_PublicNumberUtil.getAccessToken(customMessageAccountAppId, customMessageAccountSecret);
             Map<String, Object> liveInfoListMap = WX_PublicNumberUtil.getLiveInfoList(customMessageAccountAppId, customMessageAccountSecret);
             List<Map<String, Object>> roomInfoList = (List<Map<String, Object>>)liveInfoListMap.get("room_info");
             resultMap.put("roomInfoList", roomInfoList);

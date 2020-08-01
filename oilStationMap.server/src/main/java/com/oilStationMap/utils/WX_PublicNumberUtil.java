@@ -88,15 +88,14 @@ public class WX_PublicNumberUtil {
      */
     public static Map<String, Object> getLiveInfoList(String appId, String secret) {
         HttpsUtil httpsUtil = new HttpsUtil();
-        Map<String, String> paramMap = Maps.newHashMap();
+        Map<String, Object> paramMap = Maps.newHashMap();
         Map<String, Object> resultMap = Maps.newHashMap();
         Map<String, Object> accessTokenMap = getAccessToken(appId, secret);
         if (accessTokenMap != null && accessTokenMap.size() > 0) {
             String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
-            liveInfoList_uri = liveInfoList_uri + accessToken;
-            paramMap.put("start", "0");
-            paramMap.put("limit", "10");
-            String resultJson = httpsUtil.post(liveInfoList_uri, paramMap);
+            paramMap.put("start", 0);
+            paramMap.put("limit", 10);
+            String resultJson = httpsUtil.postJson(liveInfoList_uri + accessToken, JSONObject.toJSONString(paramMap));
             resultMap = JSONObject.parseObject(resultJson, Map.class);
         } else {
             //获取access_token失败
