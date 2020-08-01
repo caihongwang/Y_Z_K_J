@@ -76,6 +76,34 @@ public class WX_PublicNumberUtil {
     private static String messageSend_uri = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=";
     //动态消息：创建被分享动态消息的 activity_id
     private static String createActivityId_uri = "https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create";
+    //获取直播房间列表
+    private static String liveInfoList_uri = "https://api.weixin.qq.com/wxa/business/getliveinfo?access_token=";
+
+
+
+    /**
+     * 小程序使用
+     * 创建被分享动态消息的 activity_id
+     * @return
+     */
+    public static Map<String, Object> getLiveInfoList(String appId, String secret) {
+        HttpsUtil httpsUtil = new HttpsUtil();
+        Map<String, String> paramMap = Maps.newHashMap();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        Map<String, Object> accessTokenMap = getAccessToken(appId, secret);
+        if (accessTokenMap != null && accessTokenMap.size() > 0) {
+            String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
+            liveInfoList_uri = liveInfoList_uri + accessToken;
+            paramMap.put("start", "0");
+            paramMap.put("limit", "10");
+            String resultJson = httpsUtil.post(liveInfoList_uri, paramMap);
+            resultMap = JSONObject.parseObject(resultJson, Map.class);
+        } else {
+            //获取access_token失败
+            logger.error("获取access_token失败");
+        }
+        return resultMap;
+    }
 
     /**
      * 小程序使用
