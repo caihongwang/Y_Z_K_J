@@ -122,12 +122,17 @@ public class OilStationMapCode {
     public static OilStationMapCode CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL = new OilStationMapCode(170008, "当前公众号没有粉丝，发送消息无效.");
     public static OilStationMapCode OIL_STATION_OPERATOR_RED_PACKET_IS_NOT_CASHED_OR_3 = new OilStationMapCode(170009, "推荐用户已被领取或者不满三人.");
 
-
     //加盟
     public static OilStationMapCode LEAGUE_LIST_IS_NULL = new OilStationMapCode(0, "当前加盟没有数据.");
     public static OilStationMapCode LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL = new OilStationMapCode(220001, "加盟的uid或者手机号或者姓名或者加盟类型不能为空");
     public static OilStationMapCode LEAGUE_ID_IS_NOT_NULL = new OilStationMapCode(220002, "加盟的ID不能为空");
     public static OilStationMapCode LEAGUE_TYPE_IS_NULL = new OilStationMapCode(220003, "加盟类型不允许为空.");
+
+    //广告信息
+    public static OilStationMapCode AD_INFO_EXIST = new OilStationMapCode(230001, "广告信息已经存在，请修改。");
+    public static OilStationMapCode AD_TITLE_OR_IMGURL_OR_CONTENT_IS_NOT_NULL = new OilStationMapCode(230002, "广告的标题或者图片或者内容那你过不能为空");
+    public static OilStationMapCode AD_ID_IS_NOT_NULL = new OilStationMapCode(230003, "广告的ID不能为空");
+    public static OilStationMapCode AD_LIST_IS_NULL = new OilStationMapCode(0, "当前广告没有数据.");
 
 
     //微信小程序
