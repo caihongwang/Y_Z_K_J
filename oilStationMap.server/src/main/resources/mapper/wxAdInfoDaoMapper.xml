@@ -32,7 +32,7 @@
                 AND oai.id = #{id}
             </if>
         </where>
-        ORDER BY oai.create_time asc
+        ORDER BY oai.create_time desc
     </sql>
 
     <insert id="addAdInfo" parameterType="java.util.Map" useGeneratedKeys="true"
