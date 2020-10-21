@@ -61,7 +61,7 @@ public class WX_CustomMenuServiceImpl implements WX_CustomMenuService {
                     "                {\n" +
                     "                    \"type\":\"view\",\n" +
                     "                    \"name\":\"装逼神器\",\n" +
-                    "                    \"url\":\"https://www.91caihongwang.com/newMall/index.html\"\n" +
+                    "                    \"url\":\"https://www.yzkj.store/newMall/index.html\"\n" +
                     "                },\n" +
                     "                {\n" +
                     "                    \"type\":\"view\",\n" +
@@ -155,7 +155,7 @@ public class WX_CustomMenuServiceImpl implements WX_CustomMenuService {
                     "                {\n" +
                     "                    \"type\":\"view\",\n" +
                     "                    \"name\":\"装逼神器\",\n" +
-                    "                    \"url\":\"https://www.91caihongwang.com/newMall/index.html\"\n" +
+                    "                    \"url\":\"https://www.yzkj.store/newMall/index.html\"\n" +
                     "                },\n" +
                     "                {\n" +
                     "                    \"type\":\"view\",\n" +

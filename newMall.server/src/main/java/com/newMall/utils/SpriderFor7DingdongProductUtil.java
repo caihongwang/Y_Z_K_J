@@ -215,7 +215,7 @@ public class SpriderFor7DingdongProductUtil {
                 String theImgUrl = element.attr("src");
                 String imgNamePath = productPath + "headImg.jpg";
                 ImageDownloadUtil.downloadPicture(theImgUrl, imgNamePath);
-                headImgUrl = "https://www.91caihongwang.com/newMall/resourceOfNewMall/product/" +
+                headImgUrl = "https://www.yzkj.store/newMall/resourceOfNewMall/product/" +
                         productCatoryName + "/" + title + "/headImg.jpg";
                 break;
             }
@@ -239,7 +239,7 @@ public class SpriderFor7DingdongProductUtil {
                             String imgNamePath = productPath + i + ".jpg";
                             ImageDownloadUtil.downloadPicture(theImgUrl, imgNamePath);
 
-                            theImgUrl = "https://www.91caihongwang.com/newMall/resourceOfNewMall/product/" +
+                            theImgUrl = "https://www.yzkj.store/newMall/resourceOfNewMall/product/" +
                                     productCatoryName + "/" + title + "/" + i + ".jpg";
                             describeImgList.add(theImgUrl);
                         }

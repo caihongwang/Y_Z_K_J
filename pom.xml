@@ -27,7 +27,7 @@
         <repository>
             <id>91caihongwang</id>
             <url>
-                http://www.91caihongwang.com:8081/nexus/content/repositories/releases/
+                http://www.yzkj.store:8081/nexus/content/repositories/releases/
             </url>
         </repository>
         <repository>
@@ -57,14 +57,14 @@
             <id>91caihongwang_release</id>
             <name>91caihongwang Release Repository</name>
             <url>
-                http://www.91caihongwang.com:8081/nexus/content/repositories/releases/
+                http://www.yzkj.store:8081/nexus/content/repositories/releases/
             </url>
         </repository>
         <snapshotRepository>
             <id>91caihongwang_snapshots</id>
             <name>91caihongwang Snapshot Repository</name>
             <url>
-                http://www.91caihongwang.com:8081/nexus/content/repositories/releases/
+                http://www.yzkj.store:8081/nexus/content/repositories/releases/
             </url>
         </snapshotRepository>
     </distributionManagement>

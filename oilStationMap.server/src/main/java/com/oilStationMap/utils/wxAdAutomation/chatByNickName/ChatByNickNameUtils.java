@@ -156,7 +156,7 @@ public class ChatByNickNameUtils {
                     exceptionDevicesParamMap.put("nickName", nickName);
                     exceptionDevicesParamMap.put("operatorName", "根据微信昵称进行聊天");
                     exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                    String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
                     String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                     logger.info("微信消息异常发送反馈：" + resultJson);
 //                    try {

@@ -226,8 +226,8 @@ public class SpriderForFenXiangShengHuoUtil {
                         );
                         logger.info("exlsFilePath = " + exlsFilePath);
                         logger.info("exlsFilePath = " + exlsFilePath);
-                        logger.info("exlsFileUrl = " + "https://www.91caihongwang.com/" + exlsFilePath.substring(5, exlsFilePath.length()));
-                        logger.info("exlsFileUrl = " + "https://www.91caihongwang.com/" + exlsFilePath.substring(5, exlsFilePath.length()));
+                        logger.info("exlsFileUrl = " + "https://www.yzkj.store/" + exlsFilePath.substring(5, exlsFilePath.length()));
+                        logger.info("exlsFileUrl = " + "https://www.yzkj.store/" + exlsFilePath.substring(5, exlsFilePath.length()));
 
                     } catch (Exception e) {
                         logger.error("exportProductCatoryExcel is failed。", e);

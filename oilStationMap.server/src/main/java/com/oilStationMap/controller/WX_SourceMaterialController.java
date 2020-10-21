@@ -57,7 +57,7 @@ public class WX_SourceMaterialController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在controller中获取素材列表-batchGetMaterial,请求-paramMap:" + paramMap);
-        String materialUrl = "https://www.91caihongwang.com/oilStationMap/resourceOfOilStationMap/payment.html";
+        String materialUrl = "https://www.yzkj.store/oilStationMap/resourceOfOilStationMap/payment.html";
         if(paramMap.get("materialUrl") != null && !"".equals(paramMap.get("materialUrl"))){
             materialUrl = paramMap.get("materialUrl").toString();
         }

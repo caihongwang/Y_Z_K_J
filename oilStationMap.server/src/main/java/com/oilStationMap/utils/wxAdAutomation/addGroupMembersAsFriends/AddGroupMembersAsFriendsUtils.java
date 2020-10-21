@@ -128,7 +128,7 @@ public class AddGroupMembersAsFriendsUtils {
                     exceptionDevicesParamMap.put("nickName", nickName);
                     exceptionDevicesParamMap.put("operatorName", "根据微信群昵称添加群成员为好友工具");
                     exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                    String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
                     String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                     logger.info("微信消息异常发送反馈：" + resultJson);
 //                    try {

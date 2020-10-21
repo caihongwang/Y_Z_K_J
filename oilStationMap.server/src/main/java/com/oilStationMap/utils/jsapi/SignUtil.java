@@ -17,7 +17,7 @@ public class SignUtil {
 
     public static void main(String[] args) {
         // 注意 URL 一定要动态获取，不能 hardcode
-        String url = "https://www.91caihongwang.com/oilStationMap/common/getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber";//url是你请求的一个action或者controller地址，并且方法直接跳转到使用jsapi的jsp界面
+        String url = "https://www.yzkj.store/oilStationMap/common/getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber";//url是你请求的一个action或者controller地址，并且方法直接跳转到使用jsapi的jsp界面
         Map<String, String> ret = getSign(url);
         for (Map.Entry entry : ret.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());

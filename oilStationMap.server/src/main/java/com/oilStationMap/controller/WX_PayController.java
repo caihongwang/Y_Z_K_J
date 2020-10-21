@@ -40,7 +40,7 @@ public class WX_PayController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在controller中获取oauth的url-toOauthUrlForPaymentPage,请求-paramMap:" + paramMap);
-        String toOauthUrl = "https://www.91caihongwang.com/oilStationMap/wxPay/getPaymentPage";
+        String toOauthUrl = "https://www.yzkj.store/oilStationMap/wxPay/getPaymentPage";
         try {
             ResultMapDTO resultMapDTO = wx_PayHandler.toOauthUrlForPaymentPage(paramMap);
             Map<String, String> dataMap = resultMapDTO.getResultMap();
@@ -73,7 +73,7 @@ public class WX_PayController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在controller中获取oauth-getPaymentPage,请求-paramMap:" + paramMap);
-        String paymentUrl = "https://www.91caihongwang.com/oilStationMap/resourceOfOilStationMap/webapp/payment.html";
+        String paymentUrl = "https://www.yzkj.store/oilStationMap/resourceOfOilStationMap/webapp/payment.html";
         try {
             ResultMapDTO resultMapDTO = wx_PayHandler.getPaymentPage(paramMap);
             Map<String, String> dataMap = resultMapDTO.getResultMap();

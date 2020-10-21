@@ -97,7 +97,7 @@
                             <div class="appreciateCodeDiv">
                                 <img id="appreciateCodeImg"
                                      class="appreciateCodeImg"
-                                     src="https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg"/>
+                                     src="https://www.yzkj.store/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg"/>
                             </div>
                             <!--点击码图，长按识别图中二维码进行付款-->
                             <div class="appreciateCodeDescDiv">
@@ -203,7 +203,7 @@
     //全局变量
     var openId = "";
 //    var urlPre = "http://172.30.5.55:9030/oilStationMap";
-    var urlPre = "https://www.91caihongwang.com/oilStationMap";
+    var urlPre = "https://www.yzkj.store/oilStationMap";
 
     $(function () {
         $("input").blur();
@@ -303,7 +303,7 @@
             error: function () {
                 //获取验签失败
                 console.log("获取验签失败");
-//                $("#paymentCodeImg").attr("src", "https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_payment.jpeg");
+//                $("#paymentCodeImg").attr("src", "https://www.yzkj.store/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_payment.jpeg");
             },
             complete: function () {
                 console.log("complete:获取付款页面请求已完成.");
@@ -366,9 +366,9 @@
         $("#appreciateCodeImg").click(function () {
             console.log("【打赏二维码】按钮被点击了");
             wx.previewImage({
-                current: "https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg",
+                current: "https://www.yzkj.store/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg",
                 urls: [
-                    "https://www.91caihongwang.com/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg"
+                    "https://www.yzkj.store/resourceOfOilStationMap/images/da_lu_tian_ba_jia_you_zhan/wx_appreciate.jpeg"
                 ]
             });
         });

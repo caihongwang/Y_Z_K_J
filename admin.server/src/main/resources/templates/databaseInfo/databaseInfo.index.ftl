@@ -18,7 +18,7 @@
 		<section class="content">
 			<div class="callout callout-info">
 				<p>
-					点击 <a target="_blank" href="http://www.91caihongwang.com/phpmyadmin">phpmyadmin数据库</a> 管理
+					点击 <a target="_blank" href="http://www.yzkj.store/phpmyadmin">phpmyadmin数据库</a> 管理
 				</p>
 			</div>
 		</section>

@@ -18,7 +18,7 @@
 		<section class="content">
 			<div class="callout callout-info">
 				<p>
-					点击 <a target="_blank" href="http://www.91caihongwang.com/livecode">我的活码</a> 管理
+					点击 <a target="_blank" href="http://www.yzkj.store/livecode">我的活码</a> 管理
 				</p>
 			</div>
 		</section>

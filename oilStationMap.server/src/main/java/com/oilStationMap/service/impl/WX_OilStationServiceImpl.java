@@ -631,7 +631,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     //对招人网址进行检测
                     String oilStationHireUrl = oilStationStrMap.get("oilStationHireUrl");
                     if(oilStationHireUrl != null && !"".equals(oilStationHireUrl)){
-                        String oilStationHireUrlFilePath = oilStationHireUrl.replace("https://www.91caihongwang.com/", "/opt/");
+                        String oilStationHireUrlFilePath = oilStationHireUrl.replace("https://www.yzkj.store/", "/opt/");
                         File oilStationHireUrlFile = new File(oilStationHireUrlFilePath);
                         File parentDir = oilStationHireUrlFile.getParentFile();
                         if(!parentDir.isDirectory()){            //加油站名称的英文编码的文件夹
@@ -871,7 +871,7 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                 //对招人网址进行检测
                 String oilStationHireUrl = oilStationStrMap.get("oilStationHireUrl");
                 if(oilStationHireUrl != null && !"".equals(oilStationHireUrl)){
-                    String oilStationHireUrlFilePath = oilStationHireUrl.replace("https://www.91caihongwang.com/", "/opt/");
+                    String oilStationHireUrlFilePath = oilStationHireUrl.replace("https://www.yzkj.store/", "/opt/");
                     File oilStationHireUrlFile = new File(oilStationHireUrlFilePath);
                     File parentDir = oilStationHireUrlFile.getParentFile();
                     if(!parentDir.isDirectory()){            //加油站名称的英文编码的文件夹
@@ -1577,10 +1577,10 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
      */
     @Override
     public String createOilStationHireInfoUrl(String oilStationName, String oilStationAddress){
-        String oilStationHireInfoUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/zhong_guo_shi_hua_song_tao_da_lu_tian_ba_jia_you_zhan/index.html";
-        String baseUrl = "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/";
+        String oilStationHireInfoUrl = "https://www.yzkj.store/resourceOfOilStationMap/webapp/hire/zhong_guo_shi_hua_song_tao_da_lu_tian_ba_jia_you_zhan/index.html";
+        String baseUrl = "https://www.yzkj.store/resourceOfOilStationMap/webapp/hire/";
         if("中国石化松桃大路田坝加油站".equals(oilStationName)){
-            return "https://www.91caihongwang.com/resourceOfOilStationMap/webapp/hire/zhong_guo_shi_hua_song_tao_da_lu_tian_ba_jia_you_zhan/index.html";
+            return "https://www.yzkj.store/resourceOfOilStationMap/webapp/hire/zhong_guo_shi_hua_song_tao_da_lu_tian_ba_jia_you_zhan/index.html";
         }
         if(oilStationName == null || "".equals(oilStationName)){
             oilStationName = "中国石化松桃大路田坝加油站";

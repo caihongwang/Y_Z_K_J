@@ -144,7 +144,7 @@ public class OilStationMapCode {
     public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_ACCESS_TOKEN = "client_credential";    //grant_type
 
     //本服务器域名
-    public static final String THE_DOMAIN = "https://www.91caihongwang.com/";        // 域名  线上
+    public static final String THE_DOMAIN = "https://www.yzkj.store/";        // 域名  线上
 
     //微信公众号
     public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //appid
@@ -160,7 +160,7 @@ public class OilStationMapCode {
     public static final String WX_PAY_MCH_ID = "1345780701";     //微信支付 商家ID
     public static final String WX_PAY_CERT_PATH = "/Users/caihongwang/Desktop/cert/apiclient_cert.p12";     //微信支付 商家证书
 //    public static final String WX_PAY_DOMAIN = "http://172.30.5.91:8080/oilStationMap";        //微信支付 域名  本机
-    public static final String WX_PAY_DOMAIN = "https://www.91caihongwang.com/oilStationMap";        //微信支付 域名  线上
+    public static final String WX_PAY_DOMAIN = "https://www.yzkj.store/oilStationMap";        //微信支付 域名  线上
     public static final String WX_RED_PACK_NUMBER = "1";     //微信红包总数：1个
     public static final String WX_PAY_NOTIFY_URL = "/oilStationMap/wxOrder/wxNotify";  //支付成功后的服务器回调url
     public static final String WX_PAY_TRADE_TYPE = "JSAPI";  //交易类型

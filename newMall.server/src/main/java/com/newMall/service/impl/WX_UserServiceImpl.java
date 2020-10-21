@@ -246,7 +246,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                 String balance = userMap.get("balance")!=null?userMap.get("balance").toString():"0.00";
                 String integral = userMap.get("integral")!=null?userMap.get("integral").toString():"0.00";
                 String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"未知";
-                String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"https://www.91caihongwang.com/resourceOfNewMall/user/defaultavatar.png";
+                String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"https://www.yzkj.store/resourceOfNewMall/user/defaultavatar.png";
                 String userType = userMap.get("userType")!=null?userMap.get("userType").toString():"普通用户";
                 resultMap.put("balance", balance);
                 resultMap.put("integral", integral);
@@ -257,7 +257,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                 resultMap.put("balance", "0.00");
                 resultMap.put("integral", "0.00");
                 resultMap.put("nickName", "未知");
-                resultMap.put("avatarUrl", "https://www.91caihongwang.com/resourceOfNewMall/user/defaultavatar.png");
+                resultMap.put("avatarUrl", "https://www.yzkj.store/resourceOfNewMall/user/defaultavatar.png");
                 resultMap.put("userType", "普通用户");
             }
             //获取用户待奖励的订单数量，已获得奖励的订单数量

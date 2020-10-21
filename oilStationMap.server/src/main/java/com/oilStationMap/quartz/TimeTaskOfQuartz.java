@@ -225,7 +225,7 @@ public class TimeTaskOfQuartz {
 //            HttpsUtil httpsUtil = new HttpsUtil();
 //            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
 //            exceptionDevicesParamMap.put("publicIp", publicIp);
-//            String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
+//            String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDomainMessageSend";
 //            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
 //        }
 //        //方式2
@@ -273,7 +273,7 @@ public class TimeTaskOfQuartz {
 //                    HttpsUtil httpsUtil = new HttpsUtil();
 //                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
 //                    exceptionDevicesParamMap.put("publicIp", publicIp);
-//                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDomainMessageSend";
+//                    String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDomainMessageSend";
 //                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
 //                }
 //            }

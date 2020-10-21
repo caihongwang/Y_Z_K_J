@@ -197,7 +197,7 @@ public class ShareArticleToFriendCircleUtils {
                     exceptionDevicesParamMap.put("nickName", nickName);
                     exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
                     exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                    String exceptionDevicesNotifyUrl = "https://www.91caihongwang.com/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                    String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
                     String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                     logger.info("微信消息异常发送反馈：" + resultJson);
                     //本地发送，但是基于IP不断变化，不建议

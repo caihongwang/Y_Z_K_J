@@ -55,7 +55,7 @@ public class WX_RedPacketController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在controller中获取oauth的url-getToOauthUrl,请求-paramMap:" + paramMap);
-        String toOauthUrl = " https://www.91caihongwang.com/oilStationMap/wx_RedPacket/getOauth.do";
+        String toOauthUrl = " https://www.yzkj.store/oilStationMap/wx_RedPacket/getOauth.do";
         try {
             ResultMapDTO resultMapDTO = wx_RedPacketHandler.getToOauthUrl(paramMap);
             Map<String, String> dataMap = resultMapDTO.getResultMap();
@@ -105,7 +105,7 @@ public class WX_RedPacketController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在controller中获取oauth-红包活动规则,请求-paramMap:" + paramMap);
-        String redActivityRuleUrl = "https://www.91caihongwang.com/oilStationMap/redActivity/redActivityRule/index.html";
+        String redActivityRuleUrl = "https://www.yzkj.store/oilStationMap/redActivity/redActivityRule/index.html";
         logger.info("在controller中获取oauth-redActivityRulePage,红包活动规则，整合之后 paymentUrl = " + redActivityRuleUrl);
         logger.info("在controller中获取oauth-redActivityRulePage,响应-response:" + resultMap);
         return "redirect:" + redActivityRuleUrl;//重定向;

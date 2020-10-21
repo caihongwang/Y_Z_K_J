@@ -6,7 +6,7 @@ $(function() {
 	    "serverSide": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxOilStation/getOilStationListForAdmin",
-			url: "https://www.91caihongwang.com/oilStationMap/wxOilStation/getOilStationListForAdmin",
+			url: "https://www.yzkj.store/oilStationMap/wxOilStation/getOilStationListForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
@@ -157,7 +157,7 @@ $(function() {
         var paramStr = "lon="+row.oilStationLon+"&lat="+row.oilStationLat+"&uid=24";
         $.post(
             // "http://localhost:9030/oilStationMap/wxOilStation/setLocaltionByUid",
-            "https://www.91caihongwang.com/oilStationMap/wxOilStation/setLocaltionByUid",
+            "https://www.yzkj.store/oilStationMap/wxOilStation/setLocaltionByUid",
             paramStr,
             function(data, status) {
                 if (data.code == "0") {
@@ -220,7 +220,7 @@ $(function() {
         submitHandler : function(form) {
             $.post(
                 // "http://localhost:9030/oilStationMap/wxOilStation/updateOilStationForAdmin",
-                "https://www.91caihongwang.com/oilStationMap/wxOilStation/updateOilStationForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxOilStation/updateOilStationForAdmin",
                 $("#updateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {

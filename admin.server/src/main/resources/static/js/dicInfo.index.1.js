@@ -6,7 +6,7 @@ $(function() {
 	    "serverSide": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxDic/getDicListByConditionForAdmin",
-			url: "https://www.91caihongwang.com/oilStationMap/wxDic/getDicListByConditionForAdmin",
+			url: "https://www.yzkj.store/oilStationMap/wxDic/getDicListByConditionForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
@@ -159,7 +159,7 @@ $(function() {
         submitHandler : function(form) {
             $.post(
                 // "http://localhost:9030/oilStationMap/wxDic/addDicForAdmin",
-                "https://www.91caihongwang.com/oilStationMap/wxDic/addDicForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxDic/addDicForAdmin",
                 $("#addModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
@@ -200,7 +200,7 @@ $(function() {
             layer.close(index);
             $.post(
                 // "http://localhost:9030/oilStationMap/wxDic/deleteDicForAdmin",
-                "https://www.91caihongwang.com/oilStationMap/wxDic/deleteDicForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxDic/deleteDicForAdmin",
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
@@ -261,7 +261,7 @@ $(function() {
         submitHandler : function(form) {
             $.post(
                 // "http://localhost:9030/oilStationMap/wxDic/updateDicForAdmin",
-                "https://www.91caihongwang.com/oilStationMap/wxDic/updateDicForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxDic/updateDicForAdmin",
                 $("#updateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {

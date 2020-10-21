@@ -61,7 +61,7 @@ public class WX_CommonServiceImplTest extends MySuperTest {
 //        dataMap.put("remark", remarkMap);
 //
 //        paramMap.put("data", JSONObject.toJSONString(dataMap));
-//        paramMap.put("url", "https://www.91caihongwang.com/oilStationMap");
+//        paramMap.put("url", "https://www.yzkj.store/oilStationMap");
 //
 //        paramMap.put("openId", "o8-g249hJL8mmxq6MGsxIAAz4ZaM");
 //        paramMap.put("template_id", "v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ");

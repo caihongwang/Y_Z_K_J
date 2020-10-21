@@ -78,7 +78,7 @@ public class WX_CommonServiceImpl implements WX_CommonService {
     public ResultMapDTO getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber(Map<String, Object> paramMap) {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = new HashMap<String, String>();
-//        resultMap.putAll(SignUtil.getSign("https://www.91caihongwang.com/oilStationMap/wx_sdk.html?uid=1"));
+//        resultMap.putAll(SignUtil.getSign("https://www.yzkj.store/oilStationMap/wx_sdk.html?uid=1"));
 //        resultMap.putAll(SignUtil.getSign("http://127.0.0.1:8080//oilStationMap/wx_sdk.html?uid=1"));
         resultMap.putAll(SignUtil.getSign(paramMap.get("requestPageUrl").toString()));
         if (resultMap.size() > 0) {

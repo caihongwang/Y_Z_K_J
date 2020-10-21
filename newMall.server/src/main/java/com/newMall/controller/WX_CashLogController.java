@@ -242,7 +242,7 @@ public class WX_CashLogController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("【controller】获取提现规则页面-cashedRulePage,请求-paramMap:" + paramMap);
-        String cashedRuleUrl = "https://www.91caihongwang.com/newMall/newMall/cashedRule/index.html";
+        String cashedRuleUrl = "https://www.yzkj.store/newMall/newMall/cashedRule/index.html";
         logger.info("【controller】获取提现规则页面-cashedRulePage,整合之后 cashedRuleUrl = " + cashedRuleUrl);
         logger.info("【controller】获取提现规则页面-cashedRulePage,响应-response:" + resultMap);
         return "redirect:" + cashedRuleUrl;//重定向;
