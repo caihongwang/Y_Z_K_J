@@ -6,18 +6,13 @@ import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.appiumUtil.SwipeUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.touch.WaitOptions;
 import org.apache.commons.lang.time.StopWatch;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

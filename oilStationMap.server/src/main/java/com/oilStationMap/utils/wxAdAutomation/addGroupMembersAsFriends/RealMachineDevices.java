@@ -1,23 +1,21 @@
 package com.oilStationMap.utils.wxAdAutomation.addGroupMembersAsFriends;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.appiumUtil.ScrollUtil;
-import com.oilStationMap.utils.appiumUtil.SwipeUtil;
-import io.appium.java_client.TouchAction;
+import com.oilStationMap.utils.EmojiUtil;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
+import io.appium.java_client.android.AndroidKeyCode;
 import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.time.Duration;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,32 +40,80 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "5LM0216122009385";
+                        "9f4eda95";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 Mate 8 _ 6";
+                        "小米 Max 3";
         //操作
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
-                        "chatByNickName";
-        //微信昵称
-        String nickName =
-                paramMap.get("nickName") != null ?
-                        paramMap.get("nickName").toString() :
-                        "内部交流群";
-        //坐标:搜索框
+                        "addGroupMembersAsFriends";
+        //添加好友数量,默认添加 10 个好友
+        String addFrirndTotalNumStr =
+                paramMap.get("addFrirndTotalNumStr") != null ?
+                        paramMap.get("addFrirndTotalNumStr").toString() :
+                        "10";
+        Integer addFrirndTotalNum = Integer.parseInt(addFrirndTotalNumStr);
+        //群成员Map
+        String groupMembersMapStr =
+                paramMap.get("groupMembersMapStr") != null ?
+                        paramMap.get("groupMembersMapStr").toString() :
+                        "{}";
+        groupMembersMapStr = EmojiUtil.emojiRecovery(groupMembersMapStr);
+        LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
+        //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
                         paramMap.get("searchLocaltion").toString() :
-                        "com.tencent.mm:id/r_";
-        //坐标:搜索输入框
+                        "搜索";
+        //点击坐标【搜索输入框：搜索】
         String searchInputLocaltion =
                 paramMap.get("searchInputLocaltion") != null ?
                         paramMap.get("searchInputLocaltion").toString() :
                         "搜索";
+        //坐标【昵称对应的微信好友/群】
+        String nickName =
+                paramMap.get("nickName") != null ?
+                        paramMap.get("nickName").toString() :
+                        "铜仁推广商务群";
+        //坐标【右上角的三个点：聊天信息】
+        String threePointLocaltion =
+                paramMap.get("threePointLocaltion") != null ?
+                        paramMap.get("threePointLocaltion").toString() :
+                        "聊天信息";
+        //坐标【群成员总数：聊天信息(】
+        String groupTotalNumLocation =
+                paramMap.get("groupTotalNumLocation") != null ?
+                        paramMap.get("groupTotalNumLocation").toString() :
+                        "聊天信息(";
+        //坐标【查看全部群成员】
+        String checkAllGroupMembers =
+                paramMap.get("checkAllGroupMembers") != null ?
+                        paramMap.get("checkAllGroupMembers").toString() :
+                        "查看全部群成员";
+        //坐标【发消息】
+        String sendMessageBtnLocaltion =
+                paramMap.get("sendMessageBtnLocaltion") != null ?
+                        paramMap.get("sendMessageBtnLocaltion").toString() :
+                        "发消息";
+        //坐标【添加到通讯录】
+        String aadToContactBookLocaltion =
+                paramMap.get("aadToContactBookLocaltion") != null ?
+                        paramMap.get("aadToContactBookLocaltion").toString() :
+                        "添加到通讯录";
+        //坐标【由于对方的隐私设置，你无法通过群聊将其添加至通讯录。】，注：如果这个坐标找不到则使用【确定】这个坐标
+        String privacyContentLocaltion =
+                paramMap.get("privacyContentLocaltion") != null ?
+                        paramMap.get("privacyContentLocaltion").toString() :
+                        "由于对方的隐私设置，你无法通过群聊将其添加至通讯录。";
+        //坐标【发送】
+        String sendBtnLocaltion =
+                paramMap.get("sendBtnLocaltion") != null ?
+                        paramMap.get("sendBtnLocaltion").toString() :
+                        "发送";
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -93,23 +139,34 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            sw.split();
             throw new Exception("配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //2.点击坐标【搜索框】
+        //2.点击坐标【搜索】
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\"" + searchLocaltionStr + "\")").click();
+            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
             sw.split();
             logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1000);
+            Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
         } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
+//            try {
+////                driver.findElementByAccessibilityId("content-desc的值").click();
+//                driver.findElementByAccessibilityId(searchLocaltionStr).click();;
+////                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
+//                sw.split();
+//                logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
+//                Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+//            } catch (Exception e1) {
+//                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+//                sw.split();
+//                throw new Exception("长按坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+//            }
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            sw.split();
             throw new Exception("长按坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
+
         //3.点击坐标【搜索输入框】
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(nickName);
@@ -117,9 +174,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             logger.info("点击坐标【输入昵称到搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            sw.split();
             throw new Exception("长按坐标【输入昵称到搜索框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
         //4.点击坐标【昵称对应的微信好友/群】
@@ -134,210 +190,285 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             logger.info("点击坐标【昵称对应的微信好友群】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            sw.split();
             throw new Exception("长按坐标【昵称对应的微信好友群】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //5.点击坐标【右上角的三个点】
+        //5.点击坐标【右上角的三个点：聊天信息】
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "聊天信息" + "\")").click();
+            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + threePointLocaltion + "\")").click();
             sw.split();
             logger.info("点击坐标【右上角的三个点】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            sw.split();
             throw new Exception("长按坐标【右上角的三个点】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //6.查看当前群的成员数量
-        Integer groupNum = 100;
+        //6.查看坐标【群成员总数：聊天信息(】
+        Integer groupTotalNum = 100;
         try {
-            WebElement groupNumWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + "聊天信息(" + "\")");
-            String text = groupNumWebElement.getAttribute("text");
-            String groupNumStr = ((text.split("\\("))[1].split("\\)"))[0];
-            groupNum = Integer.parseInt(groupNumStr);
+            WebElement groupTotalNumWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + groupTotalNumLocation + "\")");
+            String text = groupTotalNumWebElement.getAttribute("text");
+            String groupTotalNumStr = ((text.split("\\("))[1].split("\\)"))[0];
+            groupTotalNum = Integer.parseInt(groupTotalNumStr);
             sw.split();
             logger.info("【查看当前群的成员数量】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+            sw.split();
             throw new Exception("长按坐标【右上角的三个点】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        if(groupNum >= 40){     //当群成员超过40人事，才会出现【查看全部群成员】
+        if (groupTotalNum >= 40) {     //当群成员超过40人事，才会出现【查看全部群成员】
             //7.点击坐标【上滑同时检测坐标查看全部群成员】并点击
-            try {
-                int x0 = 0; int y0 = 202;
-                int x1 = 0; int y1 = 492;
-                WebElement listWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\"" + "android:id/list" + "\")");
-                List<WebElement> linearWebElement = listWebElement.findElements(By.className("android.widget.LinearLayout"));
-                if(linearWebElement != null && linearWebElement.size() > 0){
-                    String bounds = linearWebElement.get(0).getAttribute("bounds");
-                    String[] boundsArr = bounds.split("\\]\\[");
-                    String[] x0y0Arr = boundsArr[0].split(",");
-                    String x0Str = x0y0Arr[0].replace("[","");
-                    x0 = Integer.parseInt(x0Str);
-                    y0 = Integer.parseInt(x0y0Arr[1]);
-                    String[] x1y1Arr = boundsArr[1].split(",");
-                    String y1Str = x1y1Arr[1].replace("]","");
-                    x1 = Integer.parseInt(x1y1Arr[0]);
-                    x1 = x0;
-                    y1 = Integer.parseInt(y1Str);
-                    System.out.println("bounds = " + bounds);
-                    System.out.println("x0 = " + x0 + " , y0 = " + y0 + " , x1 = " + x1 + " , y1 = " + y1);
-                } else {
-                    x0 = 0; y0 = 202;
-                    x1 = 0; y1 = 492;
-                }
-                int i = 0;
-                while(i <= 10){
-                    new TouchAction(driver).longPress(PointOption.point(x1, y1))
-                            .moveTo(PointOption.point(x0, y0)).release().perform();
+            int i = 1;
+            while (i <= 10) {
+                try {
                     Thread.sleep(1000);
-                    try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "查看全部群成员" + "\")").click();
-                        break;
-                    } catch (Exception e) {
-                        logger.info("当前为群简介页面，正在往上滑动，寻找坐标【查看全部群成员】");
-                    }
-                    i++;
+                    logger.info("第【" + i + "】次，scroll下滑中寻找坐标【查看全部群成员】...");
+                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().className(\"android.widget.ListView\").scrollable(true)).scrollForward()");
+                } catch (Exception e) {
+                    logger.info("scroll下滑中寻找坐标【查看全部群成员】...");
                 }
-                sw.split();
-                logger.info("点击坐标【上滑同时检测坐标查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                sw.split();
-                e.printStackTrace();
-                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-                throw new Exception("长按坐标【上滑同时检测坐标查看全部群成员】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+                try {
+                    Thread.sleep(1000);
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + checkAllGroupMembers + "\")").click();
+                    Thread.sleep(1000);
+                    sw.split();
+                    logger.info("点击坐标【查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    break;
+                } catch (Exception e) {
+                    this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                    sw.split();
+                    logger.info("当前为群成员界面，正在往上滑动，寻找坐标【查看全部群成员】");
+                }
+                i++;
             }
             //8.下滑，回到群成员的顶部
-            try{
+            try {
                 driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).flingToBeginning(5)");
                 logger.info("scroll!");
             } catch (Exception e) {
-                logger.info("【下滑】已滑到群成员的顶部...");
+                logger.info("【上滑】已滑到群成员的顶部，总共花费 " + sw.toSplitString() + " 秒....");
             }
             sw.split();
             logger.info("点击坐标【下滑】已滑到群成员的顶部成功，总共花费 " + sw.toSplitString() + " 秒....");
-            //8.根据每个好友头像的坐标index进行判断该添加第几个好友进行添加
-            Integer startNum = 40;
-            try {
-                WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.GridView" + "\")");
-                List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.LinearLayout"));
-                if(linearWebElementList != null && linearWebElementList.size() > 0){
-                    Integer index = 0;
-                    String indexStr = "0";
-//                    //判断最后一个元素是否在startNum范围内，如在在之内则下滑，反之亦然
-//                    WebElement maxNumWebElement = linearWebElementList.get(linearWebElementList.size()-1);
-//                    String indexStr = maxNumWebElement.getAttribute("index")!=null?maxNumWebElement.getAttribute("index").toString():"0";
-//                    Integer index = Integer.parseInt(indexStr);
-//                    if(index <= startNum){
-//                        //下滑，继续循环
-//                        try{
-//                            driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward(5)");
-//                            logger.info("scroll!");
-//                        } catch (Exception e) {
-//                            logger.info("下滑】已滑到群成员的顶部...");
-//                        }
-//
-//
-////                        continue;
-//                    } else {
-                        index = 0;
-                        indexStr = "0";
-                        for(WebElement webElement : linearWebElementList){
+            //9.遍历群成员，并将其保存 groupMembersMap，如果groupMembersMap中有数据，则在循环遍历一次，就当查缺补漏
+            if (groupMembersMap.size() != groupTotalNum) {
+                int cyclesNumber = 1;       //循环下拉的次数, 默认超过30次
+                int groupMemberIndex = groupMembersMap.size();
+                while (true) {      //循环遍历群成员好友，并将其加入groupMembersList
+                    WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
+                    List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.LinearLayout"));       //获取所有的群成员列表信息
+                    if (linearWebElementList != null && linearWebElementList.size() > 0) {
+                        for (WebElement webElement : linearWebElementList) {
+                            String groupMemberNickName = "未知";                  //群成员-昵称
+                            String groupMemberClass = "未知";                     //群成员-昵称
                             try {
-//                                indexStr = webElement.getAttribute("index")!=null?webElement.getAttribute("index").toString():"0";
-//                                index = Integer.parseInt(indexStr);
-//                                if(index >= startNum){      //开始点击群成员头像
-//
-//                                } else {
-//                                    //下滑，继续循环
-//                                }
-                                //点击头像进入群成员详情
+                                groupMemberNickName = webElement.findElement(By.className("android.widget.TextView")).getAttribute("text");
+                                groupMemberClass = webElement.getAttribute("class");
+                                if (!groupMembersMap.containsKey(groupMemberNickName)) {
 
-
-                                System.out.println("text = " + webElement.findElement(By.className("android.widget.TextView")).getAttribute("text"));
-//                                System.out.println("index = " + webElement.getAttribute("index"));
-                                System.out.println("class = " + webElement.getAttribute("class"));
-                                System.out.println();
-                                System.out.println();
+                                    groupMemberIndex++;
+                                    Map<String, String> tempMap = Maps.newHashMap();
+                                    tempMap.put("groupMemberIndex", groupMemberIndex + "");
+                                    tempMap.put("groupMemberNickName", groupMemberNickName);
+                                    tempMap.put("groupMemberClass", groupMemberClass);
+                                    if (groupMemberIndex >= 20) {
+                                        tempMap.put("isAddFlag", "false");                      //是否添加过，默认未添加过
+                                    } else {
+                                        tempMap.put("isAddFlag", "true");                       //前20个好友不添加，可能是群主，免得被踢
+                                    }
+                                    groupMembersMap.put(groupMemberNickName, tempMap);
+                                }
                             } catch (Exception e) {
-                                logger.info("当前不是群成员头像坐标....");
+                                logger.info("当前不是群成员头像坐标，总共花费 " + sw.toSplitString() + " 秒....");
                             }
                         }
-//                    }
+                        if (cyclesNumber >= 30) {           //当循环下拉的次数超过30次时，则强制终止循环，主要是群成员中存在昵称相同的人，导致groupMembersMap无法添加进去，导致数量达不到真实的群成员数量
+                            //停止循环
+                            logger.info("已滑到群成员的底部...");
+                            break;
+                        } else {
+                            if (groupMembersMap.size() >= groupTotalNum) {        //当群成员数量全部统计完成时就跳出循环
+                                //停止循环
+                                logger.info("已滑到群成员的底部...");
+                                break;
+                            } else {                        //下滑，继续循环
+                                try {
+                                    logger.info("第【" + cyclesNumber + "】次，scroll上滑中,查看更过群成员，直到groupMembersMap的大小达到" + groupTotalNum + "，当前groupMembersMap的大小为：" + groupMembersMap.size() + "...");
+                                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                                } catch (Exception e) {
+                                    logger.info("scroll上滑中,查看更过群成员，总共花费 " + sw.toSplitString() + " 秒....");
+                                }
+                                cyclesNumber++;
+                            }
+                        }
+                    }
+                }
+                for (String key : groupMembersMap.keySet()) {
+                    System.out.println(key + " ---->>> " + groupMembersMap.get(key).get("groupMemberIndex") + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
+                    System.out.println("----------------------------------------------------------------");
                 }
                 sw.split();
                 logger.info("点击坐标【上滑同时检测坐标查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(1000);
-            } catch (Exception e) {
-                sw.split();
-                e.printStackTrace();
-                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-                throw new Exception("长按坐标【上滑同时检测坐标查看全部群成员】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
             }
+            //10.循环点击群成员
+            Integer addFriendNum = 1;
+            for (String key : groupMembersMap.keySet()) {
+                Map<String, String> groupMember = groupMembersMap.get(key);
+                String isAddFlag = groupMember.get("isAddFlag");
+                String groupMemberNickName = groupMember.get("groupMemberNickName");
+//                if (!groupMemberNickName.startsWith("C")) {
+//                    continue;
+//                }
+                if ("false".equals(isAddFlag)) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "搜索" + "\")").sendKeys(groupMemberNickName);
+                        Thread.sleep(1500);
+                        WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
+//                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.LinearLayout"));       //获取所有的群成员列表信息
+                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
+                        if (linearWebElementList != null && linearWebElementList.size() > 0) {
+                            for (WebElement webElement : linearWebElementList) {            //准备点击群成员头像，开始点击
+                                try {
+                                    //11.点击【单个群成员】
+                                    String groupMemberNickName_Temp = webElement.getAttribute("text");
+                                    if(!groupMemberNickName_Temp.equals(groupMemberNickName)){      //防止一个短昵称对应多个群成员
+                                        continue;
+                                    }
+                                    webElement.click();
+                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友...");
+                                    Thread.sleep(4000);
+                                    //12.检测坐标【发消息】
+                                    try {
+                                        WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
+                                        if (sendMessageBtn_Element != null) {
+                                            sw.split();
+                                            logger.info("检测坐标【发消息】成功，则当前群成员为好友则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                            Thread.sleep(1000);
+                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                            groupMember.put("isAddFlag", "true");
+                                            continue;
+                                        }
+                                    } catch (Exception e) {
+                                        logger.info("检测坐标【发消息】时异常，可能是没有找到【发消息】按钮...");
+                                    }
+                                    //13.点击坐标【添加到通讯录】
+                                    try {
+                                        WebElement aadToContactBook_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToContactBookLocaltion + "\")");
+                                        aadToContactBook_Element.click();
+                                        sw.split();
+                                        logger.info("点击坐标【添加到通讯录】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                        Thread.sleep(4000);
+                                    } catch (Exception e) {
+                                        logger.info("点击坐标【添加到通讯录】时异常，可能是没有找到【添加到通讯录】按钮...");
+                                    }
+
+                                    //13.1检测坐标【发消息】,点击坐标【添加到通讯录】直接被添加为好友，则检测坐标【发消息】
+                                    try {
+                                        WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
+                                        if (sendMessageBtn_Element != null) {
+                                            sw.split();
+                                            logger.info("检测坐标【发消息】成功，则当前群成员为好友则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                            Thread.sleep(1000);
+                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                            groupMember.put("isAddFlag", "true");
+                                            addFriendNum++;
+                                            continue;
+                                        }
+                                    } catch (Exception e) {
+                                        logger.info("点击坐标【添加到通讯录】后检测坐标【发消息】时异常，当前用户没有在点击坐标【添加到通讯录】直接添加为好友...");
+                                    }
+
+                                    //13.2.显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录。】，注：如果这个坐标找不到则使用【确定】这个坐标 privacyContentLocaltion
+                                    try {
+                                        WebElement privacyContent_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + privacyContentLocaltion + "\")");
+                                        if (privacyContent_Element != null) {
+                                            sw.split();
+                                            logger.info("显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】成功，直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                            Thread.sleep(1000);
+                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【弹窗】
+                                            Thread.sleep(1000);
+                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                            groupMember.put("isAddFlag", "true");
+                                            continue;
+                                        }
+                                    } catch (Exception e) {
+                                        try {
+                                            WebElement privacyContent_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "确定" + "\")");
+                                            if (privacyContent_Element != null) {
+                                                sw.split();
+                                                logger.info("显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】成功，直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                                Thread.sleep(1000);
+                                                driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【弹窗】
+                                                Thread.sleep(1000);
+                                                driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                                groupMember.put("isAddFlag", "true");
+                                                continue;
+                                            }
+                                        } catch (Exception e1) {
+                                            logger.info("显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】时异常，可能是没有找到【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】");
+                                        }
+                                    }
+
+                                    //14.点击坐标【发送】
+                                    try {
+                                        WebElement sendBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")");
+                                        sendBtn_Element.click();
+                                        logger.info("点击坐标【发送】成功....");
+                                        Thread.sleep(5000);
+                                        groupMember.put("isAddFlag", "true");
+                                        addFriendNum++;
+                                    } catch (Exception e) {
+                                        logger.info("点击坐标【发送】时异常，可能出现了【微信：对方帐号异常，无法添加朋友。】或者【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，e : ", e);
+                                    }
+
+                                    //15.检测坐标【添加到通讯录】
+                                    try {
+                                        WebElement aadToContactBook_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToContactBookLocaltion + "\")");
+                                        sw.split();
+                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                    } catch (Exception e) {
+                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【"+groupMemberNickName+"】在发送阶段才显示【对方账号异常，无法添加朋友。】...");
+                                        groupMember.put("isAddFlag", "true");
+                                        driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                    }
+
+                                    driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                    logger.info("返回【群成员界面】成功....");
+                                } catch (Exception e) {
+                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友时异常，e ：", e);
+                                }
+                                break;
+                            }
+                        } else {
+                            groupMember.put("isAddFlag", "true");           //根据群昵称找不到群成员的，则默认为已添加过
+                        }
+                    } catch (Exception e) {
+                        logger.info("在搜索框输入【" + groupMemberNickName + "】查找群成员时异常，e ：", e);
+                    } finally {
+                        try {
+                            Thread.sleep(2000);
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupMemberNickName + "\")").clear();
+                        } catch (Exception e) {
+                            logger.info("在搜索框输入【" + groupMemberNickName + "】清空，准备进入下一个群成员时异常，e ：", e);
+                        }
+                        if (addFriendNum >= addFrirndTotalNum) {
+                            break;
+                        }
+                    }
+                }
+            }
+            System.out.println(JSON.toJSON(groupMembersMap));
+        } else {
+            logger.info("群成员未超过40人，则不添加当前群的成员为好友，总共花费 " + sw.toSplitString() + " 秒....");
         }
-
-
-
-
-//        //9.沉睡5秒，等待加载用户信息，主要是为了显示坐标【添加到通讯录】
-//        Thread.sleep(5000);
-//        //10.点击坐标【添加到通讯录】
-//        WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "添加到通讯录" + "\")");
-//            //11.直接添加为好友，如果当前坐标存在坐标【发消息】，注：对方默认已添加为好友
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "发消息" + "\")");
-//            //12.点击坐标【左上角的返回箭头】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//            //13.循环8步骤的坐标
-//
-//            //11.显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "由于对方的隐私设置，你无法通过群聊将其添加至通讯录。" + "\")");
-//            //12.点击坐标【确定】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "确定" + "\")");
-//            //13.点击坐标【左上角的返回箭头】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//            //14.循环8步骤的坐标
-//
-//            //11.显示账号异常
-//            //14.3.点击坐标【左上角的返回箭头】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//            //14.4.点击坐标【左上角的返回箭头】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//            //14.5.循环8步骤的坐标
-//
-//            //11.沉睡5秒，等待加载用户信息，注：需要发起申请
-//            Thread.sleep(5000);
-//            //12.点击坐标【好友申请内容】输入申请信息，比如：来自通讯录
-//            //获取第一个坐标的输入框
-//            List<WebElement> canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.EditText" + "\")");
-//            //13.点击坐标【发送】
-//            WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "发送" + "\")");
-//                //14.1.如果返回的页面存在坐标【添加到通讯录】则发送申请成功
-//                WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "添加到通讯录" + "\")");
-//                //14.2.点击坐标【左上角的返回箭头】
-//                WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//                //14.3.循环8步骤的坐标
-//
-//                //14.1.显示账号异常
-//                //14.2.点击确定
-//                //14.3.点击坐标【左上角的返回箭头】
-//                WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//                //14.4.点击坐标【左上角的返回箭头】
-//                WebElement canemerElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "返回" + "\")");
-//                //14.5.循环8步骤的坐标
-
-
-
-
-
-        //5.退出驱动
-//        this.quitDriver(driver, deviceNameDesc, deviceName);
+        paramMap.put("groupMembersMapStr", JSON.toJSONString(groupMembersMap));
+        //16.退出驱动
+        this.quitDriver(driver, deviceNameDesc, deviceName);
         sw.split();
         logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功，总共花费 " + sw.toSplitString() + " 秒....");
     }
@@ -406,14 +537,20 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 
     public static void main(String[] args) {
         try {
-            StopWatch sw = new StopWatch();
-            sw.start();
-            Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("nickName", "内部交流群");
-            paramMap.put("nickName", "孟溪镇预防接种交流群");
-            paramMap.put("action", "addGroupMembersAsFriends");
-            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
-            Thread.sleep(5000);
+//            StopWatch sw = new StopWatch();
+//            sw.start();
+//            Map<String, Object> paramMap = Maps.newHashMap();
+//            paramMap.put("nickName", "内部交流群");
+//            paramMap.put("nickName", "铜仁推广商务群");
+//            paramMap.put("nickName", "求职信息发布群");
+//            paramMap.put("nickName", "铜仁市本地生活便利群_1");
+//            paramMap.put("action", "addGroupMembersAsFriends");
+//            paramMap.put("deviceName", "5LM0216122009385");
+//            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
+//            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
+//            Thread.sleep(5000);
+
+            System.out.println(EmojiUtil.emojiConvert("全国微帮总汇1⃣\uD83C\uDE35"));
         } catch (Exception e) {
             e.printStackTrace();
         }
