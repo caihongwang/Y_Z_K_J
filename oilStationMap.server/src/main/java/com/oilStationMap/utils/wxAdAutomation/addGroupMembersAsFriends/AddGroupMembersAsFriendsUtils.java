@@ -36,7 +36,7 @@ public class AddGroupMembersAsFriendsUtils {
     /**
      * 根据微信群昵称添加群成员为好友工具for所有设备
      */
-    public static void addGroupMembersAsFriends(Map<String, Object> paramMap) {
+    public static void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception{
         StopWatch sw = new StopWatch();
         sw.start();
 //        try{
@@ -63,7 +63,7 @@ public class AddGroupMembersAsFriendsUtils {
             List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
             List<HashMap<String, Object>> rebootDeviceNameList = Lists.newArrayList();          //执行失败的设备列表，待重新执行
             paramMap.put("dicType", "addGroupMembersAsFriends");
-            paramMap.put("dicCode", nickName);        //根据微信群昵称添加群成员为好友
+            paramMap.put("dicCode", EmojiUtil.emojiConvert(nickName));        //根据微信群昵称添加群成员为好友
             ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
             List<Map<String, String>> resultList = resultDTO.getResultList();
             if (resultList != null && resultList.size() > 0) {
@@ -184,7 +184,7 @@ public class AddGroupMembersAsFriendsUtils {
                     dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
                     dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
                     dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
-                    tempMap.put("dicRemark", JSON.toJSONString(dicRemarkMap));
+                    tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
                     tempMap.put("dicStatus", 1);
                     LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
                     if(groupMembersMap.size() > 0){

@@ -60,7 +60,11 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO addGroupMembersAsFriends(Map<String, Object> paramMap) {
-        AddGroupMembersAsFriendsUtils.addGroupMembersAsFriends(paramMap);
+        try {
+            AddGroupMembersAsFriendsUtils.addGroupMembersAsFriends(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());

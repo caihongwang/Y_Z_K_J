@@ -78,7 +78,7 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈、添加群成员为好友的群
      */
-    @Scheduled(cron = "0 28 */1 * * ?")
+    @Scheduled(cron = "0 01 */1 * * ?")
 //    @Scheduled(cron = "0 50 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle_and_addGroupMembersAsFriends() {
         if(!new SimpleDateFormat("yyyy-MM-dd HH").format(currentDate).equals(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()))){
@@ -88,80 +88,80 @@ public class TimeTaskOfQuartz {
             Map<String, Object> paramMap = Maps.newHashMap();
             List<String> nickNameList = Lists.newArrayList();
             paramMap.put("currentDate", currentDate);
-//            try {
-//                paramMap.clear();
-//                nickNameList.clear();
-//                paramMap.put("start", 0);
-//                paramMap.put("size", 10);
-//                paramMap.put("id", "13");
-////                paramMap.put("jobDesc", "发布图片/文字到朋友圈");
-//                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
-//                if (list != null && list.size() > 0) {
-//                    Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
-//                    String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam") != null ? sendFriendCircleJobInfoMap.get("executorParam").toString() : "";
-//                    paramMap.clear();
-//                    nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
-//                    paramMap.put("nickNameListStr", nickNameListStr);
-//                    wxSpiderService.sendFriendCircle(paramMap);
-//                }
-//            } catch (Exception e) {
-//                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, 即将通过数据库获取数据发送朋友圈 paramMap : " + paramMap + ", e : ", e);
-//                try{
-//                    //直接从现有的数据库中获取数据启动-发布朋友圈
-//                    paramMap.clear();
-//                    nickNameList.clear();
-//                    paramMap.put("dicType", "sendFriendCircle");
-//                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-//                    if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
-//                        for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
-//                            nickNameList.add(sendFriendCircleMap.get("dicCode"));
-//                        }
-//                    }
-//                    paramMap.clear();
-//                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
-//                    wxSpiderService.sendFriendCircle(paramMap);
-//                } catch (Exception eee) {
-//                    eee.printStackTrace();
-//                }
-//            }
-//            try {
-//                paramMap.clear();
-//                nickNameList.clear();
-//                paramMap.put("start", 0);
-//                paramMap.put("size", 10);
-////                paramMap.put("jobDesc", "分享文章l链接到朋友圈");
-//                paramMap.put("id", "14");
-//                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
-//                if (list != null && list.size() > 0) {
-//                    Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
-//                    String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam") != null ? sendFriendCircleJobInfoMap.get("executorParam").toString() : "";
-//                    paramMap.clear();
-//                    nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
-//                    paramMap.put("nickNameListStr", nickNameListStr);
-//                    wxSpiderService.shareArticleToFriendCircle(paramMap);
-//                }
-//            } catch (Exception e) {
-//                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");
-//                paramMap.clear();
-//                nickNameList.clear();
-//                paramMap.put("dicType", "shareArticleToFriendCircle");
-//                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-//                if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
-//                    for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
-//                        nickNameList.add(sendFriendCircleMap.get("dicCode"));
-//                    }
-//                }
-//                paramMap.clear();
-//                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
-//                wxSpiderService.shareArticleToFriendCircle(paramMap);
-//            }
+            try {
+                paramMap.clear();
+                nickNameList.clear();
+                paramMap.put("start", 0);
+                paramMap.put("size", 10);
+                paramMap.put("id", "13");
+//                paramMap.put("jobDesc", "发布图片/文字到朋友圈");
+                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                if (list != null && list.size() > 0) {
+                    Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
+                    String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam") != null ? sendFriendCircleJobInfoMap.get("executorParam").toString() : "";
+                    paramMap.clear();
+                    nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+                    paramMap.put("nickNameListStr", nickNameListStr);
+                    wxSpiderService.sendFriendCircle(paramMap);
+                }
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, 即将通过数据库获取数据发送朋友圈 paramMap : " + paramMap + ", e : ", e);
+                try{
+                    //直接从现有的数据库中获取数据启动-发布朋友圈
+                    paramMap.clear();
+                    nickNameList.clear();
+                    paramMap.put("dicType", "sendFriendCircle");
+                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                    if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
+                        for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
+                            nickNameList.add(sendFriendCircleMap.get("dicCode"));
+                        }
+                    }
+                    paramMap.clear();
+                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                    wxSpiderService.sendFriendCircle(paramMap);
+                } catch (Exception eee) {
+                    eee.printStackTrace();
+                }
+            }
+            try {
+                paramMap.clear();
+                nickNameList.clear();
+                paramMap.put("start", 0);
+                paramMap.put("size", 10);
+//                paramMap.put("jobDesc", "分享文章l链接到朋友圈");
+                paramMap.put("id", "14");
+                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                if (list != null && list.size() > 0) {
+                    Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
+                    String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam") != null ? sendFriendCircleJobInfoMap.get("executorParam").toString() : "";
+                    paramMap.clear();
+                    nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+                    paramMap.put("nickNameListStr", nickNameListStr);
+                    wxSpiderService.shareArticleToFriendCircle(paramMap);
+                }
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");
+                paramMap.clear();
+                nickNameList.clear();
+                paramMap.put("dicType", "shareArticleToFriendCircle");
+                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
+                    for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
+                        nickNameList.add(sendFriendCircleMap.get("dicCode"));
+                    }
+                }
+                paramMap.clear();
+                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                wxSpiderService.shareArticleToFriendCircle(paramMap);
+            }
             try {
                 paramMap.clear();
                 nickNameList.clear();
                 paramMap.put("start", 0);
                 paramMap.put("size", 10);
 //                paramMap.put("jobDesc", "添加群成员为好友的群");
-                paramMap.put("id", "16");
+                paramMap.put("id", "15");
                 List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
                 if (list != null && list.size() > 0) {
                     Map<String, Object> addGroupMembersAsFriendsMap = list.get(0);
@@ -170,6 +170,8 @@ public class TimeTaskOfQuartz {
                     nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
                     paramMap.put("nickNameListStr", nickNameListStr);
                     wxSpiderService.addGroupMembersAsFriends(paramMap);
+                } else {
+                    throw new Exception();
                 }
             } catch (Exception e) {
                 logger.error("在hanlder中启动appium,添加群成员为好友的群-addGroupMembersAsFriends is error, 即将通过数据库添加群成员为好友的群 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");

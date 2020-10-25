@@ -79,6 +79,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                 paramMap.get("nickName") != null ?
                         paramMap.get("nickName").toString() :
                         "铜仁推广商务群";
+        nickName = EmojiUtil.emojiRecovery(nickName);
         //坐标【右上角的三个点：聊天信息】
         String threePointLocaltion =
                 paramMap.get("threePointLocaltion") != null ?
