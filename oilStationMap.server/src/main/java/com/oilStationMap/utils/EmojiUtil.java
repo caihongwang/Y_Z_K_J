@@ -43,6 +43,39 @@ public class EmojiUtil {
         return sb.toString();
     }
 
+    /**
+     * 获取首个Emoji表情的index
+     *
+     * @param str
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static int getFirstEmojiIndex(String str) throws UnsupportedEncodingException {
+        int index = -1;
+        String patternString = "([\\x{10000}-\\x{10ffff}\ud800-\udfff])";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(str);
+        matcher.lookingAt();
+        while (matcher.find()) {
+            String emojiStr = matcher.group(0);
+            index = str.indexOf(emojiStr);
+            break;
+        }
+        return index;
+    }
+
+    public static void main(String[] args) {
+        String str = "全国微帮总汇1⃣\uD83C\uDE35说的\uD83D\uDD25";
+        try {
+            int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(str);
+            System.out.println("str = " + str);
+            str = str.substring(0, firstEmojiIndex);
+            System.out.println("str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * @param str 转换后的字符串

@@ -148,7 +148,7 @@ public class AddGroupMembersAsFriendsUtils {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (index > 5) {
+                    if (index > 8) {
                         break;
                     }
                     logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
@@ -164,6 +164,7 @@ public class AddGroupMembersAsFriendsUtils {
                             logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的添加群成员为好友的群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                             deviceNameMap.put("index", index);
                             new RealMachineDevices().addGroupMembersAsFriends(deviceNameMap, sw);
+                            addGroupMembersAsFriendsParam.putAll(deviceNameMap);
                             Thread.sleep(5000);
                             iterator.remove();
                         } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
@@ -182,8 +183,9 @@ public class AddGroupMembersAsFriendsUtils {
                     dicRemarkMap.put("nickName", nickName);
                     dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
                     dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
-                    dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
                     dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
+                    dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
+                    dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
                     tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
                     tempMap.put("dicStatus", 1);
                     LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
@@ -225,7 +227,7 @@ public class AddGroupMembersAsFriendsUtils {
                         HttpsUtil httpsUtil = new HttpsUtil();
                         Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
                         exceptionDevicesParamMap.put("nickName", nickName);
-                        exceptionDevicesParamMap.put("operatorName", "发布朋友圈");
+                        exceptionDevicesParamMap.put("operatorName", "添加群成员为好友的群");
                         exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
                         String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
                         String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
@@ -240,6 +242,7 @@ public class AddGroupMembersAsFriendsUtils {
 //                        }
                     }
                 } else {
+                    sw.split();
                     logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
                     logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
                     logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");

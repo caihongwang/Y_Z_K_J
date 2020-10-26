@@ -147,8 +147,8 @@ public class OilStationMapCode {
     public static final String THE_DOMAIN = "https://www.yzkj.store/";        // 域名  线上
 
     //微信公众号
-    public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //appid
-    public static final String WX_PUBLIC_NUMBER_SECRET = "a481dd6bc40c9eec3e57293222e8246f";    //secret
+    public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //【油价地图】 appid
+    public static final String WX_PUBLIC_NUMBER_SECRET = "a481dd6bc40c9eec3e57293222e8246f";    //【油价地图】 secret
 
     //微信自定义信息发送，适用于小程序员和公众号
     public static final String WX_CUSTOM_MESSAGE_HOST = "https://api.weixin.qq.com";     //host
@@ -156,10 +156,9 @@ public class OilStationMapCode {
     public static final String WX_CUSTOM_MESSAGE_METHOD = "POST";                        //method
 
     //微信支付
-    public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";     //微信支付 api secret
-    public static final String WX_PAY_MCH_ID = "1345780701";     //微信支付 商家ID
-    public static final String WX_PAY_CERT_PATH = "/Users/caihongwang/Desktop/cert/apiclient_cert.p12";     //微信支付 商家证书
-//    public static final String WX_PAY_DOMAIN = "http://172.30.5.91:8080/oilStationMap";        //微信支付 域名  本机
+    public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";     //【油价地图】 微信支付 api secret
+    public static final String WX_PAY_MCH_ID = "1345780701";     //【油价地图】 微信支付 商家ID
+    public static final String WX_PAY_CERT_PATH = "/Users/caihongwang/Desktop/cert/apiclient_cert.p12";     //【油价地图】 微信支付 商家证书
     public static final String WX_PAY_DOMAIN = "https://www.yzkj.store/oilStationMap";        //微信支付 域名  线上
     public static final String WX_RED_PACK_NUMBER = "1";     //微信红包总数：1个
     public static final String WX_PAY_NOTIFY_URL = "/oilStationMap/wxOrder/wxNotify";  //支付成功后的服务器回调url

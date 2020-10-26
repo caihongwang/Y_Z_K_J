@@ -7,6 +7,7 @@ import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.EmojiUtil;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
+import org.apache.avro.data.Json;
 import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -57,6 +58,12 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                         paramMap.get("addFrirndTotalNumStr").toString() :
                         "10";
         Integer addFrirndTotalNum = Integer.parseInt(addFrirndTotalNumStr);
+        //设置默认添加好友的初始位置,默认从第 10 个开始添加好友
+        String startAddFrirndTotalNumStr =
+                paramMap.get("startAddFrirndTotalNumStr") != null ?
+                        paramMap.get("startAddFrirndTotalNumStr").toString() :
+                        "20";
+        Integer startAddFrirndTotalNum = Integer.parseInt(startAddFrirndTotalNumStr);
         //群成员Map
         String groupMembersMapStr =
                 paramMap.get("groupMembersMapStr") != null ?
@@ -177,14 +184,23 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
         } catch (Exception e) {
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             sw.split();
-            throw new Exception("长按坐标【输入昵称到搜索框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+            throw new Exception("点击坐标【输入昵称到搜索框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
         //4.点击坐标【昵称对应的微信好友/群】
         try {
-            List<WebElement> targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + nickName + "\")");
+            String str_0_of_9 = nickName;
+            int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(nickName);
+            if(firstEmojiIndex >= 0){
+                str_0_of_9 = nickName.substring(0, firstEmojiIndex);        //截取emoji之前的字符串
+            }
+            if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
+                str_0_of_9 = str_0_of_9.substring(0, 9);
+            }        //启用模糊匹配
+            List<WebElement> targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
             for (WebElement targetGroupElement : targetGroupElementList) {
                 if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
                     targetGroupElement.click();
+                    break;
                 }
             }
             sw.split();
@@ -276,7 +292,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     tempMap.put("groupMemberIndex", groupMemberIndex + "");
                                     tempMap.put("groupMemberNickName", groupMemberNickName);
                                     tempMap.put("groupMemberClass", groupMemberClass);
-                                    if (groupMemberIndex >= 20) {
+                                    if (groupMemberIndex >= startAddFrirndTotalNum) {
                                         tempMap.put("isAddFlag", "false");                      //是否添加过，默认未添加过
                                     } else {
                                         tempMap.put("isAddFlag", "true");                       //前20个好友不添加，可能是群主，免得被踢
@@ -348,7 +364,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                                         if (sendMessageBtn_Element != null) {
                                             sw.split();
-                                            logger.info("检测坐标【发消息】成功，则当前群成员为好友则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                            logger.info("检测坐标【发消息】成功，您与【"+groupMemberNickName+"】已是好友，则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                             Thread.sleep(1000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                             groupMember.put("isAddFlag", "true");
@@ -373,7 +389,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                                         if (sendMessageBtn_Element != null) {
                                             sw.split();
-                                            logger.info("检测坐标【发消息】成功，则当前群成员为好友则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                            logger.info("检测坐标【发消息】成功，在点击坐标【添加到通讯录】直接被对方【"+groupMemberNickName+"】通过为好友，则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                             Thread.sleep(1000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                             groupMember.put("isAddFlag", "true");
@@ -421,8 +437,6 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         sendBtn_Element.click();
                                         logger.info("点击坐标【发送】成功....");
                                         Thread.sleep(5000);
-                                        groupMember.put("isAddFlag", "true");
-                                        addFriendNum++;
                                     } catch (Exception e) {
                                         logger.info("点击坐标【发送】时异常，可能出现了【微信：对方帐号异常，无法添加朋友。】或者【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，e : ", e);
                                     }
@@ -430,12 +444,15 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     //15.检测坐标【添加到通讯录】
                                     try {
                                         WebElement aadToContactBook_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToContactBookLocaltion + "\")");
+                                        groupMember.put("isAddFlag", "true");
+                                        addFriendNum++;
                                         sw.split();
-                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，当前请求好友通知发送成功，总共花费 " + sw.toSplitString() + " 秒....");
                                     } catch (Exception e) {
                                         logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【"+groupMemberNickName+"】在发送阶段才显示【对方账号异常，无法添加朋友。】...");
                                         groupMember.put("isAddFlag", "true");
                                         driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                        Thread.sleep(1000);
                                     }
 
                                     driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
@@ -482,19 +499,19 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
      * @param deviceName
      */
     public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
-        try {
+//        try {
 //            Thread.sleep(1000);
 //            if (driver != null) {
 //                driver.quit();
 //            }
-            //关闭 appium 相关进程
-            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
-            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
-            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
-        }
+//            //关闭 appium 相关进程
+//            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
+//            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
+//            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
+//        }
     }
 
     /**
@@ -505,26 +522,26 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
      * @param deviceName
      */
     public void quitDriverAndReboot(AndroidDriver driver, String deviceNameDesc, String deviceName) {
-        try {
+//        try {
 //            Thread.sleep(1000);
 //            if (driver != null) {
 //                driver.quit();
 //            }
-            try {
-                //关闭 appium 相关进程
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
+//            try {
+//                //关闭 appium 相关进程
+//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
+//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
+//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
 //                //重启android设备
 //                Thread.sleep(2000);
 //                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
-                logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
-            } catch (Exception e1) {
-                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
+//                logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+//            } catch (Exception e1) {
+//                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
 //            try {
 //                //重启android设备
 //                Thread.sleep(2000);
@@ -533,25 +550,23 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 //            } catch (Exception e1) {
 //                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
 //            }
-        }
+//        }
     }
 
     public static void main(String[] args) {
         try {
-//            StopWatch sw = new StopWatch();
-//            sw.start();
-//            Map<String, Object> paramMap = Maps.newHashMap();
-//            paramMap.put("nickName", "内部交流群");
-//            paramMap.put("nickName", "铜仁推广商务群");
-//            paramMap.put("nickName", "求职信息发布群");
-//            paramMap.put("nickName", "铜仁市本地生活便利群_1");
-//            paramMap.put("action", "addGroupMembersAsFriends");
-//            paramMap.put("deviceName", "5LM0216122009385");
-//            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
-//            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
-//            Thread.sleep(5000);
-
-            System.out.println(EmojiUtil.emojiConvert("全国微帮总汇1⃣\uD83C\uDE35"));
+            StopWatch sw = new StopWatch();
+            sw.start();
+            Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("nickName", "内部交流群");
+            paramMap.put("nickName", "铜仁推广商务群");
+            paramMap.put("nickName", "求职信息发布群");
+            paramMap.put("nickName", "铜仁市本地生活便利群_1");
+            paramMap.put("action", "addGroupMembersAsFriends");
+            paramMap.put("deviceName", "5LM0216122009385");
+            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
+            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
+            Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
         }
