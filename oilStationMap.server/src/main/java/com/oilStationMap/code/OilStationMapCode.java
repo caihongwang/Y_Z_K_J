@@ -136,19 +136,21 @@ public class OilStationMapCode {
 
 
     //微信小程序
-    public static final String WX_MINI_PROGRAM_NAME = "油价地图";     //小程序名称
-    public static final String WX_MINI_PROGRAM_GH_ID = "gh_417c90af3488";     //小程序原始ID
-    public static final String WX_MINI_PROGRAM_APPID = "wx07cf52be1444e4b7";     //appid
-    public static final String WX_MINI_PROGRAM_SECRET = "d6de12032cfe660253b96d5f2868a06c";    //secret
-    public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID = "authorization_code";    //grant_type
-    public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_ACCESS_TOKEN = "client_credential";    //grant_type
+    public static final String WX_MINI_PROGRAM_NAME = "油价地图";                                         //【油价地图】小程序名称
+    public static final String WX_MINI_PROGRAM_GH_ID = "gh_417c90af3488";                               //【油价地图】小程序原始ID
+    public static final String WX_MINI_PROGRAM_APPID = "wx07cf52be1444e4b7";                            //【油价地图】appid
+    public static final String WX_MINI_PROGRAM_SECRET = "d6de12032cfe660253b96d5f2868a06c";             //【油价地图】secret
+    public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID = "authorization_code";            //【油价地图】grant_type
+    public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_ACCESS_TOKEN = "client_credential";       //【油价地图】grant_type
 
     //本服务器域名
     public static final String THE_DOMAIN = "https://www.yzkj.store/";        // 域名  线上
 
     //微信公众号
-    public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //【油价地图】 appid
-    public static final String WX_PUBLIC_NUMBER_SECRET = "a481dd6bc40c9eec3e57293222e8246f";    //【油价地图】 secret
+//    public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //【油价地图】 appid
+//    public static final String WX_PUBLIC_NUMBER_SECRET = "a481dd6bc40c9eec3e57293222e8246f";    //【油价地图】 secret
+    public static final String WX_PUBLIC_NUMBER_APPID = "wx3fc378277803f201";                   //【油站科技】 appid
+    public static final String WX_PUBLIC_NUMBER_SECRET = "f8b65903d5137059eec0b9acb9a0a9c5";    //【油站科技】 secret
 
     //微信自定义信息发送，适用于小程序员和公众号
     public static final String WX_CUSTOM_MESSAGE_HOST = "https://api.weixin.qq.com";     //host
@@ -156,8 +158,10 @@ public class OilStationMapCode {
     public static final String WX_CUSTOM_MESSAGE_METHOD = "POST";                        //method
 
     //微信支付
-    public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";     //【油价地图】 微信支付 api secret
-    public static final String WX_PAY_MCH_ID = "1345780701";     //【油价地图】 微信支付 商家ID
+//    public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";          //【油价地图】 微信支付 api secret
+//    public static final String WX_PAY_MCH_ID = "1345780701";                                    //【油价地图】 微信支付 商家ID
+    public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";          //【油站科技】 微信支付 api secret
+    public static final String WX_PAY_MCH_ID = "1541453171";                                    //【油站科技】 微信支付 商家ID
     public static final String WX_PAY_CERT_PATH = "/Users/caihongwang/Desktop/cert/apiclient_cert.p12";     //【油价地图】 微信支付 商家证书
     public static final String WX_PAY_DOMAIN = "https://www.yzkj.store/oilStationMap";        //微信支付 域名  线上
     public static final String WX_RED_PACK_NUMBER = "1";     //微信红包总数：1个

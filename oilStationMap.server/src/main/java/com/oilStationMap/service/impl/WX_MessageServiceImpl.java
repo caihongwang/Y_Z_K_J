@@ -62,9 +62,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId") != null ? customMessageAccountMap.get("customMessageAccountAppId").toString() : "wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret") != null ? customMessageAccountMap.get("customMessageAccountSecret").toString() : "a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId") != null ? customMessageAccountMap.get("customMessageAccountAppId").toString() : "wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret") != null ? customMessageAccountMap.get("customMessageAccountSecret").toString() : "f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //1.获取所有微信用户openId
                         Map<String, Object> followersMap = WX_PublicNumberUtil.getFollowers(null, appId,  secret);
@@ -196,9 +196,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if(dicName.contains("公众号")){
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
                     if(!"".equals(appId) && !"".equals(secret) && !"".equals(dailyMessageTemplateId)){
                         //1.获取所有微信用户openId
@@ -316,9 +316,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String luckDrawMessageTemplateId = customMessageAccountMap.get("luckDrawMessageTemplateId")!=null?customMessageAccountMap.get("luckDrawMessageTemplateId").toString():"PVazdd8e4agtaZGIT-G4erWcWbL1EFolT7kxw7Rcn7w";//逾期应收提醒
                     if(!"".equals(appId) && !"".equals(secret)){
                         //1.获取所有微信用户openId
@@ -421,9 +421,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //1.获取所有微信用户openId
@@ -526,9 +526,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
@@ -617,9 +617,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String leagueMessageTemplateId = customMessageAccountMap.get("leagueMessageTemplateId")!=null?customMessageAccountMap.get("leagueMessageTemplateId").toString():"FvFWMDDOdH132QdU9shyzSOpLCt6VB_YpQ3k0T7b5uY";//加盟受理通知
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
@@ -704,9 +704,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String errorMessageTemplateId = customMessageAccountMap.get("errorMessageTemplateId")!=null?customMessageAccountMap.get("errorMessageTemplateId").toString():"TdKDrcNW934K0r1rtlDKCUI0XCQ5xb4GGb8ieHb0zug";//服务器报错提醒
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
@@ -783,9 +783,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";//报料成功通知
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
@@ -886,9 +886,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";//报料成功通知
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
@@ -989,9 +989,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String exceptionDevicesTemplateId = customMessageAccountMap.get("exceptionDevicesTemplateId")!=null?customMessageAccountMap.get("exceptionDevicesTemplateId").toString():"jc3BrNm_fy3My21kgz8zWaKQNIMp7piMHTQDCw8kOEc";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
@@ -1099,9 +1099,9 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                 Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
                 String dicName = customMessageAccountMap.get("dicName");
                 if (dicName.contains("公众号")) {
-                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wxf768b49ad0a4630c";
-                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"a481dd6bc40c9eec3e57293222e8246f";
-                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油价地图";
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx3fc378277803f201";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"f8b65903d5137059eec0b9acb9a0a9c5";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
                     String exceptionDevicesTemplateId = customMessageAccountMap.get("exceptionDevicesTemplateId")!=null?customMessageAccountMap.get("exceptionDevicesTemplateId").toString():"jc3BrNm_fy3My21kgz8zWaKQNIMp7piMHTQDCw8kOEc";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
