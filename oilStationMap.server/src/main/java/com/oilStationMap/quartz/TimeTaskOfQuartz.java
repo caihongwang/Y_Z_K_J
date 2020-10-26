@@ -78,8 +78,8 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈、添加群成员为好友的群
      */
-    @Scheduled(cron = "0 */1 * * * ?")
-//    @Scheduled(cron = "0 17 */1 * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 01 */1 * * ?")
 //    @Scheduled(cron = "0 50 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle_and_addGroupMembersAsFriends() {
         if(!new SimpleDateFormat("yyyy-MM-dd HH").format(currentDate).equals(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()))){
@@ -190,7 +190,7 @@ public class TimeTaskOfQuartz {
                     }
                 }
                 paramMap.clear();
-//                paramMap.put("currentDateStr", "2020-10-25 21");
+//                paramMap.put("currentDateStr", "2020-10-25 14");
                 paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                 wxSpiderService.addGroupMembersAsFriends(paramMap);
             }

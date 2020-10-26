@@ -389,7 +389,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                                         if (sendMessageBtn_Element != null) {
                                             sw.split();
-                                            logger.info("检测坐标【发消息】成功，在点击坐标【添加到通讯录】直接被对方【"+groupMemberNickName+"】通过为好友，则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
+                                            logger.info("检测坐标【发消息】成功，在点击坐标【添加到通讯录】直接被对方【"+groupMemberNickName+"】通过为好友（即通知发送成功），则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                             Thread.sleep(1000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                             groupMember.put("isAddFlag", "true");
@@ -447,7 +447,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         groupMember.put("isAddFlag", "true");
                                         addFriendNum++;
                                         sw.split();
-                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，当前请求好友通知发送成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，当前请求好友【" + groupMemberNickName + "】通知发送成功，总共花费 " + sw.toSplitString() + " 秒....");
                                     } catch (Exception e) {
                                         logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【"+groupMemberNickName+"】在发送阶段才显示【对方账号异常，无法添加朋友。】...");
                                         groupMember.put("isAddFlag", "true");
@@ -473,6 +473,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupMemberNickName + "\")").clear();
                         } catch (Exception e) {
                             logger.info("在搜索框输入【" + groupMemberNickName + "】清空，准备进入下一个群成员时异常，e ：", e);
+                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                            logger.info("返回【群成员界面】成功....");
                         }
                         if (addFriendNum >= addFrirndTotalNum) {
                             break;
