@@ -343,10 +343,10 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 //                }
                 if ("false".equals(isAddFlag)) {
                     try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "搜索" + "\")").sendKeys(groupMemberNickName);
+//                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "搜索" + "\")").sendKeys(groupMemberNickName);
+                        driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(groupMemberNickName);
                         Thread.sleep(1500);
                         WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
-//                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.LinearLayout"));       //获取所有的群成员列表信息
                         List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
                         if (linearWebElementList != null && linearWebElementList.size() > 0) {
                             for (WebElement webElement : linearWebElementList) {            //准备点击群成员头像，开始点击
@@ -454,11 +454,10 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                         Thread.sleep(1000);
                                     }
-
                                     driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                     logger.info("返回【群成员界面】成功....");
                                 } catch (Exception e) {
-                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友时异常，e ：", e);
+                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友时异常，有可能一个昵称对应多个群成员，在循环遍历过程中WebElement超时了，无法定位点击...");
                                 }
                                 break;
                             }
@@ -470,7 +469,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                     } finally {
                         try {
                             Thread.sleep(2000);
-                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupMemberNickName + "\")").clear();
+//                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupMemberNickName + "\")").clear();
+                            driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").clear();
                         } catch (Exception e) {
                             logger.info("在搜索框输入【" + groupMemberNickName + "】清空，准备进入下一个群成员时异常，e ：", e);
                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
@@ -488,7 +488,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                 logger.info("当前为群成员界面，正在往上滑动，寻找坐标【查看全部群成员】");
                             }
                         }
-                        if (addFriendNum >= addFrirndTotalNum) {
+                        if (addFriendNum > addFrirndTotalNum) {
                             break;
                         }
                     }
