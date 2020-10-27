@@ -499,6 +499,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             logger.info("群成员未超过40人，则不添加当前群的成员为好友，总共花费 " + sw.toSplitString() + " 秒....");
         }
         paramMap.put("groupMembersMapStr", JSON.toJSONString(groupMembersMap));
+        paramMap.put("addGroupMembersFlag", "true");
         //16.退出驱动
         this.quitDriver(driver, deviceNameDesc, deviceName);
         sw.split();

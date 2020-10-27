@@ -69,6 +69,7 @@ public class AddGroupMembersAsFriendsUtils {
             if (resultList != null && resultList.size() > 0) {
                 //根据微信群昵称添加群成员为好友.
                 Map<String, Object> addGroupMembersAsFriendsParam = MapUtil.getObjectMap(resultList.get(0));
+                addGroupMembersAsFriendsParam.put("addGroupMembersFlag", "false");
                 addGroupMembersAsFriendsParam.put("nickName", addGroupMembersAsFriendsParam.get("dicCode"));        //dicCode就是nickName
                 String theId = addGroupMembersAsFriendsParam.get("id").toString();
                 //获取设备列表和配套的坐标配置wxDic
@@ -113,8 +114,8 @@ public class AddGroupMembersAsFriendsUtils {
                                                     addGroupMembersAsFriendsParam.get("startHour").toString() :
                                                     "";
                                     String currentHour = new SimpleDateFormat("HH").format(currentDate);
-//                                    if (startHour.equals(currentHour)) {
-                                    if (true) {
+                                    if (startHour.equals(currentHour)) {
+//                                    if (true) {
                                         //开始添加群成员为好友的V群
                                         sw.split();
                                         logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
@@ -175,36 +176,6 @@ public class AddGroupMembersAsFriendsUtils {
                     index++;
                 }
 
-                //更新这个群的信息
-                try {
-                    String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
-                    Map<String, Object> tempMap = Maps.newHashMap();
-                    tempMap.put("id", theId);
-                    Map<String, Object> dicRemarkMap = Maps.newHashMap();
-                    dicRemarkMap.put("nickName", nickName);
-                    dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
-                    dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
-                    dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
-                    dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
-                    dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
-                    tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
-                    tempMap.put("dicStatus", 1);
-                    LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
-                    if(groupMembersMap.size() > 0){
-                        for (String key : groupMembersMap.keySet()) {
-                            Map<String, String> groupMember = groupMembersMap.get(key);
-                            String isAddFlag = groupMember.get("isAddFlag");
-                            if("false".equals(isAddFlag)){
-                                tempMap.put("dicStatus", 0);
-                                break;
-                            }
-                        }
-                        wxDicService.updateDic(tempMap);    //更新这个群信息
-                    }
-                } catch (Exception e) {
-                    logger.error("【更新这个群的信息】时异常，e : ", e);
-                }
-
                 //6.发送微信通知消息进行手动录入.
                 if (rebootDeviceNameList.size() > 0) {
                     sw.split();
@@ -243,6 +214,37 @@ public class AddGroupMembersAsFriendsUtils {
 //                        }
                     }
                 } else {
+                    if("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))){
+                        //更新这个群的信息
+                        try {
+                            String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
+                            Map<String, Object> tempMap = Maps.newHashMap();
+                            tempMap.put("id", theId);
+                            Map<String, Object> dicRemarkMap = Maps.newHashMap();
+                            dicRemarkMap.put("nickName", nickName);
+                            dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
+                            dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
+                            dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
+                            dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
+                            dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
+                            tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
+                            tempMap.put("dicStatus", 1);
+                            LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
+                            if(groupMembersMap.size() > 0){
+                                for (String key : groupMembersMap.keySet()) {
+                                    Map<String, String> groupMember = groupMembersMap.get(key);
+                                    String isAddFlag = groupMember.get("isAddFlag");
+                                    if("false".equals(isAddFlag)){
+                                        tempMap.put("dicStatus", 0);
+                                        break;
+                                    }
+                                }
+                                wxDicService.updateDic(tempMap);    //更新这个群信息
+                            }
+                        } catch (Exception e) {
+                            logger.error("【更新这个群的信息】时异常，e : ", e);
+                        }
+                    }
                     sw.split();
                     logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
                     logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
