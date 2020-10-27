@@ -475,6 +475,18 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             logger.info("在搜索框输入【" + groupMemberNickName + "】清空，准备进入下一个群成员时异常，e ：", e);
                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                             logger.info("返回【群成员界面】成功....");
+                            try {
+                                Thread.sleep(1000);
+                                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + checkAllGroupMembers + "\")").click();
+                                Thread.sleep(1000);
+                                sw.split();
+                                logger.info("点击坐标【查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                break;
+                            } catch (Exception e1) {
+                                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                                sw.split();
+                                logger.info("当前为群成员界面，正在往上滑动，寻找坐标【查看全部群成员】");
+                            }
                         }
                         if (addFriendNum >= addFrirndTotalNum) {
                             break;

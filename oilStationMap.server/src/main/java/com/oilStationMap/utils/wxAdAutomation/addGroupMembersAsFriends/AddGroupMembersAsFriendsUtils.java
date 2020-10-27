@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * 根据微信群昵称添加群成员为好友
- * 添加群成员为好友的群
+ * 添加群成员为好友的V群
  * appium -p 4723 -bp 4724 --session-override --command-timeout 600
  */
 public class AddGroupMembersAsFriendsUtils {
@@ -113,11 +113,11 @@ public class AddGroupMembersAsFriendsUtils {
                                                     addGroupMembersAsFriendsParam.get("startHour").toString() :
                                                     "";
                                     String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                    if (startHour.equals(currentHour)) {
-//                                    if (true) {
-                                        //开始添加群成员为好友的群
+//                                    if (startHour.equals(currentHour)) {
+                                    if (true) {
+                                        //开始添加群成员为好友的V群
                                         sw.split();
-                                        logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+                                        logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                                         addGroupMembersAsFriendsParam.put("index", 0);
                                         new RealMachineDevices().addGroupMembersAsFriends(addGroupMembersAsFriendsParam, sw);
                                         Thread.sleep(5000);
@@ -162,7 +162,7 @@ public class AddGroupMembersAsFriendsUtils {
                         Map<String, Object> deviceNameMap = iterator.next();
                         try {
                             sw.split();
-                            logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的添加群成员为好友的群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
                             deviceNameMap.put("index", index);
                             new RealMachineDevices().addGroupMembersAsFriends(deviceNameMap, sw);
                             addGroupMembersAsFriendsParam.putAll(deviceNameMap);
@@ -208,27 +208,27 @@ public class AddGroupMembersAsFriendsUtils {
                 //6.发送微信通知消息进行手动录入.
                 if (rebootDeviceNameList.size() > 0) {
                     sw.split();
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
                     String exceptionDevices = "异常设备列表";
                     for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
                         exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
                         logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
                     }
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
                     if (rebootDeviceNameList != null && rebootDeviceNameList.size() > 0) {
                         //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                         HttpsUtil httpsUtil = new HttpsUtil();
                         Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
                         exceptionDevicesParamMap.put("nickName", nickName);
-                        exceptionDevicesParamMap.put("operatorName", "添加群成员为好友的群");
+                        exceptionDevicesParamMap.put("operatorName", "添加群成员为好友的V群");
                         exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
                         String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
                         String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
@@ -244,11 +244,11 @@ public class AddGroupMembersAsFriendsUtils {
                     }
                 } else {
                     sw.split();
-                    logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 }
             } else {
                 logger.info("发布朋友圈 失败.");
@@ -256,10 +256,10 @@ public class AddGroupMembersAsFriendsUtils {
         }
 
         sw.split();
-        logger.info("【添加群成员为好友的群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
     }
 }

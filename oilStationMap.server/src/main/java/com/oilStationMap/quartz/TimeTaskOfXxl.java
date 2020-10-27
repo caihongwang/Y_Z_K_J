@@ -73,7 +73,7 @@ public class TimeTaskOfXxl {
     }
 
     /**
-     * 添加群成员为好友的群-当阿里云主机迁移到部署机器时可以使用当前任务
+     * 添加群成员为好友的V群-当阿里云主机迁移到部署机器时可以使用当前任务
      * @param param
      * @return
      * @throws Exception
@@ -90,7 +90,7 @@ public class TimeTaskOfXxl {
                 paramMap.put("nickNameListStr", nickNameListStr);
                 wxSpiderService.sendFriendCircle(paramMap);
             } catch (Exception e) {
-                logger.error("在hanlder中启动appium,添加群成员为好友的群-do_SendFriendCircle is error,即将通过数据库添加群成员为好友的群 paramMap : " + param + ", e : ", e);
+                logger.error("在hanlder中启动appium,添加群成员为好友的V群-do_SendFriendCircle is error,即将通过数据库添加群成员为好友的V群 paramMap : " + param + ", e : ", e);
                 //直接从现有的数据库中获取数据启动-发布朋友圈
                 paramMap.put("dicType", "addGroupMembersAsFriends");
                 ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);

@@ -76,7 +76,7 @@ public class TimeTaskOfQuartz {
 
     /**
      * 每天小时第1分钟执行一次
-     * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈、添加群成员为好友的群
+     * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈、添加群成员为好友的V群
      */
 //    @Scheduled(cron = "0 */1 * * * ?")
     @Scheduled(cron = "0 01 */1 * * ?")
@@ -165,7 +165,7 @@ public class TimeTaskOfQuartz {
                 nickNameList.clear();
                 paramMap.put("start", 0);
                 paramMap.put("size", 10);
-//                paramMap.put("jobDesc", "添加群成员为好友的群");
+//                paramMap.put("jobDesc", "添加群成员为好友的V群");
                 paramMap.put("id", "15");
                 List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
                 if (list != null && list.size() > 0) {
@@ -179,7 +179,7 @@ public class TimeTaskOfQuartz {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                logger.error("在hanlder中启动appium,添加群成员为好友的群-addGroupMembersAsFriends is error, 即将通过数据库添加群成员为好友的群 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");
+                logger.error("在hanlder中启动appium,添加群成员为好友的V群-addGroupMembersAsFriends is error, 即将通过数据库添加群成员为好友的V群 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");
                 paramMap.clear();
                 nickNameList.clear();
                 paramMap.put("dicType", "addGroupMembersAsFriends");
