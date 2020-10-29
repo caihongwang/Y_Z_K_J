@@ -220,12 +220,12 @@ public class AddGroupMembersAsFriendsUtils {
                             String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
                             Map<String, Object> tempMap = Maps.newHashMap();
                             tempMap.put("id", theId);
-                            Map<String, Object> dicRemarkMap = Maps.newHashMap();
+                            LinkedHashMap<String, Object> dicRemarkMap = Maps.newLinkedHashMap();
+                            dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
+                            dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
                             dicRemarkMap.put("nickName", nickName);
                             dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
-                            dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
                             dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
-                            dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
                             dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
                             tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
                             tempMap.put("dicStatus", 1);
