@@ -1,5 +1,6 @@
 package com.oilStationMap.quartz;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dao.XXL_JobInfoDao;
@@ -78,8 +79,8 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈、添加群成员为好友的V群
      */
-    @Scheduled(cron = "0 */1 * * * ?")
- //   @Scheduled(cron = "0 01 */1 * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 01 */1 * * ?")
 //    @Scheduled(cron = "0 50 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle_and_addGroupMembersAsFriends() {
         if(!new SimpleDateFormat("yyyy-MM-dd HH").format(currentDate).equals(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()))){
@@ -146,7 +147,7 @@ public class TimeTaskOfQuartz {
 //                    throw new Exception();
 //                }
 //            } catch (Exception e) {
-//                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");
+//                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + paramMap + ", e : ", e);
 //                paramMap.clear();
 //                nickNameList.clear();
 //                paramMap.put("dicType", "shareArticleToFriendCircle");
@@ -179,7 +180,7 @@ public class TimeTaskOfQuartz {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                logger.error("在hanlder中启动appium,添加群成员为好友的V群-addGroupMembersAsFriends is error, 即将通过数据库添加群成员为好友的V群 paramMap : " + paramMap + ", e : ", e);paramMap.put("dicType", "sendFriendCircle");
+                logger.error("在hanlder中启动appium,添加群成员为好友的V群-addGroupMembersAsFriends is error, 即将通过数据库添加群成员为好友的V群 paramMap : " + JSON.toJSONString(paramMap) );
                 paramMap.clear();
                 nickNameList.clear();
                 paramMap.put("dicType", "addGroupMembersAsFriends");
@@ -190,7 +191,7 @@ public class TimeTaskOfQuartz {
                     }
                 }
                 paramMap.clear();
-//                paramMap.put("currentDateStr", "2020-10-25 14");
+//                paramMap.put("currentDateStr", "2020-10-25 21");
                 paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                 wxSpiderService.addGroupMembersAsFriends(paramMap);
             }

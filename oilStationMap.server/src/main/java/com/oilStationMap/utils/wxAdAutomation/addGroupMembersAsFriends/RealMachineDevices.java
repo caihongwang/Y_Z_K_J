@@ -338,7 +338,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                 Map<String, String> groupMember = groupMembersMap.get(key);
                 String isAddFlag = groupMember.get("isAddFlag");
                 String groupMemberNickName = groupMember.get("groupMemberNickName");
-//                if (!groupMemberNickName.startsWith("C")) {
+//                if (!groupMemberNickName.startsWith("刚刚好")) {
 //                    continue;
 //                }
                 if ("false".equals(isAddFlag)) {
@@ -452,11 +452,13 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【"+groupMemberNickName+"】在发送阶段才显示【对方账号异常，无法添加朋友。】...");
                                         groupMember.put("isAddFlag", "true");
                                         driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                        logger.info("返回【群成员简介】成功....");
                                         Thread.sleep(1000);
                                     }
+                                    Thread.sleep(1000);
                                     driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                     logger.info("返回【群成员界面】成功....");
-                                } catch (Exception e) {
+                                } catch (Exception e) {         //@TODO 根据弹窗，进行跳转...
                                     logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友时异常，有可能一个昵称对应多个群成员，在循环遍历过程中WebElement超时了，无法定位点击...");
                                 }
                                 break;
