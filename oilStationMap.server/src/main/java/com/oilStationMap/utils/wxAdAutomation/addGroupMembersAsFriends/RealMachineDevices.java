@@ -604,18 +604,21 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 
     public static void main(String[] args) {
         try {
-            StopWatch sw = new StopWatch();
-            sw.start();
-            Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("nickName", "内部交流群");
-            paramMap.put("nickName", "铜仁推广商务群");
-            paramMap.put("nickName", "求职信息发布群");
-            paramMap.put("nickName", "铜仁市本地生活便利群_1");
-            paramMap.put("action", "addGroupMembersAsFriends");
-            paramMap.put("deviceName", "5LM0216122009385");
-            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
-            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
-            Thread.sleep(5000);
+//            StopWatch sw = new StopWatch();
+//            sw.start();
+//            Map<String, Object> paramMap = Maps.newHashMap();
+//            paramMap.put("nickName", "内部交流群");
+//            paramMap.put("nickName", "铜仁推广商务群");
+//            paramMap.put("nickName", "求职信息发布群");
+//            paramMap.put("nickName", "铜仁市本地生活便利群_1");
+//            paramMap.put("action", "addGroupMembersAsFriends");
+//            paramMap.put("deviceName", "5LM0216122009385");
+//            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
+//            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
+//            Thread.sleep(5000);
+
+
+            System.out.println(EmojiUtil.emojiConvert("江口↔乘\uD83D\uDE98包接送"));
         } catch (Exception e) {
             e.printStackTrace();
         }
