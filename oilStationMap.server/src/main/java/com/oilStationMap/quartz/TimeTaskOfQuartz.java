@@ -191,7 +191,7 @@ public class TimeTaskOfQuartz {
                     }
                 }
                 paramMap.clear();
-//                paramMap.put("currentDateStr", "2020-10-25 21");
+                paramMap.put("currentDateStr", "2020-10-25 21");
                 paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                 wxSpiderService.addGroupMembersAsFriends(paramMap);
             }

@@ -105,7 +105,7 @@ public class AddGroupMembersAsFriendsUtils {
                                             addGroupMembersAsFriendsParam.get("targetDeviceNameDesc") != null ?
                                                     addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString() :
                                                     null;
-                                    if(deviceNameDesc != null && targetDeviceNameDesc != null && !targetDeviceNameDesc.equals(deviceNameDesc)){       //群的指定目标的设备与当前的设备不符合直接continue
+                                    if(deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)){       //群的指定目标的设备与当前的设备不符合直接continue
                                         continue;
                                     }
                                     //判断当前设备的执行小时时间是否与当前时间匹配
