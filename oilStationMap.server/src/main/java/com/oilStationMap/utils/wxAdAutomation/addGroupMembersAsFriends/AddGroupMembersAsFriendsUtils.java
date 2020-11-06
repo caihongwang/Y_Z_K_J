@@ -36,7 +36,7 @@ public class AddGroupMembersAsFriendsUtils {
     /**
      * 根据微信群昵称添加群成员为好友工具for所有设备
      */
-    public static void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception{
+    public static void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception {
         StopWatch sw = new StopWatch();
         sw.start();
 //        try{
@@ -51,7 +51,7 @@ public class AddGroupMembersAsFriendsUtils {
         Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
         String currentDateStr = paramMap.get("currentDateStr") != null ? paramMap.get("currentDateStr").toString() : "";
         try {
-            if(!"".equals(currentDateStr)){
+            if (!"".equals(currentDateStr)) {
                 currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             }
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class AddGroupMembersAsFriendsUtils {
                                             addGroupMembersAsFriendsParam.get("targetDeviceNameDesc") != null ?
                                                     addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString() :
                                                     null;
-                                    if(deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)){       //群的指定目标的设备与当前的设备不符合直接continue
+                                    if (deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)) {       //群的指定目标的设备与当前的设备不符合直接continue
                                         continue;
                                     }
                                     //判断当前设备的执行小时时间是否与当前时间匹配
@@ -153,11 +153,11 @@ public class AddGroupMembersAsFriendsUtils {
                     if (index > 8) {
                         break;
                     }
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
+                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
                     Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
                     while (iterator.hasNext()) {
                         Map<String, Object> deviceNameMap = iterator.next();
@@ -171,6 +171,13 @@ public class AddGroupMembersAsFriendsUtils {
                             iterator.remove();
                         } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                             e.printStackTrace();
+                            try {
+                                //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+                                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
+                                logger.info("重启成功，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
+                            } catch (Exception e1) {
+                                logger.info("重启失败，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
+                            }
                         }
                     }
                     index++;
@@ -214,7 +221,7 @@ public class AddGroupMembersAsFriendsUtils {
 //                        }
                     }
                 } else {
-                    if("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))){
+                    if ("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))) {
                         //更新这个群的信息
                         try {
                             String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
@@ -230,11 +237,11 @@ public class AddGroupMembersAsFriendsUtils {
                             tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
                             tempMap.put("dicStatus", 1);
                             LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
-                            if(groupMembersMap.size() > 0){
+                            if (groupMembersMap.size() > 0) {
                                 for (String key : groupMembersMap.keySet()) {
                                     Map<String, String> groupMember = groupMembersMap.get(key);
                                     String isAddFlag = groupMember.get("isAddFlag");
-                                    if("false".equals(isAddFlag)){
+                                    if ("false".equals(isAddFlag)) {
                                         tempMap.put("dicStatus", 0);
                                         break;
                                     }

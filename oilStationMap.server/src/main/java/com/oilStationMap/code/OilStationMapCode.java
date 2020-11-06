@@ -149,8 +149,8 @@ public class OilStationMapCode {
     //微信公众号
 //    public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //【油价地图】 appid
 //    public static final String WX_PUBLIC_NUMBER_SECRET = "a481dd6bc40c9eec3e57293222e8246f";    //【油价地图】 secret
-    public static final String WX_PUBLIC_NUMBER_APPID = "wx3fc378277803f201";                   //【油站科技】 appid
-    public static final String WX_PUBLIC_NUMBER_SECRET = "f8b65903d5137059eec0b9acb9a0a9c5";    //【油站科技】 secret
+    public static final String WX_PUBLIC_NUMBER_APPID = "wx469a910e7e87b9d4";                   //【油站科技】 appid
+    public static final String WX_PUBLIC_NUMBER_SECRET = "327047cc315d0c5ab24e62d2efd958c0";    //【油站科技】 secret
 
     //微信自定义信息发送，适用于小程序员和公众号
     public static final String WX_CUSTOM_MESSAGE_HOST = "https://api.weixin.qq.com";     //host

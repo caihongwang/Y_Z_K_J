@@ -336,7 +336,6 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             //10.循环点击群成员
             Integer addFriendNum = 1;   //
             for (String key : groupMembersMap.keySet()) {
-                theAddNum++;
                 Map<String, String> groupMember = groupMembersMap.get(key);
                 String isAddFlag = groupMember.get("isAddFlag");
                 String groupMemberNickName = groupMember.get("groupMemberNickName");
@@ -345,6 +344,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 //                }
                 if ("false".equals(isAddFlag)) {
                     try {
+                        theAddNum++;
                         try {
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "搜索" + "\")").sendKeys(groupMemberNickName);
                             sw.split();
@@ -617,8 +617,14 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 //            new RealMachineDevices().addGroupMembersAsFriends(paramMap, sw);
 //            Thread.sleep(5000);
 
-
-            System.out.println(EmojiUtil.emojiConvert("江口↔乘\uD83D\uDE98包接送"));
+            String str = "\"【坐车】️\uD83D\uDE97 人找车\\\\n\",\n" +
+                    "\"【出发】✈️ 贵阳 \\\\n\",\n" +
+                    "\"【到达】\uD83C\uDFC1 石阡\\\\n\",\n" +
+                    "\"【时间】\uD83D\uDD51 11月06日\\\\n\",\n" +
+                    "\"【电话】\uD83D\uDCF1 13096869668（点击联系）\\\\n\",\n" +
+                    "\"【备注】\uD83D\uDCDD 司机厚道，车内干净舒适，车辆舒适，无异味即可，安全第一，诚信第一，鸽子勿扰，顺带大小物件.\\\\n\",\n" +
+                    "\"【详情如下】↓↓↓↓↓↓↓↓↓↓↓↓\\\\n\"";
+            System.out.println(EmojiUtil.emojiConvert(str));
         } catch (Exception e) {
             e.printStackTrace();
         }

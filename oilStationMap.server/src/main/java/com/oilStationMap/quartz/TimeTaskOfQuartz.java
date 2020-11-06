@@ -191,7 +191,8 @@ public class TimeTaskOfQuartz {
                     }
                 }
                 paramMap.clear();
-                paramMap.put("currentDateStr", "2020-10-25 21");
+//                paramMap.put("currentDateStr", "2020-10-25 18");    //华为 Mate 8海外版 _ 1
+//                paramMap.put("currentDateStr", "2020-10-25 21");  //小米 Max 3
                 paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                 wxSpiderService.addGroupMembersAsFriends(paramMap);
             }
