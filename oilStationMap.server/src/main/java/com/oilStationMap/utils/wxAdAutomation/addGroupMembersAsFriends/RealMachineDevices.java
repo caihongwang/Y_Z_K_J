@@ -70,7 +70,12 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                         paramMap.get("groupMembersMapStr").toString() :
                         "{}";
         groupMembersMapStr = EmojiUtil.emojiRecovery(groupMembersMapStr);
-        LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
+        LinkedHashMap<String, Map<String, String>> groupMembersMap = Maps.newLinkedHashMap();
+        try{
+            groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
+        } catch (Exception e) {
+            //不用处理
+        }
         //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
