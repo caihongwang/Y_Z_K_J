@@ -5,8 +5,8 @@ $(function() {
 		"processing" : true,
 	    "serverSide": true,
 		"ajax": {
-			url: "http://localhost:9030/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
-			// url: "https://www.yzkj.store/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
+			// url: "http://localhost:9030/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
+			url: "https://www.yzkj.store/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
@@ -172,8 +172,8 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(
-                "http://localhost:9030/oilStationMap/wxAdInfo/addAdInfoForAdmin",
-                // "https://www.yzkj.store/oilStationMap/wxAdInfo/addAdInfoForAdmin",
+                // "http://localhost:9030/oilStationMap/wxAdInfo/addAdInfoForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxAdInfo/addAdInfoForAdmin",
                 $("#addModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
@@ -212,8 +212,8 @@ $(function() {
         }, function(index){
             layer.close(index);
             $.post(
-                "http://localhost:9030/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
-                // "https://www.yzkj.store/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
+                // "http://localhost:9030/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
@@ -270,8 +270,8 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(
-                "http://localhost:9030/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
-                // "https://www.yzkj.store/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
+                // "http://localhost:9030/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
+                "https://www.yzkj.store/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
                 $("#updateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
