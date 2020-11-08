@@ -110,7 +110,7 @@
                 AND oai.id = #{id}
             </if>
             <if test="adTitle != null and adTitle != ''">
-                AND oai.ad_title = #{adTitle}
+                AND oai.ad_title like concat('%',#{adTitle},'%')
             </if>
             <if test="adImgUrl != null and adImgUrl != ''">
                 AND oai.ad_imgUrl like concat('%',#{adImgUrl},'%')
