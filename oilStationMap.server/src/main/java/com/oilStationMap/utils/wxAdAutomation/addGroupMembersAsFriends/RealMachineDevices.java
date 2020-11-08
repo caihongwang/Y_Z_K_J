@@ -184,13 +184,24 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(nickName);
             sw.split();
-            logger.info("点击坐标【输入昵称到搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("点击坐标【输入昵称到搜索框:text/搜索】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             sw.split();
-            throw new Exception("点击坐标【输入昵称到搜索框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("点击坐标【输入昵称到搜索框:text/搜索】失败，总共花费 " + sw.toSplitString() + " 秒....");
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(nickName);
+                sw.split();
+                logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            } catch (Exception e1) {
+                sw.split();
+                logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                sw.split();
+                throw new Exception("点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，总共花费 " + sw.toSplitString() + " 秒....");
+            }
         }
+
         //4.点击坐标【昵称对应的微信好友/群】
         try {
             String str_0_of_9 = nickName;
@@ -460,7 +471,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         logger.info("点击坐标【发送】成功....");
                                         Thread.sleep(5000);
                                     } catch (Exception e) {
-                                        logger.info("点击坐标【发送】时异常，可能出现了【微信：对方帐号异常，无法添加朋友。】或者【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，e : ", e);
+                                        sw.split();
+                                        logger.info("点击坐标【发送】时异常，可能出现了【对方帐号异常，无法添加朋友。】或者【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，总共花费 " + sw.toSplitString() + " 秒....");
                                     }
 
                                     //15.检测坐标【添加到通讯录】
@@ -487,6 +499,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             }
                         } else {
                             groupMember.put("isAddFlag", "true");           //根据群昵称找不到群成员的，则默认为已添加过
+                            sw.split();
+                            logger.info("未发现群成员用户【"+nickName+"】，直接下一个，总共花费 " + sw.toSplitString() + " 秒....");
                         }
                     } catch (Exception e) {
                         logger.info("在搜索框输入【" + groupMemberNickName + "】查找群成员时异常，e ：", e);
