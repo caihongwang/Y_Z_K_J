@@ -50,6 +50,30 @@ public class WX_AdInfoController {
         return resultMap;
     }
 
+    @RequestMapping("/addAdInfoForAdmin")
+    @ResponseBody
+    public Map<String, Object> addAdInfoForAdmin(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中添加广告For管理后台-addAdInfoForAdmin,请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            BoolDTO boolDTO = wxAdInfoService.addAdInfo(objectParamMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中添加广告For管理后台-addAdInfoForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中添加广告For管理后台-addAdInfoForAdmin,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/deleteAdInfo")
     @ResponseBody
     public Map<String, Object> deleteAdInfo(HttpServletRequest request) {
@@ -71,6 +95,30 @@ public class WX_AdInfoController {
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
         logger.info("在controller中删除广告-deleteAdInfo,响应-response:" + resultMap);
+        return resultMap;
+    }
+
+    @RequestMapping("/deleteAdInfoForAdmin")
+    @ResponseBody
+    public Map<String, Object> deleteAdInfoForAdmin(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中删除广告For管理后台-deleteAdInfoForAdmin,请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            BoolDTO boolDTO = wxAdInfoService.deleteAdInfo(objectParamMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中删除广告For管理后台-deleteAdInfoForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中删除广告For管理后台-deleteAdInfoForAdmin,响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -98,6 +146,30 @@ public class WX_AdInfoController {
         return resultMap;
     }
 
+    @RequestMapping("/updateAdInfoForAdmin")
+    @ResponseBody
+    public Map<String, Object> updateAdInfoForAdmin(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中修改广告For管理后台-updateAdInfoForAdmin,请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            BoolDTO boolDTO = wxAdInfoService.updateAdInfo(objectParamMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中修改广告For管理后台-updateAdInfoForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中修改广告For管理后台-updateAdInfoForAdmin,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/getSimpleAdInfoByCondition")
     @ResponseBody
     public Map<String, Object> getSimpleAdInfoByCondition(HttpServletRequest request) {
@@ -120,6 +192,32 @@ public class WX_AdInfoController {
             resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
         }
         logger.info("在controller中修改广告-getSimpleAdInfoByCondition,响应-response:" + resultMap);
+        return resultMap;
+    }
+
+    @RequestMapping("/getSimpleAdInfoByConditionForAdmin")
+    @ResponseBody
+    public Map<String, Object> getSimpleAdInfoByConditionForAdmin(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中修改广告For管理后台-getSimpleAdInfoByConditionForAdmin,请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            ResultDTO resultDTO = wxAdInfoService.getSimpleAdInfoByConditionForAdmin(objectParamMap);
+            resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("recordsTotal", resultDTO.getResultListTotal());
+            resultMap.put("data", resultDTO.getResultList());
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中修改广告For管理后台-getSimpleAdInfoByConditionForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中修改广告For管理后台-getSimpleAdInfoByConditionForAdmin,响应-response:" + resultMap);
         return resultMap;
     }
 

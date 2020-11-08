@@ -11,6 +11,16 @@ public interface WX_AdInfoDao {
     /**
      * 根据条件查询广告信息
      */
+    List<Map<String, Object>> getSimpleAdInfoByConditionForAdmin(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询广告信息总数
+     */
+    Integer getSimpleAdInfoTotalByConditionForAdmin(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询广告信息
+     */
     List<Map<String, Object>> getSimpleAdInfoByCondition(Map<String, Object> paramMap);
 
     /**

@@ -42,11 +42,11 @@ public class WX_AdInfoServiceImpl implements WX_AdInfoService {
         String adContent = paramMap.get("adContent") != null ? paramMap.get("adContent").toString() : "";
         String adRemark = paramMap.get("adRemark") != null ? paramMap.get("adRemark").toString() : "";
         if (!"".equals(adTitle) && !"".equals(adImgUrl) && !"".equals(adContent)) {
-            Map<String, Object> paramMap_temp = Maps.newHashMap();
-            paramMap_temp.put("adTitle", adTitle);
-            paramMap_temp.put("status", "0");
-            Integer total = WXAdInfoDao.getSimpleAdInfoTotalByCondition(paramMap_temp);
-            if (total != null && total <= 0) {
+//            Map<String, Object> paramMap_temp = Maps.newHashMap();
+//            paramMap_temp.put("adTitle", adTitle);
+//            paramMap_temp.put("status", "0");
+//            Integer total = WXAdInfoDao.getSimpleAdInfoTotalByCondition(paramMap_temp);
+//            if (total != null && total <= 0) {
                 addNum = WXAdInfoDao.addAdInfo(paramMap);
                 if (addNum != null && addNum > 0) {
                     boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
@@ -55,10 +55,10 @@ public class WX_AdInfoServiceImpl implements WX_AdInfoService {
                     boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
                     boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
                 }
-            } else {
-                boolDTO.setCode(OilStationMapCode.AD_INFO_EXIST.getNo());
-                boolDTO.setMessage(OilStationMapCode.AD_INFO_EXIST.getMessage());
-            }
+//            } else {
+//                boolDTO.setCode(OilStationMapCode.AD_INFO_EXIST.getNo());
+//                boolDTO.setMessage(OilStationMapCode.AD_INFO_EXIST.getMessage());
+//            }
         } else {
             boolDTO.setCode(OilStationMapCode.AD_TITLE_OR_IMGURL_OR_CONTENT_IS_NOT_NULL.getNo());
             boolDTO.setMessage(OilStationMapCode.AD_TITLE_OR_IMGURL_OR_CONTENT_IS_NOT_NULL.getMessage());
@@ -140,6 +140,35 @@ public class WX_AdInfoServiceImpl implements WX_AdInfoService {
             }
             dicStrList = MapUtil.getStringMapList(dicList);
             Integer total = 1;
+            resultDTO.setResultListTotal(total);
+            resultDTO.setResultList(dicStrList);
+            resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+            resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        } else {
+            List<Map<String, String>> resultList = Lists.newArrayList();
+            resultDTO.setResultListTotal(0);
+            resultDTO.setResultList(resultList);
+            resultDTO.setCode(OilStationMapCode.DIC_LIST_IS_NULL.getNo());
+            resultDTO.setMessage(OilStationMapCode.DIC_LIST_IS_NULL.getMessage());
+        }
+        logger.info("在service中获取单一的广告信息-getSimpleAdInfoByCondition,结果-result:" + resultDTO);
+        return resultDTO;
+    }
+
+    /**
+     * 获取单一的广告信息
+     *
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getSimpleAdInfoByConditionForAdmin(Map<String, Object> paramMap) {
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> dicStrList = Lists.newArrayList();
+        List<Map<String, Object>> dicList = WXAdInfoDao.getSimpleAdInfoByConditionForAdmin(paramMap);
+        if (dicList != null && dicList.size() > 0) {
+            dicStrList = MapUtil.getStringMapList(dicList);
+            Integer total = WXAdInfoDao.getSimpleAdInfoTotalByConditionForAdmin(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(dicStrList);
             resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());

@@ -10,6 +10,11 @@ public interface WX_AdInfoService {
     /**
      * 根据条件查询广告信息
      */
+    ResultDTO getSimpleAdInfoByConditionForAdmin(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询广告信息
+     */
     ResultDTO getSimpleAdInfoByCondition(Map<String, Object> paramMap);
 
     /**

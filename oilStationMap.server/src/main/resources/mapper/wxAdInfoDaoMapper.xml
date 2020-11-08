@@ -20,7 +20,7 @@
         oai.ad_title as "adTitle",
         oai.ad_imgUrl as "adImgUrl",
         oai.ad_content as "adContent",
-        oai.ad_remark as "adRemark",
+        IFNULL(oai.ad_remark,'') as "adRemark",
         oai.status as "status",
         date_format(oai.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
         date_format(oai.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
@@ -73,6 +73,9 @@
             <if test="adRemark != null and adRemark != ''">
                 oai.ad_remark = #{adRemark},
             </if>
+            <if test="status != null and status != ''">
+                oai.status = #{status},
+            </if>
             oai.update_time = CURRENT_TIMESTAMP
         </set>
         where 1=1
@@ -83,9 +86,9 @@
 
     <select id="getSimpleAdInfoByCondition" resultType="java.util.Map">
         SELECT
-            <include refid="TColumnList"/>
+        <include refid="TColumnList"/>
         FROM o_ad_info oai
-            <include refid="queryConditions"/>
+        <include refid="queryConditions"/>
         <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
@@ -93,9 +96,65 @@
 
     <select id="getSimpleAdInfoTotalByCondition" resultType="java.lang.Integer">
         SELECT
-            COUNT(*) total
+        COUNT(*) total
         from o_ad_info oai
-            <include refid="queryConditions"/>
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getSimpleAdInfoByConditionForAdmin" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_ad_info oai
+        <where>    1=1
+            <if test="id != null and id != ''">
+                AND oai.id = #{id}
+            </if>
+            <if test="adTitle != null and adTitle != ''">
+                AND oai.ad_title = #{adTitle}
+            </if>
+            <if test="adImgUrl != null and adImgUrl != ''">
+                AND oai.ad_imgUrl like concat('%',#{adImgUrl},'%')
+            </if>
+            <if test="adContent != null and adContent != ''">
+                AND oai.ad_content like concat('%',#{adContent},'%')
+            </if>
+            <if test="adRemark != null and adRemark != ''">
+                AND oai.ad_remark like concat('%',#{adRemark},'%')
+            </if>
+            <if test="status != null and status != ''">
+                AND oai.status = #{status}
+            </if>
+        </where>
+        ORDER BY oai.create_time desc
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleAdInfoTotalByConditionForAdmin" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_ad_info oai
+        <where>    1=1
+            <if test="id != null and id != ''">
+                AND oai.id = #{id}
+            </if>
+            <if test="adTitle != null and adTitle != ''">
+                AND oai.ad_title = #{adTitle}
+            </if>
+            <if test="adImgUrl != null and adImgUrl != ''">
+                AND oai.ad_imgUrl like concat('%',#{adImgUrl},'%')
+            </if>
+            <if test="adContent != null and adContent != ''">
+                AND oai.ad_content like concat('%',#{adContent},'%')
+            </if>
+            <if test="adRemark != null and adRemark != ''">
+                AND oai.ad_remark like concat('%',#{adRemark},'%')
+            </if>
+            <if test="status != null and status != ''">
+                AND oai.status = #{status}
+            </if>
+        </where>
     </select>
     
 </mapper>

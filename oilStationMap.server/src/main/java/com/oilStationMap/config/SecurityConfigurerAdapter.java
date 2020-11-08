@@ -48,12 +48,7 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 //微信客服
                 "/wxCommon/receviceAndSendCustomMessage",
                 //管理中心
-                "/wxOilStation/getOilStationListForAdmin",      //获取加油站列表For管理中心
-                "/wxOilStation/updateOilStationForAdmin",       //更新加油站For管理中心
-                "/wxDic/addDicForAdmin",                        //新增字典For管理中心
-                "/wxDic/updateDicForAdmin",                     //修改字典For管理中心
-                "/wxDic/getSimpleDicByConditionForAdmin",       //字典列表For管理中心
-                "/wxDic/deleteDicForAdmin",                     //删除字典For管理中心
+                "/*/*ForAdmin",
                 //更新油价资讯
                 "/wxOilStation/getOilPriceFromOilUsdCnyCom",
                 //更新油站信息
