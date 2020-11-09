@@ -57,10 +57,10 @@ $(function() {
                 "data": 'oilStationAdress',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500,
+                "width": 100,
                 "render": function ( data, type, row ) {
-                    if(data.length > 20){
-                        return data.substring(0, 20) + "......";
+                    if(data.length > 15){
+                        return data.substring(0, 15) + "......";
                     } else {
                         return data;
                     }
@@ -82,10 +82,10 @@ $(function() {
                 "data": 'shareTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500,
+                "width": 100,
                 "render": function ( data, type, row ) {
-                    if(data.length > 20){
-                        return data.substring(0, 20) + "......";
+                    if(data.length > 15){
+                        return data.substring(0, 15) + "......";
                     } else {
                         return data;
                     }
@@ -94,10 +94,10 @@ $(function() {
                 "data": 'shareImgUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500,
+                "width": 100,
                 "render": function ( data, type, row ) {
-                    if(data.length > 30){
-                        return data.substring(0, 30) + "......";
+                    if(data.length > 15){
+                        return data.substring(0, 15) + "......";
                     } else {
                         return data;
                     }
@@ -106,10 +106,10 @@ $(function() {
                 "data": 'oilStationHireTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500,
+                "width": 100,
                 "render": function ( data, type, row ) {
-                    if(data.length > 30){
-                        return data.substring(0, 30) + "......";
+                    if(data.length > 15){
+                        return data.substring(0, 15) + "......";
                     } else {
                         return data;
                     }
@@ -118,10 +118,10 @@ $(function() {
                 "data": 'oilStationHireUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500,
+                "width": 100,
                 "render": function ( data, type, row ) {
-                    if(data.length > 30){
-                        return data.substring(0, 30) + "......";
+                    if(data.length > 15){
+                        return data.substring(0, 15) + "......";
                     } else {
                         return data;
                     }
