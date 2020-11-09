@@ -57,7 +57,14 @@ $(function() {
                 "data": 'oilStationAdress',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 500,
+                "render": function ( data, type, row ) {
+                    if(data.length > 20){
+                        return data.substring(0, 20) + "......";
+                    } else {
+                        return data;
+                    }
+                }
             },{
                 "data": 'oilStationCategory',
                 "bSortable": false,
@@ -75,22 +82,50 @@ $(function() {
                 "data": 'shareTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 500,
+                "render": function ( data, type, row ) {
+                    if(data.length > 20){
+                        return data.substring(0, 20) + "......";
+                    } else {
+                        return data;
+                    }
+                }
             },{
                 "data": 'shareImgUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 500,
+                "render": function ( data, type, row ) {
+                    if(data.length > 30){
+                        return data.substring(0, 30) + "......";
+                    } else {
+                        return data;
+                    }
+                }
             },{
                 "data": 'oilStationHireTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 500,
+                "render": function ( data, type, row ) {
+                    if(data.length > 30){
+                        return data.substring(0, 30) + "......";
+                    } else {
+                        return data;
+                    }
+                }
             },{
                 "data": 'oilStationHireUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 500,
+                "render": function ( data, type, row ) {
+                    if(data.length > 30){
+                        return data.substring(0, 30) + "......";
+                    } else {
+                        return data;
+                    }
+                }
             }, {
                 "data": I18n.system_opt,
                 "bSortable": false,
