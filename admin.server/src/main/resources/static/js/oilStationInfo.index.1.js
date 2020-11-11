@@ -4,13 +4,14 @@ $(function() {
 		"deferRender": true,
 		"processing" : true,
 	    "serverSide": true,
+        "autoWidth": false,
+        "scrollX": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxOilStation/getOilStationListForAdmin",
 			url: "https://www.yzkj.store/oilStationMap/wxOilStation/getOilStationListForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
-				// obj.start = 0;
                 obj.start = d.start;
 				obj.size = 10;
                 obj.oilStationName = $('#oilStationName').val();
@@ -32,7 +33,14 @@ $(function() {
                 "data": 'oilStationName',
                 "bSortable": false,
                 "visible" : true,
-                "width": 300
+                "width": 150,
+                "render": function ( data, type, row ) {
+                    if(data.length > 15){
+                        return data.substring(0, 15) + "......";
+                    } else {
+                        return data;
+                    }
+                }
             },{
                 "data": 'oilStationPrice',
                 "bSortable": false,
@@ -42,17 +50,7 @@ $(function() {
                 "data": 'oilStationPosition',
                 "bSortable": false,
                 "visible" : true,
-                "width": 150
-            },{
-                "data": 'oilStationLon',
-                "bSortable": false,
-                "visible" : false,
-                "width": 150
-            },{
-                "data": 'oilStationLat',
-                "bSortable": false,
-                "visible" : false,
-                "width": 150
+                "width": 120
             },{
                 "data": 'oilStationAdress',
                 "bSortable": false,
@@ -130,7 +128,7 @@ $(function() {
                 "data": I18n.system_opt,
                 "bSortable": false,
                 "visible" : true,
-                "width": 300,
+                "width": 100,
                 "render": function (data, type, row) {
                     return function () {
                         tableData['key'+row.id] = row;
@@ -145,7 +143,6 @@ $(function() {
                             '       <li><a href="javascript:void(0);" class="userCenter" >定位中心</a></li>\n' +
                             '     </ul>\n' +
                             '   </div>';
-
                         return html;
                     };
                 }
