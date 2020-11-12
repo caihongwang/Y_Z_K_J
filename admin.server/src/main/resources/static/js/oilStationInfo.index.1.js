@@ -4,7 +4,6 @@ $(function() {
 		"deferRender": true,
 		"processing" : true,
 	    "serverSide": true,
-        "autoWidth": false,
         "scrollX": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxOilStation/getOilStationListForAdmin",
@@ -22,113 +21,10 @@ $(function() {
 	    "ordering": false,
 	    "columns": [
             {
-                "data": 'id',
-                "bSortable": false,
-                "visible" : true,
-                "width": 50,
-                "render": function ( data, type, row ) {
-                    return data;
-                }
-            },{
-                "data": 'oilStationName',
-                "bSortable": false,
-                "visible" : true,
-                "width": 150,
-                "render": function ( data, type, row ) {
-                    if(data.length > 15){
-                        return data.substring(0, 15) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            },{
-                "data": 'oilStationPrice',
-                "bSortable": false,
-                "visible" : false,
-                "width":500
-            },{
-                "data": 'oilStationPosition',
-                "bSortable": false,
-                "visible" : true,
-                "width": 120
-            },{
-                "data": 'oilStationAdress',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    if(data.length > 15){
-                        return data.substring(0, 15) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            },{
-                "data": 'oilStationCategory',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    return data+"";
-                }
-            },{
-                "data": 'oilStationOwnerUid',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100
-            },{
-                "data": 'shareTitle',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    if(data.length > 15){
-                        return data.substring(0, 15) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            },{
-                "data": 'shareImgUrl',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    if(data.length > 15){
-                        return data.substring(0, 15) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            },{
-                "data": 'oilStationHireTitle',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    if(data.length > 15){
-                        return data.substring(0, 15) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            },{
-                "data": 'oilStationHireUrl',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    if(data.length > 15){
-                        return data.substring(0, 15) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            }, {
                 "data": I18n.system_opt,
                 "bSortable": false,
                 "visible" : true,
-                "width": 100,
+                "width": 80,
                 "render": function (data, type, row) {
                     return function () {
                         tableData['key'+row.id] = row;
@@ -146,6 +42,77 @@ $(function() {
                         return html;
                     };
                 }
+            },{
+                "data": 'id',
+                "bSortable": false,
+                "visible" : true,
+                "width": 50,
+                "render": function ( data, type, row ) {
+                    return data;
+                }
+            },{
+                "data": 'oilStationName',
+                "bSortable": false,
+                "visible" : true,
+                "width": 300
+            },{
+                "data": 'oilStationPrice',
+                "bSortable": false,
+                "visible" : false,
+                "width":500
+            },{
+                "data": 'oilStationPosition',
+                "bSortable": false,
+                "visible" : true,
+                "width": 120
+            },{
+                "data": 'oilStationLon',
+                "bSortable": false,
+                "visible" : false,
+                "width": 150
+            },{
+                "data": 'oilStationLat',
+                "bSortable": false,
+                "visible" : false,
+                "width": 150
+            },{
+                "data": 'oilStationAdress',
+                "bSortable": false,
+                "visible" : true,
+                "width": 500
+            },{
+                "data": 'oilStationCategory',
+                "bSortable": false,
+                "visible" : true,
+                "width": 100,
+                "render": function ( data, type, row ) {
+                    return data+"";
+                }
+            },{
+                "data": 'oilStationOwnerUid',
+                "bSortable": false,
+                "visible" : true,
+                "width": 100
+            },{
+                "data": 'shareTitle',
+                "bSortable": false,
+                "visible" : true,
+                "width": 500
+            },{
+                "data": 'shareImgUrl',
+                "bSortable": false,
+                "visible" : true,
+                "width": 500
+            },{
+                "data": 'oilStationHireTitle',
+                "bSortable": false,
+                "visible" : true,
+                "width": 500
+            },{
+                "data": 'oilStationHireUrl',
+                "bSortable": false,
+                "visible" : true,
+                "width": 500
             }
         ],
 		"language" : {

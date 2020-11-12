@@ -44,9 +44,10 @@
                             <h3 class="box-title">调度列表</h3>
                         </div>-->
 						<div class="box-body">
-							<table id="job_list" class="table table-bordered table-striped" width="100%">
+							<table id="job_list" class="table table-bordered table-striped">
 								<thead>
 								<tr>
+									<th>${I18n.system_opt}</th>
 									<th name="id">ID</th>
 									<th name="oilStationName">名称</th>
 									<th name="oilStationPrice">油价</th>
@@ -60,7 +61,6 @@
 									<th name="shareImgUrl">分享图片</th>
 									<th name="oilStationHireTitle">招人H5标题</th>
 									<th name="oilStationHireUrl">招人H5地址</th>
-									<th>${I18n.system_opt}</th>
 								</tr>
 								</thead>
 								<tbody></tbody>
