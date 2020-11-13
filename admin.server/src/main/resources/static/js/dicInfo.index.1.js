@@ -69,7 +69,7 @@ $(function() {
                 "data": 'dicName',
                 "bSortable": false,
                 "visible" : true,
-                "width": 400
+                "width": 150
             },{
                 "data": 'dicRemark',
                 "bSortable": false,
