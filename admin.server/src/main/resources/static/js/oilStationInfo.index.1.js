@@ -4,13 +4,13 @@ $(function() {
 		"deferRender": true,
 		"processing" : true,
 	    "serverSide": true,
+        "scrollX": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxOilStation/getOilStationListForAdmin",
 			url: "https://www.yzkj.store/oilStationMap/wxOilStation/getOilStationListForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
-				// obj.start = 0;
                 obj.start = d.start;
 				obj.size = 10;
                 obj.oilStationName = $('#oilStationName').val();
@@ -21,6 +21,28 @@ $(function() {
 	    "ordering": false,
 	    "columns": [
             {
+                "data": I18n.system_opt,
+                "bSortable": false,
+                "visible" : true,
+                "width": 80,
+                "render": function (data, type, row) {
+                    return function () {
+                        tableData['key'+row.id] = row;
+                        var html = '<div class="btn-group">\n' +
+                            '     <button type="button" class="btn btn-primary btn-sm">'+ I18n.system_opt +'</button>\n' +
+                            '     <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">\n' +
+                            '       <span class="caret"></span>\n' +
+                            '       <span class="sr-only">Toggle Dropdown</span>\n' +
+                            '     </button>\n' +
+                            '     <ul class="dropdown-menu" role="menu" _id="'+ row.id +'" >\n' +
+                            '       <li><a href="javascript:void(0);" class="update" >更新</a></li>\n' +
+                            '       <li><a href="javascript:void(0);" class="userCenter" >定位中心</a></li>\n' +
+                            '     </ul>\n' +
+                            '   </div>';
+                        return html;
+                    };
+                }
+            },{
                 "data": 'id',
                 "bSortable": false,
                 "visible" : true,
@@ -37,12 +59,12 @@ $(function() {
                 "data": 'oilStationPrice',
                 "bSortable": false,
                 "visible" : false,
-                "width":500
+                "width":300
             },{
                 "data": 'oilStationPosition',
                 "bSortable": false,
                 "visible" : true,
-                "width": 150
+                "width": 120
             },{
                 "data": 'oilStationLon',
                 "bSortable": false,
@@ -57,7 +79,7 @@ $(function() {
                 "data": 'oilStationAdress',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'oilStationCategory',
                 "bSortable": false,
@@ -75,45 +97,22 @@ $(function() {
                 "data": 'shareTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'shareImgUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'oilStationHireTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'oilStationHireUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
-            }, {
-                "data": I18n.system_opt,
-                "bSortable": false,
-                "visible" : true,
-                "width": 300,
-                "render": function (data, type, row) {
-                    return function () {
-                        tableData['key'+row.id] = row;
-                        var html = '<div class="btn-group">\n' +
-                            '     <button type="button" class="btn btn-primary btn-sm">'+ I18n.system_opt +'</button>\n' +
-                            '     <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">\n' +
-                            '       <span class="caret"></span>\n' +
-                            '       <span class="sr-only">Toggle Dropdown</span>\n' +
-                            '     </button>\n' +
-                            '     <ul class="dropdown-menu" role="menu" _id="'+ row.id +'" >\n' +
-                            '       <li><a href="javascript:void(0);" class="update" >更新</a></li>\n' +
-                            '       <li><a href="javascript:void(0);" class="userCenter" >定位中心</a></li>\n' +
-                            '     </ul>\n' +
-                            '   </div>';
-
-                        return html;
-                    };
-                }
+                "width": 300
             }
         ],
 		"language" : {
