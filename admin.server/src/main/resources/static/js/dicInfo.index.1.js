@@ -64,7 +64,7 @@ $(function() {
                 "data": 'dicCode',
                 "bSortable": false,
                 "visible" : true,
-                "width": 250
+                "width": 150
             },{
                 "data": 'dicName',
                 "bSortable": false,
@@ -74,7 +74,7 @@ $(function() {
                 "data": 'dicRemark',
                 "bSortable": false,
                 "visible" : true,
-                "width": 150
+                "width": 400
             },{
                 "data": 'dicStatus',
                 "bSortable": false,
