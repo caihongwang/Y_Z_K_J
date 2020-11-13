@@ -59,7 +59,7 @@ $(function() {
                 "data": 'oilStationPrice',
                 "bSortable": false,
                 "visible" : false,
-                "width":500
+                "width":300
             },{
                 "data": 'oilStationPosition',
                 "bSortable": false,
@@ -79,7 +79,7 @@ $(function() {
                 "data": 'oilStationAdress',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'oilStationCategory',
                 "bSortable": false,
@@ -97,22 +97,22 @@ $(function() {
                 "data": 'shareTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'shareImgUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'oilStationHireTitle',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             },{
                 "data": 'oilStationHireUrl',
                 "bSortable": false,
                 "visible" : true,
-                "width": 500
+                "width": 300
             }
         ],
 		"language" : {
