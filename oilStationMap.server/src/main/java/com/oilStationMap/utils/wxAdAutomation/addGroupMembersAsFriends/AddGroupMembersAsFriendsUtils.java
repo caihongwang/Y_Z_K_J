@@ -115,7 +115,6 @@ public class AddGroupMembersAsFriendsUtils {
                                                     "";
                                     String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                     if (startHour.equals(currentHour)) {
-//                                    if (true) {
                                         //开始添加群成员为好友的V群
                                         sw.split();
                                         logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");

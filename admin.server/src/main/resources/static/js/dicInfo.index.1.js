@@ -4,6 +4,7 @@ $(function() {
 		"deferRender": true,
 		"processing" : true,
 	    "serverSide": true,
+        "scrollX": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxDic/getDicListByConditionForAdmin",
 			url: "https://www.yzkj.store/oilStationMap/wxDic/getDicListByConditionForAdmin",
@@ -24,59 +25,10 @@ $(function() {
 	    "ordering": false,
 	    "columns": [
             {
-                "data": 'id',
-                "bSortable": false,
-                "visible" : true,
-                "width": 50,
-                "render": function ( data, type, row ) {
-                    return data;
-                }
-            },{
-                "data": 'dicType',
-                "bSortable": false,
-                "visible" : true,
-                "width": 250
-            },{
-                "data": 'dicCode',
-                "bSortable": false,
-                "visible" : true,
-                "width": 150
-            },{
-                "data": 'dicName',
-                "bSortable": false,
-                "visible" : true,
-                "width": 250
-            },{
-                "data": 'dicRemark',
-                "bSortable": false,
-                "visible" : true,
-                "width": 150,
-                "render": function ( data, type, row ) {
-                    if(data.length > 50){
-                        return data.substring(0, 50) + "......";
-                    } else {
-                        return data;
-                    }
-                }
-            },{
-                "data": 'dicStatus',
-                "bSortable": false,
-                "visible" : true,
-                "width": 100,
-                "render": function ( data, type, row ) {
-                    if(data == "0"){
-                        return "正常";
-                    } if(data == "1"){
-                        return "禁用";
-                    } else {
-                        return "未知";
-                    }
-                }
-            }, {
                 "data": I18n.system_opt,
                 "bSortable": false,
                 "visible" : true,
-                "width": 300,
+                "width": 80,
                 "render": function (data, type, row) {
                     return function () {
                         tableData['key'+row.id] = row;
@@ -94,6 +46,48 @@ $(function() {
 
                         return html;
                     };
+                }
+            }, {
+                "data": 'id',
+                "bSortable": false,
+                "visible" : true,
+                "width": 50,
+                "render": function ( data, type, row ) {
+                    return data;
+                }
+            },{
+                "data": 'dicType',
+                "bSortable": false,
+                "visible" : true,
+                "width": 150
+            },{
+                "data": 'dicCode',
+                "bSortable": false,
+                "visible" : true,
+                "width": 250
+            },{
+                "data": 'dicName',
+                "bSortable": false,
+                "visible" : true,
+                "width": 400
+            },{
+                "data": 'dicRemark',
+                "bSortable": false,
+                "visible" : true,
+                "width": 150
+            },{
+                "data": 'dicStatus',
+                "bSortable": false,
+                "visible" : true,
+                "width": 100,
+                "render": function ( data, type, row ) {
+                    if(data == "0"){
+                        return "正常";
+                    } if(data == "1"){
+                        return "禁用";
+                    } else {
+                        return "未知";
+                    }
                 }
             }
         ],

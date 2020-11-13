@@ -73,16 +73,16 @@
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-body">
-							<table id="job_list" class="table table-bordered table-striped" width="100%">
+							<table id="job_list" class="table table-bordered table-striped">
 								<thead>
 								<tr>
+									<th>${I18n.system_opt}</th>
 									<th name="id">ID</th>
 									<th name="dicType">业务类型</th>
 									<th name="dicCode">微信昵称</th>
 									<th name="dicName">业务方式</th>
 									<th name="dicRemark">业务详情</th>
 									<th name="dicStatus">业务状态</th>
-									<th>${I18n.system_opt}</th>
 								</tr>
 								</thead>
 								<tbody></tbody>
