@@ -193,7 +193,7 @@ public class TimeTaskOfQuartz {
                 paramMap.clear();
                 List<String> timeList = Lists.newArrayList();
                 timeList.add("2020-10-25 20");    //华为 Mate 8 _ 10
-                timeList.add("2020-10-25 19");    //华为 Mate 8 _ 9  
+                timeList.add("2020-10-25 19");    //华为 Mate 8 _ 9
                 timeList.add("2020-10-25 18");    //华为 Mate 8海外版 _ 1
                 timeList.add("2020-10-25 17");    //华为 Mate 8 _ 7
                 timeList.add("2020-10-25 16");    //华为 Mate 8 _ 6

@@ -15,6 +15,7 @@ echo "--------------------------------------------------------------------------
 
 
 echo "------------------Start pull new code 【eureka.server】 from repository-----------------"
+mkdir /opt/eureka.server
 cd /opt/deployAllApplication
 rm -rf Y_Z_K_J
 git clone --depth=1 -b master https://github.com/caihongwang/Y_Z_K_J.git
