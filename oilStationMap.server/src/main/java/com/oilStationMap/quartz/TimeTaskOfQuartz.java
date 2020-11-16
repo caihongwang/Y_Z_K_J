@@ -191,20 +191,35 @@ public class TimeTaskOfQuartz {
                     }
                 }
                 paramMap.clear();
-                List<String> timeList = Lists.newArrayList();
-                timeList.add("2020-10-25 20");    //华为 Mate 8 _ 10
-                timeList.add("2020-10-25 19");    //华为 Mate 8 _ 9
-                timeList.add("2020-10-25 18");    //华为 Mate 8海外版 _ 1
-                timeList.add("2020-10-25 17");    //华为 Mate 8 _ 7
-                timeList.add("2020-10-25 16");    //华为 Mate 8 _ 6
-                timeList.add("2020-10-25 15");    //华为 Mate 8 _ 5
-                timeList.add("2020-10-25 14");    //华为 Mate 7 _ 4
-                timeList.add("2020-10-25 13");    //华为 Mate 8 _ 3
-                timeList.add("2020-10-25 12");    //华为 Mate 8 _ 2
-                timeList.add("2020-10-25 11");    //华为 Mate 8 _ 1
-                timeList.add("2020-10-25 21");    //小米 Max 3
-                for(String timeStr : timeList){
-                    paramMap.put("currentDateStr", timeStr);
+//                List<String> currentDateList = Lists.newArrayList();
+//                currentDateList.add("2020-10-25 20");    //华为 Mate 8 _ 10
+//                currentDateList.add("2020-10-25 19");    //华为 Mate 8 _ 9
+//                currentDateList.add("2020-10-25 18");    //华为 Mate 8海外版 _ 1
+//                currentDateList.add("2020-10-25 17");    //华为 Mate 8 _ 7
+//                currentDateList.add("2020-10-25 16");    //华为 Mate 8 _ 6
+//                currentDateList.add("2020-10-25 15");    //华为 Mate 8 _ 5
+//                currentDateList.add("2020-10-25 14");    //华为 Mate 7 _ 4
+//                currentDateList.add("2020-10-25 13");    //华为 Mate 8 _ 3
+//                currentDateList.add("2020-10-25 12");    //华为 Mate 8 _ 2
+//                currentDateList.add("2020-10-25 11");    //华为 Mate 8 _ 1
+//                currentDateList.add("2020-10-25 21");    //小米 Max 3
+//                System.out.println(JSON.toJSONString(currentDateList));
+                String currentDateListStr = "[\n" +
+                        "    \"2020-10-25 20\",\n" +
+                        "    \"2020-10-25 19\",\n" +
+                        "    \"2020-10-25 18\",\n" +
+                        "    \"2020-10-25 17\",\n" +
+                        "    \"2020-10-25 16\",\n" +
+                        "    \"2020-10-25 15\",\n" +
+                        "    \"2020-10-25 14\",\n" +
+                        "    \"2020-10-25 13\",\n" +
+                        "    \"2020-10-25 12\",\n" +
+                        "    \"2020-10-25 11\",\n" +
+                        "    \"2020-10-25 21\"\n" +
+                        "]";
+                LinkedList<String> currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
+                for(String currentDateStr : currentDateList){
+                    paramMap.put("currentDateStr", currentDateStr);
                     paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                     wxSpiderService.addGroupMembersAsFriends(paramMap);
                 }

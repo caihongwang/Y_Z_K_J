@@ -49,169 +49,173 @@ public class AddGroupMembersAsFriendsUtils {
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
-        String currentDateStr = paramMap.get("currentDateStr") != null ? paramMap.get("currentDateStr").toString() : "";
+        String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
+        LinkedList<String> currentDateList = Lists.newLinkedList();
         try {
-            if (!"".equals(currentDateStr)) {
-                currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
-            }
+            currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
         } catch (Exception e) {
-            logger.error("解析当前时间失败，currentDateStr = " + currentDateStr + " ， e : ", currentDateStr);
-            currentDate = new Date();
+            logger.error("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
+            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
-        List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
-        for (String nickName : nickNameList) {
-            List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
-            List<HashMap<String, Object>> rebootDeviceNameList = Lists.newArrayList();          //执行失败的设备列表，待重新执行
-            paramMap.put("dicType", "addGroupMembersAsFriends");
-            paramMap.put("dicCode", EmojiUtil.emojiConvert(nickName));        //根据微信群昵称添加群成员为好友
-            ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
-            List<Map<String, String>> resultList = resultDTO.getResultList();
-            if (resultList != null && resultList.size() > 0) {
-                //根据微信群昵称添加群成员为好友.
-                Map<String, Object> addGroupMembersAsFriendsParam = MapUtil.getObjectMap(resultList.get(0));
-                addGroupMembersAsFriendsParam.put("addGroupMembersFlag", "false");
-                addGroupMembersAsFriendsParam.put("nickName", addGroupMembersAsFriendsParam.get("dicCode"));        //dicCode就是nickName
-                String theId = addGroupMembersAsFriendsParam.get("id").toString();
-                //获取设备列表和配套的坐标配置wxDic
-                List<String> dicCodeList = Lists.newArrayList();
-                dicCodeList.add("HuaWeiListAndAddGroupMembersAsFriendsLocaltion"); //获取 华为 设备列表和配套的坐标配置
-                //3.添加群成员为好友
-                for (String dicCode : dicCodeList) {
-                    paramMap.clear();
-                    paramMap.put("dicType", "deviceNameListAndLocaltion");
-                    paramMap.put("dicCode", dicCode);
-                    List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-                    if (list != null && list.size() > 0) {
-                        String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                        JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                        //获取设备坐标
-                        String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                        Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                        addGroupMembersAsFriendsParam.putAll(deviceLocaltionMap);
-                        //获取设备列表
-                        String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                        List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                        if (deviceNameList != null && deviceNameList.size() > 0) {
-                            for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                addGroupMembersAsFriendsParam.putAll(deviceNameMap);
-                                try {
-                                    //当前设备名称
-                                    String deviceNameDesc =
-                                            addGroupMembersAsFriendsParam.get("deviceNameDesc") != null ?
-                                                    addGroupMembersAsFriendsParam.get("deviceNameDesc").toString() :
-                                                    null;
-                                    //目标设备名称-即群对应设备名称
-                                    String targetDeviceNameDesc =
-                                            addGroupMembersAsFriendsParam.get("targetDeviceNameDesc") != null ?
-                                                    addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString() :
-                                                    null;
-                                    if (deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)) {       //群的指定目标的设备与当前的设备不符合直接continue
-                                        continue;
+        if(currentDateList.size() <= 0){
+            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+        }
+        for(String currentDateStr : currentDateList) {
+            currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
+            List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+            for (String nickName : nickNameList) {
+                List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表
+                List<HashMap<String, Object>> rebootDeviceNameList = Lists.newArrayList();          //执行失败的设备列表，待重新执行
+                paramMap.put("dicType", "addGroupMembersAsFriends");
+                paramMap.put("dicCode", EmojiUtil.emojiConvert(nickName));        //根据微信群昵称添加群成员为好友
+                ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
+                List<Map<String, String>> resultList = resultDTO.getResultList();
+                if (resultList != null && resultList.size() > 0) {
+                    //根据微信群昵称添加群成员为好友.
+                    Map<String, Object> addGroupMembersAsFriendsParam = MapUtil.getObjectMap(resultList.get(0));
+                    addGroupMembersAsFriendsParam.put("addGroupMembersFlag", "false");
+                    addGroupMembersAsFriendsParam.put("nickName", addGroupMembersAsFriendsParam.get("dicCode"));        //dicCode就是nickName
+                    String theId = addGroupMembersAsFriendsParam.get("id").toString();
+                    //获取设备列表和配套的坐标配置wxDic
+                    List<String> dicCodeList = Lists.newArrayList();
+                    dicCodeList.add("HuaWeiListAndAddGroupMembersAsFriendsLocaltion"); //获取 华为 设备列表和配套的坐标配置
+                    //3.添加群成员为好友
+                    for (String dicCode : dicCodeList) {
+                        paramMap.clear();
+                        paramMap.put("dicType", "deviceNameListAndLocaltion");
+                        paramMap.put("dicCode", dicCode);
+                        List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
+                        if (list != null && list.size() > 0) {
+                            String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
+                            JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+                            //获取设备坐标
+                            String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
+                            Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                            addGroupMembersAsFriendsParam.putAll(deviceLocaltionMap);
+                            //获取设备列表
+                            String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+                            List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                            if (deviceNameList != null && deviceNameList.size() > 0) {
+                                for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                    addGroupMembersAsFriendsParam.putAll(deviceNameMap);
+                                    try {
+                                        //当前设备名称
+                                        String deviceNameDesc =
+                                                addGroupMembersAsFriendsParam.get("deviceNameDesc") != null ?
+                                                        addGroupMembersAsFriendsParam.get("deviceNameDesc").toString() :
+                                                        null;
+                                        //目标设备名称-即群对应设备名称
+                                        String targetDeviceNameDesc =
+                                                addGroupMembersAsFriendsParam.get("targetDeviceNameDesc") != null ?
+                                                        addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString() :
+                                                        null;
+                                        if (deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)) {       //群的指定目标的设备与当前的设备不符合直接continue
+                                            continue;
+                                        }
+                                        //判断当前设备的执行小时时间是否与当前时间匹配
+                                        String startHour =
+                                                addGroupMembersAsFriendsParam.get("startHour") != null ?
+                                                        addGroupMembersAsFriendsParam.get("startHour").toString() :
+                                                        "";
+                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                                        if (startHour.equals(currentHour)) {
+                                            //开始添加群成员为好友的V群
+                                            sw.split();
+                                            logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+                                            addGroupMembersAsFriendsParam.put("index", 0);
+                                            new RealMachineDevices().addGroupMembersAsFriends(addGroupMembersAsFriendsParam, sw);
+                                            Thread.sleep(5000);
+                                        } else {
+                                            //下一个设备
+                                            sw.split();
+                                            logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时，总共花费 " + sw.toSplitString() + " 秒....");
+                                            continue;
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
+                                        rebootDeviceNameMap.putAll(addGroupMembersAsFriendsParam);
+                                        rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                                     }
-                                    //判断当前设备的执行小时时间是否与当前时间匹配
-                                    String startHour =
-                                            addGroupMembersAsFriendsParam.get("startHour") != null ?
-                                                    addGroupMembersAsFriendsParam.get("startHour").toString() :
-                                                    "";
-                                    String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                    if (startHour.equals(currentHour)) {
-                                        //开始添加群成员为好友的V群
-                                        sw.split();
-                                        logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
-                                        addGroupMembersAsFriendsParam.put("index", 0);
-                                        new RealMachineDevices().addGroupMembersAsFriends(addGroupMembersAsFriendsParam, sw);
-                                        Thread.sleep(5000);
-                                    } else {
-                                        //下一个设备
-                                        sw.split();
-                                        logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时，总共花费 " + sw.toSplitString() + " 秒....");
-                                        continue;
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
-                                    rebootDeviceNameMap.putAll(addGroupMembersAsFriendsParam);
-                                    rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
                                 }
                             }
+                        } else {
+                            logger.info(dicCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                         }
-                    } else {
-                        logger.info(dicCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
-                }
 
-                //4.对执行失败的设备列表进行重新执行【重发朋友圈】,最多循环执行5遍
-                Integer index = 1;
-                while (rebootDeviceNameList.size() > 0) {
-                    //等待所有设备重启
-                    try {
-                        Thread.sleep(45000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (index > 8) {
-                        break;
-                    }
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
-                    logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
-                    Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
-                    while (iterator.hasNext()) {
-                        Map<String, Object> deviceNameMap = iterator.next();
+                    //4.对执行失败的设备列表进行重新执行【重发朋友圈】,最多循环执行5遍
+                    Integer index = 1;
+                    while (rebootDeviceNameList.size() > 0) {
+                        //等待所有设备重启
                         try {
-                            sw.split();
-                            logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
-                            deviceNameMap.put("index", index);
-                            new RealMachineDevices().addGroupMembersAsFriends(deviceNameMap, sw);
-                            addGroupMembersAsFriendsParam.putAll(deviceNameMap);
-                            Thread.sleep(5000);
-                            iterator.remove();
-                        } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
+                            Thread.sleep(45000);
+                        } catch (Exception e) {
                             e.printStackTrace();
+                        }
+                        if (index > 8) {
+                            break;
+                        }
+                        logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                        logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                        logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                        logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                        logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
+                        Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
+                        while (iterator.hasNext()) {
+                            Map<String, Object> deviceNameMap = iterator.next();
                             try {
-                                if(index % 3 == 0){
-                                    //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
-                                    CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
-                                    logger.info("重启成功，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
+                                sw.split();
+                                logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
+                                deviceNameMap.put("index", index);
+                                new RealMachineDevices().addGroupMembersAsFriends(deviceNameMap, sw);
+                                addGroupMembersAsFriendsParam.putAll(deviceNameMap);
+                                Thread.sleep(5000);
+                                iterator.remove();
+                            } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
+                                e.printStackTrace();
+                                try {
+                                    if(index % 3 == 0){
+                                        //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+                                        CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
+                                        logger.info("重启成功，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
+                                    }
+                                } catch (Exception e1) {
+                                    logger.info("重启失败，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
                                 }
-                            } catch (Exception e1) {
-                                logger.info("重启失败，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
                             }
                         }
+                        index++;
                     }
-                    index++;
-                }
 
-                //6.发送微信通知消息进行手动录入.
-                if (rebootDeviceNameList.size() > 0) {
-                    sw.split();
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    String exceptionDevices = "异常设备列表";
-                    for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
-                        exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
-                        logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
-                    }
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    if (rebootDeviceNameList != null && rebootDeviceNameList.size() > 0) {
-                        //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                        HttpsUtil httpsUtil = new HttpsUtil();
-                        Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                        exceptionDevicesParamMap.put("nickName", nickName);
-                        exceptionDevicesParamMap.put("operatorName", "添加群成员为好友的V群");
-                        exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                        String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                        String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                        logger.info("微信消息异常发送反馈：" + resultJson);
+                    //6.发送微信通知消息进行手动录入.
+                    if (rebootDeviceNameList.size() > 0) {
+                        sw.split();
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        String exceptionDevices = "异常设备列表";
+                        for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
+                            exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
+                            logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
+                        }
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】5次次批量执行【" + nickName + "】均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
+                        if (rebootDeviceNameList != null && rebootDeviceNameList.size() > 0) {
+                            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                            HttpsUtil httpsUtil = new HttpsUtil();
+                            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+                            exceptionDevicesParamMap.put("nickName", nickName);
+                            exceptionDevicesParamMap.put("operatorName", "添加群成员为好友的V群");
+                            exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+                            String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+                            logger.info("微信消息异常发送反馈：" + resultJson);
 //                        try {
 //                            Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
 //                            exceptionDevicesParamMap.put("operatorName", "发布朋友圈");
@@ -220,56 +224,57 @@ public class AddGroupMembersAsFriendsUtils {
 //                        } catch (Exception e) {
 //                            e.printStackTrace();
 //                        }
+                        }
+                    } else {
+                        if ("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))) {
+                            //更新这个群的信息
+                            try {
+                                String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
+                                Map<String, Object> tempMap = Maps.newHashMap();
+                                tempMap.put("id", theId);
+                                LinkedHashMap<String, Object> dicRemarkMap = Maps.newLinkedHashMap();
+                                dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
+                                dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
+                                dicRemarkMap.put("nickName", nickName);
+                                dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
+                                dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
+                                dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
+                                tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
+                                tempMap.put("dicStatus", 1);
+                                LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
+                                if (groupMembersMap.size() > 0) {
+                                    for (String key : groupMembersMap.keySet()) {
+                                        Map<String, String> groupMember = groupMembersMap.get(key);
+                                        String isAddFlag = groupMember.get("isAddFlag");
+                                        if ("false".equals(isAddFlag)) {
+                                            tempMap.put("dicStatus", 0);
+                                            break;
+                                        }
+                                    }
+                                    wxDicService.updateDic(tempMap);    //更新这个群信息
+                                }
+                            } catch (Exception e) {
+                                logger.error("【更新这个群的信息】时异常，e : ", e);
+                            }
+                        }
+                        sw.split();
+                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
                     }
                 } else {
-                    if ("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))) {
-                        //更新这个群的信息
-                        try {
-                            String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
-                            Map<String, Object> tempMap = Maps.newHashMap();
-                            tempMap.put("id", theId);
-                            LinkedHashMap<String, Object> dicRemarkMap = Maps.newLinkedHashMap();
-                            dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
-                            dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
-                            dicRemarkMap.put("nickName", nickName);
-                            dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
-                            dicRemarkMap.put("addFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("addFrirndTotalNumStr"));
-                            dicRemarkMap.put("groupMembersMapStr", EmojiUtil.emojiConvert(addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString()));
-                            tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
-                            tempMap.put("dicStatus", 1);
-                            LinkedHashMap<String, Map<String, String>> groupMembersMap = JSON.parseObject(groupMembersMapStr, LinkedHashMap.class);
-                            if (groupMembersMap.size() > 0) {
-                                for (String key : groupMembersMap.keySet()) {
-                                    Map<String, String> groupMember = groupMembersMap.get(key);
-                                    String isAddFlag = groupMember.get("isAddFlag");
-                                    if ("false".equals(isAddFlag)) {
-                                        tempMap.put("dicStatus", 0);
-                                        break;
-                                    }
-                                }
-                                wxDicService.updateDic(tempMap);    //更新这个群信息
-                            }
-                        } catch (Exception e) {
-                            logger.error("【更新这个群的信息】时异常，e : ", e);
-                        }
-                    }
-                    sw.split();
-                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("发布朋友圈 失败.");
                 }
-            } else {
-                logger.info("发布朋友圈 失败.");
             }
-        }
 
-        sw.split();
-        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            sw.split();
+            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+        }
     }
 }
