@@ -532,7 +532,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String dailyMessageTemplateId = customMessageAccountMap.get("dailyMessageTemplateId")!=null?customMessageAccountMap.get("dailyMessageTemplateId").toString():"v4tKZ7kAwI6VrXzAJyAxi5slILLRBibZg-G3kRwNIKQ";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
-                        List<String> openIdList = Lists.newArrayList();
+                        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
 //                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                         for(String openId : openIdList) {
@@ -623,7 +623,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String leagueMessageTemplateId = customMessageAccountMap.get("leagueMessageTemplateId")!=null?customMessageAccountMap.get("leagueMessageTemplateId").toString():"FvFWMDDOdH132QdU9shyzSOpLCt6VB_YpQ3k0T7b5uY";//加盟受理通知
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
-                        List<String> openIdList = Lists.newArrayList();
+                        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
 //                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                         for(String openId : openIdList) {
@@ -710,7 +710,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String errorMessageTemplateId = customMessageAccountMap.get("errorMessageTemplateId")!=null?customMessageAccountMap.get("errorMessageTemplateId").toString():"TdKDrcNW934K0r1rtlDKCUI0XCQ5xb4GGb8ieHb0zug";//服务器报错提醒
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
-                        List<String> openIdList = Lists.newArrayList();
+                        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
 //                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId
                         for(String openId : openIdList) {
@@ -756,7 +756,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         String oilStationName = paramMap.get("oilStationName")!=null?paramMap.get("oilStationName").toString():"";
 
         //1.获取即将发送消息的对象
-        List<String> openIdList = Lists.newArrayList();
+        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
         Map<String, Object> userParamMap = Maps.newHashMap();
         userParamMap.put("id", uid);
         List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userParamMap);
@@ -860,7 +860,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
         String new_openId = paramMap.get("new_openId")!=null?paramMap.get("new_openId").toString():"";
 
         //1.获取即将发送消息的对象
-        List<String> openIdList = Lists.newArrayList();
+        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
         Map<String, Object> userParamMap = Maps.newHashMap();
         userParamMap.put("id", 3);
         List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userParamMap);
@@ -965,6 +965,96 @@ public class WX_MessageServiceImpl implements WX_MessageService {
     }
 
 
+    /**
+     * 根据OpenID向 管理员 发【服务类通知_info级别】
+     * @param paramMap
+     */
+    @Override
+    public ResultMapDTO dailyServiceProgressMessageSend(Map<String, Object> paramMap) throws Exception {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        logger.info("【service】提醒类通知_info级别-dailyRemindInfoMessageSend,请求-paramMap:" + paramMap);
+        String serviceProgress_first = paramMap.get("serviceProgress_first")!=null?paramMap.get("serviceProgress_first").toString():"";
+        String serviceProgress_keyword1 = paramMap.get("serviceProgress_keyword1")!=null?paramMap.get("serviceProgress_keyword1").toString():"";
+        String serviceProgress_keyword2 = paramMap.get("serviceProgress_keyword2")!=null?paramMap.get("serviceProgress_keyword2").toString():"";
+        String serviceProgress_remark = paramMap.get("serviceProgress_remark")!=null?paramMap.get("serviceProgress_remark").toString():"";
+        //1.获取所有的微信公众号账号
+        paramMap.clear();
+        List<Map<String, String>> customMessageAccountList = Lists.newArrayList();
+        paramMap.put("dicType", "customMessageAccount");
+        ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        customMessageAccountList = resultDTO.getResultList();
+        if (customMessageAccountList != null && customMessageAccountList.size() > 0) {
+            for (int i = 0; i < customMessageAccountList.size(); i++) {
+                Map<String, String> customMessageAccountMap = customMessageAccountList.get(i);
+                String dicName = customMessageAccountMap.get("dicName");
+                if (dicName.contains("公众号")) {
+                    String appId = customMessageAccountMap.get("customMessageAccountAppId")!=null?customMessageAccountMap.get("customMessageAccountAppId").toString():"wx469a910e7e87b9d4";
+                    String secret = customMessageAccountMap.get("customMessageAccountSecret")!=null?customMessageAccountMap.get("customMessageAccountSecret").toString():"327047cc315d0c5ab24e62d2efd958c0";
+                    String customMessageAccountName = customMessageAccountMap.get("customMessageAccountName")!=null?customMessageAccountMap.get("customMessageAccountName").toString():"油站科技";
+                    String serviceProgressTemplateId = customMessageAccountMap.get("serviceProgressTemplateId")!=null?customMessageAccountMap.get("serviceProgressTemplateId").toString():"079PQc08Txbsv4xN9_vEmxv-wJsrjI77Jo0_OaUxsbk";
+                    if(!"".equals(appId) && !"".equals(secret)){
+                        //发送消息
+                        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
+//                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
+                        openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId - 蔡红旺
+//                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
+                        openIdList.add("ovrxT5qoTdPveu_EwQ-lpTtm4MGc");     //油站科技的openId - 何金蓉
+//                        openIdList.add("oJcI1wmYqELtdLuUDoS2R907m6og");     //油价地图的openId - 沿河微帮
+                        openIdList.add("ovrxT5j65KyqWYxhbKj6NpakKIw4");     //油站科技的openId - 沿河微帮
+//                        openIdList.add("oJcI1wlHV4G0b9OJ9EJhkX37ay9I");     //油价地图的openId - 积极向上
+                        openIdList.add("ovrxT5iu4Unv7g1nIIdYio30O92M");     //油站科技的openId - 积极向上
+                        for(String openId : openIdList) {
+                            //向 管理员汇报 已更新油价
+                            paramMap.clear();//清空参数，重新准备参数
+                            Map<String, Object> dataMap = Maps.newHashMap();
+
+                            Map<String, Object> firstMap = Maps.newHashMap();
+                            firstMap.put("value", serviceProgress_first);
+                            firstMap.put("color", "#0017F5");
+                            dataMap.put("first", firstMap);
+
+                            Map<String, Object> keyword1Map = Maps.newHashMap();
+                            keyword1Map.put("value", serviceProgress_keyword1);
+                            keyword1Map.put("color", "#0017F5");
+                            dataMap.put("keyword1", keyword1Map);
+
+                            Map<String, Object> keyword2Map = Maps.newHashMap();
+                            keyword2Map.put("value", serviceProgress_keyword2);
+                            keyword2Map.put("color", "#0017F5");
+                            dataMap.put("keyword2", keyword2Map);
+
+                            Map<String, Object> remarkMap = Maps.newHashMap();
+                            remarkMap.put("value", serviceProgress_remark);
+                            remarkMap.put("color", "#0017F5");
+                            dataMap.put("remark", remarkMap);
+
+                            paramMap.put("data", JSONObject.toJSONString(dataMap));
+                            paramMap.put("url", "https://engine.seefarger.com/index/activity?appKey=4Djteae9wZ9noyKnzd1VEeQD4Tiw&adslotId=294762");
+
+                            paramMap.put("appId", appId);
+                            paramMap.put("secret", secret);
+                            paramMap.put("openId", openId);
+                            paramMap.put("template_id", serviceProgressTemplateId);
+
+                            Thread.sleep(2000);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+                            logger.info("每个用户之间缓冲两秒进行发送，更新油价资讯，当前openId = " + openId);
+
+                            wxCommonService.sendTemplateMessageForWxPublicNumber(paramMap);
+                        }
+                    } else {
+                        resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
+                        resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+                    }
+                }
+            }
+        }
+        logger.info("【service】提醒类通知_info级别-dailyRemindInfoMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
 
     /**
      * 根据OpenID向 管理员 发【微信广告自动化过程中的异常设备】
@@ -995,7 +1085,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String exceptionDevicesTemplateId = customMessageAccountMap.get("exceptionDevicesTemplateId")!=null?customMessageAccountMap.get("exceptionDevicesTemplateId").toString():"jc3BrNm_fy3My21kgz8zWaKQNIMp7piMHTQDCw8kOEc";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
-                        List<String> openIdList = Lists.newArrayList();
+                        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
 //                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId - 蔡红旺
 //                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉
@@ -1105,7 +1195,7 @@ public class WX_MessageServiceImpl implements WX_MessageService {
                     String exceptionDevicesTemplateId = customMessageAccountMap.get("exceptionDevicesTemplateId")!=null?customMessageAccountMap.get("exceptionDevicesTemplateId").toString():"jc3BrNm_fy3My21kgz8zWaKQNIMp7piMHTQDCw8kOEc";
                     if(!"".equals(appId) && !"".equals(secret)){
                         //发送消息
-                        List<String> openIdList = Lists.newArrayList();
+                        List<String> openIdList = Lists.newArrayList();     //openid 即关注公众号的用户唯一ID，不同的公众号下，同一微信用户分别有不同的openid
 //                        openIdList.add("oJcI1wt-ibRdgri1y8qKYCRQaq8g");     //油价地图的openId - 蔡红旺
                         openIdList.add("ovrxT5trVCVftVpNznW7Rz-oXP5k");     //油站科技的openId - 蔡红旺
 //                        openIdList.add("oJcI1wrjVxXomiJsroyMdUDTxZpc");     //油价地图的openId - 何金蓉

@@ -73,7 +73,7 @@ public class AddGroupMembersAsFriendsUtils {
                 if (resultList != null && resultList.size() > 0) {
                     //根据微信群昵称添加群成员为好友.
                     Map<String, Object> addGroupMembersAsFriendsParam = MapUtil.getObjectMap(resultList.get(0));
-                    addGroupMembersAsFriendsParam.put("addGroupMembersFlag", "false");
+                    addGroupMembersAsFriendsParam.put("addGroupMembersFlag", "false");      //当前设备已经添加过好友的标志位
                     addGroupMembersAsFriendsParam.put("nickName", addGroupMembersAsFriendsParam.get("dicCode"));        //dicCode就是nickName
                     String theId = addGroupMembersAsFriendsParam.get("id").toString();
                     //获取设备列表和配套的坐标配置wxDic
@@ -226,7 +226,7 @@ public class AddGroupMembersAsFriendsUtils {
 //                        }
                         }
                     } else {
-                        if ("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))) {
+                        if ("true".equals(addGroupMembersAsFriendsParam.get("addGroupMembersFlag"))) {            //当前设备已经添加过好友的标志位
                             //更新这个群的信息
                             try {
                                 String groupMembersMapStr = addGroupMembersAsFriendsParam.get("groupMembersMapStr").toString();
@@ -252,6 +252,23 @@ public class AddGroupMembersAsFriendsUtils {
                                         }
                                     }
                                     wxDicService.updateDic(tempMap);    //更新这个群信息
+                                    if("1".equals(tempMap.get("dicStatus").toString())){            //状态为1，则认为当前群成员都已经加过一遍了，发送微信消息通知群主给该设备换群
+                                        String exceptionDevices = "异常设备列表";
+                                        for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
+                                            exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
+                                            logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
+                                        }
+                                        //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                                        HttpsUtil httpsUtil = new HttpsUtil();
+                                        Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+                                        exceptionDevicesParamMap.put("serviceProgress_first", "自动化【添加群成员为好友的V群】");
+                                        exceptionDevicesParamMap.put("serviceProgress_keyword1", "设备【"+exceptionDevices+"】群成员添加");
+                                        exceptionDevicesParamMap.put("serviceProgress_keyword2", "已完成，请给该设备微信更换新的群来进行添加群成员");
+                                        exceptionDevicesParamMap.put("serviceProgress_remark", "当前设备【"+exceptionDevices+"】已经将【"+nickName+"】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.");
+                                        String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/dailyServiceProgressMessageSend";
+                                        String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+                                        logger.info("微信消息异常发送反馈：" + resultJson);
+                                    }
                                 }
                             } catch (Exception e) {
                                 logger.error("【更新这个群的信息】时异常，e : ", e);

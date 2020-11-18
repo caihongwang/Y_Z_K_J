@@ -60,6 +60,12 @@ public interface WX_MessageService {
   public ResultMapDTO dailyIllegalUpdateUserInfoMessageSend(Map<String, Object> paramMap) throws Exception;
 
   /**
+   * 根据OpenID向 管理员 发【服务类通知 info级别的】
+   * @param paramMap
+   */
+  public ResultMapDTO dailyServiceProgressMessageSend(Map<String, Object> paramMap) throws Exception;
+
+  /**
    * 根据OpenID列表群发【车主福利for车用尿素】福利
    * @param paramMap
    */

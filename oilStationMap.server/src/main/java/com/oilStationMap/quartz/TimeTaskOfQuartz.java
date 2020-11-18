@@ -204,7 +204,8 @@ public class TimeTaskOfQuartz {
 //                currentDateList.add("2020-10-25 11");    //华为 Mate 8 _ 1
 //                currentDateList.add("2020-10-25 21");    //小米 Max 3
 //                System.out.println(JSON.toJSONString(currentDateList));
-                String currentDateListStr = "[\n" +
+                String currentDateListStr =
+                        "[\n" +
                         "    \"2020-10-25 20\",\n" +
                         "    \"2020-10-25 19\",\n" +
                         "    \"2020-10-25 18\",\n" +

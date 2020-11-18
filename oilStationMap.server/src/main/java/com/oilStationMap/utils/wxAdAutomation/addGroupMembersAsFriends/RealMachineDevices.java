@@ -379,8 +379,31 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             }
                         }
                         Thread.sleep(1500);
-                        WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
-                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
+                        List<WebElement> linearWebElementList = Lists.newArrayList();
+                        try {
+                            WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
+                            if (gridWebElement != null) {
+                                sw.split();
+                                logger.info("检测坐标【android.widget.GridView】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                Thread.sleep(1000);
+                                try {
+                                    linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
+                                    if (linearWebElementList != null) {
+                                        sw.split();
+                                        logger.info("检测坐标【android.widget.TextView】成功，获取所有的群成员列表信息【成功】，总共花费 " + sw.toSplitString() + " 秒....");
+                                        Thread.sleep(1000);
+                                    } else {
+                                        logger.info("检测坐标【android.widget.TextView】成功，获取所有的群成员列表信息【失败】，总共花费 " + sw.toSplitString() + " 秒....");
+                                    }
+                                } catch (Exception e) {
+                                    logger.info("检测坐标【android.widget.TextView】失败，获取所有的群成员列表信息【失败】，总共花费 " + sw.toSplitString() + " 秒....");
+                                }
+                            }
+                        } catch (Exception e) {
+                            logger.info("检测坐标【android.widget.GridView】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                        }
+//                        WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
+//                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
                         if (linearWebElementList != null && linearWebElementList.size() > 0) {
                             for (WebElement webElement : linearWebElementList) {            //准备点击群成员头像，开始点击
                                 try {
@@ -552,7 +575,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             logger.info("群成员未超过40人，则不添加当前群的成员为好友，总共花费 " + sw.toSplitString() + " 秒....");
         }
         paramMap.put("groupMembersMapStr", JSON.toJSONString(groupMembersMap));
-        paramMap.put("addGroupMembersFlag", "true");
+        paramMap.put("addGroupMembersFlag", "true");        //当前设备已经添加过好友的标志位
         //16.退出驱动
         this.quitDriver(driver, deviceNameDesc, deviceName);
         sw.split();

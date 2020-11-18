@@ -205,4 +205,30 @@ public class WX_MessageHandler {
         return resultMapDTO;
     }
 
+    /**
+     * 服务类通知_info级别
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO dailyServiceProgressMessageSend(Map<String, String> paramMap) {
+        logger.info("【hanlder】服务类通知_info级别-dailyServiceProgressMessageSend,请求-paramMap:" + paramMap);
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        new Thread(){
+            public void run(){
+                Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+                try {
+                    wxMessageService.dailyServiceProgressMessageSend(objectParamMap);
+                } catch (Exception e) {
+                    resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
+                    resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                    logger.error("【hanlder】服务类通知_info级别-dailyServiceProgressMessageSend is error, paramMap : " + paramMap + ", e : " + e);
+                }
+            }
+        }.start();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("【hanlder】服务类通知_info级别-dailyServiceProgressMessageSend,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
 }
