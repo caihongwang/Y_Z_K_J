@@ -90,44 +90,44 @@ public class TimeTaskOfQuartz {
             Map<String, Object> paramMap = Maps.newHashMap();
             List<String> nickNameList = Lists.newArrayList();
             paramMap.put("currentDate", currentDate);
-//            try {
-//                paramMap.clear();
-//                nickNameList.clear();
-//                paramMap.put("start", 0);
-//                paramMap.put("size", 10);
-//                paramMap.put("id", "13");
-////                paramMap.put("jobDesc", "发布图片/文字到朋友圈");
-//                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
-//                if (list != null && list.size() > 0) {
-//                    Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
-//                    String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam") != null ? sendFriendCircleJobInfoMap.get("executorParam").toString() : "";
-//                    paramMap.clear();
-//                    nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
-//                    paramMap.put("nickNameListStr", nickNameListStr);
-//                    wxSpiderService.sendFriendCircle(paramMap);
-//                } else {
-//                    throw new Exception();
-//                }
-//            } catch (Exception e) {
-//                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, 即将通过数据库获取数据发送朋友圈 paramMap : " + paramMap + ", e : ", e);
-//                try{
-//                    //直接从现有的数据库中获取数据启动-发布朋友圈
-//                    paramMap.clear();
-//                    nickNameList.clear();
-//                    paramMap.put("dicType", "sendFriendCircle");
-//                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-//                    if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
-//                        for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
-//                            nickNameList.add(sendFriendCircleMap.get("dicCode"));
-//                        }
-//                    }
-//                    paramMap.clear();
-//                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
-//                    wxSpiderService.sendFriendCircle(paramMap);
-//                } catch (Exception eee) {
-//                    eee.printStackTrace();
-//                }
-//            }
+            try {
+                paramMap.clear();
+                nickNameList.clear();
+                paramMap.put("start", 0);
+                paramMap.put("size", 10);
+                paramMap.put("id", "13");
+//                paramMap.put("jobDesc", "发布图片/文字到朋友圈");
+                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                if (list != null && list.size() > 0) {
+                    Map<String, Object> sendFriendCircleJobInfoMap = list.get(0);
+                    String nickNameListStr = sendFriendCircleJobInfoMap.get("executorParam") != null ? sendFriendCircleJobInfoMap.get("executorParam").toString() : "";
+                    paramMap.clear();
+                    nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+                    paramMap.put("nickNameListStr", nickNameListStr);
+                    wxSpiderService.sendFriendCircle(paramMap);
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, 即将通过数据库获取数据发送朋友圈 paramMap : " + paramMap);
+                try{
+                    //直接从现有的数据库中获取数据启动-发布朋友圈
+                    paramMap.clear();
+                    nickNameList.clear();
+                    paramMap.put("dicType", "sendFriendCircle");
+                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                    if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
+                        for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
+                            nickNameList.add(sendFriendCircleMap.get("dicCode"));
+                        }
+                    }
+                    paramMap.clear();
+                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                    wxSpiderService.sendFriendCircle(paramMap);
+                } catch (Exception eee) {
+                    eee.printStackTrace();
+                }
+            }
 //            try {
 //                paramMap.clear();
 //                nickNameList.clear();
@@ -147,7 +147,7 @@ public class TimeTaskOfQuartz {
 //                    throw new Exception();
 //                }
 //            } catch (Exception e) {
-//                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + paramMap + ", e : ", e);
+//                logger.error("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, 即将通过数据库获取数据分享微信文章到微信朋友圈 paramMap : " + paramMap);
 //                paramMap.clear();
 //                nickNameList.clear();
 //                paramMap.put("dicType", "shareArticleToFriendCircle");
@@ -204,29 +204,26 @@ public class TimeTaskOfQuartz {
 //                currentDateList.add("2020-10-25 11");    //华为 Mate 8 _ 1
 //                currentDateList.add("2020-10-25 21");    //小米 Max 3
 //                System.out.println(JSON.toJSONString(currentDateList));
-                String currentDateListStr =
-                        "[\n" +
-                        "    \"2020-10-25 20\",\n" +
-                        "    \"2020-10-25 19\",\n" +
-                        "    \"2020-10-25 18\",\n" +
-                        "    \"2020-10-25 17\",\n" +
-                        "    \"2020-10-25 16\",\n" +
-                        "    \"2020-10-25 15\",\n" +
-                        "    \"2020-10-25 14\",\n" +
-                        "    \"2020-10-25 13\",\n" +
-                        "    \"2020-10-25 12\",\n" +
-                        "    \"2020-10-25 11\",\n" +
-                        "    \"2020-10-25 21\"\n" +
-                        "]";
-                LinkedList<String> currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
-                for(String currentDateStr : currentDateList){
-                    paramMap.put("currentDateStr", currentDateStr);
-                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
-                    wxSpiderService.addGroupMembersAsFriends(paramMap);
-                }
-
+//                String currentDateListStr =
+//                        "[\n" +
+//                        "    \"2020-10-25 20\"," +
+//                        "    \"2020-10-25 19\"," +
+//                        "    \"2020-10-25 18\"," +
+//                        "    \"2020-10-25 17\"," +
+//                        "    \"2020-10-25 16\"," +
+//                        "    \"2020-10-25 15\"," +
+//                        "    \"2020-10-25 14\"," +
+//                        "    \"2020-10-25 13\"," +
+//                        "    \"2020-10-25 12\"," +
+//                        "    \"2020-10-25 11\"," +
+//                        "    \"2020-10-25 21\"" +
+//                        "]";
+//                paramMap.put("currentDateListStr", currentDateListStr);
 //                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
 //                wxSpiderService.addGroupMembersAsFriends(paramMap);
+
+                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                wxSpiderService.addGroupMembersAsFriends(paramMap);
             }
         }
         System.out.println();

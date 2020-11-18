@@ -153,9 +153,7 @@ public class SendFriendCircleUtils {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                         Date startTime = sdf.parse(startTimeStr);
                                         Date endTime = sdf.parse(endTimeStr);
-                                        if (DateUtil.isEffectiveDate(currentDate
-
-                                                , startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
+                                        if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
                                             //判断当前设备的执行小时时间是否与当前时间匹配
                                             String startHour =
                                                     sendFriendCircleParam.get("startHour") != null ?
