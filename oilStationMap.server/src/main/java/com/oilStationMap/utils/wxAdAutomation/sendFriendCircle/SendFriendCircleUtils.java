@@ -381,27 +381,27 @@ public class SendFriendCircleUtils {
                                             if(imgFile.getName().startsWith(".")){          //过滤部分操作系统的隐藏文件
                                                 continue;
                                             }
-                                            String pushCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
+                                            String pushCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
                                             CommandUtil.run(pushCommandStr);
                                             Thread.sleep(1000);
                                             for (int j = 1; j <= 100; j++) {
                                                 String refreshCommandStr = "";
-                                                refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                                refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
                                                 CommandUtil.run(refreshCommandStr);
 //                                                try{
-//                                                    refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
+//                                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
 //                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
 //                                                } catch (Exception e) {
 //                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
 //                                                }
 //                                                try{
-//                                                    refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
+//                                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
 //                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
 //                                                } catch (Exception e) {
 //                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
 //                                                }
 //                                                try{
-//                                                    refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath;
+//                                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath;
 //                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
 //                                                } catch (Exception e) {
 //                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【文件夹】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
@@ -493,11 +493,11 @@ public class SendFriendCircleUtils {
                                         try {
                                             //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
                                             File imgFile = imgFiles[i];
-                                            String removeCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + "*";
+                                            String removeCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + "*";
                                             CommandUtil.run(removeCommandStr);
                                             Thread.sleep(1000);
                                             for (int j = 1; j <= 100; j++) {
-                                                String refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                                String refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
                                                 CommandUtil.run(refreshCommandStr);
                                                 logger.info("将 图片文件 remove 从安卓设备，第【"+j+"】次发送通知更新【"+sendFriendCircleParam.get("nickName")+"】"+imgFile.getName()+" 图片成功..... ");
                                             }

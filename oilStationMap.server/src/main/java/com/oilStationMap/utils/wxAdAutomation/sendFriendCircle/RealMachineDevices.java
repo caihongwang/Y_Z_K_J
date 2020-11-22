@@ -299,13 +299,13 @@ public class RealMachineDevices implements SendFriendCircle {
                         String refreshCommandStr = "";
                         for (int i = 1; i <= imageNum; i++) {
                             try{
-                                refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
+                                refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
                                 CommandUtil.run(refreshCommandStr);
                             } catch (Exception e) {
                                 logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
                             }
                             try{
-                                refreshCommandStr = "/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
+                                refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
                             } catch (Exception e) {
                                 logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
                             }
@@ -383,9 +383,9 @@ public class RealMachineDevices implements SendFriendCircle {
                 driver.quit();
             }
 //            //关闭 appium 相关进程
-//            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
-//            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
-//            CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
+//            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
+//            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
+//            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
             logger.info("退出driver成功,设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
         } catch (Exception e) {
             e.printStackTrace();
@@ -408,12 +408,12 @@ public class RealMachineDevices implements SendFriendCircle {
 //            }
             try {
 //                //关闭 appium 相关进程
-//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
-//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
-//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
+//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
+//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
+//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
                 //重启android设备
                 Thread.sleep(2000);
-                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
                 logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
             } catch (Exception e1) {
                 logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
@@ -424,7 +424,7 @@ public class RealMachineDevices implements SendFriendCircle {
 //            try {
 //                //重启android设备
 //                Thread.sleep(2000);
-//                CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceName + " reboot");
+//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
 //                logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
 //            } catch (Exception e1) {
 //                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");

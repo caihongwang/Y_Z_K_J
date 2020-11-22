@@ -177,7 +177,7 @@ public class AddGroupMembersAsFriendsUtils {
                                 try {
                                     if(index % 3 == 0){
                                         //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
-                                        CommandUtil.run("/Users/caihongwang/我的文件/android-sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
+                                        CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
                                         logger.info("重启成功，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
                                     }
                                 } catch (Exception e1) {
