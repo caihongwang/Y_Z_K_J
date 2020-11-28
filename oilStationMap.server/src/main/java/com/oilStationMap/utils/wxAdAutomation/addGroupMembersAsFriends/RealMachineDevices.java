@@ -343,14 +343,14 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                 }
                 for (String key : groupMembersMap.keySet()) {
                     System.out.println(key + " ---->>> " + groupMembersMap.get(key).get("groupMemberIndex") + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
-                    System.out.println("----------------------------------------------------------------");
+                    System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
                 }
                 sw.split();
                 logger.info("点击坐标【上滑同时检测坐标查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(1000);
             }
             //10.循环点击群成员
-            Integer addFriendNum = 1;   //
+            Integer addFriendNum = 1;
             for (String key : groupMembersMap.keySet()) {
                 Map<String, String> groupMember = groupMembersMap.get(key);
                 String isAddFlag = groupMember.get("isAddFlag");
@@ -364,17 +364,17 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                         try {
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "搜索" + "\")").sendKeys(groupMemberNickName);
                             sw.split();
-                            logger.info("点击坐标【搜索:text/搜索】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("点击坐标【搜索:text/搜索："+groupMemberNickName+"】成功，总共花费 " + sw.toSplitString() + " 秒....");
                         } catch (Exception e) {
                             sw.split();
-                            logger.info("点击坐标【搜索:text/搜索】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("点击坐标【搜索:text/搜索："+groupMemberNickName+"】失败，总共花费 " + sw.toSplitString() + " 秒....");
                             try {
                                 driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(groupMemberNickName);
                                 sw.split();
-                                logger.info("点击坐标【搜索:className/android.widget.EditText】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                logger.info("点击坐标【搜索:className/android.widget.EditText："+groupMemberNickName+"】成功，总共花费 " + sw.toSplitString() + " 秒....");
                             } catch (Exception e1) {
                                 sw.split();
-                                logger.info("点击坐标【搜索:className/android.widget.EditText】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                                logger.info("点击坐标【搜索:className/android.widget.EditText："+groupMemberNickName+"】失败，总共花费 " + sw.toSplitString() + " 秒....");
                                 throw new Exception("点击坐标【搜索:text/搜索】与【搜索:className/android.widget.EditText】均失败");
                             }
                         }
@@ -384,33 +384,36 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
                             if (gridWebElement != null) {
                                 sw.split();
-                                logger.info("检测坐标【android.widget.GridView】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                                logger.info("检测坐标【android.widget.GridView】成功，获取昵称对应的群成员列表信息，总共花费 " + sw.toSplitString() + " 秒....");
                                 Thread.sleep(1000);
                                 try {
-                                    linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
+                                    linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取昵称对应的群成员列表信息
                                     if (linearWebElementList != null) {
                                         sw.split();
-                                        logger.info("检测坐标【android.widget.TextView】成功，获取所有的群成员列表信息【成功】，总共花费 " + sw.toSplitString() + " 秒....");
+                                        logger.info("检测坐标【android.widget.TextView】成功，获取昵称对应的群成员列表信息，共【"+linearWebElementList.size()+"】个，总共花费 " + sw.toSplitString() + " 秒....");
                                         Thread.sleep(1000);
                                     } else {
-                                        logger.info("检测坐标【android.widget.TextView】成功，获取所有的群成员列表信息【失败】，总共花费 " + sw.toSplitString() + " 秒....");
+                                        logger.info("检测坐标【android.widget.TextView】成功，获取昵称对应的群成员列表信息，共【"+linearWebElementList.size()+"】个，总共花费 " + sw.toSplitString() + " 秒....");
                                     }
                                 } catch (Exception e) {
-                                    logger.info("检测坐标【android.widget.TextView】失败，获取所有的群成员列表信息【失败】，总共花费 " + sw.toSplitString() + " 秒....");
+                                    logger.info("检测坐标【android.widget.TextView】失败，获取昵称对应的群成员列表信息，总共花费 " + sw.toSplitString() + " 秒....");
                                 }
                             }
                         } catch (Exception e) {
-                            logger.info("检测坐标【android.widget.GridView】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("检测坐标【android.widget.GridView】失败，获取昵称对应的群成员列表信息，总共花费 " + sw.toSplitString() + " 秒....");
                         }
 //                        WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
-//                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取所有的群成员列表信息
+//                        List<WebElement> linearWebElementList = gridWebElement.findElements(By.className("android.widget.TextView"));       //获取昵称对应的群成员列表信息
                         if (linearWebElementList != null && linearWebElementList.size() > 0) {
                             for (WebElement webElement : linearWebElementList) {            //准备点击群成员头像，开始点击
                                 try {
                                     //11.点击【单个群成员】
                                     String groupMemberNickName_Temp = webElement.getAttribute("text");
                                     if(!groupMemberNickName_Temp.equals(groupMemberNickName)){      //防止一个短昵称对应多个群成员
+                                        logger.info("未发现昵称对应的群成员【" + groupMemberNickName + "】，当前昵称【"+groupMemberNickName_Temp+"】...");
                                         continue;
+                                    } else {
+                                        logger.info("找到昵称对应的群成员【" + groupMemberNickName + "】准备添加为好友...");
                                     }
                                     webElement.click();
                                     logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友...");
@@ -520,6 +523,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                 }
                                 break;
                             }
+                            groupMember.put("isAddFlag", "true");           //根据群昵称找不到群成员的，则默认为已添加过
+                            sw.split();
+                            logger.info("未发现群成员用户【"+nickName+"】，当前昵称在此群中对应的群成员太多无法快速定位，直接下一个，总共花费 " + sw.toSplitString() + " 秒....");
                         } else {
                             groupMember.put("isAddFlag", "true");           //根据群昵称找不到群成员的，则默认为已添加过
                             sw.split();
