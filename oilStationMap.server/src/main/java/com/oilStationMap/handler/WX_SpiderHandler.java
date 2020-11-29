@@ -1,5 +1,6 @@
 package com.oilStationMap.handler;
 
+import com.oilStationMap.code.OilStationMapCode;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.WX_SpiderService;
 import com.oilStationMap.utils.MapUtil;
@@ -34,6 +35,8 @@ public class WX_SpiderHandler {
                 }
             }
         }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在hanlder中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,响应-response:" + resultDTO);
         return resultDTO;
     }
@@ -51,6 +54,8 @@ public class WX_SpiderHandler {
                 }
             }
         }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle,响应-response:" + resultDTO);
         return resultDTO;
     }
@@ -68,6 +73,8 @@ public class WX_SpiderHandler {
                 }
             }
         }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在hanlder中启动appium,根据微信昵称进行聊天-chatByNickName,响应-response:" + resultDTO);
         return resultDTO;
     }
@@ -85,6 +92,8 @@ public class WX_SpiderHandler {
                 }
             }
         }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在hanlder中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,响应-response:" + resultDTO);
         return resultDTO;
     }
@@ -102,6 +111,8 @@ public class WX_SpiderHandler {
                 }
             }
         }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,响应-response:" + resultDTO);
         return resultDTO;
     }
@@ -119,6 +130,8 @@ public class WX_SpiderHandler {
                 }
             }
         }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在hanlder中启动appium,点击微信文章中的广告-clickArticleAd,响应-response:" + resultDTO);
         return resultDTO;
     }

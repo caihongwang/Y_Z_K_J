@@ -57,10 +57,10 @@ public class AddGroupMembersAsFriendsUtils {
             logger.error("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
-        if(currentDateList.size() <= 0){
+        if (currentDateList.size() <= 0) {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
-        for(String currentDateStr : currentDateList) {
+        for (String currentDateStr : currentDateList) {
             currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
             for (String nickName : nickNameList) {
@@ -153,7 +153,7 @@ public class AddGroupMembersAsFriendsUtils {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if (index > 8) {
+                        if (index > 15) {
                             break;
                         }
                         logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余设备数量： " + rebootDeviceNameList.size() + "....");
@@ -175,7 +175,7 @@ public class AddGroupMembersAsFriendsUtils {
                             } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                                 e.printStackTrace();
                                 try {
-                                    if(index % 3 == 0){
+                                    if (index % 4 == 0) {
                                         //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                                         CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
                                         logger.info("重启成功，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
@@ -252,7 +252,7 @@ public class AddGroupMembersAsFriendsUtils {
                                         }
                                     }
                                     wxDicService.updateDic(tempMap);    //更新这个群信息
-                                    if("1".equals(tempMap.get("dicStatus").toString())){            //状态为1，则认为当前群成员都已经加过一遍了，发送微信消息通知群主给该设备换群
+                                    if ("1".equals(tempMap.get("dicStatus").toString())) {            //状态为1，则认为当前群成员都已经加过一遍了，发送微信消息通知群主给该设备换群
                                         String targetDeviceNameDesc = "异常设备列表";
                                         for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
                                             targetDeviceNameDesc = "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
@@ -262,9 +262,9 @@ public class AddGroupMembersAsFriendsUtils {
                                         HttpsUtil httpsUtil = new HttpsUtil();
                                         Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
                                         exceptionDevicesParamMap.put("serviceProgress_first", "自动化【添加群成员为好友的V群】");
-                                        exceptionDevicesParamMap.put("serviceProgress_keyword1", "设备【"+targetDeviceNameDesc+"】群成员添加");
+                                        exceptionDevicesParamMap.put("serviceProgress_keyword1", "设备【" + targetDeviceNameDesc + "】群成员添加");
                                         exceptionDevicesParamMap.put("serviceProgress_keyword2", "已完成，请给该设备微信更换新的群来进行添加群成员");
-                                        exceptionDevicesParamMap.put("serviceProgress_remark", "当前设备【"+targetDeviceNameDesc+"】已经将【"+nickName+"】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.");
+                                        exceptionDevicesParamMap.put("serviceProgress_remark", "当前设备【" + targetDeviceNameDesc + "】已经将【" + nickName + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.");
                                         String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/dailyServiceProgressMessageSend";
                                         String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                                         logger.info("微信消息异常发送反馈：" + resultJson);
@@ -282,7 +282,7 @@ public class AddGroupMembersAsFriendsUtils {
                         logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
                     }
                 } else {
-                    logger.info("发布朋友圈 失败.");
+                    logger.info("添加群成员为好友的V群 失败.");
                 }
             }
 
