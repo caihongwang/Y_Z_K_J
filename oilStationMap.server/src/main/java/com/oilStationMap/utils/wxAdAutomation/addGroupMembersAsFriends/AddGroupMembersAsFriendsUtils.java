@@ -256,7 +256,7 @@ public class AddGroupMembersAsFriendsUtils {
                                         String targetDeviceNameDesc = "异常设备列表";
                                         for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
                                             targetDeviceNameDesc = "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
-                                            logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
+                                            logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作......");
                                         }
                                         //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                                         HttpsUtil httpsUtil = new HttpsUtil();
