@@ -47,6 +47,14 @@ spring:
           max-wait: -6000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
       timeout: 10000
       store-type: none
+  #线程池配置参数
+  task:
+    pool:
+      corePoolSize: 100 #设置核心线程数
+      maxPoolSize: 500  #设置最大线程数
+      keepAliveSeconds: 60 #设置线程活跃时间（秒）
+      queueCapacity: 100 #设置队列容量
+      threadNamePrefix: YZKJ-AsyncThread- # 线程名称前缀
 
 mybatis:
   mapper-locations: mapper/**Mapper.xml
