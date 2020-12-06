@@ -45,8 +45,11 @@ public class WX_OilStationController {
             String newLon = paramMap.get("lon")!=null?paramMap.get("lon").toString():"109.17935";
             String newLat = paramMap.get("lat")!=null?paramMap.get("lat").toString():"28.108028";
             String newUid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"1762";
-            jedis.set(OilStationMapCode.CURRENT_LON_UID + newUid, newLon);
-            jedis.set(OilStationMapCode.CURRENT_LAT_UID + newUid, newLat);
+            String[] newUidArr = newUid.split(",");
+            for(String uidStr : newUidArr){
+                jedis.set(OilStationMapCode.CURRENT_LON_UID + uidStr, newLon);
+                jedis.set(OilStationMapCode.CURRENT_LAT_UID + uidStr, newLat);
+            }
             logger.info("用户 ----->>> uid = " + newUid + " ； 设置加油站经纬度 ----->>> newLon = " + newLon + " , newLat = " + newLat);
             resultMap.put("code", OilStationMapCode.SUCCESS.getNo());
             resultMap.put("message", OilStationMapCode.SUCCESS.getMessage());
