@@ -153,7 +153,7 @@ $(function() {
 	$("#job_list").on('click', '.userCenter',function() {
         var id = $(this).parents('ul').attr("_id");
         var row = tableData['key'+id];
-        var paramStr = "lon="+row.oilStationLon+"&lat="+row.oilStationLat+"&uid=24";
+        var paramStr = "lon="+row.oilStationLon+"&lat="+row.oilStationLat+"&uid=24,1762,3347,4567";
         $.post(
             // "http://localhost:9030/oilStationMap/wxOilStation/setLocaltionByUid",
             "https://www.yzkj.store/oilStationMap/wxOilStation/setLocaltionByUid",
