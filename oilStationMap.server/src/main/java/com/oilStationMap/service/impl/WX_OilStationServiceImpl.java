@@ -796,6 +796,8 @@ public class WX_OilStationServiceImpl implements WX_OilStationService {
                     lon = Double.parseDouble(currentLon);
                     lat = Double.parseDouble(currentLat);
                 }
+            } catch (Exception e) {
+                logger.error("redis 连接不上，获取缓存数据异常，e : ", e);
             }
 
             int num = 1;
