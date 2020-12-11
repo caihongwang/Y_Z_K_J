@@ -253,11 +253,7 @@ public class AddGroupMembersAsFriendsUtils {
                                     }
                                     wxDicService.updateDic(tempMap);    //更新这个群信息
                                     if ("1".equals(tempMap.get("dicStatus").toString())) {            //状态为1，则认为当前群成员都已经加过一遍了，发送微信消息通知群主给该设备换群
-                                        String targetDeviceNameDesc = "异常设备列表";
-                                        for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
-                                            targetDeviceNameDesc = "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
-                                            logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作......");
-                                        }
+                                        String targetDeviceNameDesc = addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString();
                                         //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                                         HttpsUtil httpsUtil = new HttpsUtil();
                                         Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
