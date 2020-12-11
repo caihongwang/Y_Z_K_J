@@ -46,6 +46,7 @@ echo "----------------------------install 【xxl-job-core】 done---------------
 
 
 echo "-------------------kill【eureka.server】 pid will sleep 20s.---------------------"
+mkdir /opt/eureka.server
 rm /opt/eureka.server/run.sh
 cp /opt/deployAllApplication/Y_Z_K_J/eureka.server/bin/run.sh /opt/eureka.server/run.sh
 sh /opt/eureka.server/run.sh stop
@@ -58,6 +59,7 @@ echo "-------------------kill【eureka.server】 pid done.----------------------
 
 
 echo "-------------------start 【eureka.server】 project  will sleep 30s.--------------"
+mkdir /opt/eureka.server
 rm -r /opt/eureka.server/logs
 rm /opt/eureka.server/eureka.server.jar
 cp /opt/deployAllApplication/Y_Z_K_J/eureka.server/target/eureka.server.jar /opt/eureka.server/eureka.server.jar
@@ -81,6 +83,7 @@ echo "--------------------------------- start【eureka.server】 done-----------
 
 
 echo "-------------------kill【admin.server】 pid will sleep 20s.---------------------"
+mkdir /opt/admin.server
 rm /opt/admin.server/run.sh
 cp /opt/deployAllApplication/Y_Z_K_J/admin.server/bin/run.sh /opt/admin.server/run.sh
 sh /opt/admin.server/run.sh stop

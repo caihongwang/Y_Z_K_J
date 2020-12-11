@@ -24,8 +24,8 @@ public class WX_BatchImportServiceImpl implements WX_BatchImportService {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_BatchImportServiceImpl.class);
 
-    @Value("${contact.filepath}")
-    private String contactPath;
+//    @Value("${contact.filepath}")
+//    private String contactPath;
 
     /**
      * 将excel通讯录转换为vcf
@@ -74,13 +74,13 @@ public class WX_BatchImportServiceImpl implements WX_BatchImportService {
                     File destFile = new File(destFilePath);
                     String destFileName = destFile.getName();
                     String[] destFileNameArr = destFileName.split("\\.");
-                    String vcfFilePath = contactPath + destFileNameArr[0] + ".vcf";
+                    String vcfFilePath = destFile.getParent() + "/" + destFileNameArr[0] + ".vcf";
                     File vcfFile = new File(vcfFilePath);
                     if (vcfFile.exists()) {           //如果存在，则创建具有时间戳的vcf
                         Date date = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDateStr = sdf.format(date);
-                        vcfFilePath = contactPath + destFileNameArr[0] + "-" + currentDateStr + ".vcf";
+                        vcfFilePath = destFile.getParent() + "/" + destFileNameArr[0] + "-" + currentDateStr + ".vcf";
                         vcfFile = new File(vcfFilePath);
                     }
                     vcfFile.createNewFile();

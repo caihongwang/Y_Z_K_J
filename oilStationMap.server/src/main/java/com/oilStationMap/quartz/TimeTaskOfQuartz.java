@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
 import java.io.BufferedReader;
@@ -238,6 +239,7 @@ public class TimeTaskOfQuartz {
         System.out.println();
         System.out.println();
     }
+
 
     /**
      * 每天4个小时检测一次，注：域名已使用花生壳域名进行解决
