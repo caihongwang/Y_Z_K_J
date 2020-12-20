@@ -18,7 +18,7 @@ public class SpiderFor58UtilTest extends MySuperTest {
     private static final Logger logger = LoggerFactory.getLogger(SpiderFor58UtilTest.class);
 
     @Test
-    public void Test() {
+    public void Test(){
 //        for(int pageNum = 1; pageNum <= 30; pageNum++){
 //            String ershoufang58Url = "https://tr.58.com/trbj/ershoufang/pn"+pageNum+"/?PGTID=0d30000c-03e6-587c-c89d-e153307aa116&ClickID=1";
 //            logger.info("ershoufang58Url = " + ershoufang58Url);
@@ -27,8 +27,12 @@ public class SpiderFor58UtilTest extends MySuperTest {
 //        }
 
 //        SpiderFor58Util.getContactFromWeb();
-        Map<String, Object> paramMap = Maps.newHashMap();
-        SendFriendCircleUtils.sendFriendCircle(paramMap);
+        try{
+            Map<String, Object> paramMap = Maps.newHashMap();
+            SendFriendCircleUtils.sendFriendCircle(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

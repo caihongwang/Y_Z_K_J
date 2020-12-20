@@ -48,7 +48,6 @@ public class AddGroupMembersAsFriendsUtils {
 //            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
 //        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
-        Date currentDate = paramMap.get("currentDate") != null ? (Date) paramMap.get("currentDate") : new Date();
         String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
         LinkedList<String> currentDateList = Lists.newLinkedList();
         try {
@@ -61,7 +60,7 @@ public class AddGroupMembersAsFriendsUtils {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
         for (String currentDateStr : currentDateList) {
-            currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
+            Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
             for (String nickName : nickNameList) {
                 List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();                //所有的设备列表

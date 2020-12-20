@@ -80,8 +80,8 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次
      * 发送朋友圈，包括 文字朋友圈、图片朋友圈、文章朋友圈、添加群成员为好友的V群
      */
-    @Scheduled(cron = "0 */1 * * * ?")
-//    @Scheduled(cron = "0 01 */1 * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 01 */1 * * ?")
     public void do_sendFriendCircle_and_shareArticleToFriendCircle_and_addGroupMembersAsFriends() {
         if (!new SimpleDateFormat("yyyy-MM-dd HH").format(currentDate).equals(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()))) {
             currentDate = new Date();
@@ -121,6 +121,9 @@ public class TimeTaskOfQuartz {
 //                        }
 //                    }
 //                    paramMap.clear();
+//                    LinkedList<String> currentDateList = Lists.newLinkedList();
+//                    currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+//                    paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
 //                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
 //                    wxSpiderService.sendFriendCircle(paramMap);
 //                } catch (Exception eee) {
@@ -156,6 +159,9 @@ public class TimeTaskOfQuartz {
 //                    }
 //                }
 //                paramMap.clear();
+//                LinkedList<String> currentDateList = Lists.newLinkedList();
+//                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+//                paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
 //                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
 //                wxSpiderService.shareArticleToFriendCircle(paramMap);
 //            }
@@ -188,37 +194,6 @@ public class TimeTaskOfQuartz {
                     }
                 }
                 paramMap.clear();
-//                List<String> currentDateList = Lists.newArrayList();
-//                currentDateList.add("2020-10-25 20");    //华为 Mate 8 _ 10
-//                currentDateList.add("2020-10-25 19");    //华为 Mate 8 _ 9
-//                currentDateList.add("2020-10-25 18");    //华为 Mate 8海外版 _ 1
-//                currentDateList.add("2020-10-25 17");    //华为 Mate 8 _ 7
-//                currentDateList.add("2020-10-25 16");    //华为 Mate 8 _ 6
-//                currentDateList.add("2020-10-25 15");    //华为 Mate 8 _ 5
-//                currentDateList.add("2020-10-25 14");    //华为 Mate 7 _ 4
-//                currentDateList.add("2020-10-25 13");    //华为 Mate 8 _ 3
-//                currentDateList.add("2020-10-25 12");    //华为 Mate 8 _ 2
-//                currentDateList.add("2020-10-25 11");    //华为 Mate 8 _ 1
-//                currentDateList.add("2020-10-25 21");    //小米 Max 3
-//                System.out.println(JSON.toJSONString(currentDateList));
-//                String currentDateListStr =
-//                        "[\n" +
-//                        "    \"2020-10-25 20\"," +
-//                        "    \"2020-10-25 19\"," +
-//                        "    \"2020-10-25 18\"," +
-//                        "    \"2020-10-25 17\"," +
-//                        "    \"2020-10-25 16\"," +
-//                        "    \"2020-10-25 15\"," +
-//                        "    \"2020-10-25 14\"," +
-//                        "    \"2020-10-25 13\"," +
-//                        "    \"2020-10-25 12\"," +
-//                        "    \"2020-10-25 11\"," +
-//                        "    \"2020-10-25 21\"" +
-//                        "]";
-//                paramMap.put("currentDateListStr", currentDateListStr);
-//                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
-//                wxSpiderService.addGroupMembersAsFriends(paramMap);
-
                 LinkedList<String> currentDateList = Lists.newLinkedList();
                 currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
                 paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));

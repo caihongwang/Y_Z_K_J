@@ -45,7 +45,11 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO sendFriendCircle(Map<String, Object> paramMap) {
-        SendFriendCircleUtils.sendFriendCircle(paramMap);
+        try {
+            SendFriendCircleUtils.sendFriendCircle(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
@@ -95,7 +99,11 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO shareArticleToFriendCircle(Map<String, Object> paramMap) {
-        ShareArticleToFriendCircleUtils.shareArticleToFriendCircle(paramMap);
+        try {
+            ShareArticleToFriendCircleUtils.shareArticleToFriendCircle(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());

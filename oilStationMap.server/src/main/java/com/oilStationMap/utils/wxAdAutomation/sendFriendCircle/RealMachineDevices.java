@@ -377,20 +377,20 @@ public class RealMachineDevices implements SendFriendCircle {
      * @param deviceName
      */
     public void quitDriver(AndroidDriver driver, String deviceNameDesc, String deviceName) {
-        try {
-            Thread.sleep(1000);
-            if (driver != null) {
-                driver.quit();
-            }
-//            //关闭 appium 相关进程
-//            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
-//            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
-//            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
-            logger.info("退出driver成功,设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
-        }
+//        try {
+//            Thread.sleep(1000);
+//            if (driver != null) {
+//                driver.quit();
+//            }
+////            //关闭 appium 相关进程
+////            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
+////            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
+////            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
+//            logger.info("退出driver成功,设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
+//        }
     }
 
     /**
@@ -401,27 +401,16 @@ public class RealMachineDevices implements SendFriendCircle {
      * @param deviceName
      */
     public void quitDriverAndReboot(AndroidDriver driver, String deviceNameDesc, String deviceName) {
-        try {
-//            Thread.sleep(1000);
-//            if (driver != null) {
-//                driver.quit();
-//            }
-            try {
-//                //关闭 appium 相关进程
-//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
-//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
-//                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
-                //重启android设备
-                Thread.sleep(2000);
-                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
-            } catch (Exception e1) {
-                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
+//        try {
+////            Thread.sleep(1000);
+////            if (driver != null) {
+////                driver.quit();
+////            }
 //            try {
+////                //关闭 appium 相关进程
+////                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.settings");
+////                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.server");
+////                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am force-stop io.appium.uiautomator2.test");
 //                //重启android设备
 //                Thread.sleep(2000);
 //                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
@@ -429,7 +418,18 @@ public class RealMachineDevices implements SendFriendCircle {
 //            } catch (Exception e1) {
 //                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
 //            }
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.info("退出driver异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的连接等原因");
+////            try {
+////                //重启android设备
+////                Thread.sleep(2000);
+////                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
+////                logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+////            } catch (Exception e1) {
+////                logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+////            }
+//        }
     }
 
     public static void main(String[] args) {
