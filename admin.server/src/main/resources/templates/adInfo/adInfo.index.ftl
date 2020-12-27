@@ -102,7 +102,10 @@
 								</div>
 								<label for="lastname" class="col-sm-2 control-label">广告图片<font color="black">*</font></label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="adImgUrl" placeholder="${I18n.system_please_input}广告图片" maxlength="10000">
+									<select class="form-control" name="adImgUrl">
+										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/freeRideCar.jpg" selected>人找车</option>
+										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/carLookingForPeople.jpg">车找人</option>
+									</select>
 								</div>
 							</div>
 
@@ -163,8 +166,12 @@
 								</div>
 								<label for="lastname" class="col-sm-2 control-label">广告图片<font color="black">*</font></label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="adImgUrl" placeholder="${I18n.system_please_input}广告图片" maxlength="10000">
+									<select class="form-control" name="adImgUrl">
+										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/freeRideCar.jpg" selected>人找车</option>
+										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/carLookingForPeople.jpg">车找人</option>
+									</select>
 								</div>
+
 							</div>
 
 							<div class="form-group">
