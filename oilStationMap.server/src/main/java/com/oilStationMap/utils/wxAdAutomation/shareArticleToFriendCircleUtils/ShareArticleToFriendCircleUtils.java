@@ -77,11 +77,7 @@ public class ShareArticleToFriendCircleUtils {
                     String theId = shareArticleToFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置
                     List<String> dicCodeList = Lists.newArrayList();
-                    dicCodeList.add("HuaWeiMate8ListAndShareArticleToFriendCircleLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
-                    dicCodeList.add("HuaWeiMate8HListAndShareArticleToFriendCircleLocaltion");//获取 华为 Mate 8 海外版 设备列表和配套的坐标配置
-                    dicCodeList.add("HuaWeiP20ProListAndShareArticleToFriendCircleLocaltion");//获取 华为 P20 Pro 设备列表和配套的坐标配置
-                    dicCodeList.add("XiaoMiMax3ListAndShareArticleToFriendCircleLocaltion");//获取 小米 Max 3 设备列表和配套的坐标配置
-//                dicCodeList.add("HuaWeiMate7ListAndShareArticleToFriendCircleLocaltion");//获取 华为 Mate 7 设备列表和配套的坐标配置
+                    dicCodeList.add("HuaWeiListAndShareArticleToFriendCircleLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
                     for (String dicCode : dicCodeList) {
                         paramMap.clear();
                         paramMap.put("dicType", "deviceNameListAndLocaltion");

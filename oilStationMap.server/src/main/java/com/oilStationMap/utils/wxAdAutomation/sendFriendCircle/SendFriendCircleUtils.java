@@ -77,11 +77,7 @@ public class SendFriendCircleUtils {
                     String theId = sendFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置wxDic
                     List<String> dicCodeList = Lists.newArrayList();
-                    dicCodeList.add("HuaWeiMate8ListAndSendFriendCircleLocaltion"); //获取 华为 Mate 8 设备列表和配套的坐标配置
-                    dicCodeList.add("HuaWeiMate8HListAndSendFriendCircleLocaltion");//获取 华为 Mate 8 海外版 设备列表和配套的坐标配置
-                    dicCodeList.add("HuaWeiP20ProListAndSendFriendCircleLocaltion");//获取 华为 P20 Pro 设备列表和配套的坐标配置
-                    dicCodeList.add("XiaoMiMax3ListAndSendFriendCircleLocaltion");  //获取 小米 Max 3 设备列表和配套的坐标配置
-                    dicCodeList.add("HuaWeiMate7ListAndSendFriendCircleLocaltion"); //获取 华为 Mate 7 设备列表和配套的坐标配置
+                    dicCodeList.add("HuaWeiListAndSendFriendCircleLocaltion"); //获取 华为 Mate 8 设备列表和配套的坐标配置
                     //1.将 图片文件 push 到安卓设备里面
                     String action =
                             sendFriendCircleParam.get("action") != null ?
