@@ -4,7 +4,7 @@ my:
 eureka:
   client:
     serviceUrl:
-#      defaultZone: http://112.74.177.170:9010/eureka/
+#      defaultZone: http://139.224.56.97:9010/eureka/
       defaultZone: http://www.yzkj.store:9010/eureka/
 
 server:
@@ -20,7 +20,7 @@ spring:
     name: oilStationMap
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-#    url: jdbc:mysql://112.74.177.170:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+#    url: jdbc:mysql://139.224.56.97:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     url: jdbc:mysql://www.yzkj.store:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: caihongwang
     password: hejinrong@520
@@ -38,7 +38,7 @@ spring:
     time-zone: GMT+8
   redis:
       database: 1
-#      host: 112.74.177.170
+#      host: 139.224.56.97
       host: www.yzkj.store
       port: 6379
       password:
@@ -71,11 +71,11 @@ xxl:
   job:
     accessToken:
     admin:
-      address: http://112.74.177.170:9020/admin
-#      address: http://www.yzkj.store:9020/admin
+      address: http://139.224.56.97:9020/myAdmin
+#      address: http://www.yzkj.store:9020/myAdmin
     executor:
       appname: oil-station-map-server
-      ip: 112.74.177.170
+      ip: 139.224.56.97
       port: 9999
       logpath: /opt/oilStationMap.server/logs
       logretentiondays: 30
