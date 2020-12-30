@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 真机设备 根据微信昵称进行聊天 策略
+ * 真机设备 分享微信文章到微信朋友圈 策略
  * 默认 华为 Mate 8
  */
 public class RealMachineDevices implements ShareArticleToFriendCircle {
@@ -38,12 +38,12 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "5LM0216122009385";
+                        "S2D0219423001056";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 Mate 8 _ 6";
+                        "华为 Mate 20 Pro";
         //操作
         String action =
                 paramMap.get("action") != null ?
@@ -59,12 +59,12 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 paramMap.get("shareArticleUrl") != null ?
                         paramMap.get("shareArticleUrl").toString() :
                         "https://mp.weixin.qq.com/s/gvF-7-uZcFc5MYbMQMtZSw";
-        //坐标:搜索框
+        //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
                         paramMap.get("searchLocaltion").toString() :
-                        "com.tencent.mm:id/r_";
-        //坐标:搜索输入框
+                        "搜索";
+        //点击坐标【搜索输入框：搜索】
         String searchInputLocaltion =
                 paramMap.get("searchInputLocaltion") != null ?
                         paramMap.get("searchInputLocaltion").toString() :
@@ -73,7 +73,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         String chatInputLocation =
                 paramMap.get("chatInputLocation") != null ?
                         paramMap.get("chatInputLocation").toString() :
-                        "com.tencent.mm:id/aqe";
+                        "android.widget.EditText";
         //坐标:发送
         String sendBtnLocaltion =
                 paramMap.get("sendBtnLocaltion") != null ?
@@ -157,11 +157,11 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             } catch (Exception e) {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 sw.split();
-                if(i == 18){
+                if (i == 18) {
                     throw new Exception("点击坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
                 } else {
                     sw.split();
-                    logger.info("第【"+i+"】次点击坐标【搜索框】失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
+                    logger.info("第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
                     continue;
                 }
             }
@@ -170,20 +170,30 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(targetGroup);
             sw.split();
-            logger.info("点击坐标【输入昵称到搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("点击坐标【输入昵称到搜索框:text/搜索】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
         } catch (Exception e) {
             sw.split();
-            e.printStackTrace();
-            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-            throw new Exception("长按坐标【输入昵称到搜索框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+            logger.info("点击坐标【输入昵称到搜索框:text/搜索】失败，总共花费 " + sw.toSplitString() + " 秒....");
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(targetGroup);
+                sw.split();
+                logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功，总共花费 " + sw.toSplitString() + " 秒....");
+            } catch (Exception e1) {
+                sw.split();
+                logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                sw.split();
+                throw new Exception("点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，总共花费 " + sw.toSplitString() + " 秒....");
+            }
         }
         //4.点击坐标【昵称对应的微信好友群】
         try {
-            List<WebElement> targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + targetGroup + "\")");
+            List<WebElement> targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + targetGroup + "\")");
             for (WebElement targetGroupElement : targetGroupElementList) {
                 if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
                     targetGroupElement.click();
+                    break;
                 }
             }
             sw.split();
@@ -197,7 +207,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         }
         //5.点击坐标【聊天内容输入框】
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\"" + chatInputLocation + "\")").sendKeys(shareArticleUrl);
+            driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(shareArticleUrl);
             sw.split();
             logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);
@@ -242,21 +252,21 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             SwipeUtil.SwipeDown(driver);
             sw.split();
             logger.info("向上滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            int max = 2000;
+            int max = 1500;
             int min = 1000;
             int sleppTime = (int)(min + Math.random() * (max - min + 1));
             Thread.sleep(sleppTime);
         }
-        //9.向上滑动微信文章
-        for(int i = 0; i < 3; i++){
-            SwipeUtil.SwipeUp(driver);
-            sw.split();
-            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            int max = 2000;
-            int min = 1000;
-            int sleppTime = (int)(min + Math.random() * (max - min + 1));
-            Thread.sleep(sleppTime);
-        }
+//        //9.向上滑动微信文章
+//        for(int i = 0; i < 3; i++){
+//            SwipeUtil.SwipeUp(driver);
+//            sw.split();
+//            logger.info("向下滑动【微信文章】成功，总共花费 " + sw.toSplitString() + " 秒....");
+//            int max = 1500;
+//            int min = 1000;
+//            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+//            Thread.sleep(sleppTime);
+//        }
         //9.点击坐标【右上角的横三点】
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + rightThreePointLocaltion + "\")").click();
