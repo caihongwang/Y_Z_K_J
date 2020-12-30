@@ -156,28 +156,26 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             sw.split();
             throw new Exception("配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //2.点击坐标【搜索】
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
-            sw.split();
-            logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-        } catch (Exception e) {
-//            try {
-////                driver.findElementByAccessibilityId("content-desc的值").click();
-//                driver.findElementByAccessibilityId(searchLocaltionStr).click();;
-////                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
-//                sw.split();
-//                logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
-//                Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-//            } catch (Exception e1) {
-//                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-//                sw.split();
-//                throw new Exception("长按坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
-//            }
-            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-            sw.split();
-            throw new Exception("长按坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+
+        //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
+        for (int i = 1; i <= 18; i++) {     //每间隔5秒点击一次，持续90秒
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
+                sw.split();
+                logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+                break;
+            } catch (Exception e) {
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                sw.split();
+                if(i == 18){
+                    throw new Exception("长按坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+                } else {
+                    sw.split();
+                    logger.info("第【"+i+"】次点击坐标【搜索框】失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
+                    continue;
+                }
+            }
         }
 
         //3.点击坐标【搜索输入框】
