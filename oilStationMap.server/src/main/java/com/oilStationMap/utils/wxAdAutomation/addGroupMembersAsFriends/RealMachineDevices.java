@@ -653,7 +653,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 //            StopWatch sw = new StopWatch();
 //            sw.start();
 //            Map<String, Object> paramMap = Maps.newHashMap();
-//            paramMap.put("nickName", "内部交流群");
+//            paramMap.put("nickName", "油站科技-内部交流群");
 //            paramMap.put("nickName", "铜仁推广商务群");
 //            paramMap.put("nickName", "求职信息发布群");
 //            paramMap.put("nickName", "铜仁市本地生活便利群_1");

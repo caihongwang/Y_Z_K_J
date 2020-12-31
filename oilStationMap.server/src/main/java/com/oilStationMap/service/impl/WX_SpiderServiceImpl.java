@@ -92,7 +92,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
     }
 
     /**
-     * 前置条件：将微信文章群发到【内部交流群】里面
+     * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
      * 启动appium,分享微信文章到微信朋友圈
      * @param paramMap
      * @return
@@ -112,7 +112,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
     }
 
     /**
-     * 前置条件：将微信文章群发到【内部交流群】里面
+     * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
      * 启动appium,点击微信文章中的广告
      * @param paramMap
      * @return

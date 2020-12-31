@@ -1,18 +1,22 @@
 package com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.appiumUtil.SwipeUtil;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.lang.time.StopWatch;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +29,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
     public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
     /**
-     * 前置条件：将微信文章群发到【内部交流群】里面
+     * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
      * 分享微信文章到微信朋友圈
      *
      * @param paramMap
@@ -38,11 +42,13 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
+//                        "9f4eda95";
                         "S2D0219423001056";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
+//                        "小米 Max 3";
                         "华为 Mate 20 Pro";
         //操作
         String action =
@@ -53,7 +59,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         String targetGroup =
                 paramMap.get("targetGroup") != null ?
                         paramMap.get("targetGroup").toString() :
-                        "内部交流群";
+                        "油站科技-内部交流群";
         //微信分享文章URL
         String shareArticleUrl =
                 paramMap.get("shareArticleUrl") != null ?
@@ -80,16 +86,20 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                         paramMap.get("sendBtnLocaltion").toString() :
                         "发送";
         //坐标:点击微信文章链接
-        String shareArticleUrlLocaltionStr =
+//        String shareArticleUrlLocaltionStr =
+//                paramMap.get("shareArticleUrlLocaltion") != null ?
+//                        paramMap.get("shareArticleUrlLocaltion").toString() :
+//                        "{\n" +
+//                        "            \"shareArticleUrlLocaltion_x1\":320,\n" +
+//                        "            \"shareArticleUrlLocaltion_y1,\":1500,\n" +
+//                        "            \"shareArticleUrlLocaltion_x2,\":800,\n" +
+//                        "            \"shareArticleUrlLocaltion_y2\":1585\n" +
+//                        "        }";
+//        Map<String, Integer> shareArticleUrlLocaltion = JSONObject.parseObject(shareArticleUrlLocaltionStr, Map.class);
+        String shareArticleUrlLocaltion =
                 paramMap.get("shareArticleUrlLocaltion") != null ?
                         paramMap.get("shareArticleUrlLocaltion").toString() :
-                        "{\n" +
-                                "        \"shareArticleUrlLocaltion_x1\":192,\n" +
-                                "        \"shareArticleUrlLocaltion_y1\":1499,\n" +
-                                "        \"shareArticleUrlLocaltion_x2\":642,\n" +
-                                "        \"shareArticleUrlLocaltion_y2\":1587\n" +
-                                "    }";
-        Map<String, Integer> shareArticleUrlLocaltion = JSONObject.parseObject(shareArticleUrlLocaltionStr, Map.class);
+                        "android.view.View";
         //坐标:右上角的横三点
         String rightThreePointLocaltion =
                 paramMap.get("rightThreePointLocaltion") != null ?
@@ -205,48 +215,133 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("长按坐标【昵称对应的微信好友群】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //5.点击坐标【聊天内容输入框】
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(shareArticleUrl);
-            sw.split();
-            logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
-            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-            throw new Exception("长按坐标【聊天输入框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
-        }
-        //6.点击坐标【发送】
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
-            sw.split();
-            logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
-            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-            throw new Exception("点击坐标[发送]出现异常,请检查设备描述[" + deviceNameDesc + "]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+        for (int i = 0; i <= 10; i++) {     //发送 文章链接 发送十次，避免 点击坐标【点击微信文章链接】错乱，防止别人发的消息，获取到最左边的消息导致左边计算失败
+
+            //5.点击坐标【聊天内容输入框】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(shareArticleUrl);
+                sw.split();
+                logger.info("点击坐标【聊天输入框】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                sw.split();
+                e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                throw new Exception("长按坐标【聊天输入框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+            }
+            //6.点击坐标【发送】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
+                sw.split();
+                logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                sw.split();
+                e.printStackTrace();
+                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                throw new Exception("点击坐标[发送]出现异常,请检查设备描述[" + deviceNameDesc + "]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+            }
         }
         //7.点击坐标【点击微信文章链接】
-        try {
-            Integer shareArticleUrlLocaltion_x1 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x1")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x1"):192;
-            Integer shareArticleUrlLocaltion_y1 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y1")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y1"):1499;
-            Integer shareArticleUrlLocaltion_x2 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x2")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x2"):642;
-            Integer shareArticleUrlLocaltion_y2 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y2")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y2"):1587;
-            Integer shareArticleUrlLocaltion_x = (int)(Math.random()*(shareArticleUrlLocaltion_x2 - shareArticleUrlLocaltion_x1) + shareArticleUrlLocaltion_x1);
-            Integer shareArticleUrlLocaltion_y = (int)(Math.random()*(shareArticleUrlLocaltion_y2 - shareArticleUrlLocaltion_y1) + shareArticleUrlLocaltion_y1);
-            new TouchAction(driver).tap(shareArticleUrlLocaltion_x, shareArticleUrlLocaltion_y).release().perform();
-            sw.split();
-            logger.info("点击坐标【点击微信文章链接】,x = " + shareArticleUrlLocaltion_x + " , y = " + shareArticleUrlLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(15000);
-        } catch (Exception e) {
-            sw.split();
-            e.printStackTrace();
-            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-            throw new Exception("长按坐标【点击微信文章链接】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+        boolean breakFlag = false;
+        for (int num = 1; num <= 18; num++) {     //每间隔5秒点击一次，持续90秒
+            try {
+                //viewWebElementList是成双成对出现的，分别是聊天内容view和头像昵称view
+                List<WebElement> viewWebElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + shareArticleUrlLocaltion + "\")");
+                System.out.println("第【" + num + "】次 首次获取 android.view.View 成功...");
+                if (viewWebElementList != null && viewWebElementList.size() > 0) {
+                    List<Integer> x_list_1 = Lists.newArrayList();
+                    List<Integer> y_list_1 = Lists.newArrayList();
+                    for (int i = 0; i < viewWebElementList.size(); i++) {
+                        WebElement viewWebElement = viewWebElementList.get(i);
+                        try {
+                            Point point = viewWebElement.getLocation();
+                            x_list_1.add(point.getX());
+                            y_list_1.add(point.getY());
+                        } catch (Exception e) {
+                            System.out.println("第【" + num + "】次 首次获取 聊天记录坐标 失败，继续下一个坐标...");
+                        }
+                    }
+                    try {
+                        System.out.println("第【" + num + "】次 首次整理 min_x = " + Collections.min(x_list_1) + ", max_y = " + Collections.max(y_list_1));
+                        viewWebElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + shareArticleUrlLocaltion + "\")");
+                        System.out.println("第【" + num + "】次 二次获取 android.view.View 成功...");
+                        List<Integer> x_list_2 = Lists.newArrayList();
+                        List<Integer> y_list_2 = Lists.newArrayList();
+                        for (WebElement viewWebElement : viewWebElementList) {
+                            try {
+                                Point point = viewWebElement.getLocation();
+                                x_list_2.add(point.getX());
+                                y_list_2.add(point.getY());
+                                if (Collections.min(x_list_1) == point.getX() && Collections.max(y_list_1) == point.getY()) {
+                                    for (int i = 0; i <= 50; i++) {
+                                        try {
+                                            new TouchAction(driver).tap(point.getX() + i, point.getY() + i).release().perform();
+                                            Thread.sleep(200);
+                                            System.out.println("TouchAction点击微信文章链接 第【" + i + "】次 成功...");
+                                        } catch (Exception e) {
+                                            System.out.println("TouchAction点击微信文章链接 第【" + i + "】次 失败...");
+                                        }
+                                        try {
+                                            viewWebElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + shareArticleUrlLocaltion + "\")");
+                                            if (viewWebElementList != null && viewWebElementList.size() > 0) {
+                                                System.out.println("微信文章链接 第【" + i + "】次 尚未跳转...");
+                                            } else {
+                                                System.out.println("微信文章链接 第【" + i + "】次 跳转成功...");         //大概在第33次成功
+                                                breakFlag = true;
+                                            }
+                                        } catch (Exception e) {
+                                            System.out.println("微信文章链接 第【" + i + "】次 跳转成功...");             //大概在第33次成功
+                                            breakFlag = true;
+                                        } finally {
+                                            if (breakFlag) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) {
+                                System.out.println("第【" + num + "】次 二次获取 聊天记录坐标 失败，继续下一个坐标...");
+                            } finally {
+                                if (breakFlag) {
+                                    break;
+                                } else {
+                                    System.out.println("第【" + num + "】次 二次整理 min_x = " + Collections.min(x_list_2) + ", max_y = " + Collections.max(y_list_2));
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("第【" + num + "】次 二次获取 android.view.View 失败...");
+                        e.printStackTrace();
+                    } finally {
+                        if (breakFlag) {
+                            break;
+                        }
+                    }
+                    System.out.println("--------------------------------------------------");
+                }
+            } catch (Exception e) {
+                System.out.println("第【" + num + "】次 首次获取 android.view.View 失败...");
+                e.printStackTrace();
+            }
         }
+//        try {
+//            Integer shareArticleUrlLocaltion_x1 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x1")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x1"):192;
+//            Integer shareArticleUrlLocaltion_y1 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y1")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y1"):1499;
+//            Integer shareArticleUrlLocaltion_x2 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x2")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x2"):642;
+//            Integer shareArticleUrlLocaltion_y2 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y2")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y2"):1587;
+//            Integer shareArticleUrlLocaltion_x = (int)(Math.random()*(shareArticleUrlLocaltion_x2 - shareArticleUrlLocaltion_x1) + shareArticleUrlLocaltion_x1);
+//            Integer shareArticleUrlLocaltion_y = (int)(Math.random()*(shareArticleUrlLocaltion_y2 - shareArticleUrlLocaltion_y1) + shareArticleUrlLocaltion_y1);
+//            new TouchAction(driver).tap(shareArticleUrlLocaltion_x, shareArticleUrlLocaltion_y).release().perform();
+//            sw.split();
+//            logger.info("点击坐标【点击微信文章链接】,x = " + shareArticleUrlLocaltion_x + " , y = " + shareArticleUrlLocaltion_y + "成功，总共花费 " + sw.toSplitString() + " 秒....");
+//            Thread.sleep(15000);
+//        } catch (Exception e) {
+//            sw.split();
+//            e.printStackTrace();
+//            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+//            throw new Exception("长按坐标【点击微信文章链接】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+//        }
         //8.向上滑动微信文章
         for(int i = 0; i < 3; i++){
             SwipeUtil.SwipeDown(driver);
@@ -269,7 +364,8 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
 //        }
         //9.点击坐标【右上角的横三点】
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + rightThreePointLocaltion + "\")").click();
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + rightThreePointLocaltion + "\")").click();
+//            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + rightThreePointLocaltion + "\")").click();
             sw.split();
             logger.info("点击坐标【右上角的横三点】成功，总共花费 " + sw.toSplitString() + " 秒....");
             Thread.sleep(1000);

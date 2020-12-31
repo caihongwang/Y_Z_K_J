@@ -33,7 +33,7 @@ public class ShareArticleToFriendCircleUtils {
     public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
 
     /**
-     * 前置条件：将微信文章群发到【内部交流群】里面
+     * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
      * 分享微信文章到微信朋友圈
      *
      * @param paramMap
