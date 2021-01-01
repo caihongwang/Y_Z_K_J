@@ -156,45 +156,48 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
             throw new Exception("配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因，总共花费 " + sw.toSplitString() + " 秒....");
         }
-        //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
         for (int i = 1; i <= 18; i++) {     //每间隔5秒点击一次，持续90秒
+            //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
                 sw.split();
                 logger.info("点击坐标【搜索框】成功，总共花费 " + sw.toSplitString() + " 秒....");
                 Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                break;
             } catch (Exception e) {
                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                 sw.split();
-                if (i == 18) {
-                    throw new Exception("点击坐标【搜索】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
-                } else {
-                    sw.split();
-                    logger.info("第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
-                    continue;
-                }
+                logger.info("点击坐标【搜索框】失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
+                continue;
             }
-        }
-        //3.点击坐标【搜索输入框】
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(targetGroup);
-            sw.split();
-            logger.info("点击坐标【输入昵称到搜索框:text/搜索】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            sw.split();
-            logger.info("点击坐标【输入昵称到搜索框:text/搜索】失败，总共花费 " + sw.toSplitString() + " 秒....");
+            //3.点击坐标【搜索输入框】
             try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(targetGroup);
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(targetGroup);
                 sw.split();
-                logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功，总共花费 " + sw.toSplitString() + " 秒....");
-            } catch (Exception e1) {
+                logger.info("点击坐标【输入昵称到搜索框:text/搜索】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                Thread.sleep(1000);
+                break;
+            } catch (Exception e) {
                 sw.split();
-                logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败，总共花费 " + sw.toSplitString() + " 秒....");
-                this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-                sw.split();
-                throw new Exception("点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，总共花费 " + sw.toSplitString() + " 秒....");
+                logger.info("点击坐标【输入昵称到搜索框:text/搜索】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(targetGroup);
+                    sw.split();
+                    logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    Thread.sleep(1000);
+                    break;
+                } catch (Exception e1) {
+                    sw.split();
+                    logger.info("点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败，总共花费 " + sw.toSplitString() + " 秒....");
+                    this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
+                    sw.split();
+                    if (i == 18) {
+                        throw new Exception("点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
+                    } else {
+                        sw.split();
+                        logger.info("第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
+                        continue;
+                    }
+                }
             }
         }
         //4.点击坐标【昵称对应的微信好友群】
