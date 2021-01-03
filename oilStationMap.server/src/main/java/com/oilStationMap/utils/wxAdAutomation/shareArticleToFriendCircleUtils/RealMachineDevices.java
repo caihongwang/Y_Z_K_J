@@ -43,13 +43,15 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
 //                        "9f4eda95";
-                        "S2D0219423001056";
+//                        "S2D0219423001056";
+                        "Q8U0215511002364";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
 //                        "小米 Max 3";
-                        "华为 Mate 20 Pro";
+//                        "华为 Mate 20 Pro";
+                        "华为 Mate 7 _ 4";
         //操作
         String action =
                 paramMap.get("action") != null ?
@@ -141,7 +143,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             desiredCapabilities.setCapability("newCommandTimeout", 20);                                 //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
-            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 10000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
+            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 20000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
