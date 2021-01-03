@@ -332,6 +332,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     logger.info("第【" + cyclesNumber + "】次，scroll上滑中,查看更过群成员，直到groupMembersMap的大小达到" + groupTotalNum + "，当前groupMembersMap的大小为：" + groupMembersMap.size() + "...");
                                     driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
                                 } catch (Exception e) {
+                                    sw.split();
                                     logger.info("scroll上滑中,查看更过群成员，总共花费 " + sw.toSplitString() + " 秒....");
                                 }
                                 cyclesNumber++;
@@ -391,13 +392,16 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         logger.info("检测坐标【android.widget.TextView】成功，获取昵称对应的群成员列表信息，共【" + linearWebElementList.size() + "】个，总共花费 " + sw.toSplitString() + " 秒....");
                                         Thread.sleep(1000);
                                     } else {
+                                        sw.split();
                                         logger.info("检测坐标【android.widget.TextView】成功，获取昵称对应的群成员列表信息，共【" + linearWebElementList.size() + "】个，总共花费 " + sw.toSplitString() + " 秒....");
                                     }
                                 } catch (Exception e) {
+                                    sw.split();
                                     logger.info("检测坐标【android.widget.TextView】失败，获取昵称对应的群成员列表信息，总共花费 " + sw.toSplitString() + " 秒....");
                                 }
                             }
                         } catch (Exception e) {
+                            sw.split();
                             logger.info("检测坐标【android.widget.GridView】失败，获取昵称对应的群成员列表信息，总共花费 " + sw.toSplitString() + " 秒....");
                         }
 //                        WebElement gridWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.GridView\")");
@@ -408,13 +412,16 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     //11.点击【单个群成员】
                                     String groupMemberNickName_Temp = webElement.getAttribute("text");
                                     if (!groupMemberNickName_Temp.equals(groupMemberNickName)) {      //防止一个短昵称对应多个群成员
-                                        logger.info("未发现昵称对应的群成员【" + groupMemberNickName + "】，当前昵称【" + groupMemberNickName_Temp + "】...");
+                                        sw.split();
+                                        logger.info("未发现昵称对应的群成员【" + groupMemberNickName + "】，当前昵称【" + groupMemberNickName_Temp + "】，总共花费 " + sw.toSplitString() + " 秒....");
                                         continue;
                                     } else {
-                                        logger.info("找到昵称对应的群成员【" + groupMemberNickName + "】准备添加为好友...");
+                                        sw.split();
+                                        logger.info("找到昵称对应的群成员【" + groupMemberNickName + "】准备添加为好友，总共花费 " + sw.toSplitString() + " 秒....");
                                     }
                                     webElement.click();
-                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友...");
+                                    sw.split();
+                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友，总共花费 " + sw.toSplitString() + " 秒....");
                                     Thread.sleep(4000);
                                     //12.检测坐标【发消息】
                                     try {
@@ -428,7 +435,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                             continue;
                                         }
                                     } catch (Exception e) {
-                                        logger.info("检测坐标【发消息】时异常，可能是没有找到【发消息】按钮...");
+                                        sw.split();
+                                        logger.info("检测坐标【发消息】时异常，可能是没有找到【发消息】按钮，总共花费 " + sw.toSplitString() + " 秒....");
                                     }
                                     //13.点击坐标【添加到通讯录】
                                     try {
@@ -436,12 +444,13 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         aadToContactBook_Element.click();
                                         sw.split();
                                         logger.info("点击坐标【添加到通讯录】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                                        Thread.sleep(4000);
+                                        Thread.sleep(6000);
                                     } catch (Exception e) {
-                                        logger.info("点击坐标【添加到通讯录】时异常，可能是没有找到【添加到通讯录】按钮...");
+                                        sw.split();
+                                        logger.info("点击坐标【添加到通讯录】时异常，可能是没有找到【添加到通讯录】按钮，总共花费 " + sw.toSplitString() + " 秒....");
                                     }
 
-                                    //13.1检测坐标【发消息】,点击坐标【添加到通讯录】直接被添加为好友，则检测坐标【发消息】
+                                    //13.1检测坐标【发消息】,点击坐标【添加到通讯录】直接被添加为好友，则检测坐标【发消息】         @TODO 可进行循环检测
                                     try {
                                         WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                                         if (sendMessageBtn_Element != null) {
@@ -454,7 +463,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                             continue;
                                         }
                                     } catch (Exception e) {
-                                        logger.info("点击坐标【添加到通讯录】后，点击坐标【添加到通讯录】后检测坐标【发消息】时异常，当前用户没有在点击坐标【添加到通讯录】直接添加为好友...");
+                                        sw.split();
+                                        logger.info("点击坐标【添加到通讯录】后，点击坐标【添加到通讯录】后检测坐标【发消息】时异常，当前用户没有在点击坐标【添加到通讯录】直接添加为好友，总共花费 " + sw.toSplitString() + " 秒....，e ：", e);
                                     }
 
                                     //13.2.显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录。】，注：如果这个坐标找不到则使用【确定】这个坐标 privacyContentLocaltion
@@ -484,7 +494,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                                 continue;
                                             }
                                         } catch (Exception e1) {
-                                            logger.info("点击坐标【添加到通讯录】后，【未】显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，可能是没有找到【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】");
+                                            sw.split();
+                                            logger.info("点击坐标【添加到通讯录】后，【未】显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，可能是没有找到【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】，总共花费 " + sw.toSplitString() + " 秒....，e ：", e);
                                         }
                                     }
 
@@ -492,7 +503,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     try {
                                         WebElement sendBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")");
                                         sendBtn_Element.click();
-                                        logger.info("点击坐标【发送】成功....");
+                                        sw.split();
+                                        logger.info("点击坐标【发送】成功，总共花费 " + sw.toSplitString() + " 秒....");
                                         Thread.sleep(5000);
                                     } catch (Exception e) {
                                         sw.split();
@@ -507,7 +519,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         sw.split();
                                         logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，当前请求好友【" + groupMemberNickName + "】通知发送成功，总共花费 " + sw.toSplitString() + " 秒....");
                                     } catch (Exception e) {
-                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【" + groupMemberNickName + "】在发送阶段才显示【对方账号异常，无法添加朋友。】...");
+                                        sw.split();
+                                        logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【" + groupMemberNickName + "】在发送阶段才显示【对方账号异常，无法添加朋友。】，总共花费 " + sw.toSplitString() + " 秒....，e ：", e);
                                         groupMember.put("isAddFlag", "true");
                                         driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
                                         logger.info("返回【群成员简介】成功....");
@@ -515,9 +528,10 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     }
                                     Thread.sleep(1000);
                                     driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
-                                    logger.info("返回【群成员界面】成功....");
+                                    sw.split();
+                                    logger.info("返回【群成员界面】成功，总共花费 " + " 秒....");
                                 } catch (Exception e) {         //@TODO 根据弹窗，进行跳转...
-                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友时异常，有可能一个昵称对应多个群成员，在循环遍历过程中WebElement超时了，无法定位点击...");
+                                    logger.info("点击群成员【" + groupMemberNickName + "】准备添加为好友时异常，有可能一个昵称对应多个群成员，在循环遍历过程中WebElement超时了，无法定位点击，总共花费 " + sw.toSplitString() + " 秒....，e ：", e);
                                 }
                                 break;
                             }
@@ -530,7 +544,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             logger.info("未发现群成员用户【" + groupMemberNickName + "】，直接下一个，总共花费 " + sw.toSplitString() + " 秒....");
                         }
                     } catch (Exception e) {
-                        logger.info("在搜索框输入【" + groupMemberNickName + "】查找群成员时异常，e ：", e);
+                        sw.split();
+                        logger.info("在搜索框输入【" + groupMemberNickName + "】查找群成员时异常，总共花费 " + sw.toSplitString() + " 秒....，e ：", e);
                     } finally {
                         try {
                             Thread.sleep(2000);
@@ -552,9 +567,11 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                 }
                             }
                         } catch (Exception e) {
-                            logger.info("在搜索框输入【" + groupMemberNickName + "】清空时，准备进入下一个群成员时异常，e ：", e);
+                            sw.split();
+                            logger.info("在搜索框输入【" + groupMemberNickName + "】清空时，准备进入下一个群成员时异常，" + sw.toSplitString() + " 秒....，总共花费 e ：", e);
                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
-                            logger.info("返回【群成员界面】成功....");
+                            sw.split();
+                            logger.info("返回【群成员界面】成功，总共花费 " + sw.toSplitString() + " 秒....");
                             try {
                                 Thread.sleep(1000);
                                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + checkAllGroupMembers + "\")").click();
@@ -565,7 +582,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                             } catch (Exception e1) {
                                 this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
                                 sw.split();
-                                logger.info("当前为群成员界面，正在往上滑动，寻找坐标【查看全部群成员】");
+                                logger.info("当前为群成员界面，正在往上滑动，寻找坐标【查看全部群成员】，总共花费 " + sw.toSplitString() + " 秒....");
                             }
                         }
                         if (addFriendNum > addFrirndTotalNum) {
@@ -576,6 +593,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             }
             System.out.println(JSON.toJSON(groupMembersMap));
         } else {
+            sw.split();
             logger.info("群成员未超过40人，则不添加当前群的成员为好友，总共花费 " + sw.toSplitString() + " 秒....");
         }
         paramMap.put("groupMembersMapStr", JSON.toJSONString(groupMembersMap));
