@@ -170,6 +170,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                 if (i == 30) {
                     throw new Exception("点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
                 } else {
+                    Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
                     sw.split();
                     logger.info("第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
                     continue;
@@ -199,6 +200,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                     if (i == 30) {
                         throw new Exception("点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因，总共花费 " + sw.toSplitString() + " 秒....");
                     } else {
+                        Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
                         sw.split();
                         logger.info("第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引，总共花费 " + sw.toSplitString() + " 秒....");
                         continue;
@@ -435,6 +437,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                             logger.info("检测坐标【发消息】成功，您与【" + groupMemberNickName + "】已是好友，则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                             Thread.sleep(1000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                            Thread.sleep(4000);
                                             groupMember.put("isAddFlag", "true");
                                             continue;
                                         }
@@ -462,6 +465,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                             logger.info("点击坐标【添加到通讯录】后，检测坐标【发消息】成功，在点击坐标【添加到通讯录】直接被对方【" + groupMemberNickName + "】通过为好友（即通知发送成功），则直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                             Thread.sleep(1000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                            Thread.sleep(4000);
                                             groupMember.put("isAddFlag", "true");
                                             addFriendNum++;
                                             continue;
@@ -479,8 +483,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                             logger.info("点击坐标【添加到通讯录】后，显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】成功，直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                             Thread.sleep(1000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【弹窗】
-                                            Thread.sleep(1000);
+                                            Thread.sleep(4000);
                                             driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                            Thread.sleep(4000);
                                             groupMember.put("isAddFlag", "true");
                                             continue;
                                         }
@@ -492,8 +497,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                                 logger.info("点击坐标【添加到通讯录】后，显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】成功，直接下一个群成员坐标，总共花费 " + sw.toSplitString() + " 秒....");
                                                 Thread.sleep(1000);
                                                 driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【弹窗】
-                                                Thread.sleep(1000);
+                                                Thread.sleep(4000);
                                                 driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                                Thread.sleep(4000);
                                                 groupMember.put("isAddFlag", "true");
                                                 continue;
                                             }
@@ -527,11 +533,12 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【" + groupMemberNickName + "】在发送阶段才显示【对方账号异常，无法添加朋友。】，总共花费 " + sw.toSplitString() + " 秒....");
                                         groupMember.put("isAddFlag", "true");
                                         driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                        Thread.sleep(4000);
                                         logger.info("返回【群成员简介】成功....");
-                                        Thread.sleep(1000);
                                     }
                                     Thread.sleep(1000);
                                     driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【群成员界面】
+                                    Thread.sleep(4000);
                                     sw.split();
                                     logger.info("返回【群成员界面】成功，总共花费 " + " 秒....");
                                 } catch (Exception e) {
