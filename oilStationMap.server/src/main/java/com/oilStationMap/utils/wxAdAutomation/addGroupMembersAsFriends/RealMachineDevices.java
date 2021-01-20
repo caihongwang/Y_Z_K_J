@@ -3,11 +3,9 @@ package com.oilStationMap.utils.wxAdAutomation.addGroupMembersAsFriends;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.EmojiUtil;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
-import org.apache.avro.data.Json;
 import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -349,8 +347,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                     }
                 }
                 for (String key : groupMembersMap.keySet()) {
-                    System.out.println(key + " ---->>> " + groupMembersMap.get(key).get("groupMemberIndex") + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
-                    System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.println(groupMembersMap.get(key).get("groupMemberIndex") + key + " ---->>> " + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
                 }
                 sw.split();
                 logger.info("点击坐标【上滑同时检测坐标查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");

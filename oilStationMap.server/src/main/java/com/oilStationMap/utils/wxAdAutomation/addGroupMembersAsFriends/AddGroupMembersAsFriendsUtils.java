@@ -37,6 +37,7 @@ public class AddGroupMembersAsFriendsUtils {
      * 根据微信群昵称添加群成员为好友工具for所有设备
      */
     public static void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception {
+        boolean currentDeviceFlag = false;
         StopWatch sw = new StopWatch();
         sw.start();
 //        try{
@@ -118,6 +119,7 @@ public class AddGroupMembersAsFriendsUtils {
                                                         "";
                                         String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                         if (startHour.equals(currentHour)) {
+                                            currentDeviceFlag = true;
                                             //开始添加群成员为好友的V群
                                             sw.split();
                                             logger.info("设备描述【" + addGroupMembersAsFriendsParam.get("deviceNameDesc") + "】设备编码【" + addGroupMembersAsFriendsParam.get("deviceName") + "】操作【" + addGroupMembersAsFriendsParam.get("action") + "】昵称【" + nickName + "】的添加群成员为好友的V群即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
@@ -269,24 +271,29 @@ public class AddGroupMembersAsFriendsUtils {
                                 logger.error("【更新这个群的信息】时异常，e : ", e);
                             }
                         }
-                        sw.split();
-                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
-                        logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+
+                        if(currentDeviceFlag){
+                            sw.split();
+                            logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                            logger.info("【添加群成员为好友的V群】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");
+                        }
                     }
                 } else {
                     logger.info("添加群成员为好友的V群 失败.");
                 }
             }
 
-            sw.split();
-            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            if(currentDeviceFlag){
+                sw.split();
+                logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+                logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+                logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+                logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+                logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
+            }
         }
     }
 }
