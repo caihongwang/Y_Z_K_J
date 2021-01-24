@@ -223,6 +223,12 @@ public class SendFriendCircleUtils {
                         logger.info("第【" + index + "】次批量重新执行【" + nickName + "】失败的设备，剩余： " + rebootDeviceNameList.size() + "....");
                         Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
                         while (iterator.hasNext()) {
+
+                            if (action.equals("imgMessageFriendCircle")) {
+                                //重操作的时候，再次对图片进行操作
+                                pushImgFileToDevice(rebootDeviceNameList, sendFriendCircleParam);
+                            }
+
                             Map<String, Object> deviceNameMap = iterator.next();
                             try {
                                 sw.split();
@@ -383,14 +389,26 @@ public class SendFriendCircleUtils {
                                         imgFiles = imgDir.listFiles();
                                     }
                                 }
+
+                                //确保 文件件存在
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " mkdir " + phoneLocalPath);
+
                                 if (imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
                                     for (int i = 0; i < imgFiles.length; i++) {
                                         try {
                                             //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
                                             File imgFile = imgFiles[i];
+                                            for(File tempFile : imgFiles){          //确保文件顺序导出.
+                                                String[] fileNameArr = tempFile.getName().split("\\.");
+                                                if(fileNameArr[0].equals(i+1+"")){
+                                                    imgFile = tempFile;
+                                                }
+                                            }
                                             if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
                                                 continue;
                                             }
+
+
                                             String pushCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
                                             CommandUtil.run(pushCommandStr);
                                             Thread.sleep(1000);
@@ -525,6 +543,22 @@ public class SendFriendCircleUtils {
                     } catch (Exception e) {
                         logger.error("解析手背的执行时间段是异常， e : ", e);
                     }
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        File imgDir = new File("/opt/nextcloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务/铜仁市_玉屏县_车友群");
+        File[] imgFiles = imgDir.listFiles();
+        for (int i = 0; i < imgFiles.length; i++) {
+            File imgFile = imgFiles[i];
+            for(File tempFile : imgFiles){          //确保文件顺序导出.
+                String[] fileNameArr = tempFile.getName().split("\\.");
+                if(fileNameArr[0].equals(i+1+"")){
+                    imgFile = tempFile;
+                    System.out.println("imgFile.getName() = " + imgFile.getName());
+                    break;
                 }
             }
         }
