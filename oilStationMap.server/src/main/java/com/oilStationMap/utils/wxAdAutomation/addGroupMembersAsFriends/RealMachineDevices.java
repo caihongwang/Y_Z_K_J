@@ -347,7 +347,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                     }
                 }
                 for (String key : groupMembersMap.keySet()) {
-                    System.out.println(groupMembersMap.get(key).get("groupMemberIndex") + key + " ---->>> " + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
+                    System.out.println(groupMembersMap.get(key).get("groupMemberIndex") + " ---->>> " + key + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
                 }
                 sw.split();
                 logger.info("点击坐标【上滑同时检测坐标查看全部群成员】成功，总共花费 " + sw.toSplitString() + " 秒....");
