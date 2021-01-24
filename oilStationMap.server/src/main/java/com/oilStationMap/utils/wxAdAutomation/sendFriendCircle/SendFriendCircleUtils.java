@@ -402,6 +402,7 @@ public class SendFriendCircleUtils {
                                                 String[] fileNameArr = tempFile.getName().split("\\.");
                                                 if(fileNameArr[0].equals(i+1+"")){
                                                     imgFile = tempFile;
+                                                    break;
                                                 }
                                             }
                                             if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
