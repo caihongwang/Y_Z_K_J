@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MySQL - oil_station_map@112.74.177.170" uuid="371aa6ff-a84e-4772-a9d5-4468a553ab61">
+    <data-source source="LOCAL" name="MySQL - oil_station_map@master.yzkj.store" uuid="371aa6ff-a84e-4772-a9d5-4468a553ab61">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://112.74.177.170:3306/oil_station_map</jdbc-url>
+      <jdbc-url>jdbc:mysql://master.yzkj.store:3306/oil_station_map</jdbc-url>
     </data-source>
   </component>
 </project>
