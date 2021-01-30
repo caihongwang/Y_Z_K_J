@@ -32,6 +32,7 @@ public class AgreeToFriendRequestUtils {
 
     /**
      * 同意好友请求
+     *
      * @param paramMap
      * @throws Exception
      */
@@ -48,12 +49,14 @@ public class AgreeToFriendRequestUtils {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
         for (String currentDateStr : currentDateList) {
+            String deviceName = "未知-设备编码";
+            String deviceNameDesc = "未知-设备描述";
             Map<String, Object> agreeToFriendRequestParam = Maps.newHashMap();
             Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             HashMap<String, Object> reboot_agreeToFriendRequestParam = Maps.newHashMap();
             //获取设备列表和配套的坐标配置
             List<String> dicCodeList = Lists.newArrayList();
-            dicCodeList.add("HuaWeiListAndShareArticleToFriendCircleLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
+            dicCodeList.add("HuaWeiListAndAgreeToFriendRequestLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
             for (String dicCode : dicCodeList) {
                 paramMap.clear();
                 paramMap.put("dicType", "deviceNameListAndLocaltion");
@@ -72,45 +75,30 @@ public class AgreeToFriendRequestUtils {
                     if (deviceNameList != null && deviceNameList.size() > 0) {
                         for (Map<String, Object> deviceNameMap : deviceNameList) {
                             agreeToFriendRequestParam.putAll(deviceNameMap);
-                            //判断推广时间是否还在推广期内
-                            String startTimeStr = agreeToFriendRequestParam.get("startTime") != null ? agreeToFriendRequestParam.get("startTime").toString() : "";
-                            String endTimeStr = agreeToFriendRequestParam.get("endTime") != null ? agreeToFriendRequestParam.get("endTime").toString() : "";
-                            if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
-                                try {
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    Date startTime = sdf.parse(startTimeStr);
-                                    Date endTime = sdf.parse(endTimeStr);
-                                    if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {
-                                        //判断当前设备的执行小时时间是否与当前时间匹配
-                                        String startHour =
-                                                agreeToFriendRequestParam.get("startHour") != null ?
-                                                        agreeToFriendRequestParam.get("startHour").toString() :
-                                                        "";
-                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                        if (startHour.equals(currentHour)) {
-                                            //开始同意好友请求
-                                            logger.info("设备描述【" + agreeToFriendRequestParam.get("deviceNameDesc") + "】设备编码【" + agreeToFriendRequestParam.get("deviceName") + "】操作【" + agreeToFriendRequestParam.get("action") + "】的将同意好友请求即将开始发送....");
-                                            new RealMachineDevices().agreeToFriendRequest(agreeToFriendRequestParam);
-                                            Thread.sleep(5000);
-                                        } else {
-                                            //下一个设备
-                                            logger.info("设备描述【" + agreeToFriendRequestParam.get("deviceNameDesc") + "】设备编码【" + agreeToFriendRequestParam.get("deviceName") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
-                                            continue;
-                                        }
-//                                        logger.info( "设备描述【"+agreeToFriendRequestParam.get("deviceNameDesc")+"】设备编码【"+agreeToFriendRequestParam.get("deviceName")+"】操作【"+agreeToFriendRequestParam.get("action")+"】昵称【"+nickName+"】的将同意好友请求即将开始发送....");
-//                                        new RealMachineDevices().shareArticleToFriendCircle(agreeToFriendRequestParam);
-//                                        Thread.sleep(5000);
-                                    } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
-                                        logger.info("尚未开始，暂不处理....");
-                                    } else {
-                                        logger.info("昵称【" + agreeToFriendRequestParam.get("deviceName") + "】的同意好友请求内容已到期....");
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    reboot_agreeToFriendRequestParam.putAll(agreeToFriendRequestParam);
+                            try {
+                                //判断当前设备的执行小时时间是否与当前时间匹配
+                                String startHour =
+                                        agreeToFriendRequestParam.get("startHour") != null ?
+                                                agreeToFriendRequestParam.get("startHour").toString() :
+                                                "";
+                                String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                                if (startHour.equals(currentHour)) {
+                                    deviceName = agreeToFriendRequestParam.get("deviceName").toString();
+                                    deviceNameDesc = agreeToFriendRequestParam.get("deviceNameDesc").toString();
+                                    //开始同意好友请求
+                                    logger.info("设备编码【" + agreeToFriendRequestParam.get("deviceName") + "】设备描述【" + agreeToFriendRequestParam.get("deviceNameDesc") + "】将同意好友请求即将开始发送....");
+                                    new RealMachineDevices().agreeToFriendRequest(agreeToFriendRequestParam);
+                                    Thread.sleep(5000);
+//                                    //重新操作
+//                                    reboot_agreeToFriendRequestParam.putAll(agreeToFriendRequestParam);
+                                } else {
+                                    //下一个设备
+                                    logger.info("设备编码【" + agreeToFriendRequestParam.get("deviceName") + "】设备描述【" + agreeToFriendRequestParam.get("deviceNameDesc") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                    continue;
                                 }
-                            } else {
-                                logger.info("设备【" + agreeToFriendRequestParam.get("deviceName") + "】的同意好友请求日期不能为空....");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                reboot_agreeToFriendRequestParam.putAll(agreeToFriendRequestParam);
                             }
                         }
                     }
@@ -118,10 +106,6 @@ public class AgreeToFriendRequestUtils {
                     logger.info(dicCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                 }
             }
-
-            String action = agreeToFriendRequestParam.get("action").toString();
-            String deviceName = agreeToFriendRequestParam.get("deviceName").toString();
-            String deviceNameDesc = agreeToFriendRequestParam.get("deviceNameDesc").toString();
 
             //对执行失败的设备列表进行重新执行,最多循环执行5遍
             Integer index = 1;
@@ -135,9 +119,9 @@ public class AgreeToFriendRequestUtils {
                 if (index > 15) {
                     break;
                 }
-                logger.info("第【" + index + "】次批量重新执行失败的设备....");
+                logger.info("第【" + index + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】次重新执行失败的设备....");
                 try {
-                    logger.info("设备描述【" + reboot_agreeToFriendRequestParam.get("deviceNameDesc") + "】设备编码【" + deviceName + "】操作【" + reboot_agreeToFriendRequestParam.get("action") + "】的将同意好友请求即将开始发送....");
+                    logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】将同意好友请求即将开始发送....");
                     new RealMachineDevices().agreeToFriendRequest(reboot_agreeToFriendRequestParam);
                     reboot_agreeToFriendRequestParam.clear();       //清空需要重新执行的设备参数
                     Thread.sleep(5000);
@@ -147,27 +131,27 @@ public class AgreeToFriendRequestUtils {
                         if (index % 4 == 0) {
                             //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                             CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                            logger.info("重启成功，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+                            logger.info("重启成功，设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】");
                         }
                     } catch (Exception e1) {
-                        logger.info("重启失败，设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】");
+                        logger.info("重启失败，设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】");
                     }
                 }
                 index++;
             }
             if (reboot_agreeToFriendRequestParam.size() > 0) {
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如下....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如下....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如下....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如下....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如下....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如下....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如下....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如下....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如下....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如下....");
                 String exceptionDevices = "异常设备列表";
-                exceptionDevices = exceptionDevices + "【" + deviceName + "】";
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如上....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如上....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如上....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如上....");
-                logger.info("【" + deviceName + "】【同意好友请求】5次次批量执行均失败的设备如上....");
+                exceptionDevices = exceptionDevices + "【" + deviceNameDesc + "】";
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如上....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如上....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如上....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如上....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】5次次批量执行均失败的设备如上....");
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();
                 Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
@@ -187,11 +171,11 @@ public class AgreeToFriendRequestUtils {
 //                    e.printStackTrace();
 //                }
             } else {
-                logger.info("【" + deviceName + "】【同意好友请求】全部执行成功....");
-                logger.info("【" + deviceName + "】【同意好友请求】全部执行成功....");
-                logger.info("【" + deviceName + "】【同意好友请求】全部执行成功....");
-                logger.info("【" + deviceName + "】【同意好友请求】全部执行成功....");
-                logger.info("【" + deviceName + "】【同意好友请求】全部执行成功....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】全部执行成功....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】全部执行成功....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】全部执行成功....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】全部执行成功....");
+                logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】全部执行成功....");
             }
         }
     }
