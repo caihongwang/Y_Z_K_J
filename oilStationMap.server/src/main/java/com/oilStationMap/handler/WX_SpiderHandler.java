@@ -98,6 +98,25 @@ public class WX_SpiderHandler {
         return resultDTO;
     }
 
+    public ResultDTO agreeToFriendRequest(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,同意好友请求-agreeToFriendRequest,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread() {
+            public void run() {
+                try {
+                    wxSpiderService.agreeToFriendRequest(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,同意好友请求-agreeToFriendRequest is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在hanlder中启动appium,同意好友请求-agreeToFriendRequest,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
     public ResultDTO shareArticleToFriendCircle(Map<String, String> paramMap) {
         logger.info("在hanlder中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();

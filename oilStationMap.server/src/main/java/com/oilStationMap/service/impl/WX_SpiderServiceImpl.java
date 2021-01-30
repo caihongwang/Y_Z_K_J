@@ -5,6 +5,7 @@ import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
 import com.oilStationMap.utils.SpiderForMeiTuanUtil;
 import com.oilStationMap.utils.wxAdAutomation.addGroupMembersAsFriends.AddGroupMembersAsFriendsUtils;
+import com.oilStationMap.utils.wxAdAutomation.agreeToFriendRequest.AgreeToFriendRequestUtils;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
@@ -57,6 +58,26 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         return resultMapDTO;
     }
 
+
+    /**
+     * 同意好友请求
+     * @param paramMap
+     * @throws Exception
+     */
+    @Override
+    public ResultMapDTO agreeToFriendRequest(Map<String, Object> paramMap){
+        try {
+            AgreeToFriendRequestUtils.agreeToFriendRequest(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在service中启动appium,同意好友请求-agreeToFriendRequest,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
     /**
      * 根据微信群昵称添加群成员为好友
      * @param paramMap
@@ -72,7 +93,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        logger.info("在service中启动appium,根据微信群昵称添加群成员为好友-chatByNickName,结果-result:" + resultMapDTO);
+        logger.info("在service中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -87,7 +108,7 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
-        logger.info("在service中启动appium,根据微信昵称进行聊天-chatByNickName,结果-result:" + resultMapDTO);
+        logger.info("在service中启动appium,根据微信昵称进行聊天-addGroupMembersAsFriends,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 
