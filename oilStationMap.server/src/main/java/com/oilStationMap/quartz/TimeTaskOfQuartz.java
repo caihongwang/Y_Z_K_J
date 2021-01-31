@@ -220,7 +220,7 @@ public class TimeTaskOfQuartz {
      * 每周五下午15点开始执行
      * 同意好友请求
      */
-    @Scheduled(cron = "0 0 15 * * ?")
+    @Scheduled(cron = "0 0 15 * * FRI")
     public void do_agreeToFriendRequest() {
         if ("develop".equals(useEnvironmental)) {
             Map<String, Object> paramMap = Maps.newHashMap();
