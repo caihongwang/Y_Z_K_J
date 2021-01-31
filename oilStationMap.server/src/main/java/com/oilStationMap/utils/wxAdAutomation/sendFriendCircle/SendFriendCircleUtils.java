@@ -101,6 +101,9 @@ public class SendFriendCircleUtils {
                                 String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                                 List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                                 allDeviceNameList.addAll(deviceNameList);
+                                //appium端口号
+                                String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
+                                sendFriendCircleParam.put("appiumPort", appiumPort);
                                 //当前时间
                                 sendFriendCircleParam.put("currentDate", currentDate);
 

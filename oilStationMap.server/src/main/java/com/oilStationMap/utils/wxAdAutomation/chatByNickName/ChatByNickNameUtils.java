@@ -77,6 +77,9 @@ public class ChatByNickNameUtils {
                         //获取设备列表
                         String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                         List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                        //appium端口号
+                        String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
+                        chatByNickNameParam.put("appiumPort", appiumPort);
                         if (deviceNameList != null && deviceNameList.size() > 0) {
                             for (Map<String, Object> deviceNameMap : deviceNameList) {
                                 chatByNickNameParam.putAll(deviceNameMap);

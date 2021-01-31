@@ -95,6 +95,9 @@ public class AddGroupMembersAsFriendsUtils {
                             //获取设备列表
                             String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                             List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                            //appium端口号
+                            String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
+                            addGroupMembersAsFriendsParam.put("appiumPort", appiumPort);
                             if (deviceNameList != null && deviceNameList.size() > 0) {
                                 for (Map<String, Object> deviceNameMap : deviceNameList) {
                                     addGroupMembersAsFriendsParam.putAll(deviceNameMap);
