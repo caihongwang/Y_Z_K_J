@@ -47,6 +47,11 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
                         "小米 Max 3";
+        //appium端口号
+        String appiumPort =
+                paramMap.get("appiumPort") != null ?
+                        paramMap.get("appiumPort").toString() :
+                        "4725";
         //操作
         String action =
                 paramMap.get("action") != null ?
@@ -146,7 +151,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
-            URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
+            URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载

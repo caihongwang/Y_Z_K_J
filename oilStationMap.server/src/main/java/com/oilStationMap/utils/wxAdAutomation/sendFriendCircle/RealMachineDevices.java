@@ -55,6 +55,11 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
                         "5LM0216122009385";
+        //appium端口号
+        String appiumPort =
+                paramMap.get("appiumPort") != null ?
+                        paramMap.get("appiumPort").toString() :
+                        "4723";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
@@ -154,7 +159,7 @@ public class RealMachineDevices implements SendFriendCircle {
             desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
             desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
             desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
-            URL remoteUrl = new URL("http://localhost:" + 4723 + "/wd/hub");                            //连接本地的appium
+            URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
             sw.split();
             logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功，总共花费 " + sw.toSplitString() + " 秒....");
