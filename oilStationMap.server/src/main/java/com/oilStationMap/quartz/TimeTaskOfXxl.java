@@ -73,6 +73,30 @@ public class TimeTaskOfXxl {
     }
 
     /**
+     * 同意好友请求-当阿里云主机迁移到部署机器时可以使用当前任务
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    @XxlJob("do_agreeToFriendRequest")
+    public ReturnT<String> do_agreeToFriendRequest(String param) throws Exception {
+        if (useEnvironmental != null && "prepub".equals(useEnvironmental)) {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            List<String> nickNameList = Lists.newArrayList();
+            try {
+                //通过任务参数进行启动-发布朋友圈
+                String currentDateListStr = param;
+                paramMap.put("currentDateListStr", currentDateListStr);
+                wxSpiderService.agreeToFriendRequest(paramMap);
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,同意好友请求-do_SendFriendCircle is error,即将同意好友请求 paramMap : " + param + ", e : ", e);
+                wxSpiderService.agreeToFriendRequest(paramMap);
+            }
+        }
+        return ReturnT.SUCCESS;
+    }
+
+    /**
      * 添加群成员为好友的V群-当阿里云主机迁移到部署机器时可以使用当前任务
      * @param param
      * @return

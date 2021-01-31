@@ -18,7 +18,7 @@ import java.util.*;
 
 /**
  * 同意好友请求工具
- * appium -p 4723 -bp 4724 --session-override --command-timeout 600
+ * appium -p 4725 -bp 4726 --session-override --command-timeout 600
  */
 public class AgreeToFriendRequestUtils {
 

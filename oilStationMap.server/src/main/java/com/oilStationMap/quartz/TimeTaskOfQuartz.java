@@ -217,6 +217,55 @@ public class TimeTaskOfQuartz {
 
 
     /**
+     * 每周五下午15点开始执行
+     * 同意好友请求
+     */
+    @Scheduled(cron = "0 0 15 * * ?")
+    public void do_agreeToFriendRequest() {
+        if ("develop".equals(useEnvironmental)) {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            List<String> currentDateList = Lists.newArrayList();
+            paramMap.put("currentDate", currentDate);
+            try {
+                paramMap.clear();
+                currentDateList.clear();
+                paramMap.put("start", 0);
+                paramMap.put("size", 10);
+                paramMap.put("id", "16");       // jobDesc --->>> 同意好友请求
+                List<Map<String, Object>> list = xxlJobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                if (list != null && list.size() > 0) {
+                    Map<String, Object> addGroupMembersAsFriendsMap = list.get(0);
+                    String currentDateListStr = addGroupMembersAsFriendsMap.get("executorParam") != null ? addGroupMembersAsFriendsMap.get("executorParam").toString() : "";
+                    paramMap.clear();
+                    paramMap.put("currentDateListStr", currentDateListStr);
+                    wxSpiderService.addGroupMembersAsFriends(paramMap);
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,同意好友请求-agreeToFriendRequest is error, 即将通过数据库同意好友请求 paramMap : " + JSON.toJSONString(paramMap));
+                paramMap.clear();
+                currentDateList.clear();
+//                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+//                paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
+                currentDateList.add("2020-10-25 11");
+                currentDateList.add("2020-10-25 12");
+                currentDateList.add("2020-10-25 13");
+                currentDateList.add("2020-10-25 14");
+                currentDateList.add("2020-10-25 15");
+                currentDateList.add("2020-10-25 16");
+                currentDateList.add("2020-10-25 17");
+                currentDateList.add("2020-10-25 18");
+                currentDateList.add("2020-10-25 19");
+                currentDateList.add("2020-10-25 20");
+                currentDateList.add("2020-10-25 21");
+                paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
+                wxSpiderService.addGroupMembersAsFriends(paramMap);
+            }
+        }
+    }
+
+    /**
      * 每天4个小时检测一次，注：域名已使用花生壳域名进行解决
      * 检测域名是否可以访问
      */
@@ -415,7 +464,7 @@ public class TimeTaskOfQuartz {
 //    /**
 //     * 每天上午05:00，mysql数据库备份异常
 //     */
-//    @Scheduled(cron = "0 0 5 * * ?")
+//    ≈
 //    public void do_mysqlDataBak_For_OilStationMap() {
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        try{

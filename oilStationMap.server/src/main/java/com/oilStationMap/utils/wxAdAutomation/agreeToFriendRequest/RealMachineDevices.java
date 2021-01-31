@@ -17,6 +17,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 真机设备 同意好友请求 策略
@@ -216,6 +218,63 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 //            if (!chatFriendNickName.contains("积极向上")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
 //                continue;
 //            }
+
+            if(chatFriendNickName.contains("[店员消息]")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("[链接]")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【[链接]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("[图片]")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("[小程序]")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("[群待办]")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("[有人@我]")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("我通过了你的朋友验证请求")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("与群里其他人都不是")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【与群里其他人都不是微信朋友关系】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.contains("对方为企业微信用户")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【对方为企业微信用户】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if(chatFriendNickName.startsWith("你已添加了")){
+                logger.info("当前昵称【"+chatFriendNickName+"】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            String chatRecordNumStr = "-1";
+            try {                                       //判断是否为-微信群的聊天记录，示例：[2条] 宋天宇: 宝润国际电梯房屋出售：，急售…
+                Pattern pattern = Pattern.compile("(?<=\\[)(.+?)(?=条\\])");
+                Matcher matcher = pattern.matcher(chatFriendNickName);
+                while (matcher.find()) {
+                    chatRecordNumStr = matcher.group();
+                }
+                Integer groupTotalNum = Integer.parseInt(chatRecordNumStr);
+                if (groupTotalNum >= 0) {
+                    logger.info("当前昵称【"+chatFriendNickName+"】包含【[*条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                    continue;
+                }
+            } catch (Exception e) {
+
+            }
+
             //检测昵称是否末尾包含"…"，示例：A车～05.25-06.25 50米 沿河…
             if (chatFriendNickName.endsWith("…")) {
                 logger.info("检测昵称末尾包含\"…\"，处理之前昵称【" + chatFriendNickName + "】....");
@@ -443,6 +502,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 //            logger.info("返回【当前页面聊天好友信息】....");
 //            Thread.sleep(2000);
         }
+        Thread.sleep(10000);        //等待10秒页面加载完成...
         //点击坐标【我】
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + meLocaltion + "\")").click();
@@ -479,7 +539,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + clearLocaltion + "\")").click();
             logger.info("点击坐标【清空】成功，后续将要沉睡5分钟........");
-            Thread.sleep(1000*60*5);
+            Thread.sleep(1000 * 60 * 5);
         } catch (Exception e) {
             logger.info("点击坐标【清空】异常....");
         }
@@ -488,9 +548,18 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 
     public static void main(String[] args) {
         try {
-            Map<String, Object> paramMap = Maps.newHashMap();
-            new RealMachineDevices().agreeToFriendRequest(paramMap);
-            Thread.sleep(5000);
+//            Map<String, Object> paramMap = Maps.newHashMap();
+//            new RealMachineDevices().agreeToFriendRequest(paramMap);
+//            Thread.sleep(5000);
+
+            String pre = "";
+            String chatFriendNickName = "[链接] 宋天宇: 宝润国际电梯房屋出售：，急售…";
+            Pattern pattern = Pattern.compile("(?<=\\[)链接(?=\\])");
+            Matcher matcher = pattern.matcher(chatFriendNickName);
+            while (matcher.find()) {
+                pre = matcher.group();
+                System.out.println("pre = " + pre);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
