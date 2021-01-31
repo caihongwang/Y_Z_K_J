@@ -355,6 +355,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                     driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
                     logger.info("返回【当前页面聊天好友信息】....");
                     Thread.sleep(2000);
+                    continue;
                 }
             }
             //点击坐标【添加到通讯录】
@@ -379,6 +380,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                     driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
                     logger.info("返回【当前页面聊天好友信息】....");
                     Thread.sleep(2000);
+                    continue;
                 }
             }
             //点击坐标【添加到通讯录】后，后检测坐标【由于对方的隐私设置，你无法通过群聊将其添加至通讯录。】，注：如果这个坐标找不到则使用【确定】这个坐标 privacyContentLocaltion
@@ -397,6 +399,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                     driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
                     logger.info("返回【当前页面聊天好友信息】....");
                     Thread.sleep(2000);
+                    continue;
                 }
             }
             //点击坐标【朋友圈】，主要是为了选择权限
@@ -428,6 +431,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
                 logger.info("返回【当前页面聊天好友信息】....");
                 Thread.sleep(2000);
+                continue;
             }
 ////            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【搜索结果界面】
 ////            logger.info("返回【搜索结果界面】....");
@@ -472,7 +476,6 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             logger.info("点击坐标【清空聊天记录】异常....");
         }
         //点击坐标【清空】
-        logger.info("点击坐标【清空】成功，后续将要沉睡5分钟....");
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + clearLocaltion + "\")").click();
             logger.info("点击坐标【清空】成功，后续将要沉睡5分钟........");
