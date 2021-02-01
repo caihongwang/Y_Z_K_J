@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 真机设备 同意好友请求 策略
+ * 真机设备 将群保存到通讯录 策略
  * 默认 小米 Max 3
  */
 public class RealMachineDevices implements AgreeToFriendRequest {
@@ -28,7 +28,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
     public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
     /**
-     * 同意好友请求
+     * 将群保存到通讯录
      *
      * @param paramMap
      * @throws Exception
@@ -66,26 +66,26 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 paramMap.get("searchInputLocaltion") != null ?
                         paramMap.get("searchInputLocaltion").toString() :
                         "搜索";
-        //点击坐标【联系人】
-        String contactLocaltion =
-                paramMap.get("contactLocaltion") != null ?
-                        paramMap.get("contactLocaltion").toString() :
-                        "联系人";
+        //点击坐标【群聊】
+        String groupLocaltion =
+                paramMap.get("groupLocaltion") != null ?
+                        paramMap.get("groupLocaltion").toString() :
+                        "群聊";
         //点击坐标【最常使用】
         String mostUsedLocaltion =
                 paramMap.get("mostUsedLocaltion") != null ?
                         paramMap.get("mostUsedLocaltion").toString() :
                         "最常使用";
         //点击坐标【对方还不是你的朋友】
-        String notYourFriendLocaltion =
+        String saveToLocaltion =
                 paramMap.get("notYourFriendLocaltion") != null ?
                         paramMap.get("notYourFriendLocaltion").toString() :
                         "对方还不是你的朋友";
-        //坐标【添加到通讯录】
-        String aadToContactBookLocaltion =
-                paramMap.get("aadToContactBookLocaltion") != null ?
-                        paramMap.get("aadToContactBookLocaltion").toString() :
-                        "添加到通讯录";
+        //坐标【保存到通讯录】
+        String aadToAddressBookLocaltion =
+                paramMap.get("aadToAddressBookLocaltion") != null ?
+                        paramMap.get("aadToAddressBookLocaltion").toString() :
+                        "保存到通讯录";
         //坐标【发消息】
         String sendMessageBtnLocaltion =
                 paramMap.get("sendMessageBtnLocaltion") != null ?
@@ -328,22 +328,22 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 }
             }
 
-            //4.判断坐标【联系人】与【最常使用】是否存在
-            boolean isChatFriendsFlag = false;
+            //4.判断坐标【群聊】与【最常使用】是否存在
+            boolean isChatGroupFlag = false;
             try {
-                WebElement contact_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
+                WebElement group_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupLocaltion + "\")");
                 Thread.sleep(2000);
-                isChatFriendsFlag = true;
+                isChatGroupFlag = true;
             } catch (Exception e) {
                 try {
                     WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                     Thread.sleep(2000);
-                    isChatFriendsFlag = true;
+                    isChatGroupFlag = true;
                 } catch (Exception e1) {
-                    logger.info("判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                    logger.info("判断坐标【群聊】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
                 }
             }
-            if (!isChatFriendsFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
+            if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
                 driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                 logger.info("返回【当前页面聊天好友信息】....");
                 Thread.sleep(2000);
@@ -376,51 +376,55 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             } catch (Exception e) {
                 throw new Exception("长按坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
-//            //判断是否为-公众号，查看坐标【设置】
-//            try {
-//                WebElement publicNumber_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "设置" + "\")");
-//                logger.info("【检测当前页面聊天好友信息】成功，【公众号】--->>>【" + chatFriendNickName + "】....");
-//                continue;
-//            } catch (Exception e) {
-//
-//            }
-//            //判断是否为-微信群，查看坐标【群成员总数：聊天信息(】
-//            String groupTotalNumStr = "-1";
-//            try {
-//                Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
-//                Matcher matcher = pattern.matcher(chatFriendNickName);
-//                while (matcher.find()) {
-//                    groupTotalNumStr = matcher.group();
-//                }
-//                Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
-//                if (groupTotalNum > 0) {
-//                    logger.info("【检测当前页面聊天好友信息】成功，【微信群】--->>>【" + chatFriendNickName + "】为....");
-//                    continue;
-//                }
-//            } catch (Exception e) {
-//
-//            }
-            //判断到最后，则是微信好友
-            logger.info("【检测当前页面聊天好友信息】成功，【微信好友】--->>>【" + chatFriendNickName + "】为....");
+            //判断是否为-公众号，查看坐标【设置】
+            try {
+                WebElement publicNumber_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "设置" + "\")");
+                publicNumber_WebElement.click();
+                //判断到最后，则是微信好友
+                logger.info("【检测当前页面聊天好友信息】成功，【微信群】--->>>【" + chatFriendNickName + "】为....");
+            } catch (Exception e) {
+                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+                logger.info("返回【当前页面聊天好友信息】....");
+                Thread.sleep(2000);
+                continue;
+            }
 
-            //6.点击坐标【对方还不是你的朋友】，如果是好友则跳转activity继续下一个昵称，否则进行添加为好友操作.
+            for (int i = 0; i < 3; i++) {       //向上滑动三次
+                try {
+                    logger.info("第【" + i + "】次，scroll上滑中,检测【保存到通讯录】...");
+                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                } catch (Exception e) {
+                    logger.info("scroll上滑中,检测【保存到通讯录】....");
+                }
+            }
+
+            //6.点击坐标【保存到通讯录】
             boolean isYourFriendFlag = false;
             try {
-                WebElement notYourFriend_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + notYourFriendLocaltion + "\")");
-                notYourFriend_Element.click();
-                logger.info("点击坐标【对方还不是你的朋友】成功....");
+                WebElement aadToAddressBookLoca_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToAddressBookLocaltion + "\")");
+                aadToAddressBookLoca_Element.click();
+                logger.info("点击坐标【保存到通讯录】成功....");
                 Thread.sleep(6000);
             } catch (Exception e) {
                 isYourFriendFlag = true;
-                logger.info("点击坐标【对方还不是你的朋友】异常，当前昵称已是你的好友，继续下一个昵称....");
-            } finally {
-                if (isYourFriendFlag) {
-                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                    logger.info("返回【当前页面聊天好友信息】....");
-                    Thread.sleep(2000);
-                    continue;
-                }
+                logger.info("点击坐标【保存到通讯录】异常，当前昵称已是你的好友，继续下一个昵称....");
             }
+
+            //6.点击坐标【消息免打扰】
+            boolean isYourFriendFlag = false;
+            try {
+                WebElement aadToAddressBookLoca_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToAddressBookLocaltion + "\")");
+                aadToAddressBookLoca_Element.click();
+                logger.info("点击坐标【消息免打扰】成功....");
+                Thread.sleep(6000);
+            } catch (Exception e) {
+                isYourFriendFlag = true;
+                logger.info("点击坐标【消息免打扰】异常，当前昵称已是你的好友，继续下一个昵称....");
+            }
+
+
+
+
             //点击坐标【添加到通讯录】
             try {
                 WebElement aadToContactBook_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToContactBookLocaltion + "\")");
@@ -487,7 +491,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             //检测坐标【添加到通讯录】
             try {
                 WebElement aadToContactBook_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + aadToContactBookLocaltion + "\")");
-                logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，同意好友请求【" + chatFriendNickName + "】通知发送成功....");
+                logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】成功，将群保存到通讯录【" + chatFriendNickName + "】通知发送成功....");
             } catch (Exception e) {
                 logger.info("点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【" + chatFriendNickName + "】在发送阶段才显示【对方账号异常，无法添加朋友。】....");
             } finally {
@@ -547,7 +551,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         } catch (Exception e) {
             logger.info("点击坐标【清空】异常....");
         }
-        logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 同意好友请求【" + theAgreeNum + "】个发送成功....");
+        logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 将群保存到通讯录【" + theAgreeNum + "】个发送成功....");
     }
 
     public static void main(String[] args) {
