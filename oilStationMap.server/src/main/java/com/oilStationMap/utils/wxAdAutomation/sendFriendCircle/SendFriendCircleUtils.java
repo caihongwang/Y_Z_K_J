@@ -6,8 +6,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
+import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
+import com.oilStationMap.service.impl.MailServiceImpl;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.*;
@@ -28,6 +30,8 @@ public class SendFriendCircleUtils {
     public static final Logger logger = LoggerFactory.getLogger(SendFriendCircleUtils.class);
 
     public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
+
+    public static MailService mailService = (MailService) ApplicationContextUtils.getBeanByClass(MailServiceImpl.class);
 
     public static WX_DicService wxDicService = (WX_DicService) ApplicationContextUtils.getBeanByClass(WX_DicServiceImpl.class);
 
@@ -290,14 +294,18 @@ public class SendFriendCircleUtils {
                             String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
                             String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                             logger.info("微信消息异常发送反馈：" + resultJson);
-//                        try {
-//                            Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
-//                            exceptionDevicesParamMap.put("operatorName", "发布朋友圈");
-//                            exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-//                            wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
+
+                            //邮件通知
+                            StringBuffer mailMessageBuf = new StringBuffer();
+                            mailMessageBuf.append("蔡红旺，您好：\n");
+                            mailMessageBuf.append("        ").append("\t操作名称：发布朋友圈").append("\n");
+                            mailMessageBuf.append("        ").append("\t微信群：").append(nickName).append("\n");
+                            mailMessageBuf.append("        ").append("\t操作设备：").append(exceptionDevices).append("\n");
+                            mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                            mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                            mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                            mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
+                            mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
                         }
                     } else {
                         logger.info("【发送朋友圈】全部执行【" + nickName + "】成功，总共花费 " + sw.toSplitString() + " 秒....");

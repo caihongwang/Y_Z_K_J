@@ -61,6 +61,8 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 "/wxSpider/**",
                 //消息类请求
                 "/wxMessage/**",
+                //邮件类请求
+                "/mail/**",
                 //字典类请求
                 "/wxDic/**",
                 //用户的微信AccessToken请求

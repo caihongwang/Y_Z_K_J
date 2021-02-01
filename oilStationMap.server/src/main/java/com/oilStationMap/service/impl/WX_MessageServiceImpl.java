@@ -27,6 +27,7 @@ import java.util.Random;
 
 /**
  * 微信公众号消息service
+ * 2021年04月30日起被废弃，后续内部消息push同意使用邮件MailService
  */
 @Service
 public class WX_MessageServiceImpl implements WX_MessageService {

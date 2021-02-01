@@ -55,6 +55,14 @@ spring:
       keepAliveSeconds: 60 #设置线程活跃时间（秒）
       queueCapacity: 100 #设置队列容量
       threadNamePrefix: YZKJ-AsyncThread- # 线程名称前缀
+  #QQ邮箱配置
+  mail:
+    host: smtp.qq.com #发送邮件服务器
+    username: 976499921@qq.com #发送邮件的邮箱地址
+    password:  qbpqvmswgbxfbfbf #客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
+    properties.mail.smtp.port: 587 #端口号465或587
+    from: 976499921@qq.com # 发送邮件的地址，和上面username一致
+    default-encoding: utf-8
 
 mybatis:
   mapper-locations: mapper/**Mapper.xml
