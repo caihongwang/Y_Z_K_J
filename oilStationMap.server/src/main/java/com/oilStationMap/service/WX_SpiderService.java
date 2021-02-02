@@ -20,6 +20,13 @@ public interface WX_SpiderService {
     public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap);
 
     /**
+     * 启动appium,将群保存到通讯录
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO saveToAddressBook(Map<String, Object> paramMap);
+
+    /**
      * 启动appium,进行自动化发送微信朋友圈
      * @param paramMap
      * @return

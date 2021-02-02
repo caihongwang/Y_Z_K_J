@@ -260,7 +260,8 @@ public class TimeTaskOfQuartz {
                 currentDateList.add("2020-10-25 20");
                 currentDateList.add("2020-10-25 21");
                 paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
-                wxSpiderService.addGroupMembersAsFriends(paramMap);
+                wxSpiderService.saveToAddressBook(paramMap);            //将群保存到通讯录
+                wxSpiderService.agreeToFriendRequest(paramMap);         //同意好友请求
             }
         }
     }

@@ -7,6 +7,7 @@ import com.oilStationMap.utils.SpiderForMeiTuanUtil;
 import com.oilStationMap.utils.wxAdAutomation.addGroupMembersAsFriends.AddGroupMembersAsFriendsUtils;
 import com.oilStationMap.utils.wxAdAutomation.agreeToFriendRequest.AgreeToFriendRequestUtils;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
+import com.oilStationMap.utils.wxAdAutomation.saveToAddressBook.SaveToAddressBookUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
 import com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils.ShareArticleToFriendCircleUtils;
@@ -58,6 +59,24 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         return resultMapDTO;
     }
 
+    /**
+     * 将群保存到通讯录
+     * @param paramMap
+     * @throws Exception
+     */
+    @Override
+    public ResultMapDTO saveToAddressBook(Map<String, Object> paramMap){
+        try {
+            SaveToAddressBookUtils.saveToAddressBook(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在service中启动appium,将群保存到通讯录-saveToAddressBook,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
 
     /**
      * 同意好友请求

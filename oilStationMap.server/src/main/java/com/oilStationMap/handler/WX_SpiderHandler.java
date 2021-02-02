@@ -79,6 +79,25 @@ public class WX_SpiderHandler {
         return resultDTO;
     }
 
+    public ResultDTO saveToAddressBook(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,将群保存到通讯录工具-saveToAddressBook,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread() {
+            public void run() {
+                try {
+                    wxSpiderService.saveToAddressBook(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,将群保存到通讯录工具-saveToAddressBook is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在hanlder中启动appium,将群保存到通讯录工具-saveToAddressBook,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
     public ResultDTO addGroupMembersAsFriends(Map<String, String> paramMap) {
         logger.info("在hanlder中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();

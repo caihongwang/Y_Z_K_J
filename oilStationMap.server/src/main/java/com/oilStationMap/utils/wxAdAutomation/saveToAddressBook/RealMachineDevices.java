@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oilStationMap.utils.StringUtils;
-import com.oilStationMap.utils.wxAdAutomation.agreeToFriendRequest.AgreeToFriendRequest;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
@@ -24,7 +23,7 @@ import java.util.regex.Pattern;
  * 真机设备 将群保存到通讯录 策略
  * 默认 小米 Max 3
  */
-public class RealMachineDevices implements AgreeToFriendRequest {
+public class RealMachineDevices implements SaveToAddressBook {
 
     public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
@@ -35,7 +34,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
      * @throws Exception
      */
     @Override
-    public void agreeToFriendRequest(Map<String, Object> paramMap) throws Exception {
+    public void saveToAddressBook(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -72,16 +71,16 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 paramMap.get("groupLocaltion") != null ?
                         paramMap.get("groupLocaltion").toString() :
                         "群聊";
-        //点击坐标【聊天信息】
-        String chatInfoLocaltion =
-                paramMap.get("chatInfoLocaltion") != null ?
-                        paramMap.get("chatInfoLocaltion").toString() :
-                        "聊天信息";
         //点击坐标【最常使用】
         String mostUsedLocaltion =
                 paramMap.get("mostUsedLocaltion") != null ?
                         paramMap.get("mostUsedLocaltion").toString() :
                         "最常使用";
+        //点击坐标【聊天信息】
+        String chatInfoLocaltion =
+                paramMap.get("chatInfoLocaltion") != null ?
+                        paramMap.get("chatInfoLocaltion").toString() :
+                        "聊天信息";
         //坐标【保存到通讯录】
         String aadToAddressBookLocaltion =
                 paramMap.get("aadToAddressBookLocaltion") != null ?
@@ -135,7 +134,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 
         //1.上滑同时检测坐标检测当前页面聊天好友信息
         try {
-            int cyclesNumber = 28;       //循环下拉的次数
+            int cyclesNumber = 0;       //循环下拉的次数
             int maxCyclesNumber = 30;       //默认超过30次
             while (true) {      //循环下拉当前好友聊天列表，并将其加入 chatFriendsSet
                 WebElement listViewElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.ListView" + "\")");
@@ -437,7 +436,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-            new RealMachineDevices().agreeToFriendRequest(paramMap);
+            new RealMachineDevices().saveToAddressBook(paramMap);
 //            Thread.sleep(5000);
 
 //            String pre = "";

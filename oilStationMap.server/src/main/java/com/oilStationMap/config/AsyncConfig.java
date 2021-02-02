@@ -17,8 +17,8 @@ import java.util.concurrent.Executor;
  * @Date 2019/6/24 11:53 AM
  * @Version 1.0.0
  **/
-@Configuration
-@EnableAsync
+//@Configuration
+//@EnableAsync
 public class AsyncConfig implements AsyncConfigurer{
 
     @Value("${spring.task.pool.corePoolSize}")

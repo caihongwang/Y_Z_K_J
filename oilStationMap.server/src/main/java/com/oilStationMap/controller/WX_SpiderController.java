@@ -45,6 +45,27 @@ public class WX_SpiderController {
         return resultMap;
     }
 
+    @RequestMapping("/saveToAddressBook")
+    @ResponseBody
+    public Map<String, Object> saveToAddressBook(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中启动appium,将群保存到通讯录工具-saveToAddressBook,请求-paramMap:" + paramMap);
+        try {
+            ResultDTO resultDTO = wxSpiderHandler.saveToAddressBook(paramMap);
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中启动appium,将群保存到通讯录工具-saveToAddressBook is error, paramMap : " + paramMap + ", e : ", e);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中启动appium,将群保存到通讯录工具-saveToAddressBook,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/addGroupMembersAsFriends")
     @ResponseBody
     public Map<String, Object> addGroupMembersAsFriends(HttpServletRequest request) {
