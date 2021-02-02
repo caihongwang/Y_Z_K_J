@@ -184,10 +184,9 @@ public class RealMachineDevices implements SaveToAddressBook {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-            if (!chatFriendNickName.contains("内部交流群")) {
-                continue;
-            }
-
+//            if (!chatFriendNickName.contains("内部交流群")) {
+//                continue;
+//            }
             if (chatFriendNickName.contains("[店员消息]")) {
                 logger.info("当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
@@ -309,6 +308,7 @@ public class RealMachineDevices implements SaveToAddressBook {
                 }
             }
             if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
+                logger.info("当前昵称【" + chatFriendNickName + "】不是【微信群】,继续下一个昵称....");
                 driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                 logger.info("返回【当前页面聊天好友信息】....");
                 Thread.sleep(2000);
@@ -341,11 +341,36 @@ public class RealMachineDevices implements SaveToAddressBook {
             } catch (Exception e) {
                 throw new Exception("点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
+
+            //判断是否为-微信群，查看坐标【群成员总数：聊天信息(】
+            String groupTotalNumStr = "-1";
+            try {
+                Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
+                Matcher matcher = pattern.matcher(chatFriendNickName);
+                while (matcher.find()) {
+                    groupTotalNumStr = matcher.group();
+                }
+                Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
+                if (groupTotalNum > 0) {
+                    isChatGroupFlag = true;
+                    logger.info("【检测当前页面聊天好友信息】成功，【微信群】--->>>【" + chatFriendNickName + "】群成员总数为：" + groupTotalNum + "个....");
+                }
+            } catch (Exception e) {
+
+            } finally {
+                if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
+                    driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                    logger.info("返回【当前页面聊天好友信息】....");
+                    Thread.sleep(2000);
+                    continue;
+                }
+            }
+
             //6.点击坐标【设置】
             try {
                 WebElement chatInfo_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + chatInfoLocaltion + "\")");
                 chatInfo_WebElement.click();
-                logger.info("【点击坐标设置】成功，【微信群】--->>>【" + chatFriendNickName + "】....");
+                logger.info("点击坐标【设置】成功，【微信群】--->>>【" + chatFriendNickName + "】....");
                 Thread.sleep(2000);
             } catch (Exception e) {
                 driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
