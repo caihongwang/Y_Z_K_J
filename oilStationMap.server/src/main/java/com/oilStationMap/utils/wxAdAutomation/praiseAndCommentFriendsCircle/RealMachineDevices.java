@@ -1,0 +1,206 @@
+package com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle;
+
+import com.google.common.collect.Maps;
+import com.oilStationMap.utils.CommandUtil;
+import com.oilStationMap.utils.EmojiUtil;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.WaitOptions;
+import org.apache.commons.lang.time.StopWatch;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.net.URL;
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 真机设备 点赞和评论朋友圈 策略
+ * 默认 华为 Mate 8
+ */
+public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
+
+    public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
+
+    /**
+     * 点赞和评论朋友圈
+     *
+     * @param paramMap
+     * @throws Exception
+     */
+    @Override
+    public void praiseAndCommentFriendsCircle(Map<String, Object> paramMap) throws Exception {
+        //0.获取参数
+        //设备编码
+        String deviceName =
+                paramMap.get("deviceName") != null ?
+                        paramMap.get("deviceName").toString() :
+                        "9f4eda95";
+        //设备描述
+        String deviceNameDesc =
+                paramMap.get("deviceNameDesc") != null ?
+                        paramMap.get("deviceNameDesc").toString() :
+                        "小米 Max 3";
+        //appium端口号
+        String appiumPort =
+                paramMap.get("appiumPort") != null ?
+                        paramMap.get("appiumPort").toString() :
+                        "4723";
+        //操作:纯文字朋友圈和图片文字朋友圈
+        String action =
+                paramMap.get("action") != null ?
+                        paramMap.get("action").toString() :
+                        "textMessageFriendCircle";
+        //坐标:发现
+        String findBtnLocaltion =
+                paramMap.get("findBtnLocaltion") != null ?
+                        paramMap.get("findBtnLocaltion").toString() :
+                        "发现";
+        //坐标:朋友圈
+        String friendCircleBtnLocation =
+                paramMap.get("friendCircleBtnLocation") != null ?
+                        paramMap.get("friendCircleBtnLocation").toString() :
+                        "朋友圈";
+
+        //1.配置连接android驱动
+        AndroidDriver driver = null;
+        try {
+            DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+            desiredCapabilities.setCapability("platformName", "Android");                               //Android设备
+            desiredCapabilities.setCapability("deviceName", deviceName);                                //设备
+            desiredCapabilities.setCapability("udid", deviceName);                                      //设备唯一标识
+            desiredCapabilities.setCapability("appPackage", "com.tencent.mm");                          //打开 微信
+            desiredCapabilities.setCapability("appActivity", ".ui.LauncherUI");                         //首个 页面
+            desiredCapabilities.setCapability("noReset", true);                                         //不用重新安装APK
+            desiredCapabilities.setCapability("sessionOverride", true);                                 //每次启动时覆盖session，否则第二次后运行会报错不能新建session
+            desiredCapabilities.setCapability("automationName", "UiAutomator2");                        //UI定位器2
+            desiredCapabilities.setCapability("newCommandTimeout", 15);                                 //在下一个命令执行之前的等待最大时长,单位为秒
+            desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
+            desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
+            desiredCapabilities.setCapability("uiautomator2ServerInstallTimeout", 20000);               //等待uiAutomator2服务安装的超时时间，单位毫秒
+            desiredCapabilities.setCapability("androidDeviceReadyTimeout", 30);                         //等待设备在启动应用后超时时间，单位秒
+            desiredCapabilities.setCapability("autoAcceptAlerts", true);                                //默认选择接受弹窗的条款，有些app启动的时候，会有一些权限的弹窗
+            desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
+            URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
+            driver = new AndroidDriver(remoteUrl, desiredCapabilities);
+            logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+        }
+        //2.点击坐标【发现】
+        try {
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")").click();
+            logger.info("点击坐标【发现】成功....");
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("点击坐标【发现】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+        }
+        //3.点击坐标【朋友圈】
+        try {
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + friendCircleBtnLocation + "\")").click();
+            logger.info("点击坐标【朋友圈】成功....");
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+        }
+        for (int i = 0; i < 2; i++) {
+            Integer findAdNum = 5;      //寻找朋友圈广告的次数
+            //上滑至坐标【广告】new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text("琴琴"))
+            try{
+//                WebElement ad_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text(\"广告\"))");
+                WebElement ad_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text(\"琴琴\"))");
+                logger.info("上滑至坐标【广告】成功....");
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                logger.info("上滑至坐标【广告】失败，继续滚动再寻找....");
+            }
+            //xpath定位坐标【评论两个点】，点击出现【赞】与【评论】
+            try{
+//                driver.findElementByXPath("//android.widget.TextView[@text=\"广告\"]/../../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                driver.findElementByXPath("//android.widget.TextView[@text=\"琴琴\"]/../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                logger.info("点击坐标【评论两个点】成功....");
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                logger.info("点击坐标【评论两个点】失败，继续滚动再寻找....");
+                continue;
+            }
+            //点击坐标【赞】
+            try{
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "赞" + "\")").click();
+                logger.info("点击坐标【赞】成功....");
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                try{
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "取消" + "\")");
+                    logger.info("检测坐标【赞】的【取消】成功，即已经点过赞了，继续下一步评论....");
+                    Thread.sleep(1500);
+                } catch (Exception e1) {
+                    logger.info("点击坐标【赞】的【取消】失败，继续滚动再寻找....");
+                    continue;
+                }
+            }
+            //xpath定位坐标【评论两个点】，点击出现【赞】与【评论】
+            try{
+//                driver.findElementByXPath("//android.widget.TextView[@text=\"广告\"]/../../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                driver.findElementByXPath("//android.widget.TextView[@text=\"琴琴\"]/../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                logger.info("点击坐标【评论两个点】成功....");
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                logger.info("点击坐标【评论两个点】失败，继续滚动再寻找....");
+                continue;
+            }
+            //点击坐标【评论】
+            try{
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "评论" + "\")").click();
+                logger.info("点击坐标【评论】成功....");
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                logger.info("点击坐标【评论】失败，继续滚动再寻找....");
+                continue;
+            }
+            //点坐坐标【评论输入框】，并输入评论内容
+            try{
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.EditText" + "\")").sendKeys("好高级啊，羡慕....");
+                logger.info("点击坐标【评论输入框】成功....");
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                logger.info("点击坐标【评论】失败，继续滚动再寻找....");
+                continue;
+            }
+            //点击坐标【发送】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "发送" + "\")").click();
+                logger.info("点击坐标【发送】成功....");
+                Thread.sleep(1500);
+                break;
+            } catch (Exception e) {
+                logger.info("点击坐标【发送】失败，继续滚动再寻找....");
+                continue;
+            }
+        }
+
+
+        //4.上滑寻找坐标【广告】
+        logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
+    }
+
+    public static void main(String[] args) {
+        try {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            new RealMachineDevices().praiseAndCommentFriendsCircle(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
+
