@@ -20,6 +20,13 @@ public interface WX_SpiderService {
     public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap);
 
     /**
+     * 启动appium,同意进群
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO agreeToJoinTheGroup(Map<String, Object> paramMap);
+
+    /**
      * 启动appium,将群保存到通讯录
      * @param paramMap
      * @return
