@@ -20,6 +20,13 @@ public interface WX_SpiderService {
     public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap);
 
     /**
+     * 启动appium,点赞和评论朋友圈
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO praiseAndCommentFriendsCircle(Map<String, Object> paramMap);
+
+    /**
      * 启动appium,同意进群
      * @param paramMap
      * @return

@@ -8,6 +8,7 @@ import com.oilStationMap.utils.wxAdAutomation.addGroupMembersAsFriends.AddGroupM
 import com.oilStationMap.utils.wxAdAutomation.agreeToFriendRequest.AgreeToFriendRequestUtils;
 import com.oilStationMap.utils.wxAdAutomation.agreeToJoinTheGroup.AgreeToJoinTheGroupUtils;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
+import com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle.PraiseAndCommentFriendsCircleUtils;
 import com.oilStationMap.utils.wxAdAutomation.saveToAddressBook.SaveToAddressBookUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
@@ -76,6 +77,25 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在service中启动appium,同意进群-saveToAddressBook,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 点赞和评论朋友圈
+     * @param paramMap
+     * @throws Exception
+     */
+    @Override
+    public ResultMapDTO praiseAndCommentFriendsCircle(Map<String, Object> paramMap){
+        try {
+            PraiseAndCommentFriendsCircleUtils.praiseAndCommentFriendsCircle(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在service中启动appium,点赞和评论朋友圈-saveToAddressBook,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 

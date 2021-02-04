@@ -1,5 +1,6 @@
 package com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.WebElement;
@@ -52,6 +53,17 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 paramMap.get("commentContent") != null ?
                         paramMap.get("commentContent").toString() :
                         "好高级啊，羡慕....";
+        //对所有好友点赞或评论时，滑动朋友圈的次数
+        String allSwipeNumStr =
+                paramMap.get("allSwipeNum") != null ?
+                        paramMap.get("allSwipeNum").toString() :
+                        "10";
+        int allSwipeNum = 10;
+        try{
+            allSwipeNum = Integer.parseInt(allSwipeNumStr);
+        } catch (Exception e) {
+            allSwipeNum = 10;
+        }
         //操作:纯文字朋友圈和图片文字朋友圈
         String action =
                 paramMap.get("action") != null ?
@@ -72,6 +84,16 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 paramMap.get("commentToPointLocation") != null ?
                         paramMap.get("commentToPointLocation").toString() :
                         "评论";
+        //坐标:照片或视频
+        String picOrVedioLocation =
+                paramMap.get("picOrVedioLocation") != null ?
+                        paramMap.get("picOrVedioLocation").toString() :
+                        "照片或视频";
+        //坐标:取消
+        String cameraCancelLocation =
+                paramMap.get("cameraCancelLocation") != null ?
+                        paramMap.get("cameraCancelLocation").toString() :
+                        "取消";
         //坐标:赞
         String praiseLocation =
                 paramMap.get("praiseLocation") != null ?
@@ -143,16 +165,33 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         if ("所有".equals(nickName)) {
-            for (int i = 0; i < 10; i++) {
-                //获取当前屏幕所有坐标【评论两个点】
-                List<WebElement> commentToPointElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + commentToPointLocation + "\")");
+            for (int i = 0; i < allSwipeNum; i++) {
+                List<WebElement> commentToPointElementList = Lists.newLinkedList();
+                try{
+                    //获取当前屏幕所有坐标【评论两个点】
+                    commentToPointElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + commentToPointLocation + "\")");
+                } catch (Exception e) {
+                    logger.info("点击坐标【评论两个点】失败....");
+                    continue;
+                }
                 //循环操作所有的坐标【评论两个点】
                 for(WebElement commentToPointElement : commentToPointElementList){
-                    //点击坐标【评论两个点】，xpath定位，随后出现【赞】与【评论】
+                    //点击坐标【评论两个点】，随后出现【赞】与【评论】
                     try{
-                        commentToPointElement.click();
+                        commentToPointElement.click();          //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击
                     } catch (Exception e) {
                         continue;
+                    } finally {
+                        try{
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + picOrVedioLocation + "\")");
+                            logger.info("点击坐标【照片或视频】成功，在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cameraCancelLocation + "\")").click();
+                            continue;
+                        } catch (Exception e) {
+
+                        } finally {
+
+                        }
                     }
                     //点击坐标【赞】
                     try {
@@ -169,7 +208,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                             continue;
                         }
                     }
-                    //点击坐标【评论两个点】，xpath定位，随后出现【赞】与【评论】
+                    //点击坐标【评论两个点】，随后出现【赞】与【评论】
                     try{
                         commentToPointElement.click();
                     } catch (Exception e) {
@@ -205,7 +244,11 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                     }
                 }
                 //屏幕滚动到下一屏
-                driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                try{
+                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                } catch (Exception e) {
+                    logger.info("屏幕滚动到下一屏失败....");
+                }
             }
         } else {
             for (int i = 0; i < 2; i++) {
@@ -295,7 +338,10 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("nickName", "琴琴");
+//            paramMap.put("nickName", "汽车原装皮套批发");
+//            paramMap.put("nickName", "广告");
+            paramMap.put("nickName", "所有");
+            paramMap.put("allSwipeNum", "10");
             paramMap.put("commentContent", "看着好高级啊，真棒...");
             new RealMachineDevices().praiseAndCommentFriendsCircle(paramMap);
         } catch (Exception e) {
