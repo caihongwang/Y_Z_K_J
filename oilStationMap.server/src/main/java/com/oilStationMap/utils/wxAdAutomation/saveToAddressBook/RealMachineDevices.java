@@ -81,6 +81,11 @@ public class RealMachineDevices implements SaveToAddressBook {
                 paramMap.get("chatInfoLocaltion") != null ?
                         paramMap.get("chatInfoLocaltion").toString() :
                         "聊天信息";
+        //坐标【群成员总数：聊天信息(】
+        String groupTotalNumLocation =
+                paramMap.get("groupTotalNumLocation") != null ?
+                        paramMap.get("groupTotalNumLocation").toString() :
+                        "聊天信息(";
         //坐标【保存到通讯录】
         String aadToAddressBookLocaltion =
                 paramMap.get("aadToAddressBookLocaltion") != null ?
@@ -342,18 +347,29 @@ public class RealMachineDevices implements SaveToAddressBook {
                 throw new Exception("点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
 
-            //判断是否为-微信群，查看坐标【群成员总数：聊天信息(】
-            String groupTotalNumStr = "-1";
+            //6.点击坐标【设置】
             try {
-                Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
-                Matcher matcher = pattern.matcher(chatFriendNickName);
-                while (matcher.find()) {
-                    groupTotalNumStr = matcher.group();
-                }
+                WebElement chatInfo_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + chatInfoLocaltion + "\")");
+                chatInfo_WebElement.click();
+                logger.info("点击坐标【设置】成功....");
+                Thread.sleep(2000);
+            } catch (Exception e) {
+                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+                logger.info("返回【当前页面聊天好友信息】....");
+                Thread.sleep(2000);
+                continue;
+            }
+
+            //7.查看坐标【群成员总数：聊天信息(】
+            isChatGroupFlag = false;
+            try {
+                WebElement groupTotalNumWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + groupTotalNumLocation + "\")");
+                String text = groupTotalNumWebElement.getAttribute("text");
+                String groupTotalNumStr = ((text.split("\\("))[1].split("\\)"))[0];
                 Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
                 if (groupTotalNum > 0) {
                     isChatGroupFlag = true;
-                    logger.info("【检测当前页面聊天好友信息】成功，【微信群】--->>>【" + chatFriendNickName + "】群成员总数为：" + groupTotalNum + "个....");
+                    logger.info("【检测是否为微信群】成功，【微信群】--->>>【" + chatFriendNickName + "】群成员总数为：" + groupTotalNum + "个....");
                 }
             } catch (Exception e) {
 
@@ -364,19 +380,6 @@ public class RealMachineDevices implements SaveToAddressBook {
                     Thread.sleep(2000);
                     continue;
                 }
-            }
-
-            //6.点击坐标【设置】
-            try {
-                WebElement chatInfo_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + chatInfoLocaltion + "\")");
-                chatInfo_WebElement.click();
-                logger.info("点击坐标【设置】成功，【微信群】--->>>【" + chatFriendNickName + "】....");
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                logger.info("返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
-                continue;
             }
 
             for (int i = 0; i < 3; i++) {       //向上滑动三次
@@ -426,6 +429,8 @@ public class RealMachineDevices implements SaveToAddressBook {
 //                    }
 //                }
 //                Thread.sleep(2000);
+
+                //8.点击坐标【消息免打扰】
                 List<WebElement> switchList_webElement = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + shutDownLocaltion + "\")");
                 if (switchList_webElement != null && switchList_webElement.size() > 0) {
                     for (WebElement webElement : switchList_webElement) {
