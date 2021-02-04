@@ -1,20 +1,13 @@
 package com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle;
 
 import com.google.common.collect.Maps;
-import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.EmojiUtil;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.touch.WaitOptions;
-import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.net.URL;
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +21,6 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
 
     /**
      * 点赞和评论朋友圈
-     *
      * @param paramMap
      * @throws Exception
      */
@@ -50,6 +42,16 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 paramMap.get("appiumPort") != null ?
                         paramMap.get("appiumPort").toString() :
                         "4723";
+        //昵称对象
+        String nickName =
+                paramMap.get("nickName") != null ?
+                        paramMap.get("nickName").toString() :
+                        "广告";
+        //评论内容
+        String commentContent =
+                paramMap.get("commentContent") != null ?
+                        paramMap.get("commentContent").toString() :
+                        "好高级啊，羡慕....";
         //操作:纯文字朋友圈和图片文字朋友圈
         String action =
                 paramMap.get("action") != null ?
@@ -65,7 +67,36 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 paramMap.get("friendCircleBtnLocation") != null ?
                         paramMap.get("friendCircleBtnLocation").toString() :
                         "朋友圈";
-
+        //坐标:评论
+        String commentToPointLocation =
+                paramMap.get("commentToPointLocation") != null ?
+                        paramMap.get("commentToPointLocation").toString() :
+                        "评论";
+        //坐标:赞
+        String praiseLocation =
+                paramMap.get("praiseLocation") != null ?
+                        paramMap.get("praiseLocation").toString() :
+                        "赞";
+        //坐标:取消
+        String cancelLocation =
+                paramMap.get("cancelLocation") != null ?
+                        paramMap.get("cancelLocation").toString() :
+                        "取消";
+        //坐标:评论
+        String commentLocation =
+                paramMap.get("commentLocation") != null ?
+                        paramMap.get("commentLocation").toString() :
+                        "评论";
+        //坐标:android.widget.EditText
+        String commentInputLocation =
+                paramMap.get("commentInputLocation") != null ?
+                        paramMap.get("commentInputLocation").toString() :
+                        "android.widget.EditText";
+        //坐标:发送
+        String sendLocation =
+                paramMap.get("sendLocation") != null ?
+                        paramMap.get("sendLocation").toString() :
+                        "发送";
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -111,90 +142,161 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             e.printStackTrace();
             throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
-        for (int i = 0; i < 2; i++) {
-            Integer findAdNum = 5;      //寻找朋友圈广告的次数
-            //上滑至坐标【广告】new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text("琴琴"))
-            try{
-//                WebElement ad_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text(\"广告\"))");
-                WebElement ad_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text(\"琴琴\"))");
-                logger.info("上滑至坐标【广告】成功....");
-                Thread.sleep(1500);
-            } catch (Exception e) {
-                logger.info("上滑至坐标【广告】失败，继续滚动再寻找....");
+        if ("所有".equals(nickName)) {
+            for (int i = 0; i < 10; i++) {
+                //获取当前屏幕所有坐标【评论两个点】
+                List<WebElement> commentToPointElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + commentToPointLocation + "\")");
+                //循环操作所有的坐标【评论两个点】
+                for(WebElement commentToPointElement : commentToPointElementList){
+                    //点击坐标【评论两个点】，xpath定位，随后出现【赞】与【评论】
+                    try{
+                        commentToPointElement.click();
+                    } catch (Exception e) {
+                        continue;
+                    }
+                    //点击坐标【赞】
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + praiseLocation + "\")").click();
+                        logger.info("点击坐标【赞】成功....");
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cancelLocation + "\")");
+                            logger.info("检测坐标【赞】的【取消】成功，即已经点过赞了，继续下一步评论....");
+                            Thread.sleep(1500);
+                        } catch (Exception e1) {
+                            logger.info("点击坐标【赞】的【取消】失败，继续滚动再寻找....");
+                            continue;
+                        }
+                    }
+                    //点击坐标【评论两个点】，xpath定位，随后出现【赞】与【评论】
+                    try{
+                        commentToPointElement.click();
+                    } catch (Exception e) {
+                        continue;
+                    }
+                    //点击坐标【评论】
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + commentLocation + "\")").click();
+                        logger.info("点击坐标【评论】成功....");
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+                        logger.info("点击坐标【评论】失败，继续滚动再寻找....");
+                        continue;
+                    }
+                    //点坐坐标【评论输入框】，并输入评论内容
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + commentInputLocation + "\")").sendKeys(commentContent);
+                        logger.info("点击坐标【评论输入框】成功....");
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+                        logger.info("点击坐标【评论】失败，继续滚动再寻找....");
+                        continue;
+                    }
+                    //点击坐标【发送】
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendLocation + "\")").click();
+                        logger.info("点击坐标【发送】成功....");
+                        Thread.sleep(1500);
+                        break;
+                    } catch (Exception e) {
+                        logger.info("点击坐标【发送】失败，继续滚动再寻找....");
+                        continue;
+                    }
+                }
+                //屏幕滚动到下一屏
+                driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
             }
-            //xpath定位坐标【评论两个点】，点击出现【赞】与【评论】
-            try{
-//                driver.findElementByXPath("//android.widget.TextView[@text=\"广告\"]/../../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
-                driver.findElementByXPath("//android.widget.TextView[@text=\"琴琴\"]/../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
-                logger.info("点击坐标【评论两个点】成功....");
-                Thread.sleep(1500);
-            } catch (Exception e) {
-                logger.info("点击坐标【评论两个点】失败，继续滚动再寻找....");
-                continue;
-            }
-            //点击坐标【赞】
-            try{
-                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "赞" + "\")").click();
-                logger.info("点击坐标【赞】成功....");
-                Thread.sleep(1500);
-            } catch (Exception e) {
-                try{
-                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "取消" + "\")");
-                    logger.info("检测坐标【赞】的【取消】成功，即已经点过赞了，继续下一步评论....");
+        } else {
+            for (int i = 0; i < 2; i++) {
+                //上滑至坐标【广告/指定昵称】
+                try {
+                    WebElement ad_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text(\"" + nickName + "\"))");
+                    logger.info("上滑至坐标【" + nickName + "】成功....");
                     Thread.sleep(1500);
-                } catch (Exception e1) {
-                    logger.info("点击坐标【赞】的【取消】失败，继续滚动再寻找....");
+                } catch (Exception e) {
+                    logger.info("上滑至坐标【" + nickName + "】失败，继续滚动再寻找....");
+                }
+                //点击坐标【评论两个点】，xpath定位，随后出现【赞】与【评论】
+                try {
+                    if ("广告".equals(nickName)) {
+                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + nickName + "\"]/../../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                    } else {
+                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + nickName + "\"]/../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                    }
+                    logger.info("点击坐标【评论两个点】成功....");
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    logger.info("点击坐标【评论两个点】失败，继续滚动再寻找....");
+                    continue;
+                }
+                //点击坐标【赞】
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + praiseLocation + "\")").click();
+                    logger.info("点击坐标【赞】成功....");
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cancelLocation + "\")");
+                        logger.info("检测坐标【赞】的【取消】成功，即已经点过赞了，继续下一步评论....");
+                        Thread.sleep(1500);
+                    } catch (Exception e1) {
+                        logger.info("点击坐标【赞】的【取消】失败，继续滚动再寻找....");
+                        continue;
+                    }
+                }
+                //点击坐标【评论两个点】，xpath定位，随后出现【赞】与【评论】
+                try {
+                    if ("广告".equals(nickName)) {
+                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + nickName + "\"]/../../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                    } else {
+                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + nickName + "\"]/../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
+                    }
+                    logger.info("点击坐标【评论两个点】成功....");
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    logger.info("点击坐标【评论两个点】失败，继续滚动再寻找....");
+                    continue;
+                }
+                //点击坐标【评论】
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + commentLocation + "\")").click();
+                    logger.info("点击坐标【评论】成功....");
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    logger.info("点击坐标【评论】失败，继续滚动再寻找....");
+                    continue;
+                }
+                //点坐坐标【评论输入框】，并输入评论内容
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + commentInputLocation + "\")").sendKeys(commentContent);
+                    logger.info("点击坐标【评论输入框】成功....");
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    logger.info("点击坐标【评论】失败，继续滚动再寻找....");
+                    continue;
+                }
+                //点击坐标【发送】
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendLocation + "\")").click();
+                    logger.info("点击坐标【发送】成功....");
+                    Thread.sleep(1500);
+                    break;
+                } catch (Exception e) {
+                    logger.info("点击坐标【发送】失败，继续滚动再寻找....");
                     continue;
                 }
             }
-            //xpath定位坐标【评论两个点】，点击出现【赞】与【评论】
-            try{
-//                driver.findElementByXPath("//android.widget.TextView[@text=\"广告\"]/../../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
-                driver.findElementByXPath("//android.widget.TextView[@text=\"琴琴\"]/../../android.widget.FrameLayout/android.widget.ImageView[@content-desc='评论']").click();
-                logger.info("点击坐标【评论两个点】成功....");
-                Thread.sleep(1500);
-            } catch (Exception e) {
-                logger.info("点击坐标【评论两个点】失败，继续滚动再寻找....");
-                continue;
-            }
-            //点击坐标【评论】
-            try{
-                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "评论" + "\")").click();
-                logger.info("点击坐标【评论】成功....");
-                Thread.sleep(1500);
-            } catch (Exception e) {
-                logger.info("点击坐标【评论】失败，继续滚动再寻找....");
-                continue;
-            }
-            //点坐坐标【评论输入框】，并输入评论内容
-            try{
-                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.EditText" + "\")").sendKeys("好高级啊，羡慕....");
-                logger.info("点击坐标【评论输入框】成功....");
-                Thread.sleep(1500);
-            } catch (Exception e) {
-                logger.info("点击坐标【评论】失败，继续滚动再寻找....");
-                continue;
-            }
-            //点击坐标【发送】
-            try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "发送" + "\")").click();
-                logger.info("点击坐标【发送】成功....");
-                Thread.sleep(1500);
-                break;
-            } catch (Exception e) {
-                logger.info("点击坐标【发送】失败，继续滚动再寻找....");
-                continue;
-            }
         }
-
-
-        //4.上滑寻找坐标【广告】
+        //4.上滑寻找坐标【广告/指定昵称】
         logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
     }
 
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("nickName", "琴琴");
+            paramMap.put("commentContent", "看着好高级啊，真棒...");
             new RealMachineDevices().praiseAndCommentFriendsCircle(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
