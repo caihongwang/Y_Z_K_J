@@ -195,9 +195,9 @@ public class RealMachineDevices implements SaveToAddressBook {
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
 //            if (!chatFriendNickName.contains("内部交流群")) {
-            if (!chatFriendNickName.contains("内部人脉推荐群")) {
-                continue;
-            }
+//            if (!chatFriendNickName.contains("内部人脉推荐群")) {
+//                continue;
+//            }
             if (chatFriendNickName.contains("[店员消息]")) {
                 logger.info("当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
