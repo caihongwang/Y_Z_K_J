@@ -3,6 +3,7 @@ package com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
 
     /**
      * 点赞和评论朋友圈
+     *
      * @param paramMap
      * @throws Exception
      */
@@ -32,12 +34,12 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "9f4eda95";
+                        "D5F0218325003946";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "小米 Max 3";
+                        "花我 P20 Pro";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -59,7 +61,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                         paramMap.get("allSwipeNum").toString() :
                         "10";
         int allSwipeNum = 10;
-        try{
+        try {
             allSwipeNum = Integer.parseInt(allSwipeNumStr);
         } catch (Exception e) {
             allSwipeNum = 10;
@@ -152,8 +154,15 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             logger.info("点击坐标【发现】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("点击坐标【发现】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            //2.1 点击坐标【发现】【xpath定位】
+            try {
+                driver.findElementByXPath("//com.tencent.mm.ui.mogic.WxViewPager/../android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]").click();
+                logger.info("点击坐标【发现】【xpath定位】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e1) {
+                e.printStackTrace();
+                throw new Exception("点击坐标【发现】与【发现】【xpath定位】均出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            }
         }
         //3.点击坐标【朋友圈】
         try {
@@ -165,9 +174,16 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         if ("所有".equals(nickName)) {
+            for (int i = 0; i < 15; i++) {
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                } catch (Exception e) {
+                    logger.info("屏幕滚动到下一屏失败....");
+                }
+            }
             for (int i = 0; i < allSwipeNum; i++) {
                 List<WebElement> commentToPointElementList = Lists.newLinkedList();
-                try{
+                try {
                     //获取当前屏幕所有坐标【评论两个点】
                     commentToPointElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + commentToPointLocation + "\")");
                 } catch (Exception e) {
@@ -175,14 +191,19 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                     continue;
                 }
                 //循环操作所有的坐标【评论两个点】
-                for(WebElement commentToPointElement : commentToPointElementList){
+                for (WebElement commentToPointElement : commentToPointElementList) {
+                    System.out.println("commentToPointElement.getText() = " + commentToPointElement.getText());
+                    System.out.println("commentToPointElement.getAttribute(\"class\") = " + commentToPointElement.getAttribute("class"));
+                    System.out.println("commentToPointElement.getAttribute(\"content-desc\") = " + commentToPointElement.getAttribute("content-desc"));
+                    System.out.println("commentToPointElement.getTagName() = " + commentToPointElement.getTagName());
+                    System.out.println("========================================");
                     //点击坐标【评论两个点】，随后出现【赞】与【评论】
-                    try{
+                    try {
                         commentToPointElement.click();          //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击
                     } catch (Exception e) {
                         continue;
                     } finally {
-                        try{
+                        try {
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + picOrVedioLocation + "\")");
                             logger.info("点击坐标【照片或视频】成功，在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cameraCancelLocation + "\")").click();
@@ -209,10 +230,19 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                         }
                     }
                     //点击坐标【评论两个点】，随后出现【赞】与【评论】
-                    try{
+                    try {
                         commentToPointElement.click();
                     } catch (Exception e) {
-                        continue;
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + picOrVedioLocation + "\")");
+                            logger.info("点击坐标【照片或视频】成功，在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cameraCancelLocation + "\")").click();
+                            continue;
+                        } catch (Exception e1) {
+
+                        } finally {
+
+                        }
                     }
                     //点击坐标【评论】
                     try {
@@ -244,7 +274,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                     }
                 }
                 //屏幕滚动到下一屏
-                try{
+                try {
                     driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
                 } catch (Exception e) {
                     logger.info("屏幕滚动到下一屏失败....");
