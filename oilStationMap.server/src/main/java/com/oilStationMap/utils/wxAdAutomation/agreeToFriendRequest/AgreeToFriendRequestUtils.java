@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oilStationMap.config.GlobalVariableConfig;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
@@ -34,6 +35,8 @@ public class AgreeToFriendRequestUtils {
 
     public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
 
+    public static GlobalVariableConfig globalVariableConfig = (com.oilStationMap.config.GlobalVariableConfig) ApplicationContextUtils.getBeanByClass(GlobalVariableConfig.class);
+
     /**
      * 同意好友请求
      *
@@ -52,6 +55,9 @@ public class AgreeToFriendRequestUtils {
         if (currentDateList.size() <= 0) {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
+        //appium端口号
+        String appiumPort = globalVariableConfig.appiumPortList.get(0);     //从全局变量中获取appium端口号并移除，避免其他线程抢端口号
+        globalVariableConfig.appiumPortList.remove(appiumPort);
         for (String currentDateStr : currentDateList) {
             String deviceName = "未知-设备编码";
             String deviceNameDesc = "未知-设备描述";
@@ -77,7 +83,7 @@ public class AgreeToFriendRequestUtils {
                     String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                     List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                     //appium端口号
-                    String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
+//                    String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
                     agreeToFriendRequestParam.put("appiumPort", appiumPort);
                     if (deviceNameList != null && deviceNameList.size() > 0) {
                         for (Map<String, Object> deviceNameMap : deviceNameList) {
@@ -187,5 +193,6 @@ public class AgreeToFriendRequestUtils {
                 logger.info("设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】【同意好友请求】全部执行成功....");
             }
         }
+        globalVariableConfig.appiumPortList.add(appiumPort);        //回收已使用完成的appium端口号
     }
 }

@@ -3,6 +3,7 @@ package com.oilStationMap.utils.wxAdAutomation.chatByNickName;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oilStationMap.config.GlobalVariableConfig;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.MailService;
@@ -38,22 +39,19 @@ public class ChatByNickNameUtils {
 
     public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
 
+    public static GlobalVariableConfig globalVariableConfig = (com.oilStationMap.config.GlobalVariableConfig) ApplicationContextUtils.getBeanByClass(GlobalVariableConfig.class);
+
     /**
      * 根据微信昵称进行聊天for所有设备
      */
     public static void chatByNickName(Map<String, Object> paramMap) {
         StopWatch sw = new StopWatch();
         sw.start();
-//        try {
-//            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
-//            Thread.sleep(30000);    //等待重启30秒
-//        } catch (Exception e) {
-//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-//            logger.error("重启所有手机异常，e :", e);
-//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-//        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+        //appium端口号
+        String appiumPort = globalVariableConfig.appiumPortList.get(0);     //从全局变量中获取appium端口号并移除，避免其他线程抢端口号
+        globalVariableConfig.appiumPortList.remove(appiumPort);
         for (String nickName : nickNameList) {
             List<HashMap<String, Object>> rebootDeviceNameList = Lists.newArrayList();          //执行失败的设备列表，待重新执行
             paramMap.put("dicType", "chatByNickName");
@@ -82,7 +80,7 @@ public class ChatByNickNameUtils {
                         String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                         List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                         //appium端口号
-                        String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
+//                        String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
                         chatByNickNameParam.put("appiumPort", appiumPort);
                         if (deviceNameList != null && deviceNameList.size() > 0) {
                             for (Map<String, Object> deviceNameMap : deviceNameList) {
@@ -183,5 +181,6 @@ public class ChatByNickNameUtils {
                 logger.info("【"+nickName+"】【根据微信昵称进行聊天】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
             }
         }
+        globalVariableConfig.appiumPortList.add(appiumPort);        //回收已使用完成的appium端口号
     }
 }

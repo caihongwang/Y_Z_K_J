@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oilStationMap.config.GlobalVariableConfig;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.WX_DicService;
@@ -32,6 +33,8 @@ public class ShareArticleToFriendCircleUtils {
 
     public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
 
+    public static GlobalVariableConfig globalVariableConfig = (com.oilStationMap.config.GlobalVariableConfig) ApplicationContextUtils.getBeanByClass(GlobalVariableConfig.class);
+
     /**
      * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
      * 分享微信文章到微信朋友圈
@@ -42,14 +45,6 @@ public class ShareArticleToFriendCircleUtils {
     public static void shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception {
         StopWatch sw = new StopWatch();
         sw.start();
-//        try{
-//            CommandUtil.run("sh /opt/resourceOfOilStationMap/webapp/rebootAllAndroidDevices/rebootAllAndroidDevices.sh");
-//            Thread.sleep(30000);    //等待重启30秒
-//        } catch (Exception e) {
-//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-//            logger.error("重启所有手机异常，e :", e);
-//            logger.error(">>>>>>>>>>>>>>>>>>>重启所有手机异常<<<<<<<<<<<<<<<<<<<<<<");
-//        }
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
         LinkedList<String> currentDateList = Lists.newLinkedList();
@@ -62,6 +57,9 @@ public class ShareArticleToFriendCircleUtils {
         if (currentDateList.size() <= 0) {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
+        //appium端口号
+        String appiumPort = globalVariableConfig.appiumPortList.get(0);     //从全局变量中获取appium端口号并移除，避免其他线程抢端口号
+        globalVariableConfig.appiumPortList.remove(appiumPort);
         for (String currentDateStr : currentDateList) {
             Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
@@ -94,7 +92,7 @@ public class ShareArticleToFriendCircleUtils {
                             String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                             List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                             //appium端口号
-                            String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
+//                            String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
                             shareArticleToFriendCircleParam.put("appiumPort", appiumPort);
                             if (deviceNameList != null && deviceNameList.size() > 0) {
                                 for (Map<String, Object> deviceNameMap : deviceNameList) {
@@ -247,5 +245,6 @@ public class ShareArticleToFriendCircleUtils {
             logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
             logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
         }
+        globalVariableConfig.appiumPortList.add(appiumPort);        //回收已使用完成的appium端口号
     }
 }

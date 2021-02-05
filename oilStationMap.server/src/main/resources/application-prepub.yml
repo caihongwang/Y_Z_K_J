@@ -69,6 +69,9 @@ spring:
     #    properties.mail.smtp.port: 587 #端口号465或587
     #    from: 976499921@qq.com # 发送邮件的地址，和上面username一致
     #    default-encoding: utf-8
+  #appium启动端口号
+  appiumPortListStr: 4723,4725,4727,4729
+  stf_publicIp: 139.224.56.97
 
 mybatis:
   mapper-locations: mapper/**Mapper.xml
