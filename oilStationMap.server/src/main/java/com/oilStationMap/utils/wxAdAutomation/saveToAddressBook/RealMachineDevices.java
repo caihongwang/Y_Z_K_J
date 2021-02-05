@@ -40,12 +40,12 @@ public class RealMachineDevices implements SaveToAddressBook {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "9f4eda95";
+                        "D5F0218325003946";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "小米 Max 3";
+                        "华为 P20 Pro";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -91,6 +91,11 @@ public class RealMachineDevices implements SaveToAddressBook {
                 paramMap.get("aadToAddressBookLocaltion") != null ?
                         paramMap.get("aadToAddressBookLocaltion").toString() :
                         "保存到通讯录";
+        //坐标【置顶聊天】
+        String topChatLocaltion =
+                paramMap.get("topChatLocaltion") != null ?
+                        paramMap.get("topChatLocaltion").toString() :
+                        "置顶聊天";
         //坐标【消息免打扰】
         String dontDisturbTheNewsLocaltion =
                 paramMap.get("dontDisturbTheNewsLocaltion") != null ?
@@ -139,7 +144,7 @@ public class RealMachineDevices implements SaveToAddressBook {
 
         //1.上滑同时检测坐标检测当前页面聊天好友信息
         try {
-            int cyclesNumber = 0;       //循环下拉的次数
+            int cyclesNumber = 28;       //循环下拉的次数
             int maxCyclesNumber = 30;       //默认超过30次
             while (true) {      //循环下拉当前好友聊天列表，并将其加入 chatFriendsSet
                 WebElement listViewElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.ListView" + "\")");
@@ -190,8 +195,9 @@ public class RealMachineDevices implements SaveToAddressBook {
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
 //            if (!chatFriendNickName.contains("内部交流群")) {
-//                continue;
-//            }
+            if (!chatFriendNickName.contains("内部人脉推荐群")) {
+                continue;
+            }
             if (chatFriendNickName.contains("[店员消息]")) {
                 logger.info("当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
@@ -392,53 +398,55 @@ public class RealMachineDevices implements SaveToAddressBook {
             }
 
             try {
-//                //7.点击坐标【保存到通讯录】
-//                WebElement aadToAddressBookLocal_ParentElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.LinearLayout" + "\").fromParent(new UiSelector().className(\"" + "android.widget.LinearLayout" + "\").fromParent(new UiSelector().text(\""+aadToAddressBookLocaltion+"\")))");
-//                List<WebElement> aadToAddressBookLocalList = aadToAddressBookLocal_ParentElement.findElements(By.className("android.view.View"));       //获取所有的聊天好友信息
-//                if (aadToAddressBookLocalList != null && aadToAddressBookLocalList.size() > 0) {
-//                    for (WebElement webElement : aadToAddressBookLocalList) {
-//                        try {
-//                            String switchName = webElement.getAttribute("text");
-//                            if("已关闭".equals(switchName)){
-//                                webElement.click();
-//                                logger.info("点击坐标【保存到通讯录】的【开关】成功....");
-//                                break;
-//                            }
-//                        } catch (Exception e) {
-//                            logger.info("当前不是【保存到通讯录】的【开关】元素....");
-//                        }
-//                    }
-//                }
-//                Thread.sleep(2000);
-//
-//                //8.点击坐标【消息免打扰】
-//                WebElement dontDisturbTheNewsLocal_ParentElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.LinearLayout" + "\").fromParent(new UiSelector().className(\"" + "android.widget.LinearLayout" + "\").fromParent(new UiSelector().text(\""+dontDisturbTheNewsLocaltion+"\")))");
-//                List<WebElement> dontDisturbTheNewsLocalList = dontDisturbTheNewsLocal_ParentElement.findElements(By.className("android.view.View"));       //获取所有的聊天好友信息
-//                if (dontDisturbTheNewsLocalList != null && dontDisturbTheNewsLocalList.size() > 0) {
-//                    for (WebElement webElement : dontDisturbTheNewsLocalList) {
-//                        try {
-//                            String switchName = webElement.getAttribute("text");
-//                            if("已关闭".equals(switchName)){
-//                                webElement.click();
-//                                logger.info("点击坐标【消息免打扰】的【开关】成功....");
-//                                break;
-//                            }
-//                        } catch (Exception e) {
-//                            logger.info("当前不是【消息免打扰】的【开关】元素....");
-//                        }
-//                    }
-//                }
-//                Thread.sleep(2000);
-
-                //8.点击坐标【消息免打扰】
-                List<WebElement> switchList_webElement = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + shutDownLocaltion + "\")");
-                if (switchList_webElement != null && switchList_webElement.size() > 0) {
-                    for (WebElement webElement : switchList_webElement) {
-                        webElement.click();
-                        Thread.sleep(2000);
-                        logger.info("点击坐标【消息免打扰】的【开关】成功....");
+                //8.点击坐标【保存到通讯录】
+                try {
+                    WebElement aadToAddressBookLocalElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + aadToAddressBookLocaltion + "\"]/../../android.view.View");
+                    //android.widget.TextView[@text="保存到通讯录"]/../../android.view.View
+                    String switchName = aadToAddressBookLocalElement.getAttribute("content-desc");
+                    if ("已关闭".equals(switchName)) {
+                        aadToAddressBookLocalElement.click();
+                        logger.info("点击坐标【保存到通讯录】【XPath定位】的【开关】成功....");
                     }
+                } catch (Exception e) {
+                    logger.info("当前不是【保存到通讯录】【XPath定位】的【开关】元素....");
                 }
+                Thread.sleep(2000);
+
+                //9.点击坐标【置顶聊天】
+                try {
+                    WebElement topChatLocaltionElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + topChatLocaltion + "\"]/../../android.view.View");
+                    String switchName = topChatLocaltionElement.getAttribute("content-desc");
+                    if ("已开启".equals(switchName) && !chatFriendNickName.contains("内部交流群")) {
+                        topChatLocaltionElement.click();
+                        logger.info("点击坐标【置顶聊天】【XPath定位】的【开关】成功....");
+                    }
+                } catch (Exception e) {
+                    logger.info("当前不是【置顶聊天】【XPath定位】的【开关】元素....");
+                }
+                Thread.sleep(2000);
+
+                //10.点击坐标【消息免打扰】
+                try {
+                    WebElement dontDisturbTheNewsLocalElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + dontDisturbTheNewsLocaltion + "\"]/../../android.view.View");
+                    String switchName = dontDisturbTheNewsLocalElement.getAttribute("content-desc");
+                    if ("已关闭".equals(switchName)) {
+                        dontDisturbTheNewsLocalElement.click();
+                        logger.info("点击坐标【保存到通讯录】【XPath定位】的【开关】成功....");
+                    }
+                } catch (Exception e) {
+                    logger.info("当前不是【保存到通讯录】【XPath定位】的【开关】元素....");
+                }
+                Thread.sleep(2000);
+
+//                //8.点击坐标【已关闭】
+//                List<WebElement> switchList_webElement = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + shutDownLocaltion + "\")");
+//                if (switchList_webElement != null && switchList_webElement.size() > 0) {
+//                    for (WebElement webElement : switchList_webElement) {
+//                        webElement.click();
+//                        Thread.sleep(2000);
+//                        logger.info("点击坐标【已关闭】的【开关】成功....");
+//                    }
+//                }
             } catch (Exception e) {
                 logger.info("点击坐标【消息免打扰】或者【消息免打扰】异常，当前昵称已是你的好友，继续下一个昵称....");
                 e.printStackTrace();
