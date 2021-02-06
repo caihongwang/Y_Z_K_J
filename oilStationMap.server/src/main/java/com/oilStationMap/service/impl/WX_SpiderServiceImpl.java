@@ -163,7 +163,11 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      */
     @Override
     public ResultMapDTO chatByNickName(Map<String, Object> paramMap) {
-        ChatByNickNameUtils.chatByNickName(paramMap);
+        try {
+            ChatByNickNameUtils.chatByNickName(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
