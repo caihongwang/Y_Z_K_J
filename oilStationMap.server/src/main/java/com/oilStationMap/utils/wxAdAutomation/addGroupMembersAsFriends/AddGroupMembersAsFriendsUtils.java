@@ -60,8 +60,13 @@ public class AddGroupMembersAsFriendsUtils {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
         //appium端口号
-        String appiumPort = globalVariableConfig.appiumPortList.get(0);     //从全局变量中获取appium端口号并移除，避免其他线程抢端口号
-        globalVariableConfig.appiumPortList.remove(appiumPort);
+        String appiumPort = null;
+        try{
+            appiumPort = globalVariableConfig.appiumPortList.get(0);     //从全局变量中获取appium端口号并移除，避免其他线程抢端口号
+            globalVariableConfig.appiumPortList.remove(appiumPort);
+        } catch (Exception e) {
+            throw new Exception("当前没有空闲的appium端口号.");
+        }
         for (String currentDateStr : currentDateList) {
             Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
@@ -316,6 +321,8 @@ public class AddGroupMembersAsFriendsUtils {
                 logger.info("【添加群成员为好友的V群】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
             }
         }
-        globalVariableConfig.appiumPortList.add(appiumPort);        //回收已使用完成的appium端口号
+        if(appiumPort != null){
+            globalVariableConfig.appiumPortList.add(appiumPort);        //回收已使用完成的appium端口号
+        }
     }
 }
