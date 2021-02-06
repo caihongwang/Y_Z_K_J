@@ -39,7 +39,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "花我 P20 Pro";
+                        "华为 P20 Pro";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -60,11 +60,11 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 paramMap.get("allSwipeNum") != null ?
                         paramMap.get("allSwipeNum").toString() :
                         "10";
-        int allSwipeNum = 10;
+        int allSwipeNum = 20;
         try {
             allSwipeNum = Integer.parseInt(allSwipeNumStr);
         } catch (Exception e) {
-            allSwipeNum = 10;
+            allSwipeNum = 20;
         }
         //操作:纯文字朋友圈和图片文字朋友圈
         String action =
@@ -174,44 +174,62 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             throw new Exception("点击坐标【朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         if ("所有".equals(nickName)) {
-            for (int i = 0; i < 15; i++) {
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
-                } catch (Exception e) {
-                    logger.info("屏幕滚动到下一屏失败....");
-                }
-            }
+//            try {
+//                driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(10)");
+//                logger.info("屏幕先向上滚动10次，成功....");
+//            } catch (Exception e) {
+//                logger.info("scroll上滑中，10次....");
+//            }
             for (int i = 0; i < allSwipeNum; i++) {
+                logger.info("第【" + i + "】次上滑朋友圈...");
                 List<WebElement> commentToPointElementList = Lists.newLinkedList();
                 try {
                     //获取当前屏幕所有坐标【评论两个点】
                     commentToPointElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + commentToPointLocation + "\")");
+                    logger.info("获取当前屏幕所有坐标【评论两个点】成功....");
                 } catch (Exception e) {
-                    logger.info("点击坐标【评论两个点】失败....");
+                    logger.info("获取当前屏幕所有坐标【评论两个点】失败....");
                     continue;
                 }
                 //循环操作所有的坐标【评论两个点】
-                for (WebElement commentToPointElement : commentToPointElementList) {
-                    System.out.println("commentToPointElement.getText() = " + commentToPointElement.getText());
-                    System.out.println("commentToPointElement.getAttribute(\"class\") = " + commentToPointElement.getAttribute("class"));
-                    System.out.println("commentToPointElement.getAttribute(\"content-desc\") = " + commentToPointElement.getAttribute("content-desc"));
-                    System.out.println("commentToPointElement.getTagName() = " + commentToPointElement.getTagName());
-                    System.out.println("========================================");
+                for (int j = 0; j < commentToPointElementList.size(); j++) {
+                    if(j == 0){     //第一个评论不操作，容易误触坐标【返回】和坐标【相机】
+                        continue;
+                    }
+                    WebElement commentToPointElement = commentToPointElementList.get(j);
+//                    WebElement commentToPointElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().description(\"" + commentToPointLocation + "\"))");
                     //点击坐标【评论两个点】，随后出现【赞】与【评论】
                     try {
-                        commentToPointElement.click();          //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击
+                        commentToPointElement.click();
+                        logger.info("点击坐标【评论两个点】成功....");
                     } catch (Exception e) {
+                        logger.info("点击坐标【评论两个点】失败....");
                         continue;
                     } finally {
+                        boolean picOrVedio_2_friendCircle_Flag = false;
+                        //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击【相机】
                         try {
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + picOrVedioLocation + "\")");
-                            logger.info("点击坐标【照片或视频】成功，在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
+                            logger.info("检测坐标【照片或视频】成功，原因：在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cameraCancelLocation + "\")").click();
-                            continue;
+                            logger.info("点击坐标【取消】成功....");
+                            picOrVedio_2_friendCircle_Flag = true;
                         } catch (Exception e) {
 
-                        } finally {
+                        }
+                        //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击【返回】退回到【发现】页面
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")");
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "直播和附近" + "\")");
+                            logger.info("检测坐标【发现】与【直播和附近】成功，原因：在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + friendCircleBtnLocation + "\")").click();
+                            logger.info("点击坐标【朋友圈】成功....");
+                            picOrVedio_2_friendCircle_Flag = true;
+                        } catch (Exception e) {
 
+                        }
+                        if(picOrVedio_2_friendCircle_Flag){
+                            continue;
                         }
                     }
                     //点击坐标【赞】
@@ -232,16 +250,35 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                     //点击坐标【评论两个点】，随后出现【赞】与【评论】
                     try {
                         commentToPointElement.click();
+                        logger.info("点击坐标【评论两个点】成功....");
                     } catch (Exception e) {
+                        logger.info("点击坐标【评论两个点】失败....");
+                        continue;
+                    } finally {
+                        boolean picOrVedio_2_friendCircle_Flag = false;
+                        //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击【相机】
                         try {
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + picOrVedioLocation + "\")");
-                            logger.info("点击坐标【照片或视频】成功，在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
+                            logger.info("检测坐标【照片或视频】成功，原因：在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
                             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + cameraCancelLocation + "\")").click();
+                            logger.info("点击坐标【取消】成功....");
+                            picOrVedio_2_friendCircle_Flag = true;
+                        } catch (Exception e) {
+
+                        }
+                        //在屏幕的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击【返回】退回到【发现】页面
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")");
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "直播和附近" + "\")");
+                            logger.info("检测坐标【发现】与【直播和附近】成功，原因：在屏幕的滑动或者输入法弹出导致的滑动过程中坐标【评论两个点】正好滚动到【相机】后面，从而误触点击，继续下一个【评论两个点】....");
+                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + friendCircleBtnLocation + "\")").click();
+                            logger.info("点击坐标【朋友圈】成功....");
+                            picOrVedio_2_friendCircle_Flag = true;
+                        } catch (Exception e) {
+
+                        }
+                        if(picOrVedio_2_friendCircle_Flag){
                             continue;
-                        } catch (Exception e1) {
-
-                        } finally {
-
                         }
                     }
                     //点击坐标【评论】
@@ -267,17 +304,27 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendLocation + "\")").click();
                         logger.info("点击坐标【发送】成功....");
                         Thread.sleep(1500);
-                        break;
                     } catch (Exception e) {
                         logger.info("点击坐标【发送】失败，继续滚动再寻找....");
                         continue;
+                    } finally {
+//                        try {
+//                            //获取当前屏幕所有坐标【评论两个点】
+//                            commentToPointElementList.clear();
+//                            commentToPointElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + commentToPointLocation + "\")");
+//                            logger.info("获取当前屏幕所有坐标【评论两个点】成功....");
+//                        } catch (Exception e) {
+//                            logger.info("获取当前屏幕所有坐标【评论两个点】失败....");
+//                            continue;
+//                        }
                     }
+                    System.out.println(">>>>>>>>>>>>>>>>>下一个【赞】与【评论】<<<<<<<<<<<<<<<<<<");
                 }
                 //屏幕滚动到下一屏
                 try {
                     driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
                 } catch (Exception e) {
-                    logger.info("屏幕滚动到下一屏失败....");
+                    logger.info("scroll上滑中，检测当前朋友圈页面【评论两个点】....");
                 }
             }
         } else {
@@ -354,7 +401,6 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                     driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendLocation + "\")").click();
                     logger.info("点击坐标【发送】成功....");
                     Thread.sleep(1500);
-                    break;
                 } catch (Exception e) {
                     logger.info("点击坐标【发送】失败，继续滚动再寻找....");
                     continue;
@@ -371,7 +417,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
 //            paramMap.put("nickName", "汽车原装皮套批发");
 //            paramMap.put("nickName", "广告");
             paramMap.put("nickName", "所有");
-            paramMap.put("allSwipeNum", "10");
+            paramMap.put("allSwipeNum", "20");
             paramMap.put("commentContent", "看着好高级啊，真棒...");
             new RealMachineDevices().praiseAndCommentFriendsCircle(paramMap);
         } catch (Exception e) {

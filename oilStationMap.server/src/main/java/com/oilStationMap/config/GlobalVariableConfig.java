@@ -147,10 +147,10 @@ public class GlobalVariableConfig {
     }
 }
 
-*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4723.sh
-*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4725.sh
-*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4727.sh
-*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4729.sh
-
-*/10 * * * * /bin/bash /opt/defaultCommod/3.Rethinkdb_start.sh
-*/10 * * * * /bin/bash /opt/defaultCommod/4.STF_start_192.168.43.181.sh
+//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4723.sh
+//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4725.sh
+//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4727.sh
+//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4729.sh
+//
+//*/10 * * * * /bin/bash /opt/defaultCommod/3.Rethinkdb_start.sh
+//*/10 * * * * /bin/bash /opt/defaultCommod/4.STF_start_192.168.43.181.sh
