@@ -28,7 +28,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
      * @throws Exception
      */
     @Override
-    public void praiseAndCommentFriendsCircle(Map<String, Object> paramMap) throws Exception {
+    public boolean praiseAndCommentFriendsCircle(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -59,7 +59,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
         String allSwipeNumStr =
                 paramMap.get("allSwipeNum") != null ?
                         paramMap.get("allSwipeNum").toString() :
-                        "10";
+                        "20";
         int allSwipeNum = 20;
         try {
             allSwipeNum = Integer.parseInt(allSwipeNumStr);
@@ -409,6 +409,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
         }
         //4.上滑寻找坐标【广告/指定昵称】
         logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
+        return true;
     }
 
     public static void main(String[] args) {

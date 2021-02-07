@@ -11,5 +11,5 @@ public interface AddGroupMembersAsFriends {
      * @param paramMap
      * @throws Exception
      */
-    public void addGroupMembersAsFriends(Map<String, Object> paramMap, StopWatch sw) throws Exception;
+    public boolean addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception;
 }

@@ -9,5 +9,5 @@ public interface PraiseAndCommentFriendsCircle {
      * @param paramMap
      * @throws Exception
      */
-    public void praiseAndCommentFriendsCircle(Map<String, Object> paramMap) throws Exception;
+    public boolean praiseAndCommentFriendsCircle(Map<String, Object> paramMap) throws Exception;
 }

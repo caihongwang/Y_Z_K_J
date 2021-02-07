@@ -11,5 +11,5 @@ public interface SendFriendCircle {
      * @param paramMap
      * @throws Exception
      */
-    public void sendFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception;
+    public boolean sendFriendCircle(Map<String, Object> paramMap) throws Exception;
 }

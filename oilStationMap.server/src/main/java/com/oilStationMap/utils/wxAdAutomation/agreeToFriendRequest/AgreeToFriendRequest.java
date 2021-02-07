@@ -11,5 +11,5 @@ public interface AgreeToFriendRequest {
      * @param paramMap
      * @throws Exception
      */
-    public void agreeToFriendRequest(Map<String, Object> paramMap) throws Exception;
+    public boolean agreeToFriendRequest(Map<String, Object> paramMap) throws Exception;
 }

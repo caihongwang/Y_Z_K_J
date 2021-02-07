@@ -34,7 +34,7 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
      * @throws Exception
      */
     @Override
-    public void agreeToJoinTheGroup(Map<String, Object> paramMap) throws Exception {
+    public boolean agreeToJoinTheGroup(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -361,6 +361,7 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
             }
         }
         logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 同意进群【" + theSaveToAddressBookNum + "】个发送成功....");
+        return true;
     }
 
     public static void main(String[] args) {

@@ -34,7 +34,7 @@ public class RealMachineDevices implements SaveToAddressBook {
      * @throws Exception
      */
     @Override
-    public void saveToAddressBook(Map<String, Object> paramMap) throws Exception {
+    public boolean saveToAddressBook(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -469,6 +469,7 @@ public class RealMachineDevices implements SaveToAddressBook {
 //            Thread.sleep(2000);
         }
         logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 将群保存到通讯录【" + theSaveToAddressBookNum + "】个发送成功....");
+        return true;
     }
 
     public static void main(String[] args) {

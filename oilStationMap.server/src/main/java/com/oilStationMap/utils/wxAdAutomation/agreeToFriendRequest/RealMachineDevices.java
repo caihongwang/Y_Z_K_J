@@ -35,7 +35,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
      * @throws Exception
      */
     @Override
-    public void agreeToFriendRequest(Map<String, Object> paramMap) throws Exception {
+    public boolean agreeToFriendRequest(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -549,6 +549,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             logger.info("点击坐标【清空】异常....");
         }
         logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 同意好友请求【" + theAgreeNum + "】个发送成功....");
+        return true;
     }
 
     public static void main(String[] args) {

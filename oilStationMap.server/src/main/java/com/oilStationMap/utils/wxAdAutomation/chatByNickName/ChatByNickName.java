@@ -11,5 +11,5 @@ public interface ChatByNickName {
      * @param paramMap
      * @throws Exception
      */
-    public void chatByNickName(Map<String, Object> paramMap, StopWatch sw) throws Exception;
+    public boolean chatByNickName(Map<String, Object> paramMap) throws Exception;
 }

@@ -12,5 +12,5 @@ public interface ShareArticleToFriendCircle {
      * @param paramMap
      * @throws Exception
      */
-    public void shareArticleToFriendCircle(Map<String, Object> paramMap, StopWatch sw) throws Exception;
+    public boolean shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception;
 }

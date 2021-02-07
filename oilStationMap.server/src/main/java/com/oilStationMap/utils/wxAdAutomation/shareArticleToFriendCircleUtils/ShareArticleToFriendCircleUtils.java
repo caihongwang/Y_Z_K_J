@@ -7,8 +7,10 @@ import com.google.common.collect.Maps;
 import com.oilStationMap.config.GlobalVariableConfig;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
+import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
+import com.oilStationMap.service.impl.MailServiceImpl;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.*;
@@ -29,6 +31,8 @@ public class ShareArticleToFriendCircleUtils {
 
     public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
 
+    public static MailService mailService = (MailService) ApplicationContextUtils.getBeanByClass(MailServiceImpl.class);
+
     public static WX_DicService wxDicService = (WX_DicService) ApplicationContextUtils.getBeanByClass(WX_DicServiceImpl.class);
 
     public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
@@ -43,214 +47,217 @@ public class ShareArticleToFriendCircleUtils {
      * @throws Exception
      */
     public static void shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception {
-        StopWatch sw = new StopWatch();
-        sw.start();
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
         LinkedList<String> currentDateList = Lists.newLinkedList();
         try {
             currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
         } catch (Exception e) {
-            logger.error("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
-            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
         }
         if (currentDateList.size() <= 0) {
             currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
         }
-        //appium端口号
+        //appiumPort
         String appiumPort = null;
-        try{
-            appiumPort = globalVariableConfig.appiumPortList.get(0);     //从全局变量中获取appium端口号并移除，避免其他线程抢端口号
-            globalVariableConfig.appiumPortList.remove(appiumPort);
-        } catch (Exception e) {
-            throw new Exception("当前没有空闲的appium端口号.");
-        }
+        //设备编码
+        String deviceName = "未知-设备编码";
+        //设备描述
+        String deviceNameDesc = "未知-设备描述";
+        //当前 自动化操作 添加群成员为好友的V群
+        String action = "agreeToFriendRequest";
+        //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
+        String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndShareArticleToFriendCircleLocaltion";
         for (String currentDateStr : currentDateList) {
+            Map<String, Object> shareArticleToFriendCircleParam = Maps.newHashMap();
+            HashMap<String, Object> reboot_shareArticleToFriendCircleParam = Maps.newHashMap();
+            //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
             Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
             for (String nickName : nickNameList) {
-                List<HashMap<String, Object>> rebootDeviceNameList = Lists.newArrayList();          //执行失败的设备列表，待重新执行
+                boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
+                //根据微信昵称获取 指定 某一个分享微信文章
+                paramMap.clear();
                 paramMap.put("dicType", "shareArticleToFriendCircle");
                 paramMap.put("dicCode", nickName);        //指定 某一个分享微信文章到微信朋友圈 发送
                 ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
                 List<Map<String, String>> resultList = resultDTO.getResultList();
                 if (resultList != null && resultList.size() > 0) {
-                    //获取发送朋友圈的内容信息.
-                    Map<String, Object> shareArticleToFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));
+                    shareArticleToFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));//获取发送朋友圈的内容信息.
                     String theId = shareArticleToFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置
-                    List<String> dicCodeList = Lists.newArrayList();
-                    dicCodeList.add("HuaWeiListAndShareArticleToFriendCircleLocaltion");//获取 华为 Mate 8 设备列表和配套的坐标配置
-                    for (String dicCode : dicCodeList) {
-                        paramMap.clear();
-                        paramMap.put("dicType", "deviceNameListAndLocaltion");
-                        paramMap.put("dicCode", dicCode);
-                        List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-                        if (list != null && list.size() > 0) {
-                            String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                            JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                            //获取设备坐标
-                            String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                            Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                            shareArticleToFriendCircleParam.putAll(deviceLocaltionMap);
-                            //获取设备列表
-                            String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                            List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                            //appium端口号
-//                            String appiumPort = deviceNameAndLocaltionJSONObject.getString("appiumPort");
-                            shareArticleToFriendCircleParam.put("appiumPort", appiumPort);
-                            if (deviceNameList != null && deviceNameList.size() > 0) {
-                                for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                    shareArticleToFriendCircleParam.putAll(deviceNameMap);
-                                    //判断推广时间是否还在推广期内
-                                    String startTimeStr = shareArticleToFriendCircleParam.get("startTime") != null ? shareArticleToFriendCircleParam.get("startTime").toString() : "";
-                                    String endTimeStr = shareArticleToFriendCircleParam.get("endTime") != null ? shareArticleToFriendCircleParam.get("endTime").toString() : "";
-                                    if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
-                                        try {
-                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                            Date startTime = sdf.parse(startTimeStr);
-                                            Date endTime = sdf.parse(endTimeStr);
-                                            if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {
-                                                //判断当前设备的执行小时时间是否与当前时间匹配
-                                                String startHour =
-                                                        shareArticleToFriendCircleParam.get("startHour") != null ?
-                                                                shareArticleToFriendCircleParam.get("startHour").toString() :
-                                                                "";
-                                                String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                                if (startHour.equals(currentHour)) {
-                                                    //开始转发微信昵称朋友圈
-                                                    sw.split();
-                                                    logger.info("设备描述【" + shareArticleToFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + shareArticleToFriendCircleParam.get("deviceName") + "】操作【" + shareArticleToFriendCircleParam.get("action") + "】昵称【" + nickName + "】的将微信文章群发到朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
-                                                    new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam, sw);
-                                                    Thread.sleep(5000);
-                                                } else {
-                                                    //下一个设备
-                                                    sw.split();
-                                                    logger.info("设备描述【" + shareArticleToFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + shareArticleToFriendCircleParam.get("deviceName") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时，总共花费 " + sw.toSplitString() + " 秒....");
-                                                    continue;
-                                                }
-//                                            sw.split();
-//                                            logger.info( "设备描述【"+shareArticleToFriendCircleParam.get("deviceNameDesc")+"】设备编码【"+shareArticleToFriendCircleParam.get("deviceName")+"】操作【"+shareArticleToFriendCircleParam.get("action")+"】昵称【"+nickName+"】的将微信文章群发到朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
-//                                            new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam, sw);
-//                                            Thread.sleep(5000);
-                                            } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
-                                                logger.info("尚未开始，暂不处理....");
-                                            } else {
-                                                Map<String, Object> tempMap = Maps.newHashMap();
-                                                tempMap.put("id", theId);
-                                                tempMap.put("dicStatus", 1);
-                                                wxDicService.updateDic(tempMap);    //更新这条转发微信昵称朋友圈内容为已删除
-                                                logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容已到期....");
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            HashMap<String, Object> rebootDeviceNameMap = Maps.newHashMap();
-                                            rebootDeviceNameMap.putAll(shareArticleToFriendCircleParam);
-                                            rebootDeviceNameList.add(rebootDeviceNameMap);      //当前设备执行失败，加入待重新执行的设备列表
+                    paramMap.clear();
+                    paramMap.put("dicType", "deviceNameListAndLocaltion");
+                    paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
+                    List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
+                    if (list != null && list.size() > 0) {
+                        //获取dicRemark
+                        String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
+                        JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+                        //获取设备坐标
+                        String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
+                        Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                        shareArticleToFriendCircleParam.putAll(deviceLocaltionMap);
+                        //获取设备列表
+                        String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+                        List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                        if (deviceNameList != null && deviceNameList.size() > 0) {
+                            for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                shareArticleToFriendCircleParam.putAll(deviceNameMap);
+                                deviceName =
+                                        shareArticleToFriendCircleParam.get("deviceName") != null ?
+                                                shareArticleToFriendCircleParam.get("deviceName").toString() :
+                                                null;
+                                //当前设备描述
+                                deviceNameDesc =
+                                        shareArticleToFriendCircleParam.get("deviceNameDesc") != null ?
+                                                shareArticleToFriendCircleParam.get("deviceNameDesc").toString() :
+                                                null;
+                                //判断当前设备的执行小时时间是否与当前时间匹配
+                                boolean isExecuteFlag = false;
+                                //判断推广时间是否还在推广期内
+                                String startTimeStr = shareArticleToFriendCircleParam.get("startTime") != null ? shareArticleToFriendCircleParam.get("startTime").toString() : "";
+                                String endTimeStr = shareArticleToFriendCircleParam.get("endTime") != null ? shareArticleToFriendCircleParam.get("endTime").toString() : "";
+                                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    Date startTime = sdf.parse(startTimeStr);
+                                    Date endTime = sdf.parse(endTimeStr);
+                                    if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {
+                                        //判断当前设备的执行小时时间是否与当前时间匹配
+                                        String startHour =
+                                                shareArticleToFriendCircleParam.get("startHour") != null ?
+                                                        shareArticleToFriendCircleParam.get("startHour").toString() :
+                                                        "";
+                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                                        if (startHour.equals(currentHour)) {
+                                            //设置当前这杯可执行的标志位
+                                            isExecuteFlag = true;
+                                            //获取appium端口号
+                                            appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                            shareArticleToFriendCircleParam.put("appiumPort", appiumPort);
+                                        } else {
+                                            logger.info("设备描述【" + shareArticleToFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + shareArticleToFriendCircleParam.get("deviceName") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                            continue;
                                         }
+                                    } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
+                                        logger.info("尚未开始，暂不处理....");
                                     } else {
-                                        logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容推广日期不能为空....");
+                                        Map<String, Object> tempMap = Maps.newHashMap();
+                                        tempMap.put("id", theId);
+                                        tempMap.put("dicStatus", 1);
+                                        wxDicService.updateDic(tempMap);    //更新这条转发微信昵称朋友圈内容为已删除
+                                        logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容已到期....");
                                     }
+                                    try {
+                                        if (isExecuteFlag) {
+                                            //开始【将群保存到通讯录】
+                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                                            isOperatedFlag = new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam);
+                                            Thread.sleep(5000);
+                                            //测试
+//                                            isOperatedFlag = true;
+//                                            reboot_shareArticleToFriendCircleParam.putAll(shareArticleToFriendCircleParam);
+//                                            Thread.sleep(1000);
+                                            break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        reboot_shareArticleToFriendCircleParam.putAll(shareArticleToFriendCircleParam);
+                                        break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
+                                    }
+                                } else {
+                                    logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容推广日期不能为空....");
                                 }
                             }
-                        } else {
-                            logger.info(dicCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                         }
+                    } else {
+                        logger.info(deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
                 } else {
                     logger.info("分享微信文章到微信朋友圈 失败.");
                 }
+
                 //对执行失败的设备列表进行重新执行,最多循环执行5遍
                 Integer index = 1;
-                while (rebootDeviceNameList.size() > 0) {
+                while (reboot_shareArticleToFriendCircleParam.size() > 0) {
                     //等待所有设备重启
-                    try {
-                        Thread.sleep(60000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Thread.sleep(45000);
+//                    //测试
+//                    Thread.sleep(1000);
                     if (index > 15) {
                         break;
                     }
-                    logger.info("第【" + index + "】次批量重新执行失败的设备....");
-                    Iterator<HashMap<String, Object>> iterator = rebootDeviceNameList.iterator();
-                    while (iterator.hasNext()) {
-                        Map<String, Object> deviceNameMap = iterator.next();
+                    logger.info("第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】...");
+                    try {
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                        isOperatedFlag = new RealMachineDevices().shareArticleToFriendCircle(reboot_shareArticleToFriendCircleParam);
+                        reboot_shareArticleToFriendCircleParam.clear();       //清空需要重新执行的设备参数
+                        Thread.sleep(5000);
+//                        //测试
+//                        if (index == 15) {
+//                            isOperatedFlag = true;
+//                            reboot_shareArticleToFriendCircleParam.clear();
+//                        }
+//                        Thread.sleep(1000);
+                    } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
+                        e.printStackTrace();
                         try {
-                            sw.split();
-                            logger.info("设备描述【" + deviceNameMap.get("deviceNameDesc") + "】设备编码【" + deviceNameMap.get("deviceName") + "】操作【" + deviceNameMap.get("action") + "】昵称【" + deviceNameMap.get("nickName") + "】的将微信文章群发到朋友圈即将开始发送，总共花费 " + sw.toSplitString() + " 秒....");
-                            new RealMachineDevices().shareArticleToFriendCircle(deviceNameMap, sw);
-                            Thread.sleep(5000);
-                            iterator.remove();
-                        } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
-                            e.printStackTrace();
-                            try {
-                                if (index % 4 == 0) {
-                                    //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
-                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceNameMap.get("deviceName").toString() + " reboot");
-                                    logger.info("重启成功，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
-                                }
-                            } catch (Exception e1) {
-                                logger.info("重启失败，设备描述【" + deviceNameMap.get("deviceNameDesc").toString() + "】设备编码【" + deviceNameMap.get("deviceName").toString() + "】");
+                            if (index % 4 == 0) {
+                                //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
+                                logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启成功...");
                             }
+                        } catch (Exception e1) {
+                            logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启失败...");
                         }
                     }
                     index++;
                 }
-                sw.split();
-                if (rebootDeviceNameList.size() > 0) {
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如下，总共花费 " + sw.toSplitString() + " 秒....");
-                    String exceptionDevices = "异常设备列表";
-                    for (HashMap<String, Object> rebootDeviceNameMap : rebootDeviceNameList) {
-                        exceptionDevices = exceptionDevices + "【" + rebootDeviceNameMap.get("deviceNameDesc") + "】";
-                        logger.info("【" + rebootDeviceNameMap.get("deviceNameDesc") + "】设备编码【" + rebootDeviceNameMap.get("deviceName") + "】操作【" + rebootDeviceNameMap.get("action") + "】昵称【" + rebootDeviceNameMap.get("nickName") + "】在最终在重新执行列表中失败......");
-                    }
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】5次次批量执行均失败的设备如上，总共花费 " + sw.toSplitString() + " 秒....");
-                    if (rebootDeviceNameList != null && rebootDeviceNameList.size() > 0) {
-                        //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                        HttpsUtil httpsUtil = new HttpsUtil();
-                        Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                        exceptionDevicesParamMap.put("nickName", nickName);
-                        exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
-                        exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                        String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                        String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                        logger.info("微信消息异常发送反馈：" + resultJson);
-                        //本地发送，但是基于IP不断变化，不建议
-//                try {
-//                    Map<String, Object> exceptionDevicesParamMap = Maps.newHashMap();
-//                    exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
-//                    exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-//                    wxMessageService.exceptionDevicesMessageSend(exceptionDevicesParamMap);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-                    }
+                if (reboot_shareArticleToFriendCircleParam.size() > 0) {
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+
+                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                    HttpsUtil httpsUtil = new HttpsUtil();
+                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+                    exceptionDevicesParamMap.put("nickName", nickName);
+                    exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
+                    exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+                    String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+                    logger.info("微信消息异常发送反馈：" + resultJson);
+                    //邮件通知
+                    StringBuffer mailMessageBuf = new StringBuffer();
+                    mailMessageBuf.append("蔡红旺，您好：\n");
+                    mailMessageBuf.append("        ").append("\t操作名称：分享微信文章到微信朋友圈").append("\n");
+                    mailMessageBuf.append("        ").append("\t微信群：").append(nickName).append("\n");
+                    mailMessageBuf.append("        ").append("\t操作设备：").append(exceptionDevices).append("\n");
+                    mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                    mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                    mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                    mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
+                    mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
                 } else {
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
-                    logger.info("【" + nickName + "】【分享微信文章到微信朋友圈】全部执行成功，总共花费 " + sw.toSplitString() + " 秒....");
+                    if (isOperatedFlag) {
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                    }
                 }
+                //回收-appiumPort
+                GlobalVariableConfig.recoveryAppiumPort(appiumPort);
             }
-            sw.split();
-            logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-            logger.info("【分享微信文章到微信朋友圈】已完成，总共花费 " + sw.toSplitString() + " 秒，nickNameListStr = " + nickNameListStr + "....");
-        }
-        if(appiumPort != null){
-            globalVariableConfig.appiumPortList.add(appiumPort);        //回收已使用完成的appium端口号
         }
     }
 }

@@ -9,5 +9,5 @@ public interface SaveToAddressBook {
      * @param paramMap
      * @throws Exception
      */
-    public void saveToAddressBook(Map<String, Object> paramMap) throws Exception;
+    public boolean saveToAddressBook(Map<String, Object> paramMap) throws Exception;
 }

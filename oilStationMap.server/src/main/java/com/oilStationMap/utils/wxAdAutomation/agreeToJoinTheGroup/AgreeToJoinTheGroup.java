@@ -9,5 +9,5 @@ public interface AgreeToJoinTheGroup {
      * @param paramMap
      * @throws Exception
      */
-    public void agreeToJoinTheGroup(Map<String, Object> paramMap) throws Exception;
+    public boolean agreeToJoinTheGroup(Map<String, Object> paramMap) throws Exception;
 }

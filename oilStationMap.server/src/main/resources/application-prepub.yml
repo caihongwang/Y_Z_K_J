@@ -70,8 +70,9 @@ spring:
     #    from: 976499921@qq.com # 发送邮件的地址，和上面username一致
     #    default-encoding: utf-8
   #appium启动端口号
-  appiumPortListStr: 4723,4725,4727,4729
-  stf_publicIp: 139.224.56.97
+  appiumPortStr: 4723,4725,4727,4729
+  thePublicIp: 139.224.56.97
+  defaultCommodPath: /opt/defaultCommodPath
 
 mybatis:
   mapper-locations: mapper/**Mapper.xml

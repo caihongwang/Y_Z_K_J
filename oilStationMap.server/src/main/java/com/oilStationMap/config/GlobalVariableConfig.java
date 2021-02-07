@@ -2,8 +2,10 @@ package com.oilStationMap.config;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.FileUtil;
+import com.oilStationMap.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class GlobalVariableConfig {
@@ -19,8 +22,8 @@ public class GlobalVariableConfig {
     @Value("${spring.profiles.active}")
     private String useEnvironmental;
 
-    @Value("${spring.appiumPortListStr}")
-    private String appiumPortListStr;
+    @Value("${spring.appiumPortStr}")
+    private String appiumPortStr;
 
     @Value("${spring.defaultCommodPath}")
     private String defaultCommodPath;
@@ -28,7 +31,7 @@ public class GlobalVariableConfig {
     @Value("${spring.thePublicIp}")
     private String thePublicIp;
 
-    public static List<String> appiumPortList = Lists.newArrayList();
+    public static Map<String, Map<String, String>> appiumPortMap = Maps.newHashMap();       //appium端口使用情况
 
     /**
      * 初始化 全局变量
@@ -36,31 +39,84 @@ public class GlobalVariableConfig {
      */
     @PostConstruct
     public void initGlobalVariableAndServer() {
-        appiumPortList = new ArrayList<>(Arrays.asList(appiumPortListStr.split(",")));
+        String[] appiumPortArr = appiumPortStr.split(",");
+        for (String appiumPort: appiumPortArr) {
+            Map<String, String> appiumPortDetailMap = Maps.newHashMap();
+            appiumPortMap.put(appiumPort, appiumPortDetailMap);
+        }
         //开发环境，启动服务：appium、rethinkdb、rethinkdb、stf
         if ("develop".equals(useEnvironmental)) {
-            for (String appiumPort : appiumPortList) {
+            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+                String appiumPort = entry.getKey();
                 System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
                 StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
-                Thread thread = new Thread(starAppiumThread);
-                thread.start();
+                Thread A_thread = new Thread(starAppiumThread);
+                A_thread.start();
             }
 
             RethinkdbThread rethinkdbThread = new RethinkdbThread("");
-            Thread A_thread = new Thread(rethinkdbThread);
-            A_thread.start();
-            System.out.println("【rethinkdb】服务已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
+            Thread B_thread = new Thread(rethinkdbThread);
+            B_thread.start();
 
             try {
+                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
                 Thread.sleep(15000);
             } catch (Exception e) {
 
             }
 
             StfThread stfThread = new StfThread(thePublicIp);
-            Thread B_thread = new Thread(stfThread);
-            B_thread.start();
+            Thread C_thread = new Thread(stfThread);
+            C_thread.start();
             System.out.println("【stf】服务 IP为【" + thePublicIp + "】已启动....");
+        }
+    }
+
+
+    /**
+     * 根据设备名称 获取 appium端口
+     * @return
+     */
+    public static String getAppiumPort(String action, String deviceName) throws Exception{
+        String appiumPort = null;
+        //首先检测当前设备是否正在使用appoium端口号，即是否正在使用
+        for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+            Map<String, String> appiumPortDetailMap = entry.getValue();
+            String theAction = appiumPortDetailMap.get("action");           //appium端口-正在使用的自动化操作行为
+            String theDeviceName = appiumPortDetailMap.get("deviceName");   //appium端口=正在使用的自动化操作设备
+            if(deviceName.equals(theDeviceName)){
+                appiumPort = "当前设备【"+deviceName+"】正在进行【"+theAction+"】自动化操作，请稍后再试.";
+            }
+        }
+        if(!StringUtils.isEmpty(appiumPort)){
+            throw new Exception(appiumPort);
+        }
+        //在检测是否存在可用的appium端口号
+        for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+            appiumPort = entry.getKey();
+            Map<String, String> appiumPortDetailMap = entry.getValue();
+            if(appiumPortDetailMap.size() <= 0){
+                appiumPortDetailMap.put("action", action);
+                appiumPortDetailMap.put("deviceName", deviceName);
+                appiumPortMap.put(appiumPort, appiumPortDetailMap);
+                break;
+            }
+        }
+        if(StringUtils.isEmpty(appiumPort)){
+            appiumPort = "当前没有空闲的appium端口号，请稍后再试.";
+        }
+        return appiumPort;
+    }
+
+    /**
+     * 回收当前的端口号
+     * @param appiumPort
+     */
+    public static void recoveryAppiumPort(String appiumPort){
+        if(!StringUtils.isEmpty(appiumPort)){
+            Map<String, String> appiumPortDetailMap = appiumPortMap.get(appiumPort);
+            appiumPortDetailMap.clear();
+            appiumPortMap.put(appiumPort, appiumPortDetailMap);
         }
     }
 
