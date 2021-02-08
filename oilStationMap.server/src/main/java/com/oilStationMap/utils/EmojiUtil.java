@@ -65,15 +65,22 @@ public class EmojiUtil {
     }
 
     public static void main(String[] args) {
-        String str = "全国微帮总汇1⃣\uD83C\uDE35说的\uD83D\uDD25";
-        try {
-            int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(str);
-            System.out.println("str = " + str);
-            str = str.substring(0, firstEmojiIndex);
-            System.out.println("str = " + str);
+        String str = "全国微帮总汇1⃣\uD83C\uDE35";
+        try{
+            System.out.println("emojiConvert = " + EmojiUtil.emojiConvert(str));
+            System.out.println("emojiRecovery = " + EmojiUtil.emojiRecovery(EmojiUtil.emojiConvert(str)));
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
+
+//        try {
+//            int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(str);
+//            System.out.println("str = " + str);
+//            str = str.substring(0, firstEmojiIndex);
+//            System.out.println("str = " + str);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
