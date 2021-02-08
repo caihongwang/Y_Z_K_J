@@ -1,6 +1,7 @@
 package com.oilStationMap.utils.wxAdAutomation.chatByNickName;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
 import io.appium.java_client.TouchAction;
@@ -38,12 +39,12 @@ public class RealMachineDevices implements ChatByNickName {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "5LM0216122009385";
+                        "D5F0218325003946";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 Mate 8 _ 6";
+                        "华为 P20 Pro";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -58,27 +59,37 @@ public class RealMachineDevices implements ChatByNickName {
         String nickName =
                 paramMap.get("nickName") != null ?
                         paramMap.get("nickName").toString() :
-                        "积极向上";
+                        "cai_hong_wang";
         //微信昵称
         String textMessage =
                 paramMap.get("textMessage") != null ?
                         paramMap.get("textMessage").toString() :
-                        "亲！您的内容已转发朋友圈，快去评论吧，评论可以置顶，更多人能看得到！";
+                        "亲！您的内容已转发朋友圈，快去评论吧，评论有助于置顶，更多人能看得到！";
         //坐标:搜索框
-        String searchLocaltionStr =
+        String searchLocaltion =
                 paramMap.get("searchLocaltion") != null ?
                         paramMap.get("searchLocaltion").toString() :
-                        "com.tencent.mm:id/r_";
+                        "搜索";
         //坐标:搜索输入框
         String searchInputLocaltion =
                 paramMap.get("searchInputLocaltion") != null ?
                         paramMap.get("searchInputLocaltion").toString() :
                         "搜索";
+        //坐标:联系人
+        String contactLocaltion =
+                paramMap.get("contactLocaltion") != null ?
+                        paramMap.get("contactLocaltion").toString() :
+                        "联系人";
+        //坐标:最常使用
+        String mostUsedLocaltion =
+                paramMap.get("mostUsedLocaltion") != null ?
+                        paramMap.get("mostUsedLocaltion").toString() :
+                        "最常使用";
         //坐标:聊天内容输入框
         String chatInputLocation =
                 paramMap.get("chatInputLocation") != null ?
                         paramMap.get("chatInputLocation").toString() :
-                        "com.tencent.mm:id/aqe";
+                        "android.widget.EditText";
         //坐标:发送
         String sendBtnLocaltion =
                 paramMap.get("sendBtnLocaltion") != null ?
@@ -111,17 +122,23 @@ public class RealMachineDevices implements ChatByNickName {
             e.printStackTrace();
             throw new Exception("【根据微信昵称进行聊天】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
         }
-        for (int i = 1; i <= 18; i++) {     //每间隔5秒点击一次，持续90秒
-            //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
+        for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
+            //1.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
             try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltion + "\")").click();
                 logger.info("【根据微信昵称进行聊天】点击坐标【搜索框】成功....");
                 Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
             } catch (Exception e) {
                 logger.info("【根据微信昵称进行聊天】点击坐标【搜索框】失败，因为微信正在建立索引....");
-                continue;
+                if (i == 30) {
+                    throw new Exception("【根据微信昵称进行聊天】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                } else {
+                    Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+                    logger.info("【根据微信昵称进行聊天】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
+                    continue;
+                }
             }
-            //3.点击坐标【搜索输入框】
+            //2.点击坐标【搜索输入框】并输入昵称
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(nickName);
                 logger.info("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:text/搜索】成功....");
@@ -136,39 +153,64 @@ public class RealMachineDevices implements ChatByNickName {
                     break;
                 } catch (Exception e1) {
                     logger.info("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
-                    if (i == 18) {
+                    if (i == 30) {
                         throw new Exception("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                     } else {
+                        Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
                         logger.info("【根据微信昵称进行聊天】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
                         continue;
                     }
                 }
             }
         }
-        //4.点击坐标【昵称对应的微信好友/群】
+        //3.判断坐标【联系人】与【最常使用】是否存在
+        boolean isChatFriendsFlag = false;
         try {
-            List<WebElement> targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + nickName + "\")");
+            WebElement contact_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
+            Thread.sleep(2000);
+            isChatFriendsFlag = true;
+        } catch (Exception e) {
+            try {
+                WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
+                Thread.sleep(2000);
+                isChatFriendsFlag = true;
+            } catch (Exception e1) {
+                logger.info("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                throw new Exception("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....", e);
+            }
+        }
+        //4.点击坐标【昵称对应的微信好友】
+        try {
+            String str_0_of_9 = nickName;
+            List<WebElement> targetGroupElementList = Lists.newArrayList();
+            if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
+                //启用模糊匹配
+                str_0_of_9 = str_0_of_9.substring(0, 9);
+                targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
+            } else {
+                targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + nickName + "\")");
+            }
             for (WebElement targetGroupElement : targetGroupElementList) {
                 if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
                     targetGroupElement.click();
+                    break;
                 }
             }
-            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】成功....");
+            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
-        //5.点击坐标【聊天内容输入框】
+        //5.点击坐标【聊天内容输入框】new UiSelector().className("android.widget.EditText")
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\"" + chatInputLocation + "\")").sendKeys(textMessage);
+            driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(textMessage);
             logger.info("【根据微信昵称进行聊天】点击坐标【聊天输入框】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("【根据微信昵称进行聊天】点击坐标【聊天输入框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
-        //6.点击坐标【发送】
+        //6.点击坐标【发送】new UiSelector().text("发送")
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
             logger.info("【根据微信昵称进行聊天】点击坐标【发送】成功....");
