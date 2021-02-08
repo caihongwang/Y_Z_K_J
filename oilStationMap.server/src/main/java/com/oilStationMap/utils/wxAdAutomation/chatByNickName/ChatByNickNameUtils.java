@@ -61,9 +61,9 @@ public class ChatByNickNameUtils {
         String deviceName = "未知-设备编码";
         //设备描述
         String deviceNameDesc = "未知-设备描述";
-        //当前 自动化操作 添加群成员为好友的V群
+        //当前 自动化操作 根据微信昵称进行聊天
         String action = "chatByNickName";
-        //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
+        //获取 根据微信昵称进行聊天 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndChatByNickNameLocaltion";
         for (String currentDateStr : currentDateList) {
             Map<String, Object> chatByNickNameParam = Maps.newHashMap();
@@ -124,13 +124,13 @@ public class ChatByNickNameUtils {
                                     appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
                                     chatByNickNameParam.put("appiumPort", appiumPort);
                                 } else {
-                                    logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                     continue;
                                 }
                                 try {
                                     if (isExecuteFlag) {
                                         //开始【根据微信昵称进行聊天】
-                                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                                         isOperatedFlag = new RealMachineDevices().chatByNickName(chatByNickNameParam);
                                         Thread.sleep(5000);
 //                                        //测试
@@ -147,13 +147,13 @@ public class ChatByNickNameUtils {
                             }
                         }
                     } else {
-                        logger.info(deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                        logger.info("【根据微信昵称进行聊天】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
                 } else {
-                    logger.info("根据微信昵称进行聊天 失败.");
+                    logger.info("【根据微信昵称进行聊天】根据微信昵称进行聊天 失败.");
                 }
 
-                //4.对执行失败的设备进行重新执行【添加群成员为好友的V群】,最多重复执行15次，每间隔4次重启一次手机
+                //4.对执行失败的设备进行重新执行【根据微信昵称进行聊天】,最多重复执行15次，每间隔4次重启一次手机
                 Integer index = 1;
                 while (reboot_chatByNickNameParam.size() > 0) {
                     //等待所有设备重启
@@ -163,9 +163,9 @@ public class ChatByNickNameUtils {
                     if (index > 15) {
                         break;
                     }
-                    logger.info("第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】...");
+                    logger.info("【根据微信昵称进行聊天】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
                     try {
-                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                         new RealMachineDevices().chatByNickName(reboot_chatByNickNameParam);
                         reboot_chatByNickNameParam.clear();       //清空需要重新执行的设备参数
                         Thread.sleep(5000);
@@ -179,28 +179,28 @@ public class ChatByNickNameUtils {
                         e.printStackTrace();
                         try {
                             if (index % 4 == 0) {
-                                //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+                                //【根据微信昵称进行聊天】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                                logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启成功...");
+                                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
                             }
                         } catch (Exception e1) {
-                            logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启失败...");
+                            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
                         }
                     }
                     index++;
                 }
                 if (reboot_chatByNickNameParam.size() > 0) {
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【根据微信昵称进行聊天】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    String exceptionDevices = "异常设备列表"+ "【" + deviceNameDesc + "】";
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
 
                     //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                     HttpsUtil httpsUtil = new HttpsUtil();
@@ -224,11 +224,11 @@ public class ChatByNickNameUtils {
                     mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】根据微信昵称进行聊天", mailMessageBuf.toString());
                 } else {
                     if (isOperatedFlag) {
-                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
                     }
                 }
                 //回收-appiumPort

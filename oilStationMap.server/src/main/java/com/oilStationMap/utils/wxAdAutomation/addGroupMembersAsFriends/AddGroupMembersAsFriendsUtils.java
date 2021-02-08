@@ -134,13 +134,13 @@ public class AddGroupMembersAsFriendsUtils {
                                     addGroupMembersAsFriendsParam.put("appiumPort", appiumPort);
                                 } else {
                                     isExecuteFlag = false;
-                                    logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                     continue;
                                 }
                                 try {
                                     if (isExecuteFlag) {
                                         //开始【添加群成员为好友的V群】
-                                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc+ "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始发送....");
+                                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc+ "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                                         isOperatedFlag = new RealMachineDevices().addGroupMembersAsFriends(addGroupMembersAsFriendsParam);
                                         Thread.sleep(5000);
 //                                        //测试
@@ -157,7 +157,7 @@ public class AddGroupMembersAsFriendsUtils {
                             }
                         }
                     } else {
-                        logger.info(deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                        logger.info("【添加群成员为好友的V群】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
 
                     //4.对执行失败的设备进行重新执行【添加群成员为好友的V群】,最多重复执行15次，每间隔4次重启一次手机
@@ -170,9 +170,9 @@ public class AddGroupMembersAsFriendsUtils {
                         if (index > 15) {
                             break;
                         }
-                        logger.info("第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
+                        logger.info("【添加群成员为好友的V群】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
                         try {
-                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc+ "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始发送....");
+                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc+ "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                             isOperatedFlag = new RealMachineDevices().addGroupMembersAsFriends(reboot_addGroupMembersAsFriendsParam);
                             reboot_addGroupMembersAsFriendsParam.clear();
                             Thread.sleep(5000);
@@ -188,10 +188,10 @@ public class AddGroupMembersAsFriendsUtils {
                                 if (index % 4 == 0) {
                                     //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                                     CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                                    logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
+                                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
                                 }
                             } catch (Exception e1) {
-                                logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
+                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
                             }
                         }
                         index++;
@@ -199,18 +199,17 @@ public class AddGroupMembersAsFriendsUtils {
 
                     //6.发送微信通知消息进行手动录入.
                     if (reboot_addGroupMembersAsFriendsParam.size() > 0) {
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                         String exceptionDevices = "异常设备列表"+ "【" + deviceNameDesc + "】";
-                        logger.info("【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】在最终在重新执行列表中失败......");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        logger.info("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
 
                         //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                         HttpsUtil httpsUtil = new HttpsUtil();
@@ -288,7 +287,7 @@ public class AddGroupMembersAsFriendsUtils {
                                     }
                                 }
                             } catch (Exception e) {
-                                logger.error("【添加群成员为好友的V群】更新群【"+nickName+"】时异常，e : ", e);
+                                logger.error("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】操作【" + action + "】昵称【" + nickName + "】时异常，e : ", e);
                             } finally {
                                 logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                                 logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");

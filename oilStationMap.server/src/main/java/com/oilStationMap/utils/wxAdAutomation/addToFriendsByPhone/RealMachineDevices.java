@@ -374,7 +374,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 logger.info("点击坐标【昵称对应的微信好友】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                throw new Exception("长按坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                throw new Exception("【检测当前页面聊天好友信息】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
 //            //判断是否为-公众号，查看坐标【设置】
 //            try {

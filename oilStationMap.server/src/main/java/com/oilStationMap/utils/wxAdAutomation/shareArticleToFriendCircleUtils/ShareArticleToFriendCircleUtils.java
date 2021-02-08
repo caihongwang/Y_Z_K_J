@@ -64,9 +64,9 @@ public class ShareArticleToFriendCircleUtils {
         String deviceName = "未知-设备编码";
         //设备描述
         String deviceNameDesc = "未知-设备描述";
-        //当前 自动化操作 添加群成员为好友的V群
+        //当前 自动化操作 分享微信文章到微信朋友圈
         String action = "agreeToFriendRequest";
-        //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
+        //获取 分享微信文章到微信朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndShareArticleToFriendCircleLocaltion";
         for (String currentDateStr : currentDateList) {
             Map<String, Object> shareArticleToFriendCircleParam = Maps.newHashMap();
@@ -136,11 +136,11 @@ public class ShareArticleToFriendCircleUtils {
                                             appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
                                             shareArticleToFriendCircleParam.put("appiumPort", appiumPort);
                                         } else {
-                                            logger.info("设备描述【" + shareArticleToFriendCircleParam.get("deviceNameDesc") + "】设备编码【" + shareArticleToFriendCircleParam.get("deviceName") + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                             continue;
                                         }
                                     } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
-                                        logger.info("尚未开始，暂不处理....");
+                                        logger.info("【分享微信文章到微信朋友圈】尚未开始，暂不处理....");
                                     } else {
                                         Map<String, Object> tempMap = Maps.newHashMap();
                                         tempMap.put("id", theId);
@@ -151,7 +151,7 @@ public class ShareArticleToFriendCircleUtils {
                                     try {
                                         if (isExecuteFlag) {
                                             //开始【将群保存到通讯录】
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                                             isOperatedFlag = new RealMachineDevices().shareArticleToFriendCircle(shareArticleToFriendCircleParam);
                                             Thread.sleep(5000);
                                             //测试
@@ -166,15 +166,15 @@ public class ShareArticleToFriendCircleUtils {
                                         break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                     }
                                 } else {
-                                    logger.info("昵称【" + nickName + "】的转发微信昵称朋友圈内容推广日期不能为空....");
+                                    logger.info("【分享微信文章到微信朋友圈】昵称【" + nickName + "】的转发微信昵称朋友圈内容推广日期不能为空....");
                                 }
                             }
                         }
                     } else {
-                        logger.info(deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                        logger.info("【分享微信文章到微信朋友圈】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
                 } else {
-                    logger.info("分享微信文章到微信朋友圈 失败.");
+                    logger.info("【分享微信文章到微信朋友圈】失败.");
                 }
 
                 //对执行失败的设备列表进行重新执行,最多循环执行5遍
@@ -187,9 +187,9 @@ public class ShareArticleToFriendCircleUtils {
                     if (index > 15) {
                         break;
                     }
-                    logger.info("第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】...");
+                    logger.info("【分享微信文章到微信朋友圈】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
                     try {
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                         isOperatedFlag = new RealMachineDevices().shareArticleToFriendCircle(reboot_shareArticleToFriendCircleParam);
                         reboot_shareArticleToFriendCircleParam.clear();       //清空需要重新执行的设备参数
                         Thread.sleep(5000);
@@ -203,28 +203,28 @@ public class ShareArticleToFriendCircleUtils {
                         e.printStackTrace();
                         try {
                             if (index % 4 == 0) {
-                                //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+                                //【分享微信文章到微信朋友圈】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                                logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启成功...");
+                                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
                             }
                         } catch (Exception e1) {
-                            logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启失败...");
+                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
                         }
                     }
                     index++;
                 }
                 if (reboot_shareArticleToFriendCircleParam.size() > 0) {
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                    logger.info("【分享微信文章到微信朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    String exceptionDevices = "异常设备列表"+ "【" + deviceNameDesc + "】";
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
 
                     //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                     HttpsUtil httpsUtil = new HttpsUtil();
@@ -248,11 +248,11 @@ public class ShareArticleToFriendCircleUtils {
                     mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
                 } else {
                     if (isOperatedFlag) {
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                     }
                 }
                 //回收-appiumPort

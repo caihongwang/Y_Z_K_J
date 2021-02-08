@@ -63,9 +63,9 @@ public class PraiseAndCommentFriendsCircleUtils {
         String deviceName = "未知-设备编码";
         //设备描述
         String deviceNameDesc = "未知-设备描述";
-        //当前 自动化操作 添加群成员为好友的V群
+        //当前 自动化操作 点赞和评论朋友圈
         String action = "agreeToFriendRequest";
-        //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
+        //获取 点赞和评论朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndPraiseAndCommentFriendsCircleLocaltion";
         for (String currentDateStr : currentDateList) {
             boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
@@ -119,13 +119,13 @@ public class PraiseAndCommentFriendsCircleUtils {
                             appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
                             praiseAndCommentFriendsCircleParam.put("appiumPort", appiumPort);
                         } else {
-                            logger.info("设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                            logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                             continue;
                         }
                         try {
                             if (isExecuteFlag) {
                                 //开始【同意进群】
-                                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                                 isOperatedFlag = new RealMachineDevices().praiseAndCommentFriendsCircle(praiseAndCommentFriendsCircleParam);
                                 Thread.sleep(5000);
 //                                //测试
@@ -142,10 +142,10 @@ public class PraiseAndCommentFriendsCircleUtils {
                     }
                 }
             } else {
-                logger.info(deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                logger.info("【点赞和评论朋友圈】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
             }
 
-            //4.对执行失败的设备进行重新执行【添加群成员为好友的V群】,最多重复执行15次，每间隔4次重启一次手机
+            //4.对执行失败的设备进行重新执行【点赞和评论朋友圈】,最多重复执行15次，每间隔4次重启一次手机
             Integer index = 1;
             while (reboot_praiseAndCommentFriendsCircleParam.size() > 0) {
                 //等待所有设备重启
@@ -155,9 +155,9 @@ public class PraiseAndCommentFriendsCircleUtils {
                 if (index > 15) {
                     break;
                 }
-                logger.info("第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】...");
+                logger.info("【点赞和评论朋友圈】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
                 try {
-                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】即将开始发送....");
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
                     isOperatedFlag = new RealMachineDevices().praiseAndCommentFriendsCircle(reboot_praiseAndCommentFriendsCircleParam);
                     reboot_praiseAndCommentFriendsCircleParam.clear();       //清空需要重新执行的设备参数
 //                    //测试
@@ -170,28 +170,28 @@ public class PraiseAndCommentFriendsCircleUtils {
                     e.printStackTrace();
                     try {
                         if (index % 4 == 0) {
-                            //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+                            //【点赞和评论朋友圈】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                             CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                            logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启成功...");
+                            logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
                         }
                     } catch (Exception e1) {
-                        logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】重启失败...");
+                        logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
                     }
                 }
                 index++;
             }
             if (reboot_praiseAndCommentFriendsCircleParam.size() > 0) {
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
-                logger.info("【点赞和评论朋友圈】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                String exceptionDevices = "异常设备列表"+ "【" + deviceNameDesc + "】";
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
 
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();
@@ -214,11 +214,11 @@ public class PraiseAndCommentFriendsCircleUtils {
                 mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】点赞和评论朋友圈", mailMessageBuf.toString());
             } else {
                 if (isOperatedFlag) {
-                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                 }
             }
             //回收-appiumPort
