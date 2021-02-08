@@ -3,9 +3,12 @@ package com.oilStationMap.utils.wxAdAutomation.agreeToJoinTheGroup;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.StringUtils;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -40,12 +43,12 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "9f4eda95";
+                        "D5F0218325003946";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "小米 Max 3";
+                        "华为 P20 P20";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -56,6 +59,11 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
                         "agreeToFriendRequest";
+        //点击坐标【微信(】
+        String chatLocation =
+                paramMap.get("chatLocation") != null ?
+                        paramMap.get("chatLocation").toString() :
+                        "微信(";
         //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
@@ -80,12 +88,18 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         String inviteJoinGroupLocaltion =
                 paramMap.get("inviteJoinGroupLocaltion") != null ?
                         paramMap.get("inviteJoinGroupLocaltion").toString() :
-                        "\"邀请你加入群聊";
+//                        "\"邀请你加入群聊";
+                        "邀请你加入群聊";
         //点击坐标【加入群聊】
         String joinGroupLocaltion =
                 paramMap.get("joinGroupLocaltion") != null ?
                         paramMap.get("joinGroupLocaltion").toString() :
                         "加入群聊";
+        //坐标【右上角的三个点：聊天信息】
+        String threePointLocaltion =
+                paramMap.get("threePointLocaltion") != null ?
+                        paramMap.get("threePointLocaltion").toString() :
+                        "聊天信息";
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -124,7 +138,7 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 
         //1.上滑同时检测坐标检测当前页面聊天好友信息
         try {
-            int cyclesNumber = 0;       //循环下拉的次数
+            int cyclesNumber = 28;       //循环下拉的次数
             int maxCyclesNumber = 30;       //默认超过30次
             while (true) {      //循环下拉当前好友聊天列表，并将其加入 chatFriendsSet
                 WebElement listViewElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.ListView" + "\")");
@@ -174,7 +188,7 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-//            if (!chatFriendNickName.contains("内部交流群")) {
+//            if (!chatFriendNickName.contains("坐车群主")) {
 //                continue;
 //            }
             if (chatFriendNickName.contains("[店员消息]")) {
@@ -282,81 +296,161 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                 }
             }
 
-            //4.判断坐标【群聊】与【最常使用】是否存在
+            //4.判断坐标【联系人】与【最常使用】是否存在
             boolean isChatGroupFlag = false;
             try {
-                WebElement group_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
                 Thread.sleep(2000);
                 isChatGroupFlag = true;
             } catch (Exception e) {
                 try {
-                    WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                     Thread.sleep(2000);
                     isChatGroupFlag = true;
                 } catch (Exception e1) {
-                    logger.info("【同意进群】判断坐标【群聊】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
+                    logger.info("【同意进群】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
                 }
             }
             if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】不是【微信群】,继续下一个昵称....");
-                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                logger.info("【同意进群】返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e) {
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
+                }
+//                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】不是【微信群】,继续下一个昵称....");
+//                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+//                logger.info("【同意进群】返回【当前页面聊天好友信息】....");
+//                Thread.sleep(2000);
                 continue;
             }
 
             //5.点击坐标【昵称对应的微信好友】
             try {
-                String str_0_of_9 = chatFriendNickName;
-                List<WebElement> targetGroupElementList = Lists.newArrayList();
-                if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
-                    //启用模糊匹配
-                    str_0_of_9 = str_0_of_9.substring(0, 9);
-                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
-                } else {
-                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + chatFriendNickName + "\")");
+                driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+            } catch (Exception e) {
+                try {
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                    logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                } catch (Exception e1) {
+                    throw new Exception("【同意好友请求】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
                 }
-                for (WebElement targetGroupElement : targetGroupElementList) {
-                    if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
-                        targetGroupElement.click();
-                        break;
+            }
+//            try {
+//                String str_0_of_9 = chatFriendNickName;
+//                List<WebElement> targetGroupElementList = Lists.newArrayList();
+//                if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
+//                    //启用模糊匹配
+//                    str_0_of_9 = str_0_of_9.substring(0, 9);
+//                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
+//                } else {
+//                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + chatFriendNickName + "\")");
+//                }
+//                for (WebElement targetGroupElement : targetGroupElementList) {
+//                    if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
+//                        targetGroupElement.click();
+//                        break;
+//                    }
+//                }
+//                logger.info("【同意进群】点击坐标【昵称对应的微信好友】成功....");
+//                Thread.sleep(1000);
+//            } catch (Exception e) {
+//                throw new Exception("【同意进群】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+//            }
+            try {
+                List<WebElement> inviteChatInfo_webElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + inviteJoinGroupLocaltion + "\")");
+                if (inviteChatInfo_webElementList != null && inviteChatInfo_webElementList.size() > 0) {
+                    for (int index = 0; index < inviteChatInfo_webElementList.size(); index++) {
+                        if (index != (inviteChatInfo_webElementList.size() - 1)) {
+                            continue;
+                        }
+                        WebElement inviteChatInfo_webElement = inviteChatInfo_webElementList.get(index);
+                        //6.点击坐标【群邀请消息】
+                        try {
+                            inviteChatInfo_webElement.click();
+                            Thread.sleep(8000);
+                        } catch (Exception e) {
+                            logger.info("【同意进群】点击坐标【群邀请消息】异常，继续点击下一个【群邀请消息】...");
+                            continue;
+                        }
+                        //7.点击坐标【加入群聊】，此处为H5页面，需要整合context进行
+                        try {
+//                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + joinGroupLocaltion + "\")").click();
+//                            Thread.sleep(5000);
+//                            break;
+                            //通过对下方区域进行密集型点击
+                            boolean breakFlag = false;
+                            int width = driver.manage().window().getSize().width;
+                            int height = driver.manage().window().getSize().height;
+                            for (int i = 0; i < 30; i++) {
+                                height = height - 20;
+                                width = width - 20;
+                                String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + width + " " + height;
+                                CommandUtil.run(tabCommondStr);
+                                Thread.sleep(200);
+                                System.out.println("【同意进群】点击【同意进群】第【" + i + "】次 成功，tabCommondStr--->>>" + tabCommondStr);
+                                try {
+                                    driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + threePointLocaltion + "\")").click();
+                                    System.out.println("【同意进群】点击【同意进群】第【" + i + "】次 跳转成功...");         //大概在第11次成功
+                                    breakFlag = true;
+                                } catch (Exception e) {
+                                    System.out.println("【同意进群】点击【同意进群】第【" + i + "】次 跳转失败...");         //大概在第11次成功
+                                    breakFlag = false;
+                                } finally {
+                                    if (breakFlag) {
+                                        break;
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            logger.info("【同意进群】点击坐标【加入群聊】异常，您已进入此群或者群邀请已过期，继续点击下一个【群邀请消息】...");
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                            continue;
+                        }
                     }
                 }
-                logger.info("【同意进群】点击坐标【昵称对应的微信好友】成功....");
-                Thread.sleep(1000);
             } catch (Exception e) {
-                throw new Exception("【同意进群】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                logger.info("【同意进群】获取当前用户的消息List失败....");
             }
 
-            //判断是否为-微信群，查看坐标【群成员总数：群名(】
-            try{
-                WebElement groupName_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + chatFriendNickName +"(" + "\")");
-                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】是【微信群】,继续下一个昵称....");
-                continue;
-            } catch (Exception e) {
-
-            }
-            List<WebElement> inviteChatInfo_webElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + inviteJoinGroupLocaltion + "\")");
-            if(inviteChatInfo_webElementList != null && inviteChatInfo_webElementList.size() > 0){
-                for(WebElement inviteChatInfo_webElement : inviteChatInfo_webElementList){
-                    //点击坐标【群邀请消息】
-                    try{
-                        inviteChatInfo_webElement.click();
-                        Thread.sleep(8000);
-                    } catch (Exception e) {
-                        logger.info("【同意进群】点击坐标【群邀请消息】异常，继续点击下一个【群邀请消息】...");
-                        continue;
-                    }
-                    //点击坐标【加入群聊】
-                    try{
-                        WebElement joinGroup_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + joinGroupLocaltion + "\")");
-                        joinGroup_WebElement.click();
-                        Thread.sleep(5000);
+            Integer backChatPage_num = 1;
+            while (true) {
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                    logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                    Thread.sleep(1000);
+                    break;
+                } catch (Exception e) {
+                    logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                    if (backChatPage_num <= 10) {
+                        driver.pressKeyCode(AndroidKeyCode.BACK);
+                        Thread.sleep(1000);
+                    } else {
+                        driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                        logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                        Thread.sleep(2000);
                         break;
-                    } catch (Exception e) {
-                        logger.info("【同意进群】点击坐标【加入群聊】异常，您已进入此群或者群邀请已过期，继续点击下一个【群邀请消息】...");
-                        continue;
                     }
+                } finally {
+                    backChatPage_num++;
                 }
             }
         }
@@ -368,7 +462,6 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
             new RealMachineDevices().agreeToJoinTheGroup(paramMap);
-//            Thread.sleep(5000);
 
 //            String pre = "";
 //            String chatFriendNickName = "[链接] 宋天宇: 宝润国际电梯房屋出售：，急售…";
