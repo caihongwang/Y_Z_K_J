@@ -173,8 +173,15 @@ public class RealMachineDevices implements SendFriendCircle {
             logger.info("【发送朋友圈】点击坐标【发现】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("【发送朋友圈】点击坐标【发现】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            //2.1 点击坐标【发现】【xpath定位】
+            try {
+                driver.findElementByXPath("//com.tencent.mm.ui.mogic.WxViewPager/../android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]").click();
+                logger.info("【发送朋友圈】点击坐标【发现】【xpath定位】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e1) {
+                e.printStackTrace();
+                throw new Exception("【发送朋友圈】点击坐标【发现】与【发现】【xpath定位】均出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            }
         }
         //3.点击坐标【朋友圈】
         try {
