@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import com.oilStationMap.utils.StringUtils;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -56,6 +57,11 @@ public class RealMachineDevices implements SaveToAddressBook {
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
                         "agreeToFriendRequest";
+        //点击坐标【微信(】
+        String chatLocation =
+                paramMap.get("chatLocation") != null ?
+                        paramMap.get("chatLocation").toString() :
+                        "微信(";
         //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
@@ -277,7 +283,7 @@ public class RealMachineDevices implements SaveToAddressBook {
                         continue;
                     }
                 }
-                //3.点击坐标【搜索输入框】
+                //3.点击坐标【搜索输入框】并输入昵称
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(chatFriendNickName);
                     logger.info("【将群保存到通讯录】点击坐标【输入昵称到搜索框:text/搜索】成功....");
@@ -321,10 +327,32 @@ public class RealMachineDevices implements SaveToAddressBook {
                 }
             }
             if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                logger.info("【将群保存到通讯录】当前昵称【" + chatFriendNickName + "】不是【微信群】,继续下一个昵称....");
-                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【将群保存到通讯录】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
+                }
+//                logger.info("【将群保存到通讯录】当前昵称【" + chatFriendNickName + "】不是【微信群】,继续下一个昵称....");
+//                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+//                logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
+//                Thread.sleep(2000);
                 continue;
             }
 
@@ -362,9 +390,31 @@ public class RealMachineDevices implements SaveToAddressBook {
                 logger.info("【将群保存到通讯录】点击坐标【设置】成功....");
                 Thread.sleep(2000);
             } catch (Exception e) {
-                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e1) {
+                        logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【将群保存到通讯录】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
+                }
+//                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+//                logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
+//                Thread.sleep(2000);
                 continue;
             }
 
@@ -383,9 +433,31 @@ public class RealMachineDevices implements SaveToAddressBook {
 
             } finally {
                 if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                    driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                    logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
-                    Thread.sleep(2000);
+                    Integer backChatPage_num = 1;
+                    while (true) {
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                            logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                            Thread.sleep(1000);
+                            break;
+                        } catch (Exception e1) {
+                            logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                            if (backChatPage_num <= 10) {
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                            } else {
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【将群保存到通讯录】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                                Thread.sleep(2000);
+                                break;
+                            }
+                        } finally {
+                            backChatPage_num++;
+                        }
+                    }
+//                    driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+//                    logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
+//                    Thread.sleep(2000);
                     continue;
                 }
             }
@@ -454,21 +526,32 @@ public class RealMachineDevices implements SaveToAddressBook {
                 e.printStackTrace();
             } finally {
                 theSaveToAddressBookNum++;
-                logger.info("【将群保存到通讯录】点击坐标【保存到通讯录】与【消息免打扰】成功....");
-                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e1) {
+                        logger.info("【将群保存到通讯录】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【将群保存到通讯录】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
+                }
+//                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+//                logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
+//                Thread.sleep(2000);
             }
-
-////            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【搜索结果界面】
-////            logger.info("【将群保存到通讯录】返回【搜索结果界面】....");
-////            Thread.sleep(2000);
-////            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【当前页面聊天好友信息】
-////            logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
-////            Thread.sleep(2000);
-//            driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//            logger.info("【将群保存到通讯录】返回【当前页面聊天好友信息】....");
-//            Thread.sleep(2000);
         }
         logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 将群保存到通讯录【" + theSaveToAddressBookNum + "】个发送成功....");
         return true;
