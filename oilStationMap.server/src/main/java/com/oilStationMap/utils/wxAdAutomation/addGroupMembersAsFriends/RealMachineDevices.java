@@ -625,8 +625,10 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     }
                                 }
                             } catch (Exception e) {
+                                logger.info("【添加群成员为好友的V群】第【" + backGropMemberPage_num + "】次返回【聊天成员界面】失败....");
                                 if (backGropMemberPage_num <= 10) {
-                                    logger.info("【添加群成员为好友的V群】第【" + backGropMemberPage_num + "】次返回【聊天成员界面】成功....");
+                                    driver.pressKeyCode(AndroidKeyCode.BACK);
+                                    Thread.sleep(1000);
                                     continue;
                                 } else {
                                     throw new Exception("【添加群成员为好友的V群】超过【" + backGropMemberPage_num + "】次均返回【聊天成员界面】均失败....");

@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import com.oilStationMap.utils.StringUtils;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -41,22 +42,27 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "9f4eda95";
+                        "D5F0218325003946";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "小米 Max 3";
+                        "华为 P20 Pro";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
                         paramMap.get("appiumPort").toString() :
-                        "4725";
+                        "4723";
         //操作
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
                         "agreeToFriendRequest";
+        //点击坐标【微信(】
+        String chatLocation =
+                paramMap.get("chatLocation") != null ?
+                        paramMap.get("chatLocation").toString() :
+                        "微信(";
         //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
@@ -97,6 +103,11 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 paramMap.get("privacyContentLocaltion") != null ?
                         paramMap.get("privacyContentLocaltion").toString() :
                         "由于对方的隐私设置，你无法通过群聊将其添加至通讯录。";
+        //坐标【发送添加朋友申请】
+        String sendRequestMsgLocaltion =
+                paramMap.get("sendRequestMsgLocaltion") != null ?
+                        paramMap.get("sendRequestMsgLocaltion").toString() :
+                        "发送添加朋友申请";
         //坐标【朋友圈】
         String friendCircleLocaltion =
                 paramMap.get("friendCircleLocaltion") != null ?
@@ -220,10 +231,9 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-//            if (!chatFriendNickName.contains("积极向上")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
+//            if (!chatFriendNickName.contains("倍巧")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
 //                continue;
 //            }
-
             if(chatFriendNickName.contains("[店员消息]")){
                 logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
@@ -332,12 +342,12 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             //4.判断坐标【联系人】与【最常使用】是否存在
             boolean isChatFriendsFlag = false;
             try {
-                WebElement contact_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
                 Thread.sleep(2000);
                 isChatFriendsFlag = true;
             } catch (Exception e) {
                 try {
-                    WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                     Thread.sleep(2000);
                     isChatFriendsFlag = true;
                 } catch (Exception e1) {
@@ -345,61 +355,67 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 }
             }
             if (!isChatFriendsFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e) {
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
+                }
+//                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+//                logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
+//                Thread.sleep(2000);
                 continue;
             }
+            
 
             //5.点击坐标【昵称对应的微信好友】
             try {
-                String str_0_of_9 = chatFriendNickName;
-//                int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(chatFriendNickName);
-//                if (firstEmojiIndex >= 0) {
-//                    str_0_of_9 = chatFriendNickName.substring(0, firstEmojiIndex);        //截取emoji之前的字符串
-//                }
-                List<WebElement> targetGroupElementList = Lists.newArrayList();
-                if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
-                    //启用模糊匹配
-                    str_0_of_9 = str_0_of_9.substring(0, 9);
-                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
-                } else {
-                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + chatFriendNickName + "\")");
-                }
-                for (WebElement targetGroupElement : targetGroupElementList) {
-                    if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
-                        targetGroupElement.click();
-                        break;
-                    }
-                }
-                logger.info("【同意好友请求】点击坐标【昵称对应的微信好友】成功....");
-                Thread.sleep(1000);
+                driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
             } catch (Exception e) {
-                throw new Exception("【同意好友请求】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                try {
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                    logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                } catch (Exception e1) {
+                    throw new Exception("【同意好友请求】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                }
             }
-//            //判断是否为-公众号，查看坐标【设置】
 //            try {
-//                WebElement publicNumber_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "设置" + "\")");
-//                logger.info("【同意好友请求】检测【当前页面聊天好友信息】成功，【公众号】--->>>【" + chatFriendNickName + "】....");
-//                continue;
-//            } catch (Exception e) {
-//
-//            }
-//            //判断是否为-微信群，查看坐标【群成员总数：聊天信息(】
-//            String groupTotalNumStr = "-1";
-//            try {
-//                Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
-//                Matcher matcher = pattern.matcher(chatFriendNickName);
-//                while (matcher.find()) {
-//                    groupTotalNumStr = matcher.group();
+//                String str_0_of_9 = chatFriendNickName;
+//                List<WebElement> targetGroupElementList = Lists.newArrayList();
+//                if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
+//                    //启用模糊匹配
+//                    str_0_of_9 = str_0_of_9.substring(0, 9);
+//                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
+//                } else {
+//                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + chatFriendNickName + "\")");
 //                }
-//                Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
-//                if (groupTotalNum > 0) {
-//                    logger.info("【同意好友请求】检测【当前页面聊天好友信息】成功，【微信群】--->>>【" + chatFriendNickName + "】为....");
-//                    continue;
+//                for (WebElement targetGroupElement : targetGroupElementList) {
+//                    if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
+//                        targetGroupElement.click();
+//                        break;
+//                    }
 //                }
+//                logger.info("【同意好友请求】点击坐标【昵称对应的微信好友】成功....");
+//                Thread.sleep(1000);
 //            } catch (Exception e) {
-//
+//                throw new Exception("【同意好友请求】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
 //            }
             //判断到最后，则是微信好友
             logger.info("【同意好友请求】检测【当前页面聊天好友信息】成功，【微信好友】--->>>【" + chatFriendNickName + "】为....");
@@ -416,9 +432,31 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 logger.info("【同意好友请求】点击坐标【对方还不是你的朋友】异常，当前昵称已是你的好友，继续下一个昵称....");
             } finally {
                 if (isYourFriendFlag) {
-                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-                    Thread.sleep(2000);
+                    Integer backChatPage_num = 1;
+                    while (true) {
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                            logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                            Thread.sleep(1000);
+                            break;
+                        } catch (Exception e) {
+                            logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                            if (backChatPage_num <= 10) {
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                            } else {
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                                Thread.sleep(2000);
+                                break;
+                            }
+                        } finally {
+                            backChatPage_num++;
+                        }
+                    }
+//                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+//                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
+//                    Thread.sleep(2000);
                     continue;
                 }
             }
@@ -433,7 +471,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             }
             //点击坐标【添加到通讯录】后检测坐标【发消息】,点击坐标【添加到通讯录】直接被添加为好友，则检测坐标【发消息】
             try {
-                WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                 isYourFriendFlag = true;
                 Thread.sleep(2000);
                 theAgreeNum++;
@@ -441,10 +479,32 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 logger.info("【同意好友请求】点击坐标【添加到通讯录】后，检测坐标【发消息】异常，当前用户没有在点击坐标【添加到通讯录】直接添加为好友....");
             } finally {
                 if (isYourFriendFlag) {
-                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-                    Thread.sleep(2000);
-                    continue;
+                    Integer backChatPage_num = 1;
+                    while (true) {
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                            logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                            Thread.sleep(1000);
+                            break;
+                        } catch (Exception e) {
+                            logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                            if (backChatPage_num <= 10) {
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                            } else {
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                                Thread.sleep(2000);
+                                break;
+                            }
+                        } finally {
+                            backChatPage_num++;
+                        }
+                    }
+//                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+//                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
+//                    Thread.sleep(2000);
+//                    continue;
                 }
             }
             //点击坐标【添加到通讯录】后，后检测坐标【由于对方的隐私设置，你无法通过群聊将其添加至通讯录。】，注：如果这个坐标找不到则使用【确定】这个坐标 privacyContentLocaltion
@@ -460,10 +520,62 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 logger.info("【同意好友请求】点击坐标【添加到通讯录】后，检测坐标【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】异常，继续下一步添加当前好友步骤....");
             } finally {
                 if (isYourFriendFlag) {
-                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-                    Thread.sleep(2000);
-                    continue;
+                    Integer backChatPage_num = 1;
+                    while (true) {
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                            logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                            Thread.sleep(1000);
+                            break;
+                        } catch (Exception e) {
+                            logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                            if (backChatPage_num <= 10) {
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                            } else {
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                                Thread.sleep(2000);
+                                break;
+                            }
+                        } finally {
+                            backChatPage_num++;
+                        }
+                    }
+//                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+//                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
+//                    Thread.sleep(2000);
+//                    continue;
+                }
+            }
+            //检测坐标【发送添加朋友申请】，避免出现：在【单个群成员简介】显示push【对方账号异常，无法添加朋友。】，消失得很快，无法捕捉，致使本来应该在【发送页面】而实际停留在【单个群成员简介】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendRequestMsgLocaltion + "\")");
+                logger.info("【同意好友请求】点击坐标【添加到通讯录】后，检测坐标【发送添加朋友申请】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                logger.info("【同意好友请求】点击坐标【添加到通讯录】后，检测坐标【发送添加朋友申请】异常，以为【单个群成员简介】显示push【对方账号异常，无法添加朋友。】，消失得很快，无法捕捉，则直接下一个群成员坐标....");
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e1) {
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
                 }
             }
             //点击坐标【朋友圈】，主要是为了选择权限
@@ -492,20 +604,33 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             } catch (Exception e) {
                 logger.info("【同意好友请求】点击坐标【发送】后，检测坐标【添加到通讯录】时异常，可能是当前用户【" + chatFriendNickName + "】在发送阶段才显示【对方账号异常，无法添加朋友。】....");
             } finally {
-                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-                logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-                Thread.sleep(2000);
-                continue;
+                Integer backChatPage_num = 1;
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e) {
+                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
+                    } finally {
+                        backChatPage_num++;
+                    }
+                }
+//                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
+//                logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
+//                Thread.sleep(2000);
+//                continue;
             }
-////            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【搜索结果界面】
-////            logger.info("【同意好友请求】返回【搜索结果界面】....");
-////            Thread.sleep(2000);
-////            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【当前页面聊天好友信息】
-////            logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-////            Thread.sleep(2000);
-//            driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//            logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-//            Thread.sleep(2000);
         }
         Thread.sleep(10000);        //等待10秒页面加载完成...
         //点击坐标【我】
@@ -542,7 +667,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         }
         //点击坐标【清空】
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + clearLocaltion + "\")").click();
+//            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + clearLocaltion + "\")").click();
             logger.info("【同意好友请求】点击坐标【清空】成功，后续将要沉睡5分钟........");
             Thread.sleep(1000 * 60 * 5);
         } catch (Exception e) {
@@ -554,18 +679,18 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 
     public static void main(String[] args) {
         try {
-//            Map<String, Object> paramMap = Maps.newHashMap();
-//            new RealMachineDevices().agreeToFriendRequest(paramMap);
-//            Thread.sleep(5000);
+            Map<String, Object> paramMap = Maps.newHashMap();
+            new RealMachineDevices().agreeToFriendRequest(paramMap);
+            Thread.sleep(5000);
 
-            String pre = "";
-            String chatFriendNickName = "[链接] 宋天宇: 宝润国际电梯房屋出售：，急售…";
-            Pattern pattern = Pattern.compile("(?<=\\[)链接(?=\\])");
-            Matcher matcher = pattern.matcher(chatFriendNickName);
-            while (matcher.find()) {
-                pre = matcher.group();
-                System.out.println("pre = " + pre);
-            }
+//            String pre = "";
+//            String chatFriendNickName = "[链接] 宋天宇: 宝润国际电梯房屋出售：，急售…";
+//            Pattern pattern = Pattern.compile("(?<=\\[)链接(?=\\])");
+//            Matcher matcher = pattern.matcher(chatFriendNickName);
+//            while (matcher.find()) {
+//                pre = matcher.group();
+//                System.out.println("pre = " + pre);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
