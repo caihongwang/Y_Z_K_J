@@ -164,16 +164,13 @@ public class RealMachineDevices implements ChatByNickName {
             }
         }
         //3.判断坐标【联系人】与【最常使用】是否存在
-        boolean isChatFriendsFlag = false;
         try {
             WebElement contact_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
             Thread.sleep(2000);
-            isChatFriendsFlag = true;
         } catch (Exception e) {
             try {
                 WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                 Thread.sleep(2000);
-                isChatFriendsFlag = true;
             } catch (Exception e1) {
                 logger.info("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
                 throw new Exception("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....", e);
