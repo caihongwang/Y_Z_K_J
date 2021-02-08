@@ -313,23 +313,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 e.printStackTrace();
             }
         }
-//        try {
-//            Integer shareArticleUrlLocaltion_x1 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x1")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x1"):192;
-//            Integer shareArticleUrlLocaltion_y1 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y1")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y1"):1499;
-//            Integer shareArticleUrlLocaltion_x2 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x2")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_x2"):642;
-//            Integer shareArticleUrlLocaltion_y2 = shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y2")!=null?shareArticleUrlLocaltion.get("shareArticleUrlLocaltion_y2"):1587;
-//            Integer shareArticleUrlLocaltion_x = (int)(Math.random()*(shareArticleUrlLocaltion_x2 - shareArticleUrlLocaltion_x1) + shareArticleUrlLocaltion_x1);
-//            Integer shareArticleUrlLocaltion_y = (int)(Math.random()*(shareArticleUrlLocaltion_y2 - shareArticleUrlLocaltion_y1) + shareArticleUrlLocaltion_y1);
-//            new TouchAction(driver).tap(shareArticleUrlLocaltion_x, shareArticleUrlLocaltion_y).release().perform();
-//            sw.split();
-//            logger.info("【分享微信文章到微信朋友圈】点击坐标【点击微信文章链接】,x = " + shareArticleUrlLocaltion_x + " , y = " + shareArticleUrlLocaltion_y + "成功....");
-//            Thread.sleep(15000);
-//        } catch (Exception e) {
-//            sw.split();
-//            e.printStackTrace();
-//            this.quitDriverAndReboot(driver, deviceNameDesc, deviceName);
-//            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【点击微信文章链接】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
-//        }
         //8.向上滑动微信文章
         for(int i = 0; i < 3; i++){
             SwipeUtil.SwipeDown(driver);
@@ -349,10 +332,12 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
 //            int sleppTime = (int)(min + Math.random() * (max - min + 1));
 //            Thread.sleep(sleppTime);
 //        }
+        //获取屏幕的width与height
+        int screenWidth = driver.manage().window().getSize().width;
+        int screenHeight = driver.manage().window().getSize().height;
         //9.点击坐标【右上角的横三点】
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + rightThreePointLocaltion + "\")").click();
-//            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + rightThreePointLocaltion + "\")").click();
             logger.info("【分享微信文章到微信朋友圈】点击坐标【右上角的横三点】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
