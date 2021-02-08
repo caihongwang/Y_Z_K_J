@@ -181,26 +181,38 @@ public class RealMachineDevices implements ChatByNickName {
         }
         //4.点击坐标【昵称对应的微信好友】
         try {
-            String str_0_of_9 = nickName;
-            List<WebElement> targetGroupElementList = Lists.newArrayList();
-            if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
-                //启用模糊匹配
-                str_0_of_9 = str_0_of_9.substring(0, 9);
-                targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
-            } else {
-                targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + nickName + "\")");
-            }
-            for (WebElement targetGroupElement : targetGroupElementList) {
-                if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
-                    targetGroupElement.click();
-                    break;
-                }
-            }
-            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】成功....");
-            Thread.sleep(1000);
+            driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
         } catch (Exception e) {
-            throw new Exception("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            try {
+                driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+            } catch (Exception e1) {
+                logger.info("【根据微信昵称进行聊天】通过【群聊的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                throw new Exception("【根据微信昵称进行聊天】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+            }
         }
+//        try {
+//            String str_0_of_9 = nickName;
+//            List<WebElement> targetGroupElementList = Lists.newArrayList();
+//            if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
+//                //启用模糊匹配
+//                str_0_of_9 = str_0_of_9.substring(0, 9);
+//                targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
+//            } else {
+//                targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + nickName + "\")");
+//            }
+//            for (WebElement targetGroupElement : targetGroupElementList) {
+//                if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
+//                    targetGroupElement.click();
+//                    break;
+//                }
+//            }
+//            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】成功....");
+//            Thread.sleep(1000);
+//        } catch (Exception e) {
+//            throw new Exception("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+//        }
         //5.点击坐标【聊天内容输入框】new UiSelector().className("android.widget.EditText")
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(textMessage);
@@ -227,6 +239,7 @@ public class RealMachineDevices implements ChatByNickName {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
             paramMap.put("action", "chatByNickName");
+            paramMap.put("nickName", "全国微帮总汇1⃣\uD83C\uDE35");
             new RealMachineDevices().chatByNickName(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
