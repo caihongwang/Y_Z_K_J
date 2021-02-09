@@ -22,6 +22,9 @@ public class GlobalVariableConfig {
     @Value("${spring.profiles.active}")
     private String useEnvironmental;
 
+    @Value("${spring.imgFormatStr}")
+    private String imgFormatStr;
+
     @Value("${spring.appiumPortStr}")
     private String appiumPortStr;
 
@@ -33,12 +36,15 @@ public class GlobalVariableConfig {
 
     public static Map<String, Map<String, String>> appiumPortMap = Maps.newHashMap();       //appium端口使用情况
 
+    public static List<String> imgFormatList = Lists.newArrayList();
+
     /**
      * 初始化 全局变量
      * 初始化 启动服务：appium、rethinkdb、rethinkdb、stf
      */
     @PostConstruct
     public void initGlobalVariableAndServer() {
+        imgFormatList = Arrays.asList(imgFormatStr.split(","));
         String[] appiumPortArr = appiumPortStr.split(",");
         for (String appiumPort: appiumPortArr) {
             Map<String, String> appiumPortDetailMap = Maps.newHashMap();
@@ -46,29 +52,29 @@ public class GlobalVariableConfig {
         }
         //开发环境，启动服务：appium、rethinkdb、rethinkdb、stf
         if ("develop".equals(useEnvironmental)) {
-            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
-                String appiumPort = entry.getKey();
-                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
-                StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
-                Thread A_thread = new Thread(starAppiumThread);
-                A_thread.start();
-            }
-
-            RethinkdbThread rethinkdbThread = new RethinkdbThread("");
-            Thread B_thread = new Thread(rethinkdbThread);
-            B_thread.start();
-
-            try {
-                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
-                Thread.sleep(15000);
-            } catch (Exception e) {
-
-            }
-
-            StfThread stfThread = new StfThread(thePublicIp);
-            Thread C_thread = new Thread(stfThread);
-            C_thread.start();
-            System.out.println("【stf】服务 IP为【" + thePublicIp + "】已启动....");
+//            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+//                String appiumPort = entry.getKey();
+//                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
+//                StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
+//                Thread A_thread = new Thread(starAppiumThread);
+//                A_thread.start();
+//            }
+//
+//            RethinkdbThread rethinkdbThread = new RethinkdbThread("");
+//            Thread B_thread = new Thread(rethinkdbThread);
+//            B_thread.start();
+//
+//            try {
+//                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
+//                Thread.sleep(15000);
+//            } catch (Exception e) {
+//
+//            }
+//
+//            StfThread stfThread = new StfThread(thePublicIp);
+//            Thread C_thread = new Thread(stfThread);
+//            C_thread.start();
+//            System.out.println("【stf】服务 IP为【" + thePublicIp + "】已启动....");
         }
     }
 
