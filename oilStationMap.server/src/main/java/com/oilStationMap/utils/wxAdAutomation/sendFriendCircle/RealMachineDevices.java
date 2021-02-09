@@ -55,21 +55,32 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
                         "5LM0216122009385";
-        //appium端口号
-        String appiumPort =
-                paramMap.get("appiumPort") != null ?
-                        paramMap.get("appiumPort").toString() :
-                        "4723";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
                         "华为 Mate 8 _ 6";
+        //appium端口号
+        String appiumPort =
+                paramMap.get("appiumPort") != null ?
+                        paramMap.get("appiumPort").toString() :
+                        "4723";
         //操作:纯文字朋友圈和图片文字朋友圈
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
                         "textMessageFriendCircle";
+        //朋友圈文本内容
+        String textMessage =
+                paramMap.get("textMessage") != null ?
+                        paramMap.get("textMessage").toString() :
+                        "选择有效的推广方式更为重要![闪电][闪电]早上第一件事干什么？刷微信；上班忙里偷闲干什么？刷微信；中午吃饭你还在干什么？刷微信；晚上回家干什么？刷微信；睡觉前最一件事干什么？还是刷微信。现在是微信时代，还在担心人脉不多知名度低？交给我们一切就是这么简单[拳头][拥抱][拥抱]";
+        textMessage = EmojiUtil.emojiRecovery(textMessage);
+        //图片文件路径，总路径+微信昵称
+        String imgDirPath =
+                paramMap.get("imgDirPath") != null ?
+                        paramMap.get("imgDirPath").toString() :
+                        "/opt/nextcloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务";
         //坐标:发现
         String findBtnLocaltion =
                 paramMap.get("findBtnLocaltion") != null ?
@@ -85,12 +96,6 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("cameraLocaltion") != null ?
                         paramMap.get("cameraLocaltion").toString() :
                         "拍照分享";
-        //朋友圈文本内容
-        String textMessage =
-                paramMap.get("textMessage") != null ?
-                        paramMap.get("textMessage").toString() :
-                        "选择有效的推广方式更为重要![闪电][闪电]早上第一件事干什么？刷微信；上班忙里偷闲干什么？刷微信；中午吃饭你还在干什么？刷微信；晚上回家干什么？刷微信；睡觉前最一件事干什么？还是刷微信。现在是微信时代，还在担心人脉不多知名度低？交给我们一切就是这么简单[拳头][拥抱][拥抱]";
-        textMessage = EmojiUtil.emojiRecovery(textMessage);
         //坐标:输入分享文本框
         String textInputLocaltion =
                 paramMap.get("textInputLocaltion") != null ?
@@ -106,20 +111,16 @@ public class RealMachineDevices implements SendFriendCircle {
                 paramMap.get("selectFromPhotosBtnLocaltion") != null ?
                         paramMap.get("selectFromPhotosBtnLocaltion").toString() :
                         "从相册选择";
+        //坐标：单选框
         String singlePhotoLocaltion =
                 paramMap.get("singlePhotoLocaltion") != null ?
                         paramMap.get("singlePhotoLocaltion").toString() :
-                        "com.tencent.mm:id/bws";
+                        "android.widget.CheckBox";
         //坐标：完成
         String completeBtnLocaltion =
                 paramMap.get("completeBtnLocaltion") != null ?
                         paramMap.get("completeBtnLocaltion").toString() :
                         "完成";
-        //图片文件路径，总路径+微信昵称
-        String imgDirPath =
-                paramMap.get("imgDirPath") != null ?
-                        paramMap.get("imgDirPath").toString() :
-                        "/caihongwang/ownCloud/铜仁市碧江区智惠加油站科技服务工作室/微信朋友圈广告业务";
         Integer imageNum = 0;
         if (action.equals("imgMessageFriendCircle")) {
             imgDirPath = imgDirPath + "/" + paramMap.get("nickName");
@@ -131,7 +132,7 @@ public class RealMachineDevices implements SendFriendCircle {
                 Integer tempNum = 0;
                 for (int i = 0; i < imgFiles.length; i++) {
                     File imgFile = imgFiles[i];
-                    if(imgFile.getName().startsWith(".")){          //过滤部分操作系统的隐藏文件
+                    if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
                         tempNum++;
                         continue;
                     }
@@ -161,11 +162,11 @@ public class RealMachineDevices implements SendFriendCircle {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【发送朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+            throw new Exception("【发送朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
         //2.点击坐标【发现】
         try {
@@ -208,14 +209,14 @@ public class RealMachineDevices implements SendFriendCircle {
             //5.2【我知道了】
             try {
                 WebElement knowElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "我知道了" + "\")");
-                if(knowElement != null){
+                if (knowElement != null) {
                     knowElement.click();
-                    logger.info("【发送朋友圈】点击坐标【我知道了】成功....");
+                    logger.info("【发送朋友圈】检测坐标【我知道了】成功....");
                     Thread.sleep(1500);
                 }
-                logger.info("【发送朋友圈】点击坐标【我知道了】成功....");
+                logger.info("【发送朋友圈】检测坐标【我知道了】成功....");
             } catch (Exception e) {
-                logger.info("【发送朋友圈】点击坐标【我知道了】已经点击过了....");
+                logger.info("【发送朋友圈】检测坐标【我知道了】已经点击过了....");
             }
             //5.3.输入分享文本框
             try {
@@ -257,14 +258,14 @@ public class RealMachineDevices implements SendFriendCircle {
             //5.3.点击坐标【我知道了】
             try {
                 WebElement knowElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "我知道了" + "\")");
-                if(knowElement != null){
+                if (knowElement != null) {
                     knowElement.click();
-                    logger.info("【发送朋友圈】点击坐标【我知道了】成功....");
+                    logger.info("【发送朋友圈】检测坐标【我知道了】成功....");
                     Thread.sleep(1500);
                 }
-                logger.info("【发送朋友圈】点击坐标【我知道了】成功....");
+                logger.info("【发送朋友圈】检测坐标【我知道了】成功....");
             } catch (Exception e) {
-                logger.info("【发送朋友圈】点击坐标【我知道了】已经点击过了....");
+                logger.info("【发送朋友圈】检测坐标【我知道了】已经点击过了....");
             }
             //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
             try {
@@ -281,18 +282,18 @@ public class RealMachineDevices implements SendFriendCircle {
                     for (int j = 1; j <= 100; j++) {
                         String refreshCommandStr = "";
                         for (int i = 1; i <= imageNum; i++) {
-                            try{
+                            try {
                                 refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
                                 CommandUtil.run(refreshCommandStr);
                             } catch (Exception e) {
-                                logger.info("【发送朋友圈】点击坐标【选择图片】失败，第【"+j+"】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+                                logger.info("【发送朋友圈】点击坐标【选择图片】失败，第【" + j + "】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
                             }
-                            try{
+                            try {
                                 refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
                             } catch (Exception e) {
-                                logger.info("【发送朋友圈】点击坐标【选择图片】失败，第【"+j+"】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+                                logger.info("【发送朋友圈】点击坐标【选择图片】失败，第【" + j + "】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
                             }
-                            logger.info("【发送朋友圈】点击坐标【选择图片】失败，第【"+j+"】次更新图片成功，即将重启..... ");
+                            logger.info("【发送朋友圈】点击坐标【选择图片】失败，第【" + j + "】次更新图片成功，即将重启..... ");
                         }
                     }
                     //此处可以沉睡2秒等待处理更新图片通知

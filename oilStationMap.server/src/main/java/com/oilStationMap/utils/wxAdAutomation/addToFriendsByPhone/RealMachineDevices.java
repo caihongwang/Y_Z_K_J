@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 /**
  * 真机设备 同意好友请求 策略
- * 默认 小米 Max 3
+ * 默认 华为 P20 Pro
  */
 public class RealMachineDevices implements AgreeToFriendRequest {
 

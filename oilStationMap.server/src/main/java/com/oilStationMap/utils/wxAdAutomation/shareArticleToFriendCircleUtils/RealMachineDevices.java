@@ -42,16 +42,12 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-//                        "9f4eda95";
-//                        "S2D0219423001056";
-                        "Q8U0215511002364";
+                        "D5F0218325003946";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-//                        "小米 Max 3";
-//                        "华为 Mate 20 Pro";
-                        "华为 Mate 7 _ 4";
+                        "华为 P20 Pro";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -62,16 +58,21 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
                         "shareArticleToFriendCircle";
-        //微信群昵称
-        String targetGroup =
-                paramMap.get("targetGroup") != null ?
-                        paramMap.get("targetGroup").toString() :
-                        "油站科技-内部交流群";
+        //微信分享文章标题
+        String shareArticleTitle =
+                paramMap.get("shareArticleTitle") != null ?
+                        paramMap.get("shareArticleTitle").toString() :
+                        "加油站计量有猫腻?!看看正规加油站是怎么做的!";
         //微信分享文章URL
         String shareArticleUrl =
                 paramMap.get("shareArticleUrl") != null ?
                         paramMap.get("shareArticleUrl").toString() :
                         "https://mp.weixin.qq.com/s/gvF-7-uZcFc5MYbMQMtZSw";
+        //微信群昵称
+        String targetGroup =
+                paramMap.get("targetGroup") != null ?
+                        paramMap.get("targetGroup").toString() :
+                        "油站科技-内部交流群";
         //点击坐标【搜索】
         String searchLocaltionStr =
                 paramMap.get("searchLocaltion") != null ?
@@ -117,11 +118,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 paramMap.get("shareFriendCircleLocaltion") != null ?
                         paramMap.get("shareFriendCircleLocaltion").toString() :
                         "分享到朋友圈";
-        //微信分享文章标题
-        String shareArticleTitle =
-                paramMap.get("shareArticleTitle") != null ?
-                        paramMap.get("shareArticleTitle").toString() :
-                        "加油站计量有猫腻?!看看正规加油站是怎么做的!";
         //坐标:输入分享文本框
         String shareArticleTitleLocaltion =
                 paramMap.get("shareArticleTitleLocaltion") != null ?
@@ -154,11 +150,11 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【分享微信文章到微信朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+            throw new Exception("【分享微信文章到微信朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
         for (int i = 1; i <= 18; i++) {     //每间隔5秒点击一次，持续90秒
             //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
@@ -314,12 +310,12 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             }
         }
         //8.向上滑动微信文章
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             SwipeUtil.SwipeDown(driver);
             logger.info("【分享微信文章到微信朋友圈】向上滑动【微信文章】成功....");
             int max = 1500;
             int min = 1000;
-            int sleppTime = (int)(min + Math.random() * (max - min + 1));
+            int sleppTime = (int) (min + Math.random() * (max - min + 1));
             Thread.sleep(sleppTime);
         }
 //        //9.向上滑动微信文章
@@ -342,7 +338,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【右上角的横三点】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【右上角的横三点】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         //10.点击坐标【分享到朋友圈】
         try {
@@ -351,7 +347,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【分享到朋友圈】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【分享到朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         //11.点击坐标【输入分享文本内容】
         try {
@@ -360,7 +356,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【输入分享文本框】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【输入分享文本框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         //12.点击坐标【发表】
         try {
@@ -369,7 +365,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【发表】出现异常,请检查设备描述【"+deviceNameDesc+"】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【分享微信文章到微信朋友圈】点击坐标【发表】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
         return true;

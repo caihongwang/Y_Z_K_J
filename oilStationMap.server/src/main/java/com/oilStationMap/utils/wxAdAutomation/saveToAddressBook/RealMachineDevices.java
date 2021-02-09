@@ -21,8 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 真机设备 将群保存到通讯录 策略
- * 默认 小米 Max 3
+ * 真机设备 将群保存到通讯录 策略，注：需要确保有一条未读消息
+ * 默认 华为 P20 Pro
  */
 public class RealMachineDevices implements SaveToAddressBook {
 
@@ -56,7 +56,7 @@ public class RealMachineDevices implements SaveToAddressBook {
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
-                        "agreeToFriendRequest";
+                        "saveToAddressBook";
         //点击坐标【微信(】
         String chatLocation =
                 paramMap.get("chatLocation") != null ?
@@ -133,10 +133,10 @@ public class RealMachineDevices implements SaveToAddressBook {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
-            throw new Exception("【将群保存到通讯录】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+            throw new Exception("【将群保存到通讯录】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         } finally {
             //针对全局，在定位元素时，如果5秒内找不到的话调用隐式等待时间内一直找找，找到的话往结束，注：会极大拖延运行速度
 //            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -204,6 +204,10 @@ public class RealMachineDevices implements SaveToAddressBook {
 //            if (!chatFriendNickName.contains("内部人脉推荐群")) {
 //                continue;
 //            }
+            if (chatFriendNickName.contains("坐车群主")) {
+                logger.info("【将群保存到通讯录】当前昵称【" + chatFriendNickName + "】包含【坐车群主】对应的是【自己人】,继续下一个昵称....");
+                continue;
+            }
             if (chatFriendNickName.contains("[店员消息]")) {
                 logger.info("【将群保存到通讯录】当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
@@ -358,32 +362,43 @@ public class RealMachineDevices implements SaveToAddressBook {
 
             //5.点击坐标【昵称对应的微信好友】
             try {
-                String str_0_of_9 = chatFriendNickName;
-//                int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(chatFriendNickName);
-//                if (firstEmojiIndex >= 0) {
-//                    str_0_of_9 = chatFriendNickName.substring(0, firstEmojiIndex);        //截取emoji之前的字符串
-//                }
-                List<WebElement> targetGroupElementList = Lists.newArrayList();
-                if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
-                    //启用模糊匹配
-                    str_0_of_9 = str_0_of_9.substring(0, 9);
-                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
-                } else {
-                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + chatFriendNickName + "\")");
-                }
-                for (WebElement targetGroupElement : targetGroupElementList) {
-                    if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
-                        targetGroupElement.click();
-                        break;
-                    }
-                }
-                logger.info("【将群保存到通讯录】点击坐标【昵称对应的微信好友】成功....");
-                Thread.sleep(1000);
+                driver.findElementByXPath("//android.widget.TextView[@text=\"" + groupLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
             } catch (Exception e) {
-                throw new Exception("【将群保存到通讯录】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                try {
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                    logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                } catch (Exception e1) {
+                    throw new Exception("【同意好友请求】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                }
             }
+//            try {
+//                String str_0_of_9 = chatFriendNickName;
+////                int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(chatFriendNickName);
+////                if (firstEmojiIndex >= 0) {
+////                    str_0_of_9 = chatFriendNickName.substring(0, firstEmojiIndex);        //截取emoji之前的字符串
+////                }
+//                List<WebElement> targetGroupElementList = Lists.newArrayList();
+//                if (str_0_of_9.length() > 9) {                      //截取emoji字符串之后，长度还是超过9个字符，则截取前9个字符.
+//                    //启用模糊匹配
+//                    str_0_of_9 = str_0_of_9.substring(0, 9);
+//                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + str_0_of_9 + "\")");
+//                } else {
+//                    targetGroupElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + chatFriendNickName + "\")");
+//                }
+//                for (WebElement targetGroupElement : targetGroupElementList) {
+//                    if ("android.widget.TextView".equals(targetGroupElement.getAttribute("class"))) {
+//                        targetGroupElement.click();
+//                        break;
+//                    }
+//                }
+//                logger.info("【将群保存到通讯录】点击坐标【昵称对应的微信好友】成功....");
+//                Thread.sleep(1000);
+//            } catch (Exception e) {
+//                throw new Exception("【将群保存到通讯录】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+//            }
 
-            //6.点击坐标【设置】
+            //6.点击坐标【设置】new UiSelector().description("当前所在页面,与的聊天")
             try {
                 WebElement chatInfo_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + chatInfoLocaltion + "\")");
                 chatInfo_WebElement.click();

@@ -70,7 +70,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
-                        "textMessageFriendCircle";
+                        "praiseAndCommentFriendsCircle";
         //坐标:发现
         String findBtnLocaltion =
                 paramMap.get("findBtnLocaltion") != null ?
@@ -142,11 +142,11 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 10000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【点赞和评论朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+            throw new Exception("【点赞和评论朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
         //2.点击坐标【发现】
         try {
@@ -193,7 +193,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 }
                 //循环操作所有的坐标【评论两个点】
                 for (int j = 0; j < commentToPointElementList.size(); j++) {
-                    if(j == 0){     //第一个评论不操作，容易误触坐标【返回】和坐标【相机】
+                    if (j == 0) {     //第一个评论不操作，容易误触坐标【返回】和坐标【相机】
                         continue;
                     }
                     WebElement commentToPointElement = commentToPointElementList.get(j);
@@ -228,7 +228,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                         } catch (Exception e) {
 
                         }
-                        if(picOrVedio_2_friendCircle_Flag){
+                        if (picOrVedio_2_friendCircle_Flag) {
                             continue;
                         }
                     }
@@ -277,7 +277,7 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                         } catch (Exception e) {
 
                         }
-                        if(picOrVedio_2_friendCircle_Flag){
+                        if (picOrVedio_2_friendCircle_Flag) {
                             continue;
                         }
                     }

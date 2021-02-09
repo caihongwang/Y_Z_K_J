@@ -64,16 +64,16 @@ public class PraiseAndCommentFriendsCircleUtils {
         //设备描述
         String deviceNameDesc = "未知-设备描述";
         //当前 自动化操作 点赞和评论朋友圈
-        String action = "agreeToFriendRequest";
+        String action = "praiseAndCommentFriendsCircle";
         //获取 点赞和评论朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndPraiseAndCommentFriendsCircleLocaltion";
         for (String currentDateStr : currentDateList) {
             boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
             Map<String, Object> praiseAndCommentFriendsCircleParam = Maps.newHashMap();
             HashMap<String, Object> reboot_praiseAndCommentFriendsCircleParam = Maps.newHashMap();
-            praiseAndCommentFriendsCircleParam.put("nickName", nickName);
             praiseAndCommentFriendsCircleParam.put("commentContent", commentContent);
             praiseAndCommentFriendsCircleParam.put("allSwipeNum", allSwipeNum);
+            praiseAndCommentFriendsCircleParam.put("nickName", nickName);
             //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
             Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
             //获取设备列表和配套的坐标配置
@@ -180,6 +180,10 @@ public class PraiseAndCommentFriendsCircleUtils {
                 }
                 index++;
             }
+
+            //回收-appiumPort
+            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
             if (reboot_praiseAndCommentFriendsCircleParam.size() > 0) {
                 logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                 logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
@@ -221,8 +225,6 @@ public class PraiseAndCommentFriendsCircleUtils {
                     logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                 }
             }
-            //回收-appiumPort
-            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
         }
     }
 }

@@ -61,7 +61,7 @@ public class SaveToAddressBookUtils {
         //设备描述
         String deviceNameDesc = "未知-设备描述";
         //当前 自动化操作 将群保存到通讯录
-        String action = "agreeToFriendRequest";
+        String action = "saveToAddressBook";
         //获取 将群保存到通讯录 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndSaveToAddressBookLocaltion";
         for (String currentDateStr : currentDateList) {
@@ -175,6 +175,10 @@ public class SaveToAddressBookUtils {
                 }
                 index++;
             }
+
+            //回收-appiumPort
+            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
             if (reboot_saveToAddressBookParam.size() > 0) {
                 logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
                 logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
@@ -217,7 +221,5 @@ public class SaveToAddressBookUtils {
                 }
             }
         }
-        //回收-appiumPort
-        GlobalVariableConfig.recoveryAppiumPort(appiumPort);
     }
 }

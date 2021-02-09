@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * 真机设备 同意进群 策略
- * 默认 小米 Max 3
+ * 默认 华为 P20 Pro
  */
 public class RealMachineDevices implements AgreeToJoinTheGroup {
 
@@ -58,7 +58,7 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
-                        "agreeToFriendRequest";
+                        "agreeToJoinTheGroup";
         //点击坐标【微信(】
         String chatLocation =
                 paramMap.get("chatLocation") != null ?
@@ -88,7 +88,6 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         String inviteJoinGroupLocaltion =
                 paramMap.get("inviteJoinGroupLocaltion") != null ?
                         paramMap.get("inviteJoinGroupLocaltion").toString() :
-//                        "\"邀请你加入群聊";
                         "邀请你加入群聊";
         //点击坐标【加入群聊】
         String joinGroupLocaltion =
@@ -121,10 +120,10 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
-            throw new Exception("【同意进群】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+            throw new Exception("【同意进群】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         } finally {
             //针对全局，在定位元素时，如果5秒内找不到的话调用隐式等待时间内一直找找，找到的话往结束，注：会极大拖延运行速度
 //            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -191,6 +190,10 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 //            if (!chatFriendNickName.contains("坐车群主")) {
 //                continue;
 //            }
+            if (chatFriendNickName.contains("坐车群主")) {
+                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】包含【坐车群主】对应的是【自己人】,继续下一个昵称....");
+                continue;
+            }
             if (chatFriendNickName.contains("[店员消息]")) {
                 logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;

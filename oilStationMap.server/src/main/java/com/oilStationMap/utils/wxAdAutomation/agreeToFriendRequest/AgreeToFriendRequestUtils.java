@@ -173,6 +173,10 @@ public class AgreeToFriendRequestUtils {
                 }
                 index++;
             }
+
+            //回收-appiumPort
+            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
             if (reboot_agreeToFriendRequestParam.size() > 0) {
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】15次重新执行均失败....");
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】15次重新执行均失败....");
@@ -215,7 +219,5 @@ public class AgreeToFriendRequestUtils {
                 }
             }
         }
-        //回收-appiumPort
-        GlobalVariableConfig.recoveryAppiumPort(appiumPort);
     }
 }

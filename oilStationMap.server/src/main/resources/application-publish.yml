@@ -73,6 +73,7 @@ spring:
   appiumPortStr: 4723,4725,4727,4729
   thePublicIp: 127.0.0.1
   defaultCommodPath: /opt/defaultCommodPath
+  imgFormatStr: bmp,pcx,png,jpg,jpeg,gif,tiff
 
 mybatis:
   mapper-locations: mapper/**Mapper.xml

@@ -14,6 +14,7 @@ import com.oilStationMap.service.impl.MailServiceImpl;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.*;
+import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +81,8 @@ public class SendFriendCircleUtils {
                 List<Map<String, String>> resultList = resultDTO.getResultList();
                 if (resultList != null && resultList.size() > 0) {
                     //获取发送朋友圈的内容信息.
-                    sendFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));
+                    sendFriendCircleParam.putAll(MapUtil.getObjectMap(resultList.get(0)));
+                    sendFriendCircleParam.put("nickName", nickName);
                     sendFriendCircleParam.put("phoneLocalPath", "/storage/emulated/0/tencent/MicroMsg/WeiXin/");
                     String theId = sendFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置wxDic
@@ -112,9 +114,9 @@ public class SendFriendCircleUtils {
                             //当前时间
                             sendFriendCircleParam.put("currentDate", currentDate);
                             //将 图片文件 push 到安卓设备里面
-                            boolean tempFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
-                            if (!imgExistFlag && tempFlag) {
-                                imgExistFlag = tempFlag;
+//                            boolean tempFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
+                            if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
+                                imgExistFlag = true;
                             }
                         }
 
@@ -232,8 +234,7 @@ public class SendFriendCircleUtils {
                             break;
                         }
                         logger.info("【发送朋友圈】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
-                        if (action.equals("imgMessageFriendCircle")) {
-                            //重操作的时候，再次对图片进行操作
+                        if (action.equals("imgMessageFriendCircle")) {  //重操作的时候，再次对图片进行操作
                             pushImgFileToDevice(allDeviceNameList, sendFriendCircleParam);
                         }
                         try {
@@ -267,6 +268,9 @@ public class SendFriendCircleUtils {
                         //将 图片文件  从安卓设备里面 删除
                         removeImgFileToDevice(allDeviceNameList, sendFriendCircleParam);
                     }
+
+                    //回收-appiumPort
+                    GlobalVariableConfig.recoveryAppiumPort(appiumPort);
 
                     //6.发送微信通知消息
                     if (reboot_sendFriendCircleParam.size() > 0) {
@@ -309,20 +313,50 @@ public class SendFriendCircleUtils {
                             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+
+                            //向nickName对象发送聊天消息进行通知
+                            nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName, currentDateStr);
                         }
                     }
                 } else {
                     logger.info("【发送朋友圈】 失败.");
                 }
             }
-            //回收-appiumPort
-            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
         }
     }
 
+    /**
+     * 向nickName对象发送聊天消息进行通知
+     * @param deviceNameDesc
+     * @param deviceName
+     * @param nickName
+     * @param currentDateStr
+     */
+    public static void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
+                                            String currentDateStr){
+        try{
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
+            nickNameList_fro_chatByNickName.add(nickName);
+            LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
+            currentDateList_fro_chatByNickName.add(currentDateStr);
+            Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
+            paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
+            paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
+            ChatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
+        } catch (Exception e) {
+
+            logger.info("【发送朋友圈】根据微信昵称进行聊天失败.");
+        }
+    }
 
     /**
      * 将 图片文件 push 到安卓设备里面
+     * 顺序导入，如: 1.jpg，2.jpg，3.jpg，4.jpg ......
      * adb -s QVM0216331002197 push 1.jpg /storage/emulated/0/DCIM/Camera/
      * adb -s QVM0216331002197 push 2.jpg /storage/emulated/0/DCIM/Camera/
      * adb -s QVM0216331002197 push 3.jpg /storage/emulated/0/DCIM/Camera/
@@ -393,6 +427,21 @@ public class SendFriendCircleUtils {
                                     }
                                 }
 
+                                //移除imgFiles中的非图片格式文件
+                                List<File> imgFileList = new ArrayList(Arrays.asList(imgFiles));
+                                Iterator<File> iterator = imgFileList.iterator();
+                                while (iterator.hasNext()) {
+                                    File imgFile = iterator.next();
+                                    String[] fileNameArr = imgFile.getName().split("\\.");
+                                    //图片格式必须在 GlobalVariableConfig.imgFormatList范围之内
+                                    if(fileNameArr != null && fileNameArr.length >= 2 && !GlobalVariableConfig.imgFormatList.contains(fileNameArr[1])){
+                                        iterator.remove();
+                                        logger.info("【发送朋友圈】非图片格式，imgFile = " + imgFile.getPath());
+                                    }
+                                }
+                                imgFiles = new File[imgFileList.size()];
+                                imgFileList.toArray(imgFiles);
+
                                 //确保 文件件存在
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " mkdir " + phoneLocalPath);
 
@@ -401,6 +450,9 @@ public class SendFriendCircleUtils {
                                         try {
                                             //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
                                             File imgFile = imgFiles[i];
+                                            if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
+                                                continue;
+                                            }
                                             for (File tempFile : imgFiles) {          //确保文件顺序导出.
                                                 String[] fileNameArr = tempFile.getName().split("\\.");
                                                 if (fileNameArr[0].equals(i + 1 + "")) {
@@ -408,14 +460,11 @@ public class SendFriendCircleUtils {
                                                     break;
                                                 }
                                             }
-                                            if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
-                                                continue;
-                                            }
-
-
+                                            //将图片push到设备
                                             String pushCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
                                             CommandUtil.run(pushCommandStr);
                                             Thread.sleep(1000);
+                                            //每张图片 发送100次push通知，确保图片在微信的图片预览中出现
                                             for (int j = 1; j <= 100; j++) {
                                                 String refreshCommandStr = "";
                                                 refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
@@ -465,7 +514,7 @@ public class SendFriendCircleUtils {
 
     /**
      * 将 图片文件  从安卓设备里面 删除
-     *
+     * 无顺讯讲究，直接书删除
      * @param deviceNameList
      * @param sendFriendCircleParam
      */

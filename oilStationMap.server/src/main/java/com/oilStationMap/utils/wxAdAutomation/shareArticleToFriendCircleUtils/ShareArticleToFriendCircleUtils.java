@@ -14,6 +14,7 @@ import com.oilStationMap.service.impl.MailServiceImpl;
 import com.oilStationMap.service.impl.WX_DicServiceImpl;
 import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.*;
+import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,7 @@ public class ShareArticleToFriendCircleUtils {
         //设备描述
         String deviceNameDesc = "未知-设备描述";
         //当前 自动化操作 分享微信文章到微信朋友圈
-        String action = "agreeToFriendRequest";
+        String action = "shareArticleToFriendCircle";
         //获取 分享微信文章到微信朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndShareArticleToFriendCircleLocaltion";
         for (String currentDateStr : currentDateList) {
@@ -83,7 +84,8 @@ public class ShareArticleToFriendCircleUtils {
                 ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
                 List<Map<String, String>> resultList = resultDTO.getResultList();
                 if (resultList != null && resultList.size() > 0) {
-                    shareArticleToFriendCircleParam = MapUtil.getObjectMap(resultList.get(0));//获取发送朋友圈的内容信息.
+                    shareArticleToFriendCircleParam.putAll(MapUtil.getObjectMap(resultList.get(0)));//获取发送朋友圈的内容信息.
+                    shareArticleToFriendCircleParam.put("nickName", nickName);
                     String theId = shareArticleToFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置
                     paramMap.clear();
@@ -213,6 +215,10 @@ public class ShareArticleToFriendCircleUtils {
                     }
                     index++;
                 }
+
+                //回收-appiumPort
+                GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
                 if (reboot_shareArticleToFriendCircleParam.size() > 0) {
                     logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                     logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
@@ -253,11 +259,41 @@ public class ShareArticleToFriendCircleUtils {
                         logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                         logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                         logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+
+                        //向nickName对象发送聊天消息进行通知
+                        nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName, currentDateStr);
                     }
                 }
-                //回收-appiumPort
-                GlobalVariableConfig.recoveryAppiumPort(appiumPort);
             }
+        }
+    }
+
+    /**
+     * 向nickName对象发送聊天消息进行通知
+     * @param deviceNameDesc
+     * @param deviceName
+     * @param nickName
+     * @param currentDateStr
+     */
+    public static void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
+                                                   String currentDateStr){
+        try{
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
+            nickNameList_fro_chatByNickName.add(nickName);
+            LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
+            currentDateList_fro_chatByNickName.add(currentDateStr);
+            Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
+            paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
+            paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
+            ChatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
+        } catch (Exception e) {
+
+            logger.info("【发送朋友圈】根据微信昵称进行聊天失败.");
         }
     }
 }

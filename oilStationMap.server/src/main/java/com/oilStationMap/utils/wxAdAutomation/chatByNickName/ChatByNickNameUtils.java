@@ -80,7 +80,8 @@ public class ChatByNickNameUtils {
                 ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
                 List<Map<String, String>> resultList = resultDTO.getResultList();
                 if (resultList != null && resultList.size() > 0) {
-                    chatByNickNameParam = MapUtil.getObjectMap(resultList.get(0));
+                    chatByNickNameParam.putAll(MapUtil.getObjectMap(resultList.get(0)));
+                    chatByNickNameParam.put("nickName", nickName);
                     //获取设备列表和配套的坐标配置
                     paramMap.clear();
                     paramMap.put("dicType", "deviceNameListAndLocaltion");
@@ -189,6 +190,10 @@ public class ChatByNickNameUtils {
                     }
                     index++;
                 }
+
+                //回收-appiumPort
+                GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
                 if (reboot_chatByNickNameParam.size() > 0) {
                     logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                     logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
@@ -231,8 +236,6 @@ public class ChatByNickNameUtils {
                         logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
                     }
                 }
-                //回收-appiumPort
-                GlobalVariableConfig.recoveryAppiumPort(appiumPort);
             }
         }
     }

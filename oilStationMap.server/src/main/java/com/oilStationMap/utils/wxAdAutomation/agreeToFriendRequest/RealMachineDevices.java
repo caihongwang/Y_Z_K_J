@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * 真机设备 同意好友请求 策略
- * 默认 小米 Max 3
+ * 默认 华为 P20 Pro
  */
 public class RealMachineDevices implements AgreeToFriendRequest {
 
@@ -164,10 +164,10 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium成功....");
+            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
-            throw new Exception("【同意好友请求】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的环境是否正常运行等原因....");
+            throw new Exception("【同意好友请求】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         } finally {
             //针对全局，在定位元素时，如果5秒内找不到的话调用隐式等待时间内一直找找，找到的话往结束，注：会极大拖延运行速度
 //            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -234,44 +234,44 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 //            if (!chatFriendNickName.contains("倍巧")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
 //                continue;
 //            }
-            if(chatFriendNickName.contains("[店员消息]")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("[店员消息]")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("[链接]")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[链接]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("[链接]")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[链接]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("[图片]")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("[图片]")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("[小程序]")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("[小程序]")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("[群待办]")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("[群待办]")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("[有人@我]")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("[有人@我]")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("我通过了你的朋友验证请求")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("我通过了你的朋友验证请求")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("与群里其他人都不是")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【与群里其他人都不是微信朋友关系】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("与群里其他人都不是")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【与群里其他人都不是微信朋友关系】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.contains("对方为企业微信用户")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【对方为企业微信用户】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.contains("对方为企业微信用户")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【对方为企业微信用户】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            if(chatFriendNickName.startsWith("你已添加了")){
-                logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            if (chatFriendNickName.startsWith("你已添加了")) {
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
             String chatRecordNumStr = "-1";
@@ -283,7 +283,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 }
                 Integer groupTotalNum = Integer.parseInt(chatRecordNumStr);
                 if (groupTotalNum >= 0) {
-                    logger.info("【同意好友请求】当前昵称【"+chatFriendNickName+"】包含【[*条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                    logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[*条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                     continue;
                 }
             } catch (Exception e) {
@@ -382,7 +382,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 //                Thread.sleep(2000);
                 continue;
             }
-            
+
 
             //5.点击坐标【昵称对应的微信好友】
             try {

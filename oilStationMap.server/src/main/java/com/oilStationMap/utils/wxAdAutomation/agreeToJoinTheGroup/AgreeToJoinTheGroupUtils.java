@@ -175,6 +175,10 @@ public class AgreeToJoinTheGroupUtils {
                 }
                 index++;
             }
+
+            //回收-appiumPort
+            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
             if (reboot_agreeToJoinTheGroupParam.size() > 0) {
                 logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
                 logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
@@ -187,7 +191,6 @@ public class AgreeToJoinTheGroupUtils {
                 logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
                 logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
                 logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action  + "】15次重新执行均失败....");
-
 
                 //建议使用http协议访问阿里云，通过阿里元来完成此操作.
                 HttpsUtil httpsUtil = new HttpsUtil();
@@ -217,8 +220,6 @@ public class AgreeToJoinTheGroupUtils {
                     logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
                 }
             }
-            //回收-appiumPort
-            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
         }
     }
 }

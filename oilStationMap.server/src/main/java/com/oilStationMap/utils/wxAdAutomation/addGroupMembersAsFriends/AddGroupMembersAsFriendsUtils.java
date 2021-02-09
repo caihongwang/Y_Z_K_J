@@ -79,7 +79,8 @@ public class AddGroupMembersAsFriendsUtils {
                 List<Map<String, String>> resultList = resultDTO.getResultList();
                 if (resultList != null && resultList.size() > 0) {
                     //根据微信群昵称添加群成员为好友.
-                    addGroupMembersAsFriendsParam = MapUtil.getObjectMap(resultList.get(0));
+                    addGroupMembersAsFriendsParam.putAll(MapUtil.getObjectMap(resultList.get(0)));
+                    addGroupMembersAsFriendsParam.put("nickName", nickName);
                     String theId = addGroupMembersAsFriendsParam.get("id").toString();
                     //获取设备列表和配套的坐标配置
                     paramMap.clear();
@@ -197,6 +198,9 @@ public class AddGroupMembersAsFriendsUtils {
                         index++;
                     }
 
+                    //回收-appiumPort
+                    GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+
                     //6.发送微信通知消息进行手动录入.
                     if (reboot_addGroupMembersAsFriendsParam.size() > 0) {
                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
@@ -288,13 +292,13 @@ public class AddGroupMembersAsFriendsUtils {
                                 }
                             } catch (Exception e) {
                                 logger.error("【添加群成员为好友的V群】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】操作【" + action + "】昵称【" + nickName + "】时异常，e : ", e);
-                            } finally {
-                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                             }
+
+                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                         }
                     }
                 } else {
@@ -302,7 +306,5 @@ public class AddGroupMembersAsFriendsUtils {
                 }
             }
         }
-        //回收-appiumPort
-        GlobalVariableConfig.recoveryAppiumPort(appiumPort);
     }
 }
