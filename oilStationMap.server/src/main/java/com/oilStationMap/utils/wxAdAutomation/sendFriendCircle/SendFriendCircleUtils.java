@@ -122,12 +122,8 @@ public class SendFriendCircleUtils {
 
                         if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
                             //2.沉睡等待2分钟，确保USB传输文件到达手机相册
-                            try {
-                                logger.info("【发送朋友圈】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
-                                Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
-                            } catch (Exception e) {
-                                logger.info("【发送朋友圈】将图片保存到【手机本地的微信图片路径】成功，沉睡等待10分钟，失败...");
-                            }
+                            logger.info("【发送朋友圈】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
+                            Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
                         } else {
                             logger.error("【发送朋友圈】昵称【" + nickName + "】没有图片，异常退出.");
                             continue;

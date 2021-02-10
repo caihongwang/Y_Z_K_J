@@ -65,7 +65,7 @@ public class EmojiUtil {
     }
 
     public static void main(String[] args) {
-        String str = "全国微帮总汇1⃣\uD83C\uDE35";
+        String str = "四通八达②诚信推广平台\uD83D\uDE02总汇群";
         try{
             System.out.println("emojiConvert = " + EmojiUtil.emojiConvert(str));
             System.out.println("emojiRecovery = " + EmojiUtil.emojiRecovery(EmojiUtil.emojiConvert(str)));

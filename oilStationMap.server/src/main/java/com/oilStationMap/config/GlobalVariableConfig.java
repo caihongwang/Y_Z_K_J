@@ -83,33 +83,38 @@ public class GlobalVariableConfig {
      * 根据设备名称 获取 appium端口
      * @return
      */
-    public static String getAppiumPort(String action, String deviceName) throws Exception{
+    public synchronized static String getAppiumPort(String action, String deviceName) throws Exception{
         String appiumPort = null;
         //首先检测当前设备是否正在使用appoium端口号，即是否正在使用
         for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
             Map<String, String> appiumPortDetailMap = entry.getValue();
             String theAction = appiumPortDetailMap.get("action");           //appium端口-正在使用的自动化操作行为
             String theDeviceName = appiumPortDetailMap.get("deviceName");   //appium端口=正在使用的自动化操作设备
-            if(deviceName.equals(theDeviceName)){
-                appiumPort = "当前设备【"+deviceName+"】正在进行【"+theAction+"】自动化操作，请稍后再试.";
+            if(deviceName.equals(theDeviceName)){   //设备正在是使用
+                if(action.equals(theAction)){           //正在操作action
+                    appiumPort = entry.getKey();
+                } else {
+                    appiumPort = "当前设备【"+deviceName+"】正在进行【"+theAction+"】自动化操作，请稍后再试.";
+                    throw new Exception(appiumPort);
+                }
             }
         }
-        if(!StringUtils.isEmpty(appiumPort)){
-            throw new Exception(appiumPort);
-        }
-        //在检测是否存在可用的appium端口号
-        for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
-            appiumPort = entry.getKey();
-            Map<String, String> appiumPortDetailMap = entry.getValue();
-            if(appiumPortDetailMap.size() <= 0){
-                appiumPortDetailMap.put("action", action);
-                appiumPortDetailMap.put("deviceName", deviceName);
-                appiumPortMap.put(appiumPort, appiumPortDetailMap);
-                break;
+        if(StringUtils.isEmpty(appiumPort)){
+            //在检测是否存在可用的appium端口号
+            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+                appiumPort = entry.getKey();
+                Map<String, String> appiumPortDetailMap = entry.getValue();
+                if(appiumPortDetailMap.size() <= 0){
+                    appiumPortDetailMap.put("action", action);
+                    appiumPortDetailMap.put("deviceName", deviceName);
+                    appiumPortMap.put(appiumPort, appiumPortDetailMap);
+                    break;
+                }
             }
         }
         if(StringUtils.isEmpty(appiumPort)){
             appiumPort = "当前没有空闲的appium端口号，请稍后再试.";
+            throw new Exception(appiumPort);
         }
         return appiumPort;
     }
@@ -118,7 +123,7 @@ public class GlobalVariableConfig {
      * 回收当前的端口号
      * @param appiumPort
      */
-    public static void recoveryAppiumPort(String appiumPort){
+    public synchronized static void recoveryAppiumPort(String appiumPort){
         if(!StringUtils.isEmpty(appiumPort)){
             Map<String, String> appiumPortDetailMap = appiumPortMap.get(appiumPort);
             appiumPortDetailMap.clear();
