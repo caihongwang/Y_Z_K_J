@@ -173,7 +173,7 @@ public class RealMachineDevices implements ChatByNickName {
                 Thread.sleep(2000);
             } catch (Exception e1) {
                 logger.info("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
-                throw new Exception("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....", e);
+                return false;
             }
         }
         //4.点击坐标【昵称对应的微信好友】
@@ -186,7 +186,7 @@ public class RealMachineDevices implements ChatByNickName {
                 logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
             } catch (Exception e1) {
                 logger.info("【根据微信昵称进行聊天】通过【群聊的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
-                throw new Exception("【根据微信昵称进行聊天】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                return false;
             }
         }
 //        try {
