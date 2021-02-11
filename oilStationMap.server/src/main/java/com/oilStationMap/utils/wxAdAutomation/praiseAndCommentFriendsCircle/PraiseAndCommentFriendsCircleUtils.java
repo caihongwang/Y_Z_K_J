@@ -113,11 +113,19 @@ public class PraiseAndCommentFriendsCircleUtils {
                                         "";
                         String currentHour = new SimpleDateFormat("HH").format(currentDate);
                         if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                            //设置当前这杯可执行的标志位
-                            isExecuteFlag = true;
-                            //获取appium端口号
-                            appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                            praiseAndCommentFriendsCircleParam.put("appiumPort", appiumPort);
+                            try{
+                                //获取appium端口号
+                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                praiseAndCommentFriendsCircleParam.put("appiumPort", appiumPort);
+                                //设置当前这杯可执行的标志位
+                                isExecuteFlag = true;
+                            } catch (Exception e) {
+                                //获取appium端口号失败
+                                logger.error("【点赞和评论朋友圈】" + e.getMessage());
+                                //设置当前这杯可被行的标志位
+                                isExecuteFlag = false;
+                                continue;
+                            }
                         } else {
                             logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                             continue;

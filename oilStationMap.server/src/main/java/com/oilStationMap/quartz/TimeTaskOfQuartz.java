@@ -3,6 +3,7 @@ package com.oilStationMap.quartz;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.oilStationMap.code.OilStationMapCode;
+import com.oilStationMap.config.GlobalVariableConfig;
 import com.oilStationMap.dao.XXL_JobInfoDao;
 import com.oilStationMap.dto.BoolDTO;
 import com.oilStationMap.dto.ResultDTO;
@@ -108,14 +109,14 @@ public class TimeTaskOfQuartz {
                 }
             } catch (Exception e) {
                 logger.error("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, 即将通过数据库获取数据发送朋友圈 paramMap : " + paramMap);
-                try{
+                try {
                     //直接从现有的数据库中获取数据启动-发布朋友圈
                     paramMap.clear();
                     nickNameList.clear();
                     paramMap.put("dicType", "sendFriendCircle");
                     ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-                    if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
-                        for(Map<String, String> sendFriendCircleMap : resultDTO.getResultList()){
+                    if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                        for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
                             nickNameList.add(sendFriendCircleMap.get("dicCode"));
                         }
                     }
@@ -214,7 +215,6 @@ public class TimeTaskOfQuartz {
         System.out.println();
     }
 
-
     /**
      * 每周五下午15点开始执行
      * 同意好友请求
@@ -247,6 +247,7 @@ public class TimeTaskOfQuartz {
                 currentDateList.clear();
 //                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
 //                paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
+                currentDateList.add("2020-10-25 10");
                 currentDateList.add("2020-10-25 11");
                 currentDateList.add("2020-10-25 12");
                 currentDateList.add("2020-10-25 13");
@@ -263,6 +264,14 @@ public class TimeTaskOfQuartz {
                 wxSpiderService.agreeToFriendRequest(paramMap);         //同意好友请求
             }
         }
+    }
+
+    /**
+     * 每分钟检测GlobalVariableConfig的使用情况
+     */
+    @Scheduled(cron = "0 */1 * * * ?")
+    public void do_checkGlobalVariableConfig() {
+        logger.info("每分钟检测GlobalVariableConfig的使用情况：" + JSON.toJSONString(GlobalVariableConfig.appiumPortMap));
     }
 
     /**

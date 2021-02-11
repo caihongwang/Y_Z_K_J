@@ -94,7 +94,7 @@ public class GlobalVariableConfig {
                 if(action.equals(theAction)){           //正在操作action
                     appiumPort = entry.getKey();
                 } else {
-                    appiumPort = "当前设备【"+deviceName+"】正在进行【"+theAction+"】自动化操作，请稍后再试.";
+                    appiumPort = "当前设备【"+deviceName+"】正在进行操作【"+action+"】自动化操作，请稍后再试.";
                     throw new Exception(appiumPort);
                 }
             }
@@ -113,7 +113,7 @@ public class GlobalVariableConfig {
             }
         }
         if(StringUtils.isEmpty(appiumPort)){
-            appiumPort = "当前没有空闲的appium端口号，请稍后再试.";
+            appiumPort = "当前设备【"+deviceName+"】准备操作【"+action+"】自动化操作，但是没有空闲的appium端口号，请稍后再试.";
             throw new Exception(appiumPort);
         }
         return appiumPort;
