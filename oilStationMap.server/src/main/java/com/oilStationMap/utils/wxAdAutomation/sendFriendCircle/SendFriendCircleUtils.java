@@ -67,7 +67,6 @@ public class SendFriendCircleUtils {
         //获取 发送朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndSendFriendCircleLocaltion";
         for (String currentDateStr : currentDateList) {
-            List<HashMap<String, Object>> allDeviceNameList = Lists.newArrayList();
             Map<String, Object> sendFriendCircleParam = Maps.newHashMap();
             HashMap<String, Object> reboot_sendFriendCircleParam = Maps.newHashMap();
             //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
@@ -86,52 +85,7 @@ public class SendFriendCircleUtils {
                     sendFriendCircleParam.put("phoneLocalPath", "/storage/emulated/0/tencent/MicroMsg/WeiXin/");
                     String theId = sendFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置wxDic
-                    List<String> dicCodeList = Lists.newArrayList();
-                    dicCodeList.add("HuaWeiListAndSendFriendCircleLocaltion"); //获取 华为 Mate 8 设备列表和配套的坐标配置
-
-                    //1.将 图片文件 push 到安卓设备里面
-                    action =
-                            sendFriendCircleParam.get("action") != null ?
-                                    sendFriendCircleParam.get("action").toString() :
-                                    "textMessageFriendCircle";
-                    if (action.equals("imgMessageFriendCircle")) {
-                        boolean imgExistFlag = false;
-                        paramMap.clear();
-                        paramMap.put("dicType", "deviceNameListAndLocaltion");
-                        paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
-                        List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-                        if (list != null && list.size() > 0) {
-                            //获取dicRemark
-                            String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                            JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                            //获取设备坐标
-                            String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                            Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                            sendFriendCircleParam.putAll(deviceLocaltionMap);
-                            //获取设备列表
-                            String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                            List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                            allDeviceNameList.addAll(deviceNameList);       //设置所有设备列表.
-                            //当前时间
-                            sendFriendCircleParam.put("currentDate", currentDate);
-                            //将 图片文件 push 到安卓设备里面
-//                            boolean tempFlag = pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
-                            if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
-                                imgExistFlag = true;
-                            }
-                        }
-
-                        if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
-                            //2.沉睡等待2分钟，确保USB传输文件到达手机相册
-                            logger.info("【发送朋友圈】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
-                            Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
-                        } else {
-                            logger.error("【发送朋友圈】昵称【" + nickName + "】没有图片，异常退出.");
-                            continue;
-                        }
-                    }
-
-                    //3.发送朋友圈
+                    List<HashMap<String, Object>> deviceNameList = Lists.newArrayList();
                     paramMap.clear();
                     paramMap.put("dicType", "deviceNameListAndLocaltion");
                     paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
@@ -146,85 +100,102 @@ public class SendFriendCircleUtils {
                         sendFriendCircleParam.putAll(deviceLocaltionMap);
                         //获取设备列表
                         String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                        List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                        if (deviceNameList != null && deviceNameList.size() > 0) {
-                            for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内//获取设备编码
-                                deviceName =
-                                        sendFriendCircleParam.get("deviceName") != null ?
-                                                sendFriendCircleParam.get("deviceName").toString() :
-                                                null;
-                                //当前设备描述
-                                deviceNameDesc =
-                                        sendFriendCircleParam.get("deviceNameDesc") != null ?
-                                                sendFriendCircleParam.get("deviceNameDesc").toString() :
-                                                null;
-                                //判断当前设备的执行小时时间是否与当前时间匹配
-                                boolean isExecuteFlag = false;
-                                String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
-                                String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
-                                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    Date startTime = sdf.parse(startTimeStr);
-                                    Date endTime = sdf.parse(endTimeStr);
-                                    if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
-                                        //判断当前设备的执行小时时间是否与当前时间匹配
-                                        String startHour =
-                                                sendFriendCircleParam.get("startHour") != null ?
-                                                        sendFriendCircleParam.get("startHour").toString() :
-                                                        "";
-                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                        if (startHour.equals(currentHour)) {
-                                            try{
-                                                //获取appium端口号
-                                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                                sendFriendCircleParam.put("appiumPort", appiumPort);
-                                                //设置当前这杯可执行的标志位
-                                                isExecuteFlag = true;
-                                            } catch (Exception e) {
-                                                //获取appium端口号失败
-                                                logger.error("【发送朋友圈】" + e.getMessage());
-                                                //设置当前这杯可被行的标志位
-                                                isExecuteFlag = false;
-                                                continue;
-                                            }
-                                        } else {
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                        deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                    } else {
+                        logger.info("【发送朋友圈】"+deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                    }
+                    //当前时间
+                    sendFriendCircleParam.put("currentDate", currentDate);
+
+                    //1.将 图片文件 push 到安卓设备里面
+                    action = sendFriendCircleParam.get("action") != null ? sendFriendCircleParam.get("action").toString() : "textMessageFriendCircle";
+                    if (action.equals("imgMessageFriendCircle")) {
+                        boolean imgExistFlag = false;
+                        //将 图片文件 push 到安卓设备里面
+                        if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
+                            imgExistFlag = true;
+                        }
+                        if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
+                            //2.沉睡等待2分钟，确保USB传输文件到达手机相册
+                            logger.info("【发送朋友圈】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
+                            Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
+                        } else {
+                            logger.error("【发送朋友圈】昵称【" + nickName + "】未在广告排期已过期或者没有图片，异常退出.");
+                            continue;
+                        }
+                    }
+
+                    //3.发送朋友圈
+                    if (deviceNameList != null && deviceNameList.size() > 0) {
+                        for (Map<String, Object> deviceNameMap : deviceNameList) {
+                            sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内//获取设备编码
+                            //当前设备编码
+                            deviceName = sendFriendCircleParam.get("deviceName") != null ? sendFriendCircleParam.get("deviceName").toString() : null;
+                            //当前设备描述
+                            deviceNameDesc = sendFriendCircleParam.get("deviceNameDesc") != null ? sendFriendCircleParam.get("deviceNameDesc").toString() : null;
+                            //判断当前设备的执行小时时间是否与当前时间匹配
+                            boolean isExecuteFlag = false;
+                            String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
+                            String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
+                            if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                Date startTime = sdf.parse(startTimeStr);
+                                Date endTime = sdf.parse(endTimeStr);
+                                if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
+                                    //判断当前设备的执行小时时间是否与当前时间匹配
+                                    String startHour =
+                                            sendFriendCircleParam.get("startHour") != null ?
+                                                    sendFriendCircleParam.get("startHour").toString() :
+                                                    "";
+                                    String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                                    if (startHour.equals(currentHour)) {
+                                        try{
+                                            //获取appium端口号
+                                            appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                            sendFriendCircleParam.put("appiumPort", appiumPort);
+                                            //设置当前这杯可执行的标志位
+                                            isExecuteFlag = true;
+                                        } catch (Exception e) {
+                                            //获取appium端口号失败
+                                            logger.error("【发送朋友圈】" + e.getMessage());
+                                            //设置当前这杯可被行的标志位
+                                            isExecuteFlag = false;
                                             continue;
                                         }
-                                    } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
-                                        logger.info("发送朋友圈】尚未开始，暂不处理....");
                                     } else {
-                                        Map<String, Object> tempMap = Maps.newHashMap();
-                                        tempMap.put("id", theId);
-                                        tempMap.put("dicStatus", 1);
-                                        wxDicService.updateDic(tempMap);    //更新这条朋友圈数据为已删除
-                                        logger.info("发送朋友圈】昵称【" + nickName + "】的转发朋友圈业务已到期....");
+                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                        continue;
                                     }
-                                    try {
-                                        if (isExecuteFlag) {
-                                            //开始【将群保存到通讯录】
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
-                                            isOperatedFlag = new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
-                                            Thread.sleep(5000);
+                                } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
+                                    logger.info("发送朋友圈】尚未开始，暂不处理....");
+                                } else {
+                                    Map<String, Object> tempMap = Maps.newHashMap();
+                                    tempMap.put("id", theId);
+                                    tempMap.put("dicStatus", 1);
+                                    wxDicService.updateDic(tempMap);    //更新这条朋友圈数据为已删除
+                                    logger.info("发送朋友圈】昵称【" + nickName + "】的转发朋友圈业务已到期....");
+                                }
+                                try {
+                                    if (isExecuteFlag) {
+                                        //开始【将群保存到通讯录】
+                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
+                                        isOperatedFlag = new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
+                                        Thread.sleep(5000);
 //                                            //测试
 //                                            isOperatedFlag = true;
 //                                            reboot_sendFriendCircleParam.putAll(sendFriendCircleParam);
 //                                            Thread.sleep(1000);
-                                            break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        reboot_sendFriendCircleParam.putAll(sendFriendCircleParam);
-                                        break;
+                                        break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                     }
-                                } else {
-                                    logger.info("【发送朋友圈】昵称【" + nickName + "】的转发朋友圈业务推广日期不能为空....");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    reboot_sendFriendCircleParam.putAll(sendFriendCircleParam);
+                                    break;
                                 }
+                            } else {
+                                logger.info("【发送朋友圈】昵称【" + nickName + "】的转发朋友圈业务推广日期不能为空....");
                             }
                         }
-                    } else {
-                        logger.info("【发送朋友圈】"+deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
 
                     //4.对执行失败的设备进行重新执行【发送朋友圈】,最多重复执行15次，每间隔4次重启一次手机
@@ -239,7 +210,7 @@ public class SendFriendCircleUtils {
                         }
                         logger.info("【发送朋友圈】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
                         if (action.equals("imgMessageFriendCircle")) {  //重操作的时候，再次对图片进行操作
-                            pushImgFileToDevice(allDeviceNameList, sendFriendCircleParam);
+                            pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
                         }
                         try {
                             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
@@ -270,7 +241,7 @@ public class SendFriendCircleUtils {
                     //5.将 图片文件 push 到安卓设备里面
                     if (action.equals("imgMessageFriendCircle")) {
                         //将 图片文件  从安卓设备里面 删除
-                        removeImgFileToDevice(allDeviceNameList, sendFriendCircleParam);
+                        removeImgFileToDevice(deviceNameList, sendFriendCircleParam);
                     }
 
                     //回收-appiumPort
