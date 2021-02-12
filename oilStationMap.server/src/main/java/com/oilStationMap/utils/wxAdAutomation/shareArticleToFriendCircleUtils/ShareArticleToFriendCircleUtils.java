@@ -194,7 +194,7 @@ public class ShareArticleToFriendCircleUtils {
                     Thread.sleep(45000);
 //                    //测试
 //                    Thread.sleep(1000);
-                    if (index > 15) {
+                    if (index > 6) {
                         break;
                     }
                     logger.info("【分享微信文章到微信朋友圈】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
@@ -212,7 +212,7 @@ public class ShareArticleToFriendCircleUtils {
                     } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                         e.printStackTrace();
                         try {
-                            if (index % 4 == 0) {
+                            if (index % 2 == 0) {
                                 //【分享微信文章到微信朋友圈】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
