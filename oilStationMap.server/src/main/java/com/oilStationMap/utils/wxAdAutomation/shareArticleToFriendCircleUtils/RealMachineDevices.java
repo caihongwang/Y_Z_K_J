@@ -384,8 +384,11 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         try {
 //            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + shareFriendCircleLocaltion + "\")").click();
             //通过 adb 命令进行tab点击
+            //华为 P20 Pro  :   (220,1460)与(365,1610)
+            //小米 Max3 Pro :   (220,1380)与(365,1530)
+            //通用坐标：              (300,1500)
             int rightThreePointLocaltion_X = 300;
-            int rightThreePointLocaltion_Y = 1550;
+            int rightThreePointLocaltion_Y = 1500;
             String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + rightThreePointLocaltion_X + " " + rightThreePointLocaltion_Y;
             CommandUtil.run(tabCommondStr);
             logger.info("【分享微信文章到微信朋友圈】点击坐标【分享到朋友圈】成功....");
