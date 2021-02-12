@@ -84,7 +84,7 @@ public class ShareArticleToFriendCircleUtils {
                 ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
                 List<Map<String, String>> resultList = resultDTO.getResultList();
                 if (resultList != null && resultList.size() > 0) {
-                    shareArticleToFriendCircleParam.putAll(MapUtil.getObjectMap(resultList.get(0)));//获取发送朋友圈的内容信息.
+                    shareArticleToFriendCircleParam.putAll(MapUtil.getObjectMap(resultList.get(0)));//获取分享微信文章到微信朋友圈的内容信息.
                     shareArticleToFriendCircleParam.put("nickName", nickName);
                     String theId = shareArticleToFriendCircleParam.get("id").toString();
                     //获取设备列表和配套的坐标配置
@@ -276,12 +276,6 @@ public class ShareArticleToFriendCircleUtils {
         }
     }
 
-
-    public static void main(String[] args) throws Exception{
-        System.out.println(DateUtil.getPostponeTimesOradvanceTimes("2020-10-25 07", -2));
-        System.out.println(DateUtil.getPostponeTimesOradvanceTimes("2020-10-25 05", -4));
-    }
-
     /**
      * 向nickName对象发送聊天消息进行通知
      * @param deviceNameDesc
@@ -292,22 +286,31 @@ public class ShareArticleToFriendCircleUtils {
     public static void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
                                                    String currentDateStr){
         try{
-            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
-            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
-            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
-            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
-            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
             nickNameList_fro_chatByNickName.add(nickName);
             LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
-            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, 4));
+            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, -4));
             Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
             paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
             paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
             ChatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
         } catch (Exception e) {
-
-            logger.info("【发送朋友圈】根据微信昵称进行聊天失败.");
+            logger.info("【分享微信文章到微信朋友圈】根据微信昵称进行聊天失败.");
         }
     }
+
+//    public static void main(String[] args) throws Exception{
+//        String dateStr = "2020-10-25 14";
+//        System.out.println("分享微信文章到微信朋友圈，dateStr = " + dateStr + "，执行的设备是：华为 Mate 8海外版 _ 1，对应的【根据微信昵称进行聊天】时间应该是：2020-10-25 18");
+//        System.out.println("时间矫正：" + DateUtil.getPostponeTimesOradvanceTimes(dateStr, -4));
+//
+//        dateStr = "2020-10-25 14";
+//        System.out.println("发送朋友圈，dateStr = " + dateStr + "，执行的设备是：华为 Mate 8 _ 6，对应的【根据微信昵称进行聊天】时间应该是：2020-10-25 16");
+//        System.out.println("时间矫正：" + DateUtil.getPostponeTimesOradvanceTimes(dateStr, -2));
+//    }
 }

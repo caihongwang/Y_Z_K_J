@@ -319,13 +319,12 @@ public class SendFriendCircleUtils {
             List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
             nickNameList_fro_chatByNickName.add(nickName);
             LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
-            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, 2));
+            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, -2));
             Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
             paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
             paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
             ChatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
         } catch (Exception e) {
-
             logger.info("【发送朋友圈】根据微信昵称进行聊天失败.");
         }
     }

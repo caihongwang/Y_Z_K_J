@@ -229,14 +229,14 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
         }
         //4.判断坐标【群聊】与【最常使用】是否存在
         try {
-            WebElement contact_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupLocaltion + "\")");
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupLocaltion + "\")");
             logger.info("【添加群成员为好友的V群】检测坐标【群聊】成功....");
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (Exception e) {
             try {
-                WebElement mostUsed_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                 logger.info("【添加群成员为好友的V群】检测坐标【最常使用】成功....");
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (Exception e1) {
                 throw new Exception("【添加群成员为好友的V群】判断坐标【群聊】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....", e);
             }
@@ -245,10 +245,12 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
         try {
             driver.findElementByXPath("//android.widget.TextView[@text=\"" + groupLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
             logger.info("【添加群成员为好友的V群】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+            Thread.sleep(1000);
         } catch (Exception e) {
             try {
                 driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
                 logger.info("【添加群成员为好友的V群】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                Thread.sleep(1000);
             } catch (Exception e1) {
                 throw new Exception("【添加群成员为好友的V群】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
             }
@@ -275,7 +277,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
 //        } catch (Exception e) {
 //            throw new Exception("【添加群成员为好友的V群】点击坐标【昵称对应的微信好友群】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
 //        }
-        //6.点击坐标【右上角的三个点：聊天信息】
+        //6.点击坐标【右上角的三个点：聊天信息】new UiSelector().text("聊天信息")
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + threePointLocaltion + "\")").click();
             logger.info("【添加群成员为好友的V群】点击坐标【右上角的三个点】成功....");
