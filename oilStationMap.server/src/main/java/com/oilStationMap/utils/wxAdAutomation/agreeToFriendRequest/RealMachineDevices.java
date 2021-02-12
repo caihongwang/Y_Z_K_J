@@ -182,7 +182,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         //1.上滑同时检测坐标检测当前页面聊天好友信息
         try {
             int cyclesNumber = 0;       //循环下拉的次数
-            int maxCyclesNumber = 30;       //默认超过30次
+            int maxCyclesNumber = 60;       //默认超过30次
             while (true) {      //循环下拉当前好友聊天列表，并将其加入 chatFriendsSet
                 WebElement listViewElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.ListView" + "\")");
                 List<WebElement> linearWebElementList = listViewElement.findElements(By.className("android.widget.LinearLayout"));       //获取所有的聊天好友信息
