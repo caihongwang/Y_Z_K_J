@@ -303,12 +303,12 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
             boolean isChatGroupFlag = false;
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 isChatGroupFlag = true;
             } catch (Exception e) {
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                     isChatGroupFlag = true;
                 } catch (Exception e1) {
                     logger.info("【同意进群】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
