@@ -276,6 +276,12 @@ public class ShareArticleToFriendCircleUtils {
         }
     }
 
+
+    public static void main(String[] args) throws Exception{
+        System.out.println(DateUtil.getPostponeTimesOradvanceTimes("2020-10-25 07", -2));
+        System.out.println(DateUtil.getPostponeTimesOradvanceTimes("2020-10-25 05", -4));
+    }
+
     /**
      * 向nickName对象发送聊天消息进行通知
      * @param deviceNameDesc
@@ -294,7 +300,7 @@ public class ShareArticleToFriendCircleUtils {
             List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
             nickNameList_fro_chatByNickName.add(nickName);
             LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
-            currentDateList_fro_chatByNickName.add(currentDateStr);
+            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, 4));
             Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
             paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
             paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));

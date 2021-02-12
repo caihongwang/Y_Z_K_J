@@ -102,7 +102,7 @@ public class SendFriendCircleUtils {
                         String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                         deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                     } else {
-                        logger.info("【发送朋友圈】"+deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                        logger.info("【发送朋友圈】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                     }
                     //当前时间
                     sendFriendCircleParam.put("currentDate", currentDate);
@@ -149,7 +149,7 @@ public class SendFriendCircleUtils {
                                                     "";
                                     String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                     if (startHour.equals(currentHour)) {
-                                        try{
+                                        try {
                                             //获取appium端口号
                                             appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
                                             sendFriendCircleParam.put("appiumPort", appiumPort);
@@ -254,7 +254,7 @@ public class SendFriendCircleUtils {
                         logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                         logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                         logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                        String exceptionDevices = "异常设备列表"+ "【" + deviceNameDesc + "】";
+                        String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
                         logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                         logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                         logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
@@ -302,14 +302,15 @@ public class SendFriendCircleUtils {
 
     /**
      * 向nickName对象发送聊天消息进行通知
+     *
      * @param deviceNameDesc
      * @param deviceName
      * @param nickName
      * @param currentDateStr
      */
     public static void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
-                                            String currentDateStr){
-        try{
+                                                   String currentDateStr) {
+        try {
             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
@@ -318,7 +319,7 @@ public class SendFriendCircleUtils {
             List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
             nickNameList_fro_chatByNickName.add(nickName);
             LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
-            currentDateList_fro_chatByNickName.add(currentDateStr);
+            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, 2));
             Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
             paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
             paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
@@ -408,7 +409,7 @@ public class SendFriendCircleUtils {
                                     File imgFile = iterator.next();
                                     String[] fileNameArr = imgFile.getName().split("\\.");
                                     //图片格式必须在 GlobalVariableConfig.imgFormatList范围之内
-                                    if(fileNameArr != null && fileNameArr.length >= 2 && !GlobalVariableConfig.imgFormatList.contains(fileNameArr[1])){
+                                    if (fileNameArr != null && fileNameArr.length >= 2 && !GlobalVariableConfig.imgFormatList.contains(fileNameArr[1])) {
                                         iterator.remove();
                                         logger.info("【发送朋友圈】非图片格式，imgFile = " + imgFile.getPath());
                                     }
@@ -489,6 +490,7 @@ public class SendFriendCircleUtils {
     /**
      * 将 图片文件  从安卓设备里面 删除
      * 无顺讯讲究，直接书删除
+     *
      * @param deviceNameList
      * @param sendFriendCircleParam
      */

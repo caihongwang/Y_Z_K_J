@@ -72,4 +72,22 @@ public class DateUtil {
         }
     }
 
+
+    /**
+     * 根据 startDate 获取指定前几个小时或者后几个小时的时间
+     *
+     * @param startDateStr
+     * @param hours 正数则获取过去几个小时的时间，负数则获取未来几个小时的时间
+     * @return
+     */
+    public static String getPostponeTimesOradvanceTimes(String startDateStr, int hours) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");//设置日期格式
+        Date startDate = sdf.parse(startDateStr);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) - hours);
+        String endTime = sdf.format(calendar.getTime());
+        return endTime;
+    }
+
 }
