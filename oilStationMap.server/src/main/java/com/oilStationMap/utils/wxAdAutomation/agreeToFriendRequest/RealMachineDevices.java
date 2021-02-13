@@ -381,9 +381,6 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                         backChatPage_num++;
                     }
                 }
-//                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-//                logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-//                Thread.sleep(2000);
                 continue;
             }
 
@@ -460,9 +457,6 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                             backChatPage_num++;
                         }
                     }
-//                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-//                    Thread.sleep(2000);
                     continue;
                 }
             }
@@ -478,6 +472,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             //点击坐标【添加到通讯录】后检测坐标【发消息】,点击坐标【添加到通讯录】直接被添加为好友，则检测坐标【发消息】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
+                logger.info("【同意好友请求】点击坐标【添加到通讯录】后，检测坐标【发消息】成功....");
                 isYourFriendFlag = true;
                 Thread.sleep(2000);
                 theAgreeNum++;
@@ -507,10 +502,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                             backChatPage_num++;
                         }
                     }
-//                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-//                    Thread.sleep(2000);
-//                    continue;
+                    continue;
                 }
             }
             //点击坐标【添加到通讯录】后，后检测坐标【由于对方的隐私设置，你无法通过群聊将其添加至通讯录。】，注：如果这个坐标找不到则使用【确定】这个坐标 privacyContentLocaltion
@@ -548,10 +540,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                             backChatPage_num++;
                         }
                     }
-//                    driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//                    logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-//                    Thread.sleep(2000);
-//                    continue;
+                    continue;
                 }
             }
             //检测坐标【发送添加朋友申请】，避免出现：在【单个群成员简介】显示push【对方账号异常，无法添加朋友。】，消失得很快，无法捕捉，致使本来应该在【发送页面】而实际停留在【单个群成员简介】
@@ -583,6 +572,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                         backChatPage_num++;
                     }
                 }
+                continue;
             }
             //点击坐标【朋友圈】，主要是为了选择权限
             try {
@@ -632,10 +622,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                         backChatPage_num++;
                     }
                 }
-//                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//                logger.info("【同意好友请求】返回【当前页面聊天好友信息】....");
-//                Thread.sleep(2000);
-//                continue;
+                continue;
             }
         }
         Thread.sleep(10000);        //等待10秒页面加载完成...
