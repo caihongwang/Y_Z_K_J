@@ -190,8 +190,8 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 //            if (!chatFriendNickName.contains("坐车群主")) {
 //                continue;
 //            }
-            if (chatFriendNickName.contains("坐车群主")) {
-                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】包含【坐车群主】对应的是【自己人】,继续下一个昵称....");
+            if (chatFriendNickName.contains("油站科技")) {      //确保坐标：微信( 存在
+                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
                 continue;
             }
             if (chatFriendNickName.contains("[店员消息]")) {

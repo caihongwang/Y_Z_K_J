@@ -234,6 +234,10 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 //            if (!chatFriendNickName.contains("倍巧")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
 //                continue;
 //            }
+            if (chatFriendNickName.contains("油站科技")) {      //确保坐标：微信( 存在
+                logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
+                continue;
+            }
             if (chatFriendNickName.contains("[店员消息]")) {
                 logger.info("【同意好友请求】当前昵称【" + chatFriendNickName + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
