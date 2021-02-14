@@ -99,8 +99,8 @@
         #{recommendUid},
         #{source},
         #{grayStatus},
-        #{createTime},
-        #{updateTime}
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
         )
     </insert>
 
