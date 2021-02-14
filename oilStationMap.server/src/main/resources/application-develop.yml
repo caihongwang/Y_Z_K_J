@@ -25,14 +25,14 @@ spring:
     username: caihongwang
     password: hejinrong@520
     hikari:
-      minimum-idle: 20
-      maximum-pool-size: 100
-      auto-commit: true
-      idle-timeout: 60000
       pool-name: HikariCP
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
+      minimum-idle: 20 # 此属性控制HikariCP尝试在池中维护的最小空闲连接数
+      maximum-pool-size: 100 # 此属性控制允许池达到的最大大小，包括空闲和使用中的连接
+      auto-commit: true # 此属性控制从池返回的连接的默认自动提交行为
+      idle-timeout: 60000 # 此属性控制允许连接在池中保持空闲状态的最长时间
+      max-lifetime: 120000 # 此属性控制池中连接的最大生存期
+      connection-timeout: 60000 # 此属性控制客户端（即您）等待来自池的连接的最大毫秒数
+      connection-test-query: SELECT 1 # 如果您的驱动程序支持JDBC4，我们强烈建议不要设置此属性
   jackson:
     date-format: yyyy-MM-dd
     time-zone: GMT+8
