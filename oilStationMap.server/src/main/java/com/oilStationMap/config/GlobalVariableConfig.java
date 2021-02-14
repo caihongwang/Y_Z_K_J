@@ -59,22 +59,22 @@ public class GlobalVariableConfig {
 //                Thread A_thread = new Thread(starAppiumThread);
 //                A_thread.start();
 //            }
-//
-//            RethinkdbThread rethinkdbThread = new RethinkdbThread("");
-//            Thread B_thread = new Thread(rethinkdbThread);
-//            B_thread.start();
-//
-//            try {
-//                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
-//                Thread.sleep(15000);
-//            } catch (Exception e) {
-//
-//            }
-//
-//            StfThread stfThread = new StfThread(thePublicIp);
-//            Thread C_thread = new Thread(stfThread);
-//            C_thread.start();
-//            System.out.println("【stf】服务 IP为【" + thePublicIp + "】已启动....");
+
+            RethinkdbThread rethinkdbThread = new RethinkdbThread("");
+            Thread B_thread = new Thread(rethinkdbThread);
+            B_thread.start();
+
+            try {
+                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
+                Thread.sleep(15000);
+            } catch (Exception e) {
+
+            }
+
+            StfThread stfThread = new StfThread(thePublicIp);
+            Thread C_thread = new Thread(stfThread);
+            C_thread.start();
+            System.out.println("【stf】服务 IP为【" + thePublicIp + "】已启动....");
         }
     }
 

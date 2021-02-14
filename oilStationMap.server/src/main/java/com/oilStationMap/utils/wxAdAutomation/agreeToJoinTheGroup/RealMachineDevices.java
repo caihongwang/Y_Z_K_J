@@ -190,8 +190,8 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 //            if (!chatFriendNickName.contains("坐车群主")) {
 //                continue;
 //            }
-            if (chatFriendNickName.contains("坐车群主")) {
-                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】包含【坐车群主】对应的是【自己人】,继续下一个昵称....");
+            if (chatFriendNickName.contains("油站科技")) {      //确保坐标：微信( 存在
+                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
                 continue;
             }
             if (chatFriendNickName.contains("[店员消息]")) {
@@ -319,17 +319,17 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                 while (true) {
                     try {
                         driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        logger.info("【同意进群】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
                         Thread.sleep(1000);
                         break;
                     } catch (Exception e) {
-                        logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                        logger.info("【同意进群】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
                         if (backChatPage_num <= 10) {
                             driver.pressKeyCode(AndroidKeyCode.BACK);
                             Thread.sleep(1000);
                         } else {
                             driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                            logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            logger.info("【同意进群】通过【chatActivity】返回【当前页面聊天好友信息】....");
                             Thread.sleep(2000);
                             break;
                         }
@@ -337,23 +337,19 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                         backChatPage_num++;
                     }
                 }
-//                logger.info("【同意进群】当前昵称【" + chatFriendNickName + "】不是【微信群】,继续下一个昵称....");
-//                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-//                logger.info("【同意进群】返回【当前页面聊天好友信息】....");
-//                Thread.sleep(2000);
                 continue;
             }
 
             //5.点击坐标【昵称对应的微信好友】
             try {
                 driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+                logger.info("【同意进群】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
             } catch (Exception e) {
                 try {
                     driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                    logger.info("【同意好友请求】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                    logger.info("【同意进群】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
                 } catch (Exception e1) {
-                    throw new Exception("【同意好友请求】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                    throw new Exception("【同意进群】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
                 }
             }
 //            try {
@@ -438,17 +434,17 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
             while (true) {
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                    logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                    logger.info("【同意进群】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
                     Thread.sleep(1000);
                     break;
                 } catch (Exception e) {
-                    logger.info("【同意好友请求】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
+                    logger.info("【同意进群】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
                     if (backChatPage_num <= 10) {
                         driver.pressKeyCode(AndroidKeyCode.BACK);
                         Thread.sleep(1000);
                     } else {
                         driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                        logger.info("【同意好友请求】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                        logger.info("【同意进群】通过【chatActivity】返回【当前页面聊天好友信息】....");
                         Thread.sleep(2000);
                         break;
                     }
@@ -456,6 +452,7 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                     backChatPage_num++;
                 }
             }
+            continue;
         }
         logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 同意进群【" + theSaveToAddressBookNum + "】个发送成功....");
         return true;
