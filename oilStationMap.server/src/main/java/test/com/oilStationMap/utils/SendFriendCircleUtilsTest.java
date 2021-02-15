@@ -22,7 +22,7 @@ public class SendFriendCircleUtilsTest extends MySuperTest {
 
         try{
             Map<String, Object> paramMap = Maps.newHashMap();
-            SendFriendCircleUtils.sendFriendCircle(paramMap);
+//            SendFriendCircleUtils.sendFriendCircle(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }

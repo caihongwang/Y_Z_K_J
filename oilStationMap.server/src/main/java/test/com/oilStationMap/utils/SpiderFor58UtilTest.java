@@ -27,12 +27,12 @@ public class SpiderFor58UtilTest extends MySuperTest {
 //        }
 
 //        SpiderFor58Util.getContactFromWeb();
-        try{
-            Map<String, Object> paramMap = Maps.newHashMap();
-            SendFriendCircleUtils.sendFriendCircle(paramMap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try{
+//            Map<String, Object> paramMap = Maps.newHashMap();
+//            SendFriendCircleUtils.sendFriendCircle(paramMap);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 

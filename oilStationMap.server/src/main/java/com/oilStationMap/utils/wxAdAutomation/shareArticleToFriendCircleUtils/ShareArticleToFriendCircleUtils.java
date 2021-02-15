@@ -10,14 +10,12 @@ import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
-import com.oilStationMap.service.impl.MailServiceImpl;
-import com.oilStationMap.service.impl.WX_DicServiceImpl;
-import com.oilStationMap.service.impl.WX_MessageServiceImpl;
 import com.oilStationMap.utils.*;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
-import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,19 +24,28 @@ import java.util.*;
  * 分享微信文章到微信朋友圈工具
  * appium -p 4723 -bp 4724 --session-override --command-timeout 600
  */
+@Component
 public class ShareArticleToFriendCircleUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(ShareArticleToFriendCircleUtils.class);
 
-    public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
+    @Autowired
+    public WX_DicDao wxDicDao;
 
-    public static MailService mailService = (MailService) ApplicationContextUtils.getBeanByClass(MailServiceImpl.class);
+    @Autowired
+    public MailService mailService;
 
-    public static WX_DicService wxDicService = (WX_DicService) ApplicationContextUtils.getBeanByClass(WX_DicServiceImpl.class);
+    @Autowired
+    public WX_DicService wxDicService;
 
-    public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
+    @Autowired
+    public WX_MessageService wxMessageService;
 
-    public static GlobalVariableConfig globalVariableConfig = (com.oilStationMap.config.GlobalVariableConfig) ApplicationContextUtils.getBeanByClass(GlobalVariableConfig.class);
+    @Autowired
+    public GlobalVariableConfig globalVariableConfig;
+
+    @Autowired
+    public ChatByNickNameUtils chatByNickNameUtils;
 
     /**
      * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
@@ -47,7 +54,7 @@ public class ShareArticleToFriendCircleUtils {
      * @param paramMap
      * @throws Exception
      */
-    public static void shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception {
+    public void shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception {
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
         LinkedList<String> currentDateList = Lists.newLinkedList();
@@ -292,7 +299,7 @@ public class ShareArticleToFriendCircleUtils {
      * @param nickName
      * @param currentDateStr
      */
-    public static void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
+    public void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
                                                    String currentDateStr) {
         try {
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
@@ -307,7 +314,7 @@ public class ShareArticleToFriendCircleUtils {
             Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
             paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
             paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
-            ChatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
+            chatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
         } catch (Exception e) {
             logger.info("【分享微信文章到微信朋友圈】根据微信昵称进行聊天失败.");
         }

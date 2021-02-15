@@ -1,11 +1,13 @@
 package com.oilStationMap.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
+@Transactional
 public interface WX_CustomMessageHistoryDao {
 
     /**

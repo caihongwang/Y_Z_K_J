@@ -15,6 +15,7 @@ import com.oilStationMap.utils.SpiderFor58Util;
 import com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils.ShareArticleToFriendCircleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 
@@ -47,10 +48,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @return
      */
+    @Autowired
+    private SendFriendCircleUtils sendFriendCircleUtils;
     @Override
     public ResultMapDTO sendFriendCircle(Map<String, Object> paramMap) {
         try {
-            SendFriendCircleUtils.sendFriendCircle(paramMap);
+            sendFriendCircleUtils.sendFriendCircle(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,10 +69,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @throws Exception
      */
+    @Autowired
+    private AgreeToJoinTheGroupUtils agreeToJoinTheGroupUtils;
     @Override
     public ResultMapDTO agreeToJoinTheGroup(Map<String, Object> paramMap){
         try {
-            AgreeToJoinTheGroupUtils.agreeToJoinTheGroup(paramMap);
+            agreeToJoinTheGroupUtils.agreeToJoinTheGroup(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,10 +90,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @throws Exception
      */
+    @Autowired
+    private PraiseAndCommentFriendsCircleUtils praiseAndCommentFriendsCircleUtils;
     @Override
     public ResultMapDTO praiseAndCommentFriendsCircle(Map<String, Object> paramMap){
         try {
-            PraiseAndCommentFriendsCircleUtils.praiseAndCommentFriendsCircle(paramMap);
+            praiseAndCommentFriendsCircleUtils.praiseAndCommentFriendsCircle(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,10 +111,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @throws Exception
      */
+    @Autowired
+    private SaveToAddressBookUtils saveToAddressBookUtils;
     @Override
     public ResultMapDTO saveToAddressBook(Map<String, Object> paramMap){
         try {
-            SaveToAddressBookUtils.saveToAddressBook(paramMap);
+            saveToAddressBookUtils.saveToAddressBook(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,10 +132,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @throws Exception
      */
+    @Autowired
+    private AgreeToFriendRequestUtils agreeToFriendRequestUtils;
     @Override
     public ResultMapDTO agreeToFriendRequest(Map<String, Object> paramMap){
         try {
-            AgreeToFriendRequestUtils.agreeToFriendRequest(paramMap);
+            agreeToFriendRequestUtils.agreeToFriendRequest(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,10 +153,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @return
      */
+    @Autowired
+    private AddGroupMembersAsFriendsUtils addGroupMembersAsFriendsUtils;
     @Override
     public ResultMapDTO addGroupMembersAsFriends(Map<String, Object> paramMap) {
         try {
-            AddGroupMembersAsFriendsUtils.addGroupMembersAsFriends(paramMap);
+            addGroupMembersAsFriendsUtils.addGroupMembersAsFriends(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -161,10 +174,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @return
      */
+    @Autowired
+    private ChatByNickNameUtils chatByNickNameUtils;
     @Override
     public ResultMapDTO chatByNickName(Map<String, Object> paramMap) {
         try {
-            ChatByNickNameUtils.chatByNickName(paramMap);
+            chatByNickNameUtils.chatByNickName(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,10 +196,12 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
      * @param paramMap
      * @return
      */
+    @Autowired
+    private ShareArticleToFriendCircleUtils shareArticleToFriendCircleUtils;
     @Override
     public ResultMapDTO shareArticleToFriendCircle(Map<String, Object> paramMap) {
         try {
-            ShareArticleToFriendCircleUtils.shareArticleToFriendCircle(paramMap);
+            shareArticleToFriendCircleUtils.shareArticleToFriendCircle(paramMap);
         } catch (Exception e) {
             e.printStackTrace();
         }

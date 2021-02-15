@@ -10,16 +10,13 @@ import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
-import com.oilStationMap.service.impl.MailServiceImpl;
-import com.oilStationMap.service.impl.WX_DicServiceImpl;
-import com.oilStationMap.service.impl.WX_MessageServiceImpl;
-import com.oilStationMap.utils.ApplicationContextUtils;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.HttpsUtil;
 import com.oilStationMap.utils.MapUtil;
-import org.apache.commons.lang.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,22 +25,27 @@ import java.util.*;
  * 根据微信昵称进行聊天工具
  * appium -p 4723 -bp 4724 --session-override --command-timeout 600
  */
+@Component
 public class ChatByNickNameUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(ChatByNickNameUtils.class);
 
-    public static WX_DicDao wxDicDao = (WX_DicDao) ApplicationContextUtils.getBeanByClass(WX_DicDao.class);
+    @Autowired
+    public WX_DicDao wxDicDao;
 
-    public static MailService mailService = (MailService) ApplicationContextUtils.getBeanByClass(MailServiceImpl.class);
+    @Autowired
+    public MailService mailService;
 
-    public static WX_DicService wxDicService = (WX_DicService) ApplicationContextUtils.getBeanByClass(WX_DicServiceImpl.class);
+    @Autowired
+    public WX_DicService wxDicService;
 
-    public static WX_MessageService wxMessageService = (WX_MessageService) ApplicationContextUtils.getBeanByClass(WX_MessageServiceImpl.class);
+    @Autowired
+    public WX_MessageService wxMessageService;
 
     /**
      * 根据微信昵称进行聊天for所有设备
      */
-    public static void chatByNickName(Map<String, Object> paramMap) throws Exception {
+    public void chatByNickName(Map<String, Object> paramMap) throws Exception {
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
         LinkedList<String> currentDateList = Lists.newLinkedList();

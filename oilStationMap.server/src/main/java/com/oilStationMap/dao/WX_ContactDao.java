@@ -1,6 +1,7 @@
 package com.oilStationMap.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
  * 联系人 DAO
  */
 @Mapper
+@Transactional
 public interface WX_ContactDao {
 
     /**

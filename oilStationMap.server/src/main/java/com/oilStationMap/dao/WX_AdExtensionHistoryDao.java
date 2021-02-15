@@ -1,6 +1,7 @@
 package com.oilStationMap.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
  * @author caihongwang
  */
 @Mapper
+@Transactional
 public interface WX_AdExtensionHistoryDao {
 
     /**
