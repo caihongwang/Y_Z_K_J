@@ -268,7 +268,7 @@ public class ShareArticleToFriendCircleUtils {
                             mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
                             mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                             mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
-                            mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
+                            mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】分享微信文章到微信朋友圈", mailMessageBuf.toString());
                         } else {
                             if (isOperatedFlag) {
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");

@@ -231,7 +231,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-//            if (!chatFriendNickName.contains("倍巧")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
+//            if (!chatFriendNickName.contains("驰墨教育")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
 //                continue;
 //            }
             if (chatFriendNickName.contains("油站科技")) {      //确保坐标：微信( 存在
@@ -426,13 +426,24 @@ public class RealMachineDevices implements AgreeToFriendRequest {
             //6.点击坐标【对方还不是你的朋友】，如果是好友则跳转activity继续下一个昵称，否则进行添加为好友操作.
             boolean isYourFriendFlag = false;
             try {
-                WebElement notYourFriend_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + notYourFriendLocaltion + "\")");
-                notYourFriend_Element.click();
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + notYourFriendLocaltion + "\")").click();
                 logger.info("【同意好友请求】点击坐标【对方还不是你的朋友】成功....");
                 Thread.sleep(6000);
             } catch (Exception e) {
-                isYourFriendFlag = true;
-                logger.info("【同意好友请求】点击坐标【对方还不是你的朋友】异常，当前昵称已是你的好友，继续下一个昵称....");
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "添加" + "\")").click();
+                    logger.info("【同意好友请求】点击坐标【对方还不是你的朋友】的【添加】成功....");
+                    Thread.sleep(6000);
+                } catch (Exception e1) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "添加" + "\")").click();
+                        logger.info("【同意好友请求】点击坐标【对方还不是你的朋友】的【添加】成功....");
+                        Thread.sleep(6000);
+                    } catch (Exception e2) {
+                        isYourFriendFlag = true;
+                        logger.info("【同意好友请求】点击坐标【对方还不是你的朋友】异常，当前昵称已是你的好友，继续下一个昵称....");
+                    }
+                }
             } finally {
                 if (isYourFriendFlag) {
                     Integer backChatPage_num = 1;
@@ -673,17 +684,10 @@ public class RealMachineDevices implements AgreeToFriendRequest {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("deviceName", "5LM0216122009385");
+            paramMap.put("deviceNameDesc", "华为 Mate8 _ 6");
             new RealMachineDevices().agreeToFriendRequest(paramMap);
             Thread.sleep(5000);
-
-//            String pre = "";
-//            String chatFriendNickName = "[链接] 宋天宇: 宝润国际电梯房屋出售：，急售…";
-//            Pattern pattern = Pattern.compile("(?<=\\[)链接(?=\\])");
-//            Matcher matcher = pattern.matcher(chatFriendNickName);
-//            while (matcher.find()) {
-//                pre = matcher.group();
-//                System.out.println("pre = " + pre);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
