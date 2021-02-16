@@ -149,10 +149,10 @@ public class RealMachineDevices implements SaveToAddressBook {
         Set<String> chatFriendsSet = Sets.newHashSet();
 
         //1.上滑同时检测坐标检测当前页面聊天好友信息
-        try {
-            int cyclesNumber = 0;       //循环下拉的次数
-            int maxCyclesNumber = 30;       //默认超过30次
-            while (true) {      //循环下拉当前好友聊天列表，并将其加入 chatFriendsSet
+        int cyclesNumber = 0;       //循环下拉的次数
+        int maxCyclesNumber = 60;       //默认超过30次
+        while (true) {      //循环下拉当前好友聊天列表，并将其加入 chatFriendsSet
+            try {
                 WebElement listViewElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.ListView" + "\")");
                 List<WebElement> linearWebElementList = listViewElement.findElements(By.className("android.widget.LinearLayout"));       //获取所有的聊天好友信息
                 if (linearWebElementList != null && linearWebElementList.size() > 0) {
@@ -181,13 +181,12 @@ public class RealMachineDevices implements SaveToAddressBook {
                         cyclesNumber++;
                     }
                 }
+            } catch (Exception e) {
+                logger.info("【将群保存到通讯录】上滑【当前页面聊天好友信息】到底部时，可能存在异常，忽视....");
             }
-            logger.info("【将群保存到通讯录】点击坐标【上滑同时检测坐标检测当前页面聊天好友信息】成功....");
-        } catch (Exception e) {
-            throw new Exception("【将群保存到通讯录】点击坐标【上滑同时检测坐标检测当前页面聊天好友信息】均失败");
-        } finally {
-            Thread.sleep(1000);
         }
+        logger.info("【将群保存到通讯录】点击坐标【上滑同时检测坐标检测当前页面聊天好友信息】成功....");
+        Thread.sleep(1000);
 
         int chatFriendsIndex = 1;
         for (String chatFriendNickName : chatFriendsSet) {
