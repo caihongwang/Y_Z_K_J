@@ -169,9 +169,9 @@ public class RealMachineDevices implements SendFriendCircle {
             throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
         //2.点击坐标【发现】   启动【微信】在老旧设备会花费很长时间，在此循环5此点击【发现】坐标.
-        boolean isFindBtnLocaltionFlag = false;
         int findNum = 0;       //循环下拉的次数
         int maxFindNum = 5;       //默认超过30次
+        boolean isFindBtnLocaltionFlag = false;
         while (true) {
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")").click();
@@ -195,6 +195,7 @@ public class RealMachineDevices implements SendFriendCircle {
                     break;
                 }
                 Thread.sleep(5000);
+                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】次点击坐标【发现】失败....");
                 if (findNum > maxFindNum) {
                     throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发现】与【发现】【xpath定位】均出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                 }
