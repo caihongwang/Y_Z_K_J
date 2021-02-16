@@ -148,20 +148,36 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             e.printStackTrace();
             throw new Exception("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
-        //2.点击坐标【发现】
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")").click();
-            logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发现】成功....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            //2.1 点击坐标【发现】【xpath定位】
+        //2.点击坐标【发现】   启动【微信】在老旧设备会花费很长时间，在此循环5此点击【发现】坐标.
+        boolean isFindBtnLocaltionFlag = false;
+        int findNum = 0;       //循环下拉的次数
+        int maxFindNum = 5;       //默认超过30次
+        while (true) {
             try {
-                driver.findElementByXPath("//com.tencent.mm.ui.mogic.WxViewPager/../android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]").click();
-                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发现】【xpath定位】成功....");
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + findBtnLocaltion + "\")").click();
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】次点击坐标【发现】成功....");
+                isFindBtnLocaltionFlag = true;
                 Thread.sleep(1000);
-            } catch (Exception e1) {
-                e.printStackTrace();
-                throw new Exception("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发现】与【发现】【xpath定位】均出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            } catch (Exception e) {
+                //2.1 点击坐标【发现】【xpath定位】
+                try {
+                    driver.findElementByXPath("//com.tencent.mm.ui.mogic.WxViewPager/../android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]").click();
+                    logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】次点击坐标【发现】【xpath定位】成功....");
+                    isFindBtnLocaltionFlag = true;
+                    Thread.sleep(1000);
+                } catch (Exception e1) {
+//                    e.printStackTrace();
+//                    throw new Exception("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发现】与【发现】【xpath定位】均出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                }
+            } finally {
+                findNum++;
+                if (isFindBtnLocaltionFlag) {
+                    break;
+                }
+                Thread.sleep(5000);
+                if (findNum > maxFindNum) {
+                    throw new Exception("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发现】与【发现】【xpath定位】均出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                }
             }
         }
         //3.点击坐标【朋友圈】
