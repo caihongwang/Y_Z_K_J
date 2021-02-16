@@ -120,44 +120,44 @@ public class RealMachineDevices implements ChatByNickName {
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【根据微信昵称进行聊天】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
+            throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
         for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
             //1.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltion + "\")").click();
-                logger.info("【根据微信昵称进行聊天】点击坐标【搜索框】成功....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索框】成功....");
                 Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
             } catch (Exception e) {
-                logger.info("【根据微信昵称进行聊天】点击坐标【搜索框】失败，因为微信正在建立索引....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索框】失败，因为微信正在建立索引....");
                 if (i == 30) {
-                    throw new Exception("【根据微信昵称进行聊天】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                    throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                 } else {
                     Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                    logger.info("【根据微信昵称进行聊天】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
                     continue;
                 }
             }
             //2.点击坐标【搜索输入框】并输入昵称
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(nickName);
-                logger.info("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:text/搜索】成功....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入昵称到搜索框:text/搜索】成功....");
                 Thread.sleep(1000);
                 break;
             } catch (Exception e) {
-                logger.info("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:text/搜索】失败....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入昵称到搜索框:text/搜索】失败....");
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(nickName);
-                    logger.info("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
                     Thread.sleep(1000);
                     break;
                 } catch (Exception e1) {
-                    logger.info("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
+                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
                     if (i == 30) {
-                        throw new Exception("【根据微信昵称进行聊天】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                        throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                     } else {
                         Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                        logger.info("【根据微信昵称进行聊天】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
+                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
                         continue;
                     }
                 }
@@ -172,22 +172,22 @@ public class RealMachineDevices implements ChatByNickName {
                 WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                 Thread.sleep(1000);
             } catch (Exception e1) {
-                logger.info("【根据微信昵称进行聊天】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
                 return false;
             }
         }
         //4.点击坐标【昵称对应的微信好友】
         try {
             driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             try {
                 driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
                 Thread.sleep(1000);
             } catch (Exception e1) {
-                logger.info("【根据微信昵称进行聊天】通过【群聊的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【群聊的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【" + nickName + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
                 return false;
             }
         }
@@ -207,30 +207,30 @@ public class RealMachineDevices implements ChatByNickName {
 //                    break;
 //                }
 //            }
-//            logger.info("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】成功....");
+//            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友】成功....");
 //            Thread.sleep(1000);
 //        } catch (Exception e) {
-//            throw new Exception("【根据微信昵称进行聊天】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+//            throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
 //        }
         //5.点击坐标【聊天内容输入框】new UiSelector().className("android.widget.EditText")
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(textMessage);
-            logger.info("【根据微信昵称进行聊天】点击坐标【聊天输入框】成功....");
+            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【聊天输入框】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【根据微信昵称进行聊天】点击坐标【聊天输入框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【聊天输入框】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         //6.点击坐标【发送】new UiSelector().text("发送")
         try {
             driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
-            logger.info("【根据微信昵称进行聊天】点击坐标【发送】成功....");
+            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发送】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【根据微信昵称进行聊天】点击坐标[发送]出现异常,请检查设备描述[" + deviceNameDesc + "]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因....");
+            throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标[发送]出现异常,请检查设备描述[" + deviceNameDesc + "]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因....");
         }
-        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
+        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
         return true;
     }
 
