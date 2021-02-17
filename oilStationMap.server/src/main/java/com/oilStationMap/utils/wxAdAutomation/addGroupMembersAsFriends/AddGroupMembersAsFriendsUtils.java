@@ -67,14 +67,14 @@ public class AddGroupMembersAsFriendsUtils {
         //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndAddGroupMembersAsFriendsLocaltion";
         for (String currentDateStr : currentDateList) {
-            try{
-                Map<String, Object> addGroupMembersAsFriendsParam = Maps.newHashMap();
-                HashMap<String, Object> reboot_addGroupMembersAsFriendsParam = Maps.newHashMap();
+            try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
                 //获取群的昵称，循环遍历
                 List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
                 for (String nickName : nickNameList) {
+                    Map<String, Object> addGroupMembersAsFriendsParam = Maps.newHashMap();
+                    HashMap<String, Object> reboot_addGroupMembersAsFriendsParam = Maps.newHashMap();
                     try {
                         boolean isOperatedFlag = false;     //当前设备是否操作【添加群成员为好友的V群】的标志位
                         //根据【群的昵称】获取，对应的执行设备
@@ -249,6 +249,7 @@ public class AddGroupMembersAsFriendsUtils {
                                 mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                                 mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                                 mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】添加群成员为好友的V群", mailMessageBuf.toString());
+                                logger.info("【邮件通知】【服务完成通知】添加群成员为好友的V群 ......" );
                             } else {
                                 if (isOperatedFlag) {            //当前设备是否操作【添加群成员为好友的V群】的标志位
                                     //获取当前群的更新新消息
@@ -290,7 +291,6 @@ public class AddGroupMembersAsFriendsUtils {
                                                 String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/dailyServiceProgressMessageSend";
                                                 String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
                                                 logger.info("微信消息异常发送反馈：" + resultJson);
-
                                                 //邮件通知
                                                 StringBuffer mailMessageBuf = new StringBuffer();
                                                 mailMessageBuf.append("蔡红旺，您好：\n");
@@ -302,6 +302,7 @@ public class AddGroupMembersAsFriendsUtils {
                                                 mailMessageBuf.append("        ").append("\t服务状态：").append("已完成对【" + nickName + "】添加群成员为好友.").append("\n");
                                                 mailMessageBuf.append("        ").append("\t温馨提示：").append("当前设备【" + targetDeviceNameDesc + "】已经将【" + nickName + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.").append("\n");
                                                 mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务完成通知】添加群成员为好友的V群", mailMessageBuf.toString());
+                                                logger.info("【邮件通知】【服务完成通知】添加群成员为好友的V群 ......" );
                                             }
                                         }
                                     } catch (Exception e) {

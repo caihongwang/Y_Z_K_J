@@ -78,12 +78,12 @@ public class ShareArticleToFriendCircleUtils {
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndShareArticleToFriendCircleLocaltion";
         for (String currentDateStr : currentDateList) {
             try {
-                Map<String, Object> shareArticleToFriendCircleParam = Maps.newHashMap();
-                HashMap<String, Object> reboot_shareArticleToFriendCircleParam = Maps.newHashMap();
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
                 List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
                 for (String nickName : nickNameList) {
+                    Map<String, Object> shareArticleToFriendCircleParam = Maps.newHashMap();
+                    HashMap<String, Object> reboot_shareArticleToFriendCircleParam = Maps.newHashMap();
                     try {
                         boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
                         //根据微信昵称获取 指定 某一个分享微信文章
@@ -269,6 +269,7 @@ public class ShareArticleToFriendCircleUtils {
                             mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                             mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                             mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】分享微信文章到微信朋友圈", mailMessageBuf.toString());
+                            logger.info("【邮件通知】【服务完成通知】分享微信文章到微信朋友圈 ......" );
                         } else {
                             if (isOperatedFlag) {
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
@@ -300,7 +301,7 @@ public class ShareArticleToFriendCircleUtils {
      * @param currentDateStr
      */
     public void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
-                                                   String currentDateStr) {
+                                            String currentDateStr) {
         try {
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");

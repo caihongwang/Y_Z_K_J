@@ -223,6 +223,7 @@ public class SaveToAddressBookUtils {
                     mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                     mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                     mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】将群保存到通讯录", mailMessageBuf.toString());
+                    logger.info("【邮件通知】【服务完成通知】将群保存到通讯录 ......" );
                 } else {
                     if (isOperatedFlag) {
                         logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
