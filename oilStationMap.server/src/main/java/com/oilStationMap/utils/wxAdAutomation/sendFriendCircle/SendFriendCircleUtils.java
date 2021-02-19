@@ -429,8 +429,13 @@ public class SendFriendCircleUtils {
                                 imgFiles = new File[imgFileList.size()];
                                 imgFileList.toArray(imgFiles);
 
-                                //确保 文件件存在
+                                //确保 文件件存在 ，并清空其他路径的图片
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " mkdir " + phoneLocalPath);
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/tencent/MicroMsg/WeiXin/*");//微信手动传输的图片路径
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/WeiXin/*");        //微信保存的图片路径
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/Screenshots/*");   //截屏的图片路径
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/bluetooth/*");      //蓝牙传输的路径
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/DCIM/Camera/*");    //拍照的图片路径
 
                                 if (imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
                                     for (int i = 0; i < imgFiles.length; i++) {
