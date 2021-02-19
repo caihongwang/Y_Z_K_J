@@ -1,5 +1,6 @@
 package com.oilStationMap.utils.wxAdAutomation.relayTheWxMessage;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
@@ -16,26 +17,28 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 真机设备 转发微信消息 策略
+ * 注：只支持【小程序】【图片】，转发的的微信消息不能是自己发的，必须是别人发的
  * 默认 华为 Mate 8
  */
-public class RealMachineDevices implements ShareArticleToFriendCircle {
+public class RealMachineDevices implements RelayTheWxMessage {
 
     public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
     /**
-     * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
+     * 前置条件：将微信消息群发到【油站科技-内部交流群】里面
      * 转发微信消息
      *
      * @param paramMap
      * @throws Exception
      */
     @Override
-    public boolean shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception {
+    public boolean relayTheWxMessage(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -63,6 +66,12 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                         paramMap.get("relayTheWxMessageNumStr").toString() :
                         "1";
         Integer relayTheWxMessageNum = Integer.parseInt(relayTheWxMessageNumStr);
+        //转发的微信群昵称List
+        String relayTargetGroupListStr =
+                paramMap.get("relayTargetGroupList") != null ?
+                        paramMap.get("relayTargetGroupList").toString() :
+                        "[\"内部交流群\",\"铜仁市～思南县～车友群\",\"铜仁市～松桃县～本地油价\",\"铜仁市～碧江区～车友群\",\"铜仁市～万山区～车友群\",\"铜仁市～德江县～车友群\",\"铜仁市～印江县～车友群\",\"铜仁市～沿河县～车友群\",\"铜仁市～江口县～车友群\",\"铜仁市～松桃县～车友群\",\"铜仁市～玉屏县～车友群\"]";
+        List<String> relayTargetGroupList = JSON.parseObject(relayTargetGroupListStr, List.class);
         //微信群昵称
         String targetGroup =
                 paramMap.get("targetGroup") != null ?
@@ -88,6 +97,42 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 paramMap.get("mostUsedLocaltion") != null ?
                         paramMap.get("mostUsedLocaltion").toString() :
                         "最常使用";
+        //点击坐标【获取所有的微信消息RelativeLayout】
+        String chatContentRelativeLayoutLocaltion =
+                paramMap.get("chatContentRelativeLayoutLocaltion") != null ?
+                        paramMap.get("chatContentRelativeLayoutLocaltion").toString() :
+                        "//android.widget.ListView/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout";
+        //点击坐标【多选】
+        String multipleChoiceLocaltion =
+                paramMap.get("multipleChoiceLocaltion") != null ?
+                        paramMap.get("multipleChoiceLocaltion").toString() :
+                        "多选";
+        //点击坐标【获取所有单选框CheckBox】
+        String singleCheckBoxLocaltion =
+                paramMap.get("singleCheckBoxLocaltion") != null ?
+                        paramMap.get("singleCheckBoxLocaltion").toString() :
+                        "android.widget.CheckBox";
+        //点击坐标【分享】
+        String shareLocaltion =
+                paramMap.get("shareLocaltion") != null ?
+                        paramMap.get("shareLocaltion").toString() :
+                        "分享";
+        //点击坐标【逐条转发】
+        String forwardOneByOneLocaltion =
+                paramMap.get("forwardOneByOneLocaltion") != null ?
+                        paramMap.get("forwardOneByOneLocaltion").toString() :
+                        "逐条转发";
+        //点击坐标【搜索[android.widget.EditText]并输入群名】
+        String editTextLocaltion =
+                paramMap.get("editTextLocaltion") != null ?
+                        paramMap.get("editTextLocaltion").toString() :
+                        "android.widget.EditText";
+        //点击坐标【发送】
+        String sendLocaltion =
+                paramMap.get("sendLocaltion") != null ?
+                        paramMap.get("sendLocaltion").toString() :
+                        "发送";
+
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -183,61 +228,160 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 throw new Exception("【转发微信消息】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
             }
         }
-        //获取所有的微信消息RelativeLayout
-        List<WebElement> chatContentRelativeLayoutList = Lists.newArrayList();
-        try {
-            chatContentRelativeLayoutList = driver.findElementsByXPath("//android.widget.ListView/android.widget.RelativeLayout");
-            logger.info("【转发微信消息】获取所有的微信消息RelativeLayout 成功....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            throw new Exception("【转发微信消息】获取所有的微信消息RelativeLayout 异常....");
-        }
-        //长按最后一条聊天消息等待弹出【多选等弹窗】
-        try {
-            Duration duration = Duration.ofMillis(2000);
-            new TouchAction(driver).press(chatContentRelativeLayoutList.get(chatContentRelativeLayoutList.size() - 1)).waitAction(WaitOptions.waitOptions(duration)).release().perform();
-            logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            throw new Exception("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】异常....");
-        }
-
-        //长按最后一条聊天消息等待弹出【多选等弹窗】new UiSelector().text("多选")
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "多选" + "\")");
-            logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
-            Thread.sleep(1000);
-        } catch (Exception e) {
+        //根据 根据转发的群昵称List 进行遍历
+        Iterator<String> iterator = relayTargetGroupList.iterator();
+        while (iterator.hasNext()) {
+            Integer relayNumOfOne = 0;  //一次多选，转发，最多选择9个目标群进行操作
+            String relayTargetGroup = iterator.next();
+            //获取所有的微信消息RelativeLayout //android.widget.ListView/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout
+            List<WebElement> chatContentRelativeLayoutList = Lists.newArrayList();
             try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + "多选" + "\")");
+                chatContentRelativeLayoutList = driver.findElementsByXPath(chatContentRelativeLayoutLocaltion);
+                logger.info("【转发微信消息】获取所有的微信消息RelativeLayout 成功....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                throw new Exception("【转发微信消息】获取所有的微信消息RelativeLayout 异常....");
+            }
+            //长按最后一条聊天消息等待弹出【多选等弹窗】
+            try {
+                Duration duration = Duration.ofMillis(2000);
+                new TouchAction(driver).press(chatContentRelativeLayoutList.get(chatContentRelativeLayoutList.size() - 1)).waitAction(WaitOptions.waitOptions(duration)).release().perform();
                 logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
                 Thread.sleep(1000);
-            } catch (Exception e1) {
-                throw new Exception("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】异常....");
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new Exception("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】异常，" + e.getMessage());
             }
+            //长按最后一条聊天消息等待弹出【多选等弹窗】new UiSelector().text("多选")
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + multipleChoiceLocaltion + "\")").click();
+                logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + multipleChoiceLocaltion + "\")").click();
+                    logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
+                    Thread.sleep(1000);
+                } catch (Exception e1) {
+                    throw new Exception("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】异常....");
+                }
+            }
+            //选择单选框 new UiSelector().className("android.widget.CheckBox")
+            int getAllCheckBoxWebNum = 0;
+            int relayTheWxMessageNum_selected = 1;      //当点击坐标【多选】的时候，就已经选中一条微信消息了
+            while (true) {
+                try {
+                    List<WebElement> checkBoxWebElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + singleCheckBoxLocaltion + "\")");
+                    logger.info("【转发微信消息】点击坐标【获取所有单选框CheckBox】成功....");
+                    for (int i = (checkBoxWebElementList.size() - 1); i >= 0; i--) {
+                        try {
+                            WebElement checkBoxWebElement = checkBoxWebElementList.get(i);
+                            String checkedFlag = checkBoxWebElement.getAttribute("checked");
+                            if ("false".equals(checkedFlag)) {
+                                checkBoxWebElement.click();
+                                relayTheWxMessageNum_selected++;
+                                Thread.sleep(1000);
+                            }
+                        } catch (Exception e) {
+                            logger.info("【转发微信消息】点击坐标【单条微信消息CheckBox】异常....");
+                        }
+                    }
+                    if (relayTheWxMessageNum_selected >= relayTheWxMessageNum) {
+                        break;
+                    }
+                    //向下滑动
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollBackward()");
+                        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
+                    }
+                    logger.info("【转发微信消息】点击坐标【转发微信消息】成功....");
+                } catch (Exception e) {
+                    logger.info("【转发微信消息】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常....");
+                    if (getAllCheckBoxWebNum >= 10) {
+                        logger.info("【转发微信消息】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常，" + e.getMessage());
+                    }
+                }
+            }
+            //点击坐标【分享】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + shareLocaltion + "\")").click();
+                logger.info("【转发微信消息】点击坐标【分享】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                throw new Exception("【转发微信消息】点击坐标【分享】异常....");
+            }
+            //点击坐标【逐条转发】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + forwardOneByOneLocaltion + "\")").click();
+                logger.info("【转发微信消息】点击坐标【逐条转发】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                throw new Exception("【转发微信消息】点击坐标【逐条转发】异常....");
+            }
+            //点击坐标【多选】
+            try {
+                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + multipleChoiceLocaltion + "\")").click();
+                logger.info("【转发微信消息】点击坐标【多选】成功....");
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                throw new Exception("【转发微信消息】点击坐标【多选】异常....");
+            }
+            while (true) {
+                //点击坐标【搜索】
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").clear();
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").sendKeys(relayTargetGroup);
+                    logger.info("【转发微信消息】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】成功....");
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    throw new Exception("【转发微信消息】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】异常....");
+                }
+                //点击坐标【群名】           //android.widget.TextView[@text="内部交流群"]
+                try {
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + relayTargetGroup + "\"]").click();
+                    logger.info("【转发微信消息】点击坐标【群名：" + relayTargetGroup + "】【xpath】成功....");
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    logger.info("【转发微信消息】点击坐标【群名：" + relayTargetGroup + "】【xpath】异常....");
+                }
+                relayNumOfOne++;
+                if (relayNumOfOne >= 9 || relayNumOfOne >= relayTargetGroupList.size() || !iterator.hasNext()) {
+                    //点击坐标【发送(】
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + sendLocaltion + "\")").click();
+                        logger.info("【转发微信消息】点击坐标【发送(】成功....");
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        throw new Exception("【转发微信消息】点击坐标【发送(】异常....");
+                    }
+                    //点击坐标【发送】
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendLocaltion + "\")").click();
+                        logger.info("【转发微信消息】点击坐标【发送】成功....");
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        throw new Exception("【转发微信消息】点击坐标【发送】异常....");
+                    } finally {
+                        break;
+                    }
+                } else {
+                    relayTargetGroup = iterator.next();
+                }
+            }
+            iterator.remove();
         }
-
-//        for (int i = (chatContentRelativeLayoutList.size() - relayTheWxMessageNum); i < chatContentRelativeLayoutList.size(); i++) {
-//            try {
-//                WebElement chatContentRelativeLayout = chatContentRelativeLayoutList.get(i);
-//                chatContentRelativeLayout.click();
-//                logger.info("【转发微信消息】点击坐标【转发微信消息】成功....");
-//            } catch (Exception e) {
-//                break;
-//            }
-//        }
-
         logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
         return true;
     }
 
     public static void main(String[] args) {
         try {
-            StopWatch sw = new StopWatch();
-            sw.start();
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("action", "shareArticleToFriendCircle");
-            new RealMachineDevices().shareArticleToFriendCircle(paramMap);
+            paramMap.put("action", "relayTheWxMessage");
+            new RealMachineDevices().relayTheWxMessage(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
