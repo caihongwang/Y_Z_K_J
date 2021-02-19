@@ -242,7 +242,7 @@ public class AddGroupMembersAsFriendsUtils {
                                 StringBuffer mailMessageBuf = new StringBuffer();
                                 mailMessageBuf.append("蔡红旺，您好：\n");
                                 mailMessageBuf.append("        ").append("\t操作名称：添加群成员为好友的V群").append("\n");
-                                mailMessageBuf.append("        ").append("\t微信群：").append(nickName).append("\n");
+                                mailMessageBuf.append("        ").append("\t微信群名：").append(nickName).append("\n");
                                 mailMessageBuf.append("        ").append("\t操作设备：").append(exceptionDevices).append("\n");
                                 mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
                                 mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
@@ -295,7 +295,7 @@ public class AddGroupMembersAsFriendsUtils {
                                                 StringBuffer mailMessageBuf = new StringBuffer();
                                                 mailMessageBuf.append("蔡红旺，您好：\n");
                                                 mailMessageBuf.append("        ").append("\t操作名称：添加群成员为好友的V群").append("\n");
-                                                mailMessageBuf.append("        ").append("\t微信群：").append(nickName).append("\n");
+                                                mailMessageBuf.append("        ").append("\t微信群名：").append(nickName).append("\n");
                                                 mailMessageBuf.append("        ").append("\t操作设备：").append(targetDeviceNameDesc).append("\n");
                                                 mailMessageBuf.append("        ").append("\t完成时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
                                                 mailMessageBuf.append("        ").append("\t完成地点：").append("北京市昌平区").append("\n");
