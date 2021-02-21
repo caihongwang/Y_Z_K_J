@@ -9,6 +9,7 @@ import com.oilStationMap.utils.wxAdAutomation.agreeToFriendRequest.AgreeToFriend
 import com.oilStationMap.utils.wxAdAutomation.agreeToJoinTheGroup.AgreeToJoinTheGroupUtils;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle.PraiseAndCommentFriendsCircleUtils;
+import com.oilStationMap.utils.wxAdAutomation.relayTheWxMessage.RelayTheWxMessageUtils;
 import com.oilStationMap.utils.wxAdAutomation.saveToAddressBook.SaveToAddressBookUtils;
 import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
 import com.oilStationMap.utils.SpiderFor58Util;
@@ -40,6 +41,27 @@ public class WX_SpiderServiceImpl implements WX_SpiderService {
         resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
         resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
         logger.info("在service中从网络：５８同城、美团等网络进行爬取房产人员、美食店铺等联系方式-getContactFromWeb,结果-result:" + resultMapDTO);
+        return resultMapDTO;
+    }
+
+    /**
+     * 启动appium,转发微信消息
+     * @param paramMap
+     * @return
+     */
+    @Autowired
+    private RelayTheWxMessageUtils relayTheWxMessageUtils;
+    @Override
+    public ResultMapDTO relayTheWxMessage(Map<String, Object> paramMap) {
+        try {
+            relayTheWxMessageUtils.relayTheWxMessage(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在service中启动appium,转发微信消息-relayTheWxMessage,结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 

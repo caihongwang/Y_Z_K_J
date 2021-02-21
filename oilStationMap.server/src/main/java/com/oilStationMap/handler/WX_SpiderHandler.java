@@ -41,6 +41,25 @@ public class WX_SpiderHandler {
         return resultDTO;
     }
 
+    public ResultDTO relayTheWxMessage(Map<String, String> paramMap) {
+        logger.info("在hanlder中启动appium,转发微信消息-relayTheWxMessage,请求-paramMap:" + paramMap);
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        new Thread() {
+            public void run() {
+                try {
+                    wxSpiderService.relayTheWxMessage(objectParamMap);
+                } catch (Exception e) {
+                    logger.error("在hanlder中启动appium,转发微信消息-relayTheWxMessage is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+        resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        logger.info("在hanlder中启动appium,转发微信消息-relayTheWxMessage,响应-response:" + resultDTO);
+        return resultDTO;
+    }
+
     public ResultDTO sendFriendCircle(Map<String, String> paramMap) {
         logger.info("在hanlder中启动appium,自动化发送微信朋友圈-sendFriendCircle,请求-paramMap:" + paramMap);
         ResultDTO resultDTO = new ResultDTO();

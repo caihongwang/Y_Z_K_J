@@ -20,6 +20,13 @@ public interface WX_SpiderService {
     public ResultMapDTO getContactFromWeb(Map<String, Object> paramMap);
 
     /**
+     * 启动appium,转发微信消息
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO relayTheWxMessage(Map<String, Object> paramMap);
+
+    /**
      * 启动appium,点赞和评论朋友圈
      * @param paramMap
      * @return

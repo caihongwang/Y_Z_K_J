@@ -45,6 +45,27 @@ public class WX_SpiderController {
         return resultMap;
     }
 
+    @RequestMapping("/relayTheWxMessage")
+    @ResponseBody
+    public Map<String, Object> relayTheWxMessage(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在controller中启动appium,转发微信消息-relayTheWxMessage,请求-paramMap:" + paramMap);
+        try {
+            ResultDTO resultDTO = wxSpiderHandler.relayTheWxMessage(paramMap);
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在controller中启动appium,转发微信消息-relayTheWxMessage is error, paramMap : " + paramMap + ", e : ", e);
+            resultMap.put("code", OilStationMapCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在controller中启动appium,转发微信消息-relayTheWxMessage,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/praiseAndCommentFriendsCircle")
     @ResponseBody
     public Map<String, Object> praiseAndCommentFriendsCircle(HttpServletRequest request) {
