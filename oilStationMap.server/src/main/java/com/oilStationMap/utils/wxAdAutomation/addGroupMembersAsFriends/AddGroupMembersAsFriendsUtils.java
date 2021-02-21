@@ -199,15 +199,15 @@ public class AddGroupMembersAsFriendsUtils {
 //                            Thread.sleep(1000);
                                 } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                                     e.printStackTrace();
-                                    try {
-                                        if (index % 4 == 0) {
-                                            //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
-                                            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-                                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
-                                        }
-                                    } catch (Exception e1) {
-                                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
-                                    }
+//                                    try {
+//                                        if (index % 4 == 0) {
+//                                            //【添加群成员为好友的V群】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+//                                            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
+//                                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
+//                                        }
+//                                    } catch (Exception e1) {
+//                                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
+//                                    }
                                 }
                                 index++;
                             }
