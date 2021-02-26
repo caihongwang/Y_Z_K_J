@@ -65,7 +65,7 @@ public class EmojiUtil {
     }
 
     public static void main(String[] args) {
-        String str = "\uD83D\uDC81儒医世家1群妇珂熏蒸健康养生";
+        String str = "\uD83C\uDF39小燕姐快乐交友";
         try{
             System.out.println("emojiConvert = " + EmojiUtil.emojiConvert(str));
             System.out.println("emojiRecovery = " + EmojiUtil.emojiRecovery(EmojiUtil.emojiConvert(str)));

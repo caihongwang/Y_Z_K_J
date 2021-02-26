@@ -1,19 +1,11 @@
 package com.oilStationMap.utils;
 
 import com.oilStationMap.MySuperTest;
-import com.oilStationMap.dao.WX_OilStationDao;
-import com.oilStationMap.service.WX_OilStationService;
-import com.oilStationMap.utils.IpDaiLiUtil;
-import com.oilStationMap.utils.LonLatUtil;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by caihongwang on 2018/10/12.

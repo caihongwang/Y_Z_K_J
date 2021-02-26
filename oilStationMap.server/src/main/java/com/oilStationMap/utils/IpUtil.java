@@ -7,15 +7,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 获取免费的IP，以便代理使用
- */
-public class IpDaiLiUtil {
 
-    public static final Logger logger = LoggerFactory.getLogger(IpDaiLiUtil.class);
+public class IpUtil {
+
+    public static final Logger logger = LoggerFactory.getLogger(IpUtil.class);
 
     public static String jiSuDaiLiUrl = "http://www.superfastip.com/welcome/freeip/";          //极速代理IP
     public static String kuaiDaiLiUrl = "https://www.kuaidaili.com/free/inha/";                //快代理IP
@@ -24,7 +25,44 @@ public class IpDaiLiUtil {
 
     public static List<Map<String, String>> ipList = Lists.newArrayList();
 
-    public static List<Map<String, String>> getDaiLiIpList(){
+    /**
+     * 测试本机端口是否被使用
+     *
+     * @param port
+     * @return
+     */
+    public static boolean isLocalPortUsing(int port) {
+        boolean flag = false;
+        try {
+            //如果该端口还在使用则返回true,否则返回false,127.0.0.1代表本机
+            flag = isPortUsing("127.0.0.1", port);
+        } catch (Exception e) {
+
+        }
+        return flag;
+    }
+
+    /***
+     * 测试主机Host的port端口是否被使用
+     * @param host
+     * @param port
+     */
+    public static boolean isPortUsing(String host, int port) {
+        boolean flag = false;
+        try {
+            InetAddress address = InetAddress.getByName(host);
+            Socket socket = new Socket(address, port);  //建立一个Socket连接
+            flag = true;
+        } catch (Exception e) {
+
+        }
+        return flag;
+    }
+
+    /**
+     * 获取免费的IP，以便代理使用
+     */
+    public static List<Map<String, String>> getDaiLiIpList() {
         //极速代理IP
         for (int i = 1; i <= 10; i++) {
             String getIpUrl = jiSuDaiLiUrl + i;
@@ -107,7 +145,7 @@ public class IpDaiLiUtil {
                     Elements elements = items.get(j).select("td");
                     String el = elements.get(0).text();
                     String ip = el.substring(0, el.indexOf(":"));//IP
-                    String port = el.substring(el.indexOf(":")+1);//端口
+                    String port = el.substring(el.indexOf(":") + 1);//端口
                     Map<String, String> ipMap = Maps.newHashMap();
                     ipMap.put("ip", ip);
                     ipMap.put("port", port);

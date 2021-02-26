@@ -100,10 +100,11 @@ spring:
 #    from: 976499921@qq.com # 发送邮件的地址，和上面username一致
 #    default-encoding: utf-8
   #appium启动端口号
-  appiumPortStr: 4723,4725,4727,4729
-#  thePublicIp: 192.168.43.181
-  thePublicIp: 192.168.43.110
-#  stf_publicIp: 10.222.68.56
+  appiumPortStr: 4723,4725,4727,4729,4731,4733,4735,4737,4739,4741,4743,4745,4747,4749
+  theStfIp: 192.168.43.181
+#  theStfIp: 192.168.43.110
+  theStfPort: 7100
+  theRethinkdbPort: 8080
   defaultCommodPath: /opt/defaultCommodPath
   imgFormatStr: bmp,pcx,png,jpg,jpeg,gif,tiff
 

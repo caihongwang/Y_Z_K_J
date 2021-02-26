@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.FileUtil;
+import com.oilStationMap.utils.IpUtil;
 import com.oilStationMap.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,8 +32,14 @@ public class GlobalVariableConfig {
     @Value("${spring.defaultCommodPath}")
     private String defaultCommodPath;
 
-    @Value("${spring.thePublicIp}")
-    private String thePublicIp;
+    @Value("${spring.theStfIp}")
+    private String theStfIp;
+
+    @Value("${spring.theStfPort}")
+    private String theStfPort;
+
+    @Value("${spring.theRethinkdbPort}")
+    private String theRethinkdbPort;
 
     public static Map<String, Map<String, String>> appiumPortMap = Maps.newHashMap();       //appium端口使用情况
 
@@ -47,34 +54,42 @@ public class GlobalVariableConfig {
         imgFormatList = Arrays.asList(imgFormatStr.split(","));
         String[] appiumPortArr = appiumPortStr.split(",");
         for (String appiumPort: appiumPortArr) {
-            Map<String, String> appiumPortDetailMap = Maps.newHashMap();
-            appiumPortMap.put(appiumPort, appiumPortDetailMap);
+            if(IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){          //确认端口号被使用，才加入全局变量，等待使用
+                Map<String, String> appiumPortDetailMap = Maps.newHashMap();
+                appiumPortMap.put(appiumPort, appiumPortDetailMap);
+            }
         }
         //开发环境，启动服务：appium、rethinkdb、rethinkdb、stf
         if ("develop".equals(useEnvironmental)) {
-//            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
-//                String appiumPort = entry.getKey();
-//                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
-//                StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
-//                Thread A_thread = new Thread(starAppiumThread);
-//                A_thread.start();
-//            }
-
-            RethinkdbThread rethinkdbThread = new RethinkdbThread("");
-            Thread B_thread = new Thread(rethinkdbThread);
-            B_thread.start();
-
-            try {
-                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
-                Thread.sleep(15000);
-            } catch (Exception e) {
-
+            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+                String appiumPort = entry.getKey();
+                if(!IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){
+                    System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
+                    StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
+                    Thread A_thread = new Thread(starAppiumThread);
+                    A_thread.start();
+                }
             }
 
-            StfThread stfThread = new StfThread(thePublicIp);
-            Thread C_thread = new Thread(stfThread);
-            C_thread.start();
-            System.out.println("【stf】服务 IP为【" + thePublicIp + "】已启动....");
+            if(!IpUtil.isLocalPortUsing(Integer.parseInt(theRethinkdbPort))){
+                RethinkdbThread rethinkdbThread = new RethinkdbThread("");
+                Thread B_thread = new Thread(rethinkdbThread);
+                B_thread.start();
+
+                try {
+                    Thread.sleep(15000);
+                } catch (Exception e) {
+
+                }
+            }
+            System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
+
+            if(!IpUtil.isLocalPortUsing(Integer.parseInt(theStfPort))){
+                StfThread stfThread = new StfThread(theStfIp);
+                Thread C_thread = new Thread(stfThread);
+                C_thread.start();
+            }
+            System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动....");
         }
     }
 
@@ -181,22 +196,22 @@ public class GlobalVariableConfig {
     }
 
     public class StfThread implements Runnable {
-        private String thePublicIp;
+        private String theStfIp;
 
-        public StfThread(String thePublicIp) {
-            this.thePublicIp = thePublicIp;
+        public StfThread(String theStfIp) {
+            this.theStfIp = theStfIp;
         }
 
         public void run() {
             String source_commondFilePath = defaultCommodPath + "/4.STF_start.sh";
-            String temp_commondFilePath = defaultCommodPath + "/4.STF_start_" + thePublicIp + ".sh";
+            String temp_commondFilePath = defaultCommodPath + "/4.STF_start_" + theStfIp + ".sh";
             File temp_commondFile = new File(temp_commondFilePath);
             if (temp_commondFile.exists()) {
                 temp_commondFile.delete();
             }
             try {
                 FileUtil.copyFile(source_commondFilePath, temp_commondFilePath);
-                FileUtil.replaceStrInFile(temp_commondFilePath, "thePublicIp", thePublicIp);
+                FileUtil.replaceStrInFile(temp_commondFilePath, "theStfIp", theStfIp);
                 CommandUtil.run("sh " + temp_commondFilePath);
 //                String commondStr = "stf local --public-ip " + stf_publicIp;
 //                CommandUtil.run(new String[]{"/bin/sh", "-c", commondStr});
