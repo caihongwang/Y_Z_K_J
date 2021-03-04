@@ -43,7 +43,7 @@ public class XxlJobConfig {
 
     @Bean("XxlJobConfig")
     public XxlJobSpringExecutor xxlJobExecutor() {
-        if ("publish".equals(useEnvironmental)) {           // xxl 定时任务在启动时很耗费内存，同时也可能存在数据库连接不上等问题导致远程服务断裂，故只允许线上服务器内部开启xxl定时任务
+//        if ("publish".equals(useEnvironmental)) {           // xxl 定时任务在启动时很耗费内存，同时也可能存在数据库连接不上等问题导致远程服务断裂，故只允许线上服务器内部开启xxl定时任务
             XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
             xxlJobSpringExecutor.setAdminAddresses(adminAddresses);
             xxlJobSpringExecutor.setAppName(appName);
@@ -53,9 +53,9 @@ public class XxlJobConfig {
             xxlJobSpringExecutor.setLogPath(logPath);
             xxlJobSpringExecutor.setLogRetentionDays(logRetentionDays);
             return xxlJobSpringExecutor;
-        } else {
-            return null;
-        }
+//        } else {
+//            return null;
+//        }
     }
 
     /**

@@ -81,6 +81,20 @@ public class ShareArticleToFriendCircleUtils {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
                 List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+
+                //当未指定发送某个朋友圈时，则默认发送数据库中的所有朋友圈
+                if(nickNameList == null || nickNameList.size() <= 0){
+                    paramMap.clear();
+                    paramMap.put("dicType", "shareArticleToFriendCircle");
+                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                    List<Map<String, String>> resultList = resultDTO.getResultList();
+                    if (resultList != null && resultList.size() > 0) {
+                        for(Map<String, String> resultMap : resultList){
+                            nickNameList.add(resultMap.get("dicCode"));
+                        }
+                    }
+                }
+
                 for (String nickName : nickNameList) {
                     Map<String, Object> shareArticleToFriendCircleParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_shareArticleToFriendCircleParam = Maps.newHashMap();

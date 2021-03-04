@@ -182,7 +182,7 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次，根据数据库的配置：从第10个小时开始执行第一个设备
      * 添加群成员为好友的V群
      */
-    @Scheduled(cron = "0 01 */1 * * ?")
+    @Scheduled(cron = "0 02 */1 * * ?")
     public void do_addGroupMembersAsFriends() {
         if ("develop".equals(useEnvironmental)) {
             Map<String, Object> paramMap = Maps.newHashMap();
@@ -208,19 +208,9 @@ public class TimeTaskOfQuartz {
                 logger.error("在hanlder中启动appium,添加群成员为好友的V群-addGroupMembersAsFriends is error, 即将通过数据库添加群成员为好友的V群 paramMap : " + JSON.toJSONString(paramMap));
                 try{
                     paramMap.clear();
-                    nickNameList.clear();
-                    paramMap.put("dicType", "addGroupMembersAsFriends");
-                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-                    if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-                        for (Map<String, String> addGroupMembersAsFriendsMap : resultDTO.getResultList()) {
-                            nickNameList.add(addGroupMembersAsFriendsMap.get("dicCode"));
-                        }
-                    }
-                    paramMap.clear();
                     LinkedList<String> currentDateList = Lists.newLinkedList();
                     currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
                     paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
-                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                     wxSpiderService.addGroupMembersAsFriends(paramMap);
                 } catch (Exception error) {
                     error.printStackTrace();

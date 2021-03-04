@@ -45,7 +45,6 @@ public class AddGroupMembersAsFriendsUtils {
      * 根据微信群昵称添加群成员为好友工具for所有设备
      */
     public void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception {
-        String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
         LinkedList<String> currentDateList = Lists.newLinkedList();
         try {
@@ -70,8 +69,20 @@ public class AddGroupMembersAsFriendsUtils {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
-                //获取群的昵称，循环遍历
-                List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
+                //获取群的昵称，循环遍历，默认发送数据库中的添加群成员为好友的V群
+                List<String> nickNameList = Lists.newLinkedList();
+                if(nickNameList == null || nickNameList.size() <= 0){
+                    paramMap.clear();
+                    paramMap.put("dicType", "addGroupMembersAsFriends");
+                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                    List<Map<String, String>> resultList = resultDTO.getResultList();
+                    if (resultList != null && resultList.size() > 0) {
+                        for(Map<String, String> resultMap : resultList){
+                            nickNameList.add(resultMap.get("dicCode"));
+                        }
+                    }
+                }
+
                 for (String nickName : nickNameList) {
                     Map<String, Object> addGroupMembersAsFriendsParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_addGroupMembersAsFriendsParam = Maps.newHashMap();
