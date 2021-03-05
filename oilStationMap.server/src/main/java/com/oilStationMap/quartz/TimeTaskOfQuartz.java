@@ -9,7 +9,10 @@ import com.oilStationMap.dto.BoolDTO;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.dto.ResultMapDTO;
 import com.oilStationMap.service.*;
-import com.oilStationMap.utils.*;
+import com.oilStationMap.utils.CommandUtil;
+import com.oilStationMap.utils.HttpsUtil;
+import com.oilStationMap.utils.LonLatUtil;
+import com.oilStationMap.utils.TimestampUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -62,9 +65,6 @@ public class TimeTaskOfQuartz {
     //使用环境
     @Value("${spring.profiles.active}")
     private String useEnvironmental;
-
-    @Value("${spring.appiumPortStr}")
-    private String appiumPortStr;
 
     @Autowired
     private WX_DicService wxDicService;
@@ -273,23 +273,6 @@ public class TimeTaskOfQuartz {
                 }
             }
         }
-    }
-
-    /**
-     * 每分钟检测appium端口号的使用情况
-     */
-    @Scheduled(cron = "0 */1 * * * ?")
-    public void do_checkAppiumPort() {
-        if ("develop".equals(useEnvironmental)) {
-            String[] appiumPortArr = appiumPortStr.split(",");
-            for (String appiumPort: appiumPortArr) {
-                if(IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){          //确认端口号被使用，才加入全局变量，等待使用
-                    Map<String, String> appiumPortDetailMap = Maps.newHashMap();
-                    GlobalVariableConfig.appiumPortMap.put(appiumPort, appiumPortDetailMap);
-                }
-            }
-        }
-        logger.info("每分钟检测GlobalVariableConfig的使用情况：" + JSON.toJSONString(GlobalVariableConfig.appiumPortMap));
     }
 
     /**
