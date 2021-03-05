@@ -43,15 +43,12 @@ public class GlobalVariableConfig {
 
     public static Map<String, Map<String, String>> appiumPortMap = Maps.newHashMap();       //appium端口使用情况
 
-    public static List<String> imgFormatList = Lists.newArrayList();
-
     /**
      * 初始化 全局变量
      * 初始化 启动服务：appium、rethinkdb、rethinkdb、stf
      */
     @PostConstruct
     public void initGlobalVariableAndServer() {
-        imgFormatList = Arrays.asList(imgFormatStr.split(","));
         String[] appiumPortArr = appiumPortStr.split(",");
         for (String appiumPort: appiumPortArr) {
             if(IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){          //确认端口号被使用，才加入全局变量，等待使用
