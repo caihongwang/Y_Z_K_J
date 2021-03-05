@@ -56,10 +56,19 @@ public class SendFriendCircleUtils {
             currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
         } catch (Exception e) {
             throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
+        } finally {
+            if (currentDateList.size() <= 0) {
+                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            }
         }
-        if (currentDateList.size() <= 0) {
-            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+        LinkedList<String> nickNameList = Lists.newLinkedList();
+        try {
+            nickNameList = JSONObject.parseObject(nickNameListStr, LinkedList.class);
+        } catch (Exception e) {
+            logger.info("解析json失败，nickNameListStr = " + nickNameListStr);
+            nickNameList = Lists.newLinkedList();
         }
+
         //appiumPort
         String appiumPort = null;
         //设备编码
@@ -70,252 +79,243 @@ public class SendFriendCircleUtils {
         String action = null;
         //获取 发送朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndSendFriendCircleLocaltion";
+        //当未指定发送某个朋友圈时，则默认发送数据库中的所有朋友圈
+        List<Map<String, String>> sendFriendCircleList = Lists.newLinkedList();
+        if (nickNameList == null || nickNameList.size() <= 0) {
+            paramMap.clear();
+            paramMap.put("dicType", "sendFriendCircle");
+            ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+            sendFriendCircleList = resultDTO.getResultList();
+        } else {
+            for (String nickName : nickNameList) {
+                paramMap.clear();
+                paramMap.put("dicType", "sendFriendCircle");
+                paramMap.put("dicCode", nickName);        //指定 某一个分享微信文章到微信朋友圈 发送
+                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                sendFriendCircleList.addAll(resultDTO.getResultList());
+            }
+        }
+        //获取设备列表和配套的坐标配置wxDic
+        paramMap.clear();
+        paramMap.put("dicType", "deviceNameListAndLocaltion");
+        paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
+        List<Map<String, Object>> deviceNameAndLocaltionList = wxDicDao.getSimpleDicByCondition(paramMap);
+        if (deviceNameAndLocaltionList == null && deviceNameAndLocaltionList.size() <= 0) {
+            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+            throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+        }
+        Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
         for (String currentDateStr : currentDateList) {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
-                List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
-
-                //当未指定发送某个朋友圈时，则默认发送数据库中的所有朋友圈
-                if(nickNameList == null || nickNameList.size() <= 0){
-                    paramMap.clear();
-                    paramMap.put("dicType", "sendFriendCircle");
-                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-                    List<Map<String, String>> resultList = resultDTO.getResultList();
-                    if (resultList != null && resultList.size() > 0) {
-                        for(Map<String, String> resultMap : resultList){
-                            nickNameList.add(resultMap.get("dicCode"));
-                        }
-                    }
-                }
-
-                for (String nickName : nickNameList) {
+                for (Map<String, String> sendFriendCircle : sendFriendCircleList) {
                     Map<String, Object> sendFriendCircleParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_sendFriendCircleParam = Maps.newHashMap();
                     try {
                         boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
-                        paramMap.put("dicType", "sendFriendCircle");
-                        paramMap.put("dicCode", nickName);        //指定转发微信昵称朋友圈内容
-                        ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
-                        List<Map<String, String>> resultList = resultDTO.getResultList();
-                        if (resultList != null && resultList.size() > 0) {
-                            //获取发送朋友圈的内容信息.
-                            sendFriendCircleParam.putAll(MapUtil.getObjectMap(resultList.get(0)));
-                            sendFriendCircleParam.put("nickName", nickName);
-                            sendFriendCircleParam.put("phoneLocalPath", "/storage/emulated/0/tencent/MicroMsg/WeiXin/");
-                            String theId = sendFriendCircleParam.get("id").toString();
-                            //获取设备列表和配套的坐标配置wxDic
-                            List<HashMap<String, Object>> deviceNameList = Lists.newArrayList();
-                            paramMap.clear();
-                            paramMap.put("dicType", "deviceNameListAndLocaltion");
-                            paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
-                            List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-                            if (list != null && list.size() > 0) {
-                                //获取dicRemark
-                                String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                                JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                                //获取设备坐标
-                                String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                                Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                                sendFriendCircleParam.putAll(deviceLocaltionMap);
-                                //获取设备列表
-                                String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                                deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                        String nickName = sendFriendCircle.get("dicCode");
+                        //获取发送朋友圈的内容信息.
+                        sendFriendCircleParam.putAll(MapUtil.getObjectMap(sendFriendCircle));
+                        sendFriendCircleParam.put("nickName", nickName);
+                        sendFriendCircleParam.put("phoneLocalPath", "/storage/emulated/0/tencent/MicroMsg/WeiXin/");
+                        String theId = sendFriendCircleParam.get("id").toString();
+                        //获取dicRemark
+                        String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
+                        JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+                        //获取设备坐标
+                        String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
+                        Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                        sendFriendCircleParam.putAll(deviceLocaltionMap);
+                        //获取设备列表
+                        String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+                        List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                        //当前时间
+                        sendFriendCircleParam.put("currentDate", currentDate);
+
+                        //1.将 图片文件 push 到安卓设备里面
+                        action = sendFriendCircleParam.get("action") != null ? sendFriendCircleParam.get("action").toString() : "textMessageFriendCircle";
+                        if (action.equals("imgMessageFriendCircle")) {
+                            boolean imgExistFlag = false;
+                            //将 图片文件 push 到安卓设备里面
+                            if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
+                                imgExistFlag = true;
+                            }
+                            if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
+                                //2.沉睡等待2分钟，确保USB传输文件到达手机相册
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
+                                Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
                             } else {
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                                logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】未在广告排期已过期或者没有图片，异常退出.");
+                                continue;
                             }
-                            //当前时间
-                            sendFriendCircleParam.put("currentDate", currentDate);
+                        }
 
-                            //1.将 图片文件 push 到安卓设备里面
-                            action = sendFriendCircleParam.get("action") != null ? sendFriendCircleParam.get("action").toString() : "textMessageFriendCircle";
-                            if (action.equals("imgMessageFriendCircle")) {
-                                boolean imgExistFlag = false;
-                                //将 图片文件 push 到安卓设备里面
-                                if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
-                                    imgExistFlag = true;
-                                }
-                                if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
-                                    //2.沉睡等待2分钟，确保USB传输文件到达手机相册
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
-                                    Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
-                                } else {
-                                    logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】未在广告排期已过期或者没有图片，异常退出.");
-                                    continue;
-                                }
-                            }
-
-                            //3.发送朋友圈
-                            if (deviceNameList != null && deviceNameList.size() > 0) {
-                                for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                    sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内//获取设备编码
-                                    //当前设备编码
-                                    deviceName = sendFriendCircleParam.get("deviceName") != null ? sendFriendCircleParam.get("deviceName").toString() : null;
-                                    //当前设备描述
-                                    deviceNameDesc = sendFriendCircleParam.get("deviceNameDesc") != null ? sendFriendCircleParam.get("deviceNameDesc").toString() : null;
-                                    //判断当前设备的执行小时时间是否与当前时间匹配
-                                    boolean isExecuteFlag = false;
-                                    String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
-                                    String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
-                                    if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
-                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                        Date startTime = sdf.parse(startTimeStr);
-                                        Date endTime = sdf.parse(endTimeStr);
-                                        if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
-                                            //判断当前设备的执行小时时间是否与当前时间匹配
-                                            String startHour =
-                                                    sendFriendCircleParam.get("startHour") != null ?
-                                                            sendFriendCircleParam.get("startHour").toString() :
-                                                            "";
-                                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                            if (startHour.equals(currentHour)) {
-                                                try {
-                                                    //获取appium端口号
-                                                    appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                                    sendFriendCircleParam.put("appiumPort", appiumPort);
-                                                    //设置当前这杯可执行的标志位
-                                                    isExecuteFlag = true;
-                                                } catch (Exception e) {
-                                                    //获取appium端口号失败
-                                                    logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + e.getMessage());
-                                                    //设置当前这杯可被行的标志位
-                                                    isExecuteFlag = false;
-                                                    continue;
-                                                }
-                                            } else {
-                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                        //3.发送朋友圈
+                        if (deviceNameList != null && deviceNameList.size() > 0) {
+                            for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内//获取设备编码
+                                //当前设备编码
+                                deviceName = sendFriendCircleParam.get("deviceName") != null ? sendFriendCircleParam.get("deviceName").toString() : null;
+                                //当前设备描述
+                                deviceNameDesc = sendFriendCircleParam.get("deviceNameDesc") != null ? sendFriendCircleParam.get("deviceNameDesc").toString() : null;
+                                //判断当前设备的执行小时时间是否与当前时间匹配
+                                boolean isExecuteFlag = false;
+                                String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
+                                String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
+                                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    Date startTime = sdf.parse(startTimeStr);
+                                    Date endTime = sdf.parse(endTimeStr);
+                                    if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
+                                        //判断当前设备的执行小时时间是否与当前时间匹配
+                                        String startHour = sendFriendCircleParam.get("startHour") != null ? sendFriendCircleParam.get("startHour").toString() : "";
+                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                                        if (startHour.equals(currentHour)) {
+                                            try {
+                                                //获取appium端口号
+                                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                                sendFriendCircleParam.put("appiumPort", appiumPort);
+                                                //设置当前这杯可执行的标志位
+                                                isExecuteFlag = true;
+                                            } catch (Exception e) {
+                                                //获取appium端口号失败
+                                                logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + e.getMessage());
+                                                //设置当前这杯可被行的标志位
+                                                isExecuteFlag = false;
                                                 continue;
                                             }
-                                        } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
-                                            logger.info("发送朋友圈】尚未开始，暂不处理....");
                                         } else {
-                                            Map<String, Object> tempMap = Maps.newHashMap();
-                                            tempMap.put("id", theId);
-                                            tempMap.put("dicStatus", 1);
-                                            wxDicService.updateDic(tempMap);    //更新这条朋友圈数据为已删除
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】的转发朋友圈业务已到期....");
+                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                            continue;
                                         }
-                                        try {
-                                            if (isExecuteFlag) {
-                                                //开始【将群保存到通讯录】
-                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
-                                                isOperatedFlag = new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
-                                                Thread.sleep(5000);
+                                    } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
+                                        logger.info("发送朋友圈】尚未开始，暂不处理....");
+                                    } else {
+                                        Map<String, Object> tempMap = Maps.newHashMap();
+                                        tempMap.put("id", theId);
+                                        tempMap.put("dicStatus", 1);
+                                        wxDicService.updateDic(tempMap);    //更新这条朋友圈数据为已删除
+                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】的转发朋友圈业务已到期....");
+                                    }
+                                    try {
+                                        if (isExecuteFlag) {
+                                            //开始【将群保存到通讯录】
+                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
+                                            isOperatedFlag = new RealMachineDevices().sendFriendCircle(sendFriendCircleParam);
+                                            Thread.sleep(5000);
 //                                            //测试
 //                                            isOperatedFlag = true;
 //                                            reboot_sendFriendCircleParam.putAll(sendFriendCircleParam);
 //                                            Thread.sleep(1000);
-                                                break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            reboot_sendFriendCircleParam.putAll(sendFriendCircleParam);
-                                            break;
+                                            break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                         }
-                                    } else {
-                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】的转发朋友圈业务推广日期不能为空....");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        reboot_sendFriendCircleParam.putAll(sendFriendCircleParam);
+                                        break;
                                     }
+                                } else {
+                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】的转发朋友圈业务推广日期不能为空....");
                                 }
                             }
+                        }
 
-                            //4.对执行失败的设备进行重新执行【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】,最多重复执行15次，每间隔4次重启一次手机
-                            Integer index = 1;
-                            while (reboot_sendFriendCircleParam.size() > 0) {
-                                //等待所有设备重启
-                                Thread.sleep(45000);
-//                        //测试
-//                        Thread.sleep(1000);
-                                if (index > 6) {
-                                    break;
-                                }
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
-                                if (action.equals("imgMessageFriendCircle")) {  //重操作的时候，再次对图片进行操作
-                                    pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
-                                }
-                                try {
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
-                                    isOperatedFlag = new RealMachineDevices().sendFriendCircle(reboot_sendFriendCircleParam);
-                                    reboot_sendFriendCircleParam.clear();       //清空需要重新执行的设备参数
-                                    Thread.sleep(5000);
+                        //4.对执行失败的设备进行重新执行【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】,最多重复执行15次，每间隔4次重启一次手机
+                        Integer index = 1;
+                        while (reboot_sendFriendCircleParam.size() > 0) {
+                            //等待所有设备重启
+                            Thread.sleep(45000);
 //                            //测试
-//                            if (index == 15) {
-//                                isOperatedFlag = true;
-//                                reboot_sendFriendCircleParam.clear();
-//                            }
 //                            Thread.sleep(1000);
-                                } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
-                                    e.printStackTrace();
-//                                    try {
-//                                        if (index % 2 == 0) {
-//                                            //【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
-//                                            CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
-//                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
-//                                        }
-//                                    } catch (Exception e1) {
-//                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
+                            if (index > 6) {
+                                break;
+                            }
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");
+                            if (action.equals("imgMessageFriendCircle")) {  //重操作的时候，再次对图片进行操作
+                                pushImgFileToDevice(deviceNameList, sendFriendCircleParam);
+                            }
+                            try {
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
+                                isOperatedFlag = new RealMachineDevices().sendFriendCircle(reboot_sendFriendCircleParam);
+                                reboot_sendFriendCircleParam.clear();       //清空需要重新执行的设备参数
+                                Thread.sleep(5000);
+//                                //测试
+//                                if (index == 6) {
+//                                    isOperatedFlag = true;
+//                                    reboot_sendFriendCircleParam.clear();
+//                                }
+//                                Thread.sleep(1000);
+                            } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
+                                e.printStackTrace();
+//                                try {
+//                                    if (index % 2 == 0) {
+//                                        //【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】过程中，出现不会对设备进行重启，所以在重新执行的单个过程出现异常则重启
+//                                        CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " reboot");
+//                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启成功...");
 //                                    }
-                                }
-                                index++;
+//                                } catch (Exception e1) {
+//                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】重启失败...");
+//                                }
                             }
+                            index++;
+                        }
 
-                            //5.将 图片文件 push 到安卓设备里面
-                            if (action.equals("imgMessageFriendCircle")) {
-                                //将 图片文件  从安卓设备里面 删除
-                                removeImgFileToDevice(deviceNameList, sendFriendCircleParam);
-                            }
+                        //5.将 图片文件 push 到安卓设备里面
+                        if (action.equals("imgMessageFriendCircle")) {
+                            //将 图片文件  从安卓设备里面 删除
+                            removeImgFileToDevice(deviceNameList, sendFriendCircleParam);
+                        }
 
-                            //回收-appiumPort
-                            GlobalVariableConfig.recoveryAppiumPort(appiumPort);
+                        //回收-appiumPort
+                        GlobalVariableConfig.recoveryAppiumPort(appiumPort);
 
-                            //6.发送微信通知消息
-                            if (reboot_sendFriendCircleParam.size() > 0) {
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                        //6.发送微信通知消息
+                        if (reboot_sendFriendCircleParam.size() > 0) {
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            String exceptionDevices = "异常设备列表" + "【" + deviceNameDesc + "】";
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
 
-                                //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                                HttpsUtil httpsUtil = new HttpsUtil();
-                                Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                                exceptionDevicesParamMap.put("nickName", nickName);
-                                exceptionDevicesParamMap.put("operatorName", "发布朋友圈");
-                                exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                                String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                                String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                                logger.info("微信消息异常发送反馈：" + resultJson);
-                                //邮件通知
-                                StringBuffer mailMessageBuf = new StringBuffer();
-                                mailMessageBuf.append("蔡红旺，您好：\n");
-                                mailMessageBuf.append("        ").append("\t操作名称：发布朋友圈").append("\n");
-                                mailMessageBuf.append("        ").append("\t微信昵称：").append(nickName).append("\n");
-                                mailMessageBuf.append("        ").append("\t操作设备：").append(exceptionDevices).append("\n");
-                                mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
-                                mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
-                                mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
-                                mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
-                                mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
-                                logger.info("【邮件通知】【服务完成通知】发布朋友圈 ......" );
-                            } else {
-                                if (isOperatedFlag) {
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-
-                                    //向nickName对象发送聊天消息进行通知
-                                    nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName, currentDateStr);
-                                }
-                            }
+                            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
+                            HttpsUtil httpsUtil = new HttpsUtil();
+                            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
+                            exceptionDevicesParamMap.put("nickName", nickName);
+                            exceptionDevicesParamMap.put("operatorName", "发布朋友圈");
+                            exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
+                            String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
+                            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
+                            logger.info("微信消息异常发送反馈：" + resultJson);
+                            //邮件通知
+                            StringBuffer mailMessageBuf = new StringBuffer();
+                            mailMessageBuf.append("蔡红旺，您好：\n");
+                            mailMessageBuf.append("        ").append("\t操作名称：发布朋友圈").append("\n");
+                            mailMessageBuf.append("        ").append("\t微信昵称：").append(nickName).append("\n");
+                            mailMessageBuf.append("        ").append("\t操作设备：").append(exceptionDevices).append("\n");
+                            mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                            mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                            mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                            mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
+                            mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
+                            logger.info("【邮件通知】【服务完成通知】发布朋友圈 ......");
                         } else {
-                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】 失败.");
+                            if (isOperatedFlag) {
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
+
+                                //向nickName对象发送聊天消息进行通知
+                                nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName, currentDateStr);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

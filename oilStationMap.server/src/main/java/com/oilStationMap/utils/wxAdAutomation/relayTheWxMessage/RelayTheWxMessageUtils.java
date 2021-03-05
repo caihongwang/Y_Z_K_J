@@ -53,9 +53,10 @@ public class RelayTheWxMessageUtils {
             currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
         } catch (Exception e) {
             throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
-        }
-        if (currentDateList.size() <= 0) {
-            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+        } finally {
+            if (currentDateList.size() <= 0) {
+                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            }
         }
         //appiumPort
         String appiumPort = null;
@@ -67,6 +68,21 @@ public class RelayTheWxMessageUtils {
         String action = "relayTheWxMessage";
         //获取 转发微信消息 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndRelayTheWxMessageLocaltion";
+        //指定 某一个微信昵称 聊天，并获取即将要发送聊天信息
+        paramMap.clear();
+        paramMap.put("dicType", "relayTheWxMessage");
+        ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        List<Map<String, String>> relayTheWxMessageList = resultDTO.getResultList();
+        //获取设备列表和配套的坐标配置wxDic
+        paramMap.clear();
+        paramMap.put("dicType", "deviceNameListAndLocaltion");
+        paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
+        List<Map<String, Object>> deviceNameAndLocaltionList = wxDicDao.getSimpleDicByCondition(paramMap);
+        if (deviceNameAndLocaltionList == null && deviceNameAndLocaltionList.size() <= 0) {
+            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+            throw new Exception("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+        }
+        Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
         for (String currentDateStr : currentDateList) {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
@@ -74,95 +90,69 @@ public class RelayTheWxMessageUtils {
                 Map<String, Object> relayTheWxMessageParam = Maps.newHashMap();
                 HashMap<String, Object> reboot_relayTheWxMessageParam = Maps.newHashMap();
                 try {
-                    //指定 某一个微信昵称 聊天，并获取即将要发送聊天信息
-                    paramMap.clear();
-                    paramMap.put("dicType", "relayTheWxMessage");
-                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-                    List<Map<String, String>> resultList = resultDTO.getResultList();
-                    for (Map<String, String> result : resultList) {
+                    for (Map<String, String> relayTheWxMessage : relayTheWxMessageList) {
                         boolean isOperatedFlag = false;     //当前设备是否操作【转发微信消息】的标志位
-                        relayTheWxMessageParam.putAll(MapUtil.getObjectMap(result));
-                        //获取设备列表和配套的坐标配置
-                        paramMap.clear();
-                        paramMap.put("dicType", "deviceNameListAndLocaltion");
-                        paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
-                        List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-                        if (list != null && list.size() > 0) {
-                            //获取dicRemark
-                            String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                            JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                            //获取设备坐标
-                            String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                            Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                            relayTheWxMessageParam.putAll(deviceLocaltionMap);
-                            //获取设备列表
-                            String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                            List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                            if (deviceNameList != null && deviceNameList.size() > 0) {
-                                for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                    relayTheWxMessageParam.putAll(deviceNameMap);
-                                    //获取设备编码
-                                    deviceName =
-                                            relayTheWxMessageParam.get("deviceName") != null ?
-                                                    relayTheWxMessageParam.get("deviceName").toString() :
-                                                    null;
-                                    //当前设备描述
-                                    deviceNameDesc =
-                                            relayTheWxMessageParam.get("deviceNameDesc") != null ?
-                                                    relayTheWxMessageParam.get("deviceNameDesc").toString() :
-                                                    null;
-                                    //目标设备描述-即转发群对应设备描述
-                                    String targetDeviceNameDesc =
-                                            relayTheWxMessageParam.get("targetDeviceNameDesc") != null ?
-                                                    relayTheWxMessageParam.get("targetDeviceNameDesc").toString() :
-                                                    null;
-                                    //判断当前设备的执行小时时间是否与当前时间匹配
-                                    String startHour =
-                                            relayTheWxMessageParam.get("startHour") != null ?
-                                                    relayTheWxMessageParam.get("startHour").toString() :
-                                                    "";
-                                    String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                        relayTheWxMessageParam.putAll(MapUtil.getObjectMap(relayTheWxMessage));
+                        //获取dicRemark
+                        String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
+                        JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+                        //获取设备坐标
+                        String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
+                        Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                        relayTheWxMessageParam.putAll(deviceLocaltionMap);
+                        //获取设备列表
+                        String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+                        List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                        if (deviceNameList != null && deviceNameList.size() > 0) {
+                            for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                relayTheWxMessageParam.putAll(deviceNameMap);
+                                //获取设备编码
+                                deviceName = relayTheWxMessageParam.get("deviceName") != null ? relayTheWxMessageParam.get("deviceName").toString() : null;
+                                //当前设备描述
+                                deviceNameDesc = relayTheWxMessageParam.get("deviceNameDesc") != null ? relayTheWxMessageParam.get("deviceNameDesc").toString() : null;
+                                //目标设备描述-即转发群对应设备描述
+                                String targetDeviceNameDesc = relayTheWxMessageParam.get("targetDeviceNameDesc") != null ? relayTheWxMessageParam.get("targetDeviceNameDesc").toString() : null;
+                                //判断当前设备的执行小时时间是否与当前时间匹配
+                                String startHour = relayTheWxMessageParam.get("startHour") != null ? relayTheWxMessageParam.get("startHour").toString() : "";
+                                String currentHour = new SimpleDateFormat("HH").format(currentDate);
 
-                                    boolean isExecuteFlag = false;      //判断是指定设备及指定时间
-                                    if (targetDeviceNameDesc.equals(deviceNameDesc) && startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                                        try {
-                                            //获取appium端口号
-                                            appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                            relayTheWxMessageParam.put("appiumPort", appiumPort);
-                                            //设置当前这杯可执行的标志位
-                                            isExecuteFlag = true;
-                                        } catch (Exception e) {
-                                            //获取appium端口号失败
-                                            logger.error("【转发微信消息】" + e.getMessage());
-                                            //设置当前这杯可被行的标志位
-                                            isExecuteFlag = false;
-                                            continue;
-                                        }
-                                    } else {
-//                                        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                boolean isExecuteFlag = false;      //判断是指定设备及指定时间
+                                if (targetDeviceNameDesc.equals(deviceNameDesc) && startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
+                                    try {
+                                        //获取appium端口号
+                                        appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                        relayTheWxMessageParam.put("appiumPort", appiumPort);
+                                        //设置当前这杯可执行的标志位
+                                        isExecuteFlag = true;
+                                    } catch (Exception e) {
+                                        //获取appium端口号失败
+                                        logger.error("【转发微信消息】" + e.getMessage());
+                                        //设置当前这杯可被行的标志位
+                                        isExecuteFlag = false;
                                         continue;
                                     }
-                                    try {
-                                        if (isExecuteFlag) {
-                                            //开始【转发微信消息】
-                                            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】即将开始....");
-                                            isOperatedFlag = new RealMachineDevices().relayTheWxMessage(relayTheWxMessageParam);
-                                            Thread.sleep(5000);
-//                                            //测试
-//                                            isOperatedFlag = true;
-//                                            reboot_relayTheWxMessageParam.putAll(relayTheWxMessageParam);
-//                                            Thread.sleep(5000);
-                                            break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        reboot_relayTheWxMessageParam.putAll(relayTheWxMessageParam);
+                                } else {
+//                                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                    continue;
+                                }
+                                try {
+                                    if (isExecuteFlag) {
+                                        //开始【转发微信消息】
+                                        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】即将开始....");
+                                        isOperatedFlag = new RealMachineDevices().relayTheWxMessage(relayTheWxMessageParam);
+                                        Thread.sleep(5000);
+//                                        //测试
+//                                        isOperatedFlag = true;
+//                                        reboot_relayTheWxMessageParam.putAll(relayTheWxMessageParam);
+//                                        Thread.sleep(5000);
                                         break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    reboot_relayTheWxMessageParam.putAll(relayTheWxMessageParam);
+                                    break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                 }
                             }
-                        } else {
-                            logger.info("【转发微信消息】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                         }
                         //4.对执行失败的设备进行重新执行【转发微信消息】,最多重复执行15次，每间隔4次重启一次手机
                         Integer index = 1;

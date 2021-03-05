@@ -53,9 +53,10 @@ public class SaveToAddressBookUtils {
             currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
         } catch (Exception e) {
             throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
-        }
-        if (currentDateList.size() <= 0) {
-            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+        } finally {
+            if (currentDateList.size() <= 0) {
+                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            }
         }
         //appiumPort
         String appiumPort = null;
@@ -67,6 +68,16 @@ public class SaveToAddressBookUtils {
         String action = "saveToAddressBook";
         //获取 将群保存到通讯录 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndSaveToAddressBookLocaltion";
+        //获取设备列表和配套的坐标配置wxDic
+        paramMap.clear();
+        paramMap.put("dicType", "deviceNameListAndLocaltion");
+        paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
+        List<Map<String, Object>> deviceNameAndLocaltionList = wxDicDao.getSimpleDicByCondition(paramMap);
+        if (deviceNameAndLocaltionList == null && deviceNameAndLocaltionList.size() <= 0) {
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+            throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+        }
+        Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
         for (String currentDateStr : currentDateList) {
             try {
                 boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
@@ -74,81 +85,63 @@ public class SaveToAddressBookUtils {
                 HashMap<String, Object> reboot_saveToAddressBookParam = Maps.newHashMap();
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
-                //获取设备列表和配套的坐标配置
-                paramMap.clear();
-                paramMap.put("dicType", "deviceNameListAndLocaltion");
-                paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
-                List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);        //当前设备列表和配套的坐标配置
-                if (list != null && list.size() > 0) {
-                    //获取dicRemark
-                    String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                    JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                    //获取设备坐标
-                    String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                    Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                    saveToAddressBookParam.putAll(deviceLocaltionMap);
-                    //获取设备列表
-                    String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                    List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                    if (deviceNameList != null && deviceNameList.size() > 0) {
-                        for (Map<String, Object> deviceNameMap : deviceNameList) {
-                            saveToAddressBookParam.putAll(deviceNameMap);
-                            //获取设备编码
-                            deviceName =
-                                    saveToAddressBookParam.get("deviceName") != null ?
-                                            saveToAddressBookParam.get("deviceName").toString() :
-                                            null;
-                            //当前设备描述
-                            deviceNameDesc =
-                                    saveToAddressBookParam.get("deviceNameDesc") != null ?
-                                            saveToAddressBookParam.get("deviceNameDesc").toString() :
-                                            null;
-                            //判断当前设备的执行小时时间是否与当前时间匹配
-                            boolean isExecuteFlag = false;
-                            String startHour =
-                                    saveToAddressBookParam.get("startHour") != null ?
-                                            saveToAddressBookParam.get("startHour").toString() :
-                                            "";
-                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                            if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                                try {
-                                    //获取appium端口号
-                                    appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                    saveToAddressBookParam.put("appiumPort", appiumPort);
-                                    //设置当前这杯可执行的标志位
-                                    isExecuteFlag = true;
-                                } catch (Exception e) {
-                                    //获取appium端口号失败
-                                    logger.error("【将群保存到通讯录】" + e.getMessage());
-                                    //设置当前这杯可被行的标志位
-                                    isExecuteFlag = false;
-                                    continue;
-                                }
-                            } else {
-                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                //获取dicRemark
+                String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
+                JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+                //获取设备坐标
+                String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
+                Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                saveToAddressBookParam.putAll(deviceLocaltionMap);
+                //获取设备列表
+                String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+                List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                if (deviceNameList != null && deviceNameList.size() > 0) {
+                    for (Map<String, Object> deviceNameMap : deviceNameList) {
+                        saveToAddressBookParam.putAll(deviceNameMap);
+                        //获取设备编码
+                        deviceName = saveToAddressBookParam.get("deviceName") != null ? saveToAddressBookParam.get("deviceName").toString() : null;
+                        //当前设备描述
+                        deviceNameDesc = saveToAddressBookParam.get("deviceNameDesc") != null ? saveToAddressBookParam.get("deviceNameDesc").toString() : null;
+                        //判断当前设备的执行小时时间是否与当前时间匹配
+                        boolean isExecuteFlag = false;
+                        String startHour = saveToAddressBookParam.get("startHour") != null ? saveToAddressBookParam.get("startHour").toString() : "";
+                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                        if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
+                            try {
+                                //获取appium端口号
+                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                saveToAddressBookParam.put("appiumPort", appiumPort);
+                                //设置当前这杯可执行的标志位
+                                isExecuteFlag = true;
+                            } catch (Exception e) {
+                                //获取appium端口号失败
+                                logger.error("【将群保存到通讯录】" + e.getMessage());
+                                //设置当前这杯可被行的标志位
+                                isExecuteFlag = false;
                                 continue;
                             }
-                            try {
-                                if (isExecuteFlag) {
-                                    //开始【将群保存到通讯录】
-                                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】即将开始....");
-                                    isOperatedFlag = new RealMachineDevices().saveToAddressBook(saveToAddressBookParam);
-                                    Thread.sleep(5000);
+                        } else {
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                            continue;
+                        }
+                        try {
+                            if (isExecuteFlag) {
+                                //开始【将群保存到通讯录】
+                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】即将开始....");
+                                isOperatedFlag = new RealMachineDevices().saveToAddressBook(saveToAddressBookParam);
+                                Thread.sleep(5000);
 //                                //测试
 //                                isOperatedFlag = true;
 //                                reboot_saveToAddressBookParam.putAll(saveToAddressBookParam);
 //                                Thread.sleep(1000);
-                                    break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                reboot_saveToAddressBookParam.putAll(saveToAddressBookParam);
                                 break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            reboot_saveToAddressBookParam.putAll(saveToAddressBookParam);
+                            break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                         }
                     }
-                } else {
-                    logger.info("【将群保存到通讯录】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                 }
 
                 //4.对执行失败的设备进行重新执行【将群保存到通讯录】,最多重复执行15次，每间隔4次重启一次手机
@@ -156,8 +149,8 @@ public class SaveToAddressBookUtils {
                 while (reboot_saveToAddressBookParam.size() > 0) {
                     //等待所有设备重启
                     Thread.sleep(45000);
-//                //测试
-//                Thread.sleep(1000);
+//                    //测试
+//                    Thread.sleep(1000);
                     if (index > 15) {
                         break;
                     }
@@ -167,12 +160,12 @@ public class SaveToAddressBookUtils {
                         new RealMachineDevices().saveToAddressBook(reboot_saveToAddressBookParam);
                         reboot_saveToAddressBookParam.clear();       //清空需要重新执行的设备参数
                         Thread.sleep(5000);
-//                    //测试
-//                    if (index == 15) {
-//                        isOperatedFlag = true;
-//                        reboot_saveToAddressBookParam.clear();
-//                    }
-//                    Thread.sleep(1000);
+//                        //测试
+//                        if (index == 15) {
+//                            isOperatedFlag = true;
+//                            reboot_saveToAddressBookParam.clear();
+//                        }
+//                        Thread.sleep(1000);
                     } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                         e.printStackTrace();
 //                        try {
@@ -223,7 +216,7 @@ public class SaveToAddressBookUtils {
                     mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                     mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                     mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】将群保存到通讯录", mailMessageBuf.toString());
-                    logger.info("【邮件通知】【服务完成通知】将群保存到通讯录 ......" );
+                    logger.info("【邮件通知】【服务完成通知】将群保存到通讯录 ......");
                 } else {
                     if (isOperatedFlag) {
                         logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");

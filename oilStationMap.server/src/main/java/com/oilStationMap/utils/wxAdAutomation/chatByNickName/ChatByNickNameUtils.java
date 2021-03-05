@@ -53,9 +53,17 @@ public class ChatByNickNameUtils {
             currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
         } catch (Exception e) {
             throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
+        } finally {
+            if (currentDateList.size() <= 0) {
+                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            }
         }
-        if (currentDateList.size() <= 0) {
-            currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+        LinkedList<String> nickNameList = Lists.newLinkedList();
+        try {
+            nickNameList = JSONObject.parseObject(nickNameListStr, LinkedList.class);
+        } catch (Exception e) {
+            logger.info("解析json失败，nickNameListStr = " + nickNameListStr);
+            nickNameList = Lists.newLinkedList();
         }
         //appiumPort
         String appiumPort = null;
@@ -67,117 +75,101 @@ public class ChatByNickNameUtils {
         String action = "chatByNickName";
         //获取 根据微信昵称进行聊天 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndChatByNickNameLocaltion";
+        //当未指定发送某个聊天信息时，则默认发送数据库中的所有聊天信息
+        List<Map<String, String>> chatByNickNameList = Lists.newLinkedList();
+        if (nickNameList == null || nickNameList.size() <= 0) {
+            paramMap.clear();
+            paramMap.put("dicType", "sendFriendCircle");
+            ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+            chatByNickNameList = resultDTO.getResultList();
+        } else {
+            for (String nickName : nickNameList) {
+                paramMap.clear();
+                paramMap.put("dicType", "sendFriendCircle");
+                paramMap.put("dicCode", nickName);        //指定 某一个分享微信文章到微信朋友圈 发送
+                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                chatByNickNameList.addAll(resultDTO.getResultList());
+            }
+        }
+        //获取设备列表和配套的坐标配置wxDic
+        paramMap.clear();
+        paramMap.put("dicType", "deviceNameListAndLocaltion");
+        paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
+        List<Map<String, Object>> deviceNameAndLocaltionList = wxDicDao.getSimpleDicByCondition(paramMap);
+        if (deviceNameAndLocaltionList == null && deviceNameAndLocaltionList.size() <= 0) {
+            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+            throw new Exception("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+        }
+        Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
         for (String currentDateStr : currentDateList) {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
-                List<String> nickNameList = JSONObject.parseObject(nickNameListStr, List.class);
-
-                //当未指定发送某个聊天信息时，则默认发送数据库中的所有聊天信息
-                if(nickNameList == null || nickNameList.size() <= 0){
-                    paramMap.clear();
-                    paramMap.put("dicType", "chatByNickName");
-                    ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-                    List<Map<String, String>> resultList = resultDTO.getResultList();
-                    if (resultList != null && resultList.size() > 0) {
-                        for(Map<String, String> resultMap : resultList){
-                            nickNameList.add(resultMap.get("dicCode"));
-                        }
-                    }
-                }
-
-                for (String nickName : nickNameList) {
+                for (Map<String, String> chatByNickName : chatByNickNameList) {
                     Map<String, Object> chatByNickNameParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_chatByNickNameParam = Maps.newHashMap();
-                    try{
+                    try {
                         boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
-                        //指定 某一个微信昵称 聊天，并获取即将要发送聊天信息
-                        paramMap.clear();
-                        paramMap.put("dicType", "chatByNickName");
-                        paramMap.put("dicCode", nickName);
-                        ResultDTO resultDTO = wxDicService.getLatelyDicByCondition(paramMap);
-                        List<Map<String, String>> resultList = resultDTO.getResultList();
-                        if (resultList != null && resultList.size() > 0) {
-                            chatByNickNameParam.putAll(MapUtil.getObjectMap(resultList.get(0)));
-                            chatByNickNameParam.put("nickName", nickName);
-                            //获取设备列表和配套的坐标配置
-                            paramMap.clear();
-                            paramMap.put("dicType", "deviceNameListAndLocaltion");
-                            paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
-                            List<Map<String, Object>> list = wxDicDao.getSimpleDicByCondition(paramMap);
-                            if (list != null && list.size() > 0) {
-                                //获取dicRemark
-                                String deviceNameAndLocaltionStr = list.get(0).get("dicRemark") != null ? list.get(0).get("dicRemark").toString() : "";
-                                JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
-                                //获取设备坐标
-                                String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
-                                Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
-                                chatByNickNameParam.putAll(deviceLocaltionMap);
-                                //获取设备列表
-                                String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
-                                List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                                if (deviceNameList != null && deviceNameList.size() > 0) {
-                                    for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                        chatByNickNameParam.putAll(deviceNameMap);
-                                        //获取设备编码
-                                        deviceName =
-                                                chatByNickNameParam.get("deviceName") != null ?
-                                                        chatByNickNameParam.get("deviceName").toString() :
-                                                        null;
-                                        //当前设备描述
-                                        deviceNameDesc =
-                                                chatByNickNameParam.get("deviceNameDesc") != null ?
-                                                        chatByNickNameParam.get("deviceNameDesc").toString() :
-                                                        null;
-                                        //判断当前设备的执行小时时间是否与当前时间匹配
-                                        boolean isExecuteFlag = false;
-                                        String startHour =
-                                                chatByNickNameParam.get("startHour") != null ?
-                                                        chatByNickNameParam.get("startHour").toString() :
-                                                        "";
-                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                        if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                                            try {
-                                                //获取appium端口号
-                                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                                chatByNickNameParam.put("appiumPort", appiumPort);
-                                                //设置当前这杯可执行的标志位
-                                                isExecuteFlag = true;
-                                            } catch (Exception e) {
-                                                //获取appium端口号失败
-                                                logger.error("【根据微信昵称进行聊天】" + e.getMessage());
-                                                //设置当前这杯可被行的标志位
-                                                isExecuteFlag = false;
-                                                continue;
-                                            }
-                                        } else {
-                                            logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
-                                            continue;
-                                        }
-                                        try {
-                                            if (isExecuteFlag) {
-                                                //开始【根据微信昵称进行聊天】
-                                                logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
-                                                isOperatedFlag = new RealMachineDevices().chatByNickName(chatByNickNameParam);
-                                                Thread.sleep(5000);
+                        String nickName = chatByNickName.get("dicCode");
+                        chatByNickNameParam.putAll(MapUtil.getObjectMap(chatByNickName));
+                        chatByNickNameParam.put("nickName", nickName);
+                        //获取dicRemark
+                        String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
+                        JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+                        //获取设备坐标
+                        String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
+                        Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                        chatByNickNameParam.putAll(deviceLocaltionMap);
+                        //获取设备列表
+                        String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+                        List<Map<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                        if (deviceNameList != null && deviceNameList.size() > 0) {
+                            for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                chatByNickNameParam.putAll(deviceNameMap);
+                                //获取设备编码
+                                deviceName = chatByNickNameParam.get("deviceName") != null ? chatByNickNameParam.get("deviceName").toString() : null;
+                                //当前设备描述
+                                deviceNameDesc = chatByNickNameParam.get("deviceNameDesc") != null ? chatByNickNameParam.get("deviceNameDesc").toString() : null;
+                                //判断当前设备的执行小时时间是否与当前时间匹配
+                                boolean isExecuteFlag = false;
+                                String startHour = chatByNickNameParam.get("startHour") != null ? chatByNickNameParam.get("startHour").toString() : "";
+                                String currentHour = new SimpleDateFormat("HH").format(currentDate);
+                                if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
+                                    try {
+                                        //获取appium端口号
+                                        appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                        chatByNickNameParam.put("appiumPort", appiumPort);
+                                        //设置当前这杯可执行的标志位
+                                        isExecuteFlag = true;
+                                    } catch (Exception e) {
+                                        //获取appium端口号失败
+                                        logger.error("【根据微信昵称进行聊天】" + e.getMessage());
+                                        //设置当前这杯可被行的标志位
+                                        isExecuteFlag = false;
+                                        continue;
+                                    }
+                                } else {
+                                    logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                    continue;
+                                }
+                                try {
+                                    if (isExecuteFlag) {
+                                        //开始【根据微信昵称进行聊天】
+                                        logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】即将开始....");
+                                        isOperatedFlag = new RealMachineDevices().chatByNickName(chatByNickNameParam);
+                                        Thread.sleep(5000);
 //                                        //测试
 //                                        isOperatedFlag = true;
 //                                        reboot_chatByNickNameParam.putAll(chatByNickNameParam);
 //                                        Thread.sleep(5000);
-                                                break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            reboot_chatByNickNameParam.putAll(chatByNickNameParam);
-                                            break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
-                                        }
+                                        break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    reboot_chatByNickNameParam.putAll(chatByNickNameParam);
+                                    break;      //后面时间段的设备不需要执行，因为每个时间段只有个设备可被执行
                                 }
-                            } else {
-                                logger.info("【根据微信昵称进行聊天】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
                             }
-                        } else {
-                            logger.info("【根据微信昵称进行聊天】根据微信昵称进行聊天 失败.");
                         }
 
                         //4.对执行失败的设备进行重新执行【根据微信昵称进行聊天】,最多重复执行15次，每间隔4次重启一次手机
@@ -185,8 +177,8 @@ public class ChatByNickNameUtils {
                         while (reboot_chatByNickNameParam.size() > 0) {
                             //等待所有设备重启
                             Thread.sleep(45000);
-//                    //测试
-//                    Thread.sleep(1000);
+//                            //测试
+//                            Thread.sleep(1000);
                             if (index > 15) {
                                 break;
                             }
@@ -196,12 +188,12 @@ public class ChatByNickNameUtils {
                                 new RealMachineDevices().chatByNickName(reboot_chatByNickNameParam);
                                 reboot_chatByNickNameParam.clear();       //清空需要重新执行的设备参数
                                 Thread.sleep(5000);
-//                        //测试
-//                        if (index == 15) {
-//                            isOperatedFlag = true;
-//                            reboot_chatByNickNameParam.clear();
-//                        }
-//                        Thread.sleep(1000);
+//                                //测试
+//                                if (index == 15) {
+//                                    isOperatedFlag = true;
+//                                    reboot_chatByNickNameParam.clear();
+//                                }
+//                                Thread.sleep(1000);
                             } catch (Exception e) {     //当运行设备异常之后，就会对当前设备进行记录，准备重启，后续再对此设备进行重新执行
                                 e.printStackTrace();
 //                                try {
@@ -253,7 +245,7 @@ public class ChatByNickNameUtils {
                             mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                             mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                             mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】根据微信昵称进行聊天", mailMessageBuf.toString());
-                            logger.info("【邮件通知】【服务完成通知】根据微信昵称进行聊天 ......" );
+                            logger.info("【邮件通知】【服务完成通知】根据微信昵称进行聊天 ......");
                         } else {
                             if (isOperatedFlag) {
                                 logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
@@ -263,7 +255,7 @@ public class ChatByNickNameUtils {
                                 logger.info("【根据微信昵称进行聊天】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + action + "】昵称【" + nickName + "】成功....");
                             }
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
