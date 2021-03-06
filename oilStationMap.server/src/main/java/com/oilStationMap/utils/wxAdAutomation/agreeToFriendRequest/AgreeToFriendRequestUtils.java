@@ -34,9 +34,6 @@ public class AgreeToFriendRequestUtils {
     public MailService mailService;
 
     @Autowired
-    public WX_DicService wxDicService;
-
-    @Autowired
     public WX_MessageService wxMessageService;
 
     /**

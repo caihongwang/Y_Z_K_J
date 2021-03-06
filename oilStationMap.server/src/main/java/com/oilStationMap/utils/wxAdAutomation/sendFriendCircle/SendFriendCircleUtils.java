@@ -76,7 +76,7 @@ public class SendFriendCircleUtils {
         //设备描述
         String deviceNameDesc = "未知-设备描述";
         //当前 自动化操作 发送朋友圈
-        String action = null;
+        String action = "sendFriendCircle";
         //获取 发送朋友圈 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndSendFriendCircleLocaltion";
         //当未指定发送某个朋友圈时，则默认发送数据库中的所有朋友圈

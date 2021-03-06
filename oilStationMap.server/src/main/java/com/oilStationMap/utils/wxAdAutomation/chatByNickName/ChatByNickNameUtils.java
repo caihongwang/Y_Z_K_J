@@ -79,13 +79,13 @@ public class ChatByNickNameUtils {
         List<Map<String, String>> chatByNickNameList = Lists.newLinkedList();
         if (nickNameList == null || nickNameList.size() <= 0) {
             paramMap.clear();
-            paramMap.put("dicType", "sendFriendCircle");
+            paramMap.put("dicType", "chatByNickName");
             ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
             chatByNickNameList = resultDTO.getResultList();
         } else {
             for (String nickName : nickNameList) {
                 paramMap.clear();
-                paramMap.put("dicType", "sendFriendCircle");
+                paramMap.put("dicType", "chatByNickName");
                 paramMap.put("dicCode", nickName);        //指定 某一个分享微信文章到微信朋友圈 发送
                 ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
                 chatByNickNameList.addAll(resultDTO.getResultList());
