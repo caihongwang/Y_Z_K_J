@@ -444,7 +444,7 @@ public class SendFriendCircleUtils {
                                 imgFileList.toArray(imgFiles);
 
                                 //确保 文件件存在 ，并清空其他路径的图片
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " mkdir " + phoneLocalPath);
+                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell mkdir " + phoneLocalPath);
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/tencent/MicroMsg/WeiXin/*");//微信手动传输的图片路径
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/WeiXin/*");        //微信保存的图片路径
                                 CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/Screenshots/*");   //截屏的图片路径
