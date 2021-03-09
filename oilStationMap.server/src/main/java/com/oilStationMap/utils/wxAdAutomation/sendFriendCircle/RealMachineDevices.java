@@ -241,8 +241,15 @@ public class RealMachineDevices implements SendFriendCircle {
                 logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】成功....");
                 Thread.sleep(2000);
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】输入文字出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                try{
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.EditText" + "\")").clear();
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】【清空】成功....");
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + textInputLocaltion + "\")").sendKeys(textMessage);
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】成功....");
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】输入文字出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                }
             }
             //5.4.点击坐标【发表】
             try {
@@ -263,75 +270,87 @@ public class RealMachineDevices implements SendFriendCircle {
                 e.printStackTrace();
                 throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【相机】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
-            //5.2.点击坐标【从相册选择】
-            try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + selectFromPhotosBtnLocaltion + "\")").click();
-                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【从相册选择】成功....");
-                Thread.sleep(5000);
+            //检测是否直接进入了上一次的朋友圈草稿
+            boolean isLastDraft = false;        //是否为上一次未发成功的朋友圈超高
+            try{
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.EditText" + "\")");
+                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【android.widget.EditText】成功,当前【是】上一次的朋友圈草稿....");
+                isLastDraft = true;
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【从相册选择】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【android.widget.EditText】失败，当前【不是】上一次的朋友圈草稿....");
+                isLastDraft = false;
             }
-            //5.3.点击坐标【我知道了】
-            try {
-                WebElement knowElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "我知道了" + "\")");
-                if (knowElement != null) {
-                    knowElement.click();
+            if(!isLastDraft){       //当前【不是】上一次的朋友圈草稿,进入相册，点击图片
+                //5.2.点击坐标【从相册选择】
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + selectFromPhotosBtnLocaltion + "\")").click();
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【从相册选择】成功....");
+                    Thread.sleep(5000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【从相册选择】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                }
+                //5.3.点击坐标【我知道了】
+                try {
+                    WebElement knowElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + "我知道了" + "\")");
+                    if (knowElement != null) {
+                        knowElement.click();
+                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【我知道了】成功....");
+                        Thread.sleep(1500);
+                    }
                     logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【我知道了】成功....");
-                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【我知道了】已经点击过了....");
                 }
-                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【我知道了】成功....");
-            } catch (Exception e) {
-                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【我知道了】已经点击过了....");
-            }
-            //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
-            try {
-                List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + singlePhotoLocaltion + "\")");
-                if (photoElementList != null && photoElementList.size() > 0) {
-                    for (int i = 0; i < photoElementList.size(); i++) {
-                        if (i < imageNum) {
-                            WebElement photoElement = photoElementList.get(i);
-                            photoElement.click();
-                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标选择第" + i + "张图片....");
-                        }
-                    }
-                } else {
-                    for (int j = 1; j <= 100; j++) {
-                        String refreshCommandStr = "";
-                        for (int i = 1; i <= imageNum; i++) {
-                            try {
-                                refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
-                                CommandUtil.run(refreshCommandStr);
-                            } catch (Exception e) {
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，第【" + j + "】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+                //5.4.点击坐标【从相册的左上角开始计数，数字代表第几个图片，勾选】,此处存在耗费超长时间的应还
+                try {
+                    List<WebElement> photoElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + singlePhotoLocaltion + "\")");
+                    if (photoElementList != null && photoElementList.size() > 0) {
+                        for (int i = 0; i < photoElementList.size(); i++) {
+                            if (i < imageNum) {
+                                WebElement photoElement = photoElementList.get(i);
+                                photoElement.click();
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标选择第" + i + "张图片....");
                             }
-                            try {
-                                refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
-                            } catch (Exception e) {
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，第【" + j + "】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
-                            }
-                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，第【" + j + "】次更新图片成功，即将重启..... ");
                         }
+                    } else {
+                        for (int j = 1; j <= 100; j++) {
+                            String refreshCommandStr = "";
+                            for (int i = 1; i <= imageNum; i++) {
+                                try {
+                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
+                                    CommandUtil.run(refreshCommandStr);
+                                } catch (Exception e) {
+                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，第【" + j + "】次更新【jpg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+                                }
+                                try {
+                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpeg";
+                                } catch (Exception e) {
+                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，第【" + j + "】次更新【jpeg】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
+                                }
+                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，第【" + j + "】次更新图片成功，即将重启..... ");
+                            }
+                        }
+                        //此处可以沉睡2秒等待处理更新图片通知
+                        Thread.sleep(2000);
+                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
+                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
+                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
                     }
-                    //此处可以沉睡2秒等待处理更新图片通知
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】成功....");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                }
+                //5.5.点击坐标【完成】
+                try {
+                    driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + completeBtnLocaltion + "\")").click();
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【完成】成功....");
                     Thread.sleep(2000);
-                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
-                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
-                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】失败，图片还没有更新到相册里面来，已发送消息通知更新，即将重启.....");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                 }
-                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】成功....");
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【选择图片】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
-            }
-            //5.5.点击坐标【完成】
-            try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + completeBtnLocaltion + "\")").click();
-                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【完成】成功....");
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【完成】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
             //5.6.点击【输入分享文本框】
             try {
@@ -339,8 +358,15 @@ public class RealMachineDevices implements SendFriendCircle {
                 logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】成功....");
                 Thread.sleep(2000);
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                try{
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + "android.widget.EditText" + "\")").clear();
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】【清空】成功....");
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + textInputLocaltion + "\")").sendKeys(textMessage);
+                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【输入文字】成功....");
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    throw new Exception("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】输入文字出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                }
             }
             //5.7.点击坐标【发表】
             try {
