@@ -31,8 +31,8 @@ import java.util.*;
  * @author xuxueli 2019-05-04 16:39:50
  */
 @Controller
-@RequestMapping("/dicInfo")
-public class DicInfoController {
+@RequestMapping("/friendCircle")
+public class FriendCircleController {
 
     @Resource
     private XxlJobGroupDao xxlJobGroupDao;
@@ -59,7 +59,7 @@ public class DicInfoController {
         model.addAttribute("JobGroupList", jobGroupList);
         model.addAttribute("jobGroup", jobGroup);
 
-        return "dicInfo/dicInfo.index";
+        return "friendCircle/friendCircle.index";
     }
 
     public static List<XxlJobGroup> filterJobGroupByRole(HttpServletRequest request, List<XxlJobGroup> jobGroupList_all){

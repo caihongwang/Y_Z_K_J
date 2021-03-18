@@ -227,13 +227,16 @@ $(function() {
 
         var id = $(this).parents('ul').attr("_id");
         var row = tableData['key'+id];
-
+        console.log(row);
+        console.log("row.dicType = " + row.dicType);
+        console.log("row.dicName = " + row.dicName);
+        console.log("row.dicStatus = " + row.dicStatus);
         $("#updateModal .form input[name='id']").val( row.id );
-        $("#updateModal .form input[name='dicType']").val( row.dicType );           //字典类型
-        $("#updateModal .form input[name='dicCode']").val( row.dicCode );           //字典编码
-        $("#updateModal .form input[name='dicName']").val( row.dicName );           //字典名称
-        $("#updateModal .form input[name='dicStatus']").val( row.dicStatus );       //字典状态
-        $("#updateModal .form textarea[name='dicRemark']").val( row.dicRemark );    //字典详情
+        $("#updateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);//业务类型
+        $("#updateModal .form input[name='dicCode']").val( row.dicCode );                                           //微信昵称
+        $("#updateModal .form select[name='dicName'] option[value="+ row.dicName + "]").prop('selected', true);     //业务方式
+        $("#updateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
+        $("#updateModal .form textarea[name='dicRemark']").val( row.dicRemark );                                    //业务详情
 
         // show
         $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');

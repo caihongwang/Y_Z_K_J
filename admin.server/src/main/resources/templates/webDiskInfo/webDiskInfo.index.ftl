@@ -18,7 +18,7 @@
 		<section class="content">
 			<div class="callout callout-info">
 				<p>
-					点击 <a target="_blank" href="http://www.yzkj.store:3380/owncloud/index.php/login">owncloud网盘</a> (<a target="_blank" href="http://3038012rx1.zicp.vip:3380/owncloud/index.php/login">备用链接</a>) 管理
+					点击 <a target="_blank" href="http://nextcloud.yzkj.store/index.php">nextCloud网盘</a> (<a target="_blank" href="http://3038012rx1.zicp.vip:3380/owncloud/index.php/login">备用链接</a>) 管理
 				</p>
 			</div>
 		</section>
