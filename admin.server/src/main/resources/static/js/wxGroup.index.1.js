@@ -73,7 +73,15 @@ $(function() {
                 "data": 'dicRemark',
                 "bSortable": false,
                 "visible" : true,
-                "width": 400
+                "width": 400,
+                "render": function ( data, type, row ) {
+                    if(data.length >= 300){
+                        data = data.substr(0, 300) + "...";
+                        return data;
+                    } else {
+                        return data;
+                    }
+                }
             },{
                 "data": 'dicStatus',
                 "bSortable": false,
@@ -130,8 +138,8 @@ $(function() {
         $("#addModal .form input[name='dicType']").val( "" );           //字典类型
         $("#addModal .form input[name='dicCode']").val( "" );           //字典编码
         $("#addModal .form input[name='dicName']").val( "" );           //字典名称
-        $("#addModal .form input[name='dicStatus']").val( "0" );       //字典状态
-        $("#addModal .form textarea[name='dicRemark']").val( "" );    //字典详情
+        $("#addModal .form input[name='dicStatus']").val( "0" );        //字典状态
+        $("#addModal .form textarea[name='dicRemark']").val( "" );      //字典详情
 
         $('#addModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
@@ -232,7 +240,7 @@ $(function() {
         console.log("row.dicStatus = " + row.dicStatus);
         $("#updateModal .form input[name='id']").val( row.id );
         $("#updateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);//业务类型
-        $("#updateModal .form input[name='dicCode']").val( row.dicCode );                                           //微信昵称
+        $("#updateModal .form input[name='dicCode']").val( row.dicCode );                                           //微信群昵称
         $("#updateModal .form select[name='dicName'] option[value="+ row.dicName + "]").prop('selected', true);     //业务方式
         $("#updateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
         $("#updateModal .form textarea[name='dicRemark']").val( row.dicRemark );                                    //业务详情

@@ -141,8 +141,9 @@
                     <li class="nav-click <#if pageName == "jobgroup">active</#if>" ><a href="${request.contextPath}/jobgroup"><i class="fa fa-circle-o text-red"></i><span>${I18n.jobgroup_name}</span></a></li>
                     <li class="nav-click <#if pageName == "user">active</#if>" ><a href="${request.contextPath}/user"><i class="fa fa-circle-o text-purple"></i><span>${I18n.user_manage}</span></a></li>
 				</#if>
-				<li class="nav-click <#if pageName == "friendCircle">active</#if>" ><a href="${request.contextPath}/friendCircle"><i class="fa fa-circle-o text-info"></i><span>${I18n.friendCircle}</span></a></li>
 				<li class="nav-click <#if pageName == "adInfo">active</#if>" ><a href="${request.contextPath}/adInfo"><i class="fa fa-circle-o text-yellow"></i><span>${I18n.adInfo}</span></a></li>
+				<li class="nav-click <#if pageName == "wxGroup">active</#if>" ><a href="${request.contextPath}/wxGroup"><i class="fa fa-circle-o text-maroon"></i><span>${I18n.wxGroup}</span></a></li>
+				<li class="nav-click <#if pageName == "friendCircle">active</#if>" ><a href="${request.contextPath}/friendCircle"><i class="fa fa-circle-o text-info"></i><span>${I18n.friendCircle}</span></a></li>
 				<li class="nav-click <#if pageName == "oilStationInfo">active</#if>" ><a href="${request.contextPath}/oilStationInfo"><i class="fa fa-circle-o text-danger"></i><span>${I18n.oilStationInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "stfControlInfo">active</#if>" ><a href="${request.contextPath}/stfControlInfo"><i class="fa fa-circle-o text-yellow"></i><span>${I18n.stfControlInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "liveCodeInfo">active</#if>" ><a href="${request.contextPath}/liveCodeInfo"><i class="fa fa-circle-o text-orange"></i><span>${I18n.liveCodeInfo}</span></a></li>
