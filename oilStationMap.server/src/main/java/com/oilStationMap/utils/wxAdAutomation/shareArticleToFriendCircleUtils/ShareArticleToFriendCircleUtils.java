@@ -9,7 +9,6 @@ import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
-import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.utils.*;
 import com.oilStationMap.utils.wxAdAutomation.chatByNickName.ChatByNickNameUtils;
 import org.slf4j.Logger;
@@ -37,9 +36,6 @@ public class ShareArticleToFriendCircleUtils {
 
     @Autowired
     public WX_DicService wxDicService;
-
-    @Autowired
-    public WX_MessageService wxMessageService;
 
     @Autowired
     public GlobalVariableConfig globalVariableConfig;
@@ -156,18 +152,33 @@ public class ShareArticleToFriendCircleUtils {
                                         String startHour = shareArticleToFriendCircleParam.get("startHour") != null ? shareArticleToFriendCircleParam.get("startHour").toString() : "";
                                         String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                         if (startHour.equals(currentHour)) {
-                                            try {
-                                                //获取appium端口号
-                                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                                shareArticleToFriendCircleParam.put("appiumPort", appiumPort);
-                                                //设置当前这杯可执行的标志位
-                                                isExecuteFlag = true;
-                                            } catch (Exception e) {
-                                                //获取appium端口号失败
-                                                logger.error("【分享微信文章到微信朋友圈】" + e.getMessage());
-                                                //设置当前这杯可被行的标志位
-                                                isExecuteFlag = false;
-                                                continue;
+                                            if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                                try {
+                                                    //获取appium端口号
+                                                    appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                                    shareArticleToFriendCircleParam.put("appiumPort", appiumPort);
+                                                    //设置当前这杯可执行的标志位
+                                                    isExecuteFlag = true;
+                                                } catch (Exception e) {
+                                                    //获取appium端口号失败
+                                                    logger.error("【分享微信文章到微信朋友圈】" + e.getMessage());
+                                                    //设置当前这杯可被行的标志位
+                                                    isExecuteFlag = false;
+                                                    continue;
+                                                }
+                                            } else {
+                                                //邮件通知，当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...
+                                                StringBuffer mailMessageBuf = new StringBuffer();
+                                                mailMessageBuf.append("蔡红旺，您好：\n");
+                                                mailMessageBuf.append("        ").append("\t操作名称：分享微信文章到微信朋友圈").append("\n");
+                                                mailMessageBuf.append("        ").append("\t微信昵称：").append(nickName).append("\n");
+                                                mailMessageBuf.append("        ").append("\t操作设备：").append(deviceNameDesc).append("\n");
+                                                mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                                                mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                                                mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                                                mailMessageBuf.append("        ").append("\t异常原因描述：").append("当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...").append("\n");
+                                                mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】分享微信文章到微信朋友圈", mailMessageBuf.toString());
+                                                logger.info("【邮件通知】【服务异常通知】分享微信文章到微信朋友圈 ......");
                                             }
                                         } else {
                                             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
@@ -257,16 +268,6 @@ public class ShareArticleToFriendCircleUtils {
                             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-
-                            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                            HttpsUtil httpsUtil = new HttpsUtil();
-                            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                            exceptionDevicesParamMap.put("nickName", nickName);
-                            exceptionDevicesParamMap.put("operatorName", "分享微信文章到微信朋友圈");
-                            exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                            String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                            logger.info("微信消息异常发送反馈：" + resultJson);
                             //邮件通知
                             StringBuffer mailMessageBuf = new StringBuffer();
                             mailMessageBuf.append("蔡红旺，您好：\n");
@@ -278,7 +279,7 @@ public class ShareArticleToFriendCircleUtils {
                             mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                             mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                             mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】分享微信文章到微信朋友圈", mailMessageBuf.toString());
-                            logger.info("【邮件通知】【服务完成通知】分享微信文章到微信朋友圈 ......");
+                            logger.info("【邮件通知】【服务异常通知】分享微信文章到微信朋友圈 ......");
                         } else {
                             if (isOperatedFlag) {
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
@@ -286,7 +287,6 @@ public class ShareArticleToFriendCircleUtils {
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
-
                                 //向nickName对象发送聊天消息进行通知
                                 nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName, currentDateStr);
                             }

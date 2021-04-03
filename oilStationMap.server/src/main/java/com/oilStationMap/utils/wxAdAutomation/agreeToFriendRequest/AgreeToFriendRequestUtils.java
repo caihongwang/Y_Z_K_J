@@ -7,8 +7,6 @@ import com.google.common.collect.Maps;
 import com.oilStationMap.config.GlobalVariableConfig;
 import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.service.MailService;
-import com.oilStationMap.service.WX_DicService;
-import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +30,6 @@ public class AgreeToFriendRequestUtils {
 
     @Autowired
     public MailService mailService;
-
-    @Autowired
-    public WX_MessageService wxMessageService;
 
     /**
      * 同意好友请求
@@ -103,18 +98,32 @@ public class AgreeToFriendRequestUtils {
                         String startHour = agreeToFriendRequestParam.get("startHour") != null ? agreeToFriendRequestParam.get("startHour").toString() : "";
                         String currentHour = new SimpleDateFormat("HH").format(currentDate);
                         if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                            try {
-                                //获取appium端口号
-                                appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                agreeToFriendRequestParam.put("appiumPort", appiumPort);
-                                //设置当前这杯可执行的标志位
-                                isExecuteFlag = true;
-                            } catch (Exception e) {
-                                //获取appium端口号失败
-                                logger.error("【同意好友请求】" + e.getMessage());
-                                //设置当前这杯可被行的标志位
-                                isExecuteFlag = false;
-                                continue;
+                            if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                try {
+                                    //获取appium端口号
+                                    appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                    agreeToFriendRequestParam.put("appiumPort", appiumPort);
+                                    //设置当前这杯可执行的标志位
+                                    isExecuteFlag = true;
+                                } catch (Exception e) {
+                                    //获取appium端口号失败
+                                    logger.error("【同意好友请求】" + e.getMessage());
+                                    //设置当前这杯可被行的标志位
+                                    isExecuteFlag = false;
+                                    continue;
+                                }
+                            } else {
+                                //邮件通知，当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...
+                                StringBuffer mailMessageBuf = new StringBuffer();
+                                mailMessageBuf.append("蔡红旺，您好：\n");
+                                mailMessageBuf.append("        ").append("\t操作名称：同意好友请求").append("\n");
+                                mailMessageBuf.append("        ").append("\t操作设备：").append(deviceNameDesc).append("\n");
+                                mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                                mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                                mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                                mailMessageBuf.append("        ").append("\t异常原因描述：").append("当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...").append("\n");
+                                mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】同意好友请求", mailMessageBuf.toString());
+                                logger.info("【邮件通知】【服务异常通知】同意好友请求 ......");
                             }
                         } else {
                             logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
@@ -192,16 +201,6 @@ public class AgreeToFriendRequestUtils {
                     logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】15次重新执行均失败....");
                     logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】15次重新执行均失败....");
                     logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】15次重新执行均失败....");
-
-                    //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                    HttpsUtil httpsUtil = new HttpsUtil();
-                    Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                    exceptionDevicesParamMap.put("nickName", "无");
-                    exceptionDevicesParamMap.put("operatorName", "同意好友请求");
-                    exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                    String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                    String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                    logger.info("微信消息异常发送反馈：" + resultJson);
                     //邮件通知
                     StringBuffer mailMessageBuf = new StringBuffer();
                     mailMessageBuf.append("蔡红旺，您好：\n");
@@ -212,7 +211,7 @@ public class AgreeToFriendRequestUtils {
                     mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                     mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                     mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】同意好友请求", mailMessageBuf.toString());
-                    logger.info("【邮件通知】【服务完成通知】同意好友请求 ......");
+                    logger.info("【邮件通知】【服务异常通知】同意好友请求 ......");
                 } else {
                     if (isOperatedFlag) {
                         logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");

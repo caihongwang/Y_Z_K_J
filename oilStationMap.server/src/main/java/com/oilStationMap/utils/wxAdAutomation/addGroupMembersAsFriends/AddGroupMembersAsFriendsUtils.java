@@ -9,7 +9,6 @@ import com.oilStationMap.dao.WX_DicDao;
 import com.oilStationMap.dto.ResultDTO;
 import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
-import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +36,6 @@ public class AddGroupMembersAsFriendsUtils {
 
     @Autowired
     public WX_DicService wxDicService;
-
-    @Autowired
-    public WX_MessageService wxMessageService;
 
     /**
      * 根据微信群昵称添加群成员为好友工具for所有设备
@@ -143,18 +139,33 @@ public class AddGroupMembersAsFriendsUtils {
                                 String startHour = addGroupMembersAsFriendsParam.get("startHour") != null ? addGroupMembersAsFriendsParam.get("startHour").toString() : "";
                                 String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                 if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                                    try {
-                                        //获取appium端口号
-                                        appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
-                                        addGroupMembersAsFriendsParam.put("appiumPort", appiumPort);
-                                        //设置当前这杯可执行的标志位
-                                        isExecuteFlag = true;
-                                    } catch (Exception e) {
-                                        //获取appium端口号失败
-                                        logger.error("【添加群成员为好友的V群】" + e.getMessage());
-                                        //设置当前这杯可被行的标志位
-                                        isExecuteFlag = false;
-                                        continue;
+                                    if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                        try {
+                                            //获取appium端口号
+                                            appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
+                                            addGroupMembersAsFriendsParam.put("appiumPort", appiumPort);
+                                            //设置当前这杯可执行的标志位
+                                            isExecuteFlag = true;
+                                        } catch (Exception e) {
+                                            //获取appium端口号失败
+                                            logger.error("【添加群成员为好友的V群】" + e.getMessage());
+                                            //设置当前这杯可被行的标志位
+                                            isExecuteFlag = false;
+                                            continue;
+                                        }
+                                    } else {
+                                        //邮件通知，当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...
+                                        StringBuffer mailMessageBuf = new StringBuffer();
+                                        mailMessageBuf.append("蔡红旺，您好：\n");
+                                        mailMessageBuf.append("        ").append("\t操作名称：添加群成员为好友的V群").append("\n");
+                                        mailMessageBuf.append("        ").append("\t微信群名：").append(nickName).append("\n");
+                                        mailMessageBuf.append("        ").append("\t操作设备：").append(deviceNameDesc).append("\n");
+                                        mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                                        mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                                        mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                                        mailMessageBuf.append("        ").append("\t异常原因描述：").append("当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...").append("\n");
+                                        mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】添加群成员为好友的V群", mailMessageBuf.toString());
+                                        logger.info("【邮件通知】【服务异常通知】添加群成员为好友的V群 ......");
                                     }
                                 } else {
                                     isExecuteFlag = false;
@@ -234,16 +245,6 @@ public class AddGroupMembersAsFriendsUtils {
                             logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                             logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
                             logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】15次重新执行均失败....");
-
-                            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                            HttpsUtil httpsUtil = new HttpsUtil();
-                            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                            exceptionDevicesParamMap.put("nickName", nickName);
-                            exceptionDevicesParamMap.put("operatorName", "添加群成员为好友的V群");
-                            exceptionDevicesParamMap.put("exceptionDevices", exceptionDevices);
-                            String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/exceptionDevicesMessageSend";
-                            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                            logger.info("微信消息异常发送反馈：" + resultJson);
                             //邮件通知
                             StringBuffer mailMessageBuf = new StringBuffer();
                             mailMessageBuf.append("蔡红旺，您好：\n");
@@ -255,7 +256,7 @@ public class AddGroupMembersAsFriendsUtils {
                             mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
                             mailMessageBuf.append("        ").append("\t异常原因描述：").append("Usb接口不稳定断电或者微信版本已被更新导致坐标不匹配").append("\n");
                             mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】添加群成员为好友的V群", mailMessageBuf.toString());
-                            logger.info("【邮件通知】【服务完成通知】添加群成员为好友的V群 ......");
+                            logger.info("【邮件通知】【服务异常通知】添加群成员为好友的V群 ......");
                         } else {
                             if (isOperatedFlag) {            //当前设备是否操作【添加群成员为好友的V群】的标志位
                                 //获取当前群的更新新消息
@@ -287,16 +288,6 @@ public class AddGroupMembersAsFriendsUtils {
                                         wxDicService.updateDic(tempMap);    //更新这个群信息
                                         if ("1".equals(tempMap.get("dicStatus").toString())) {            //状态为1，则认为当前群成员都已经加过一遍了，发送微信消息通知群主给该设备换群
                                             String targetDeviceNameDesc = addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString();
-                                            //建议使用http协议访问阿里云，通过阿里元来完成此操作.
-                                            HttpsUtil httpsUtil = new HttpsUtil();
-                                            Map<String, String> exceptionDevicesParamMap = Maps.newHashMap();
-                                            exceptionDevicesParamMap.put("serviceProgress_first", "自动化【添加群成员为好友的V群】");
-                                            exceptionDevicesParamMap.put("serviceProgress_keyword1", "设备【" + targetDeviceNameDesc + "】群成员添加");
-                                            exceptionDevicesParamMap.put("serviceProgress_keyword2", "已完成，请给该设备微信更换新的群来进行添加群成员");
-                                            exceptionDevicesParamMap.put("serviceProgress_remark", "当前设备【" + targetDeviceNameDesc + "】已经将【" + nickName + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.");
-                                            String exceptionDevicesNotifyUrl = "https://www.yzkj.store/oilStationMap/wxMessage/dailyServiceProgressMessageSend";
-                                            String resultJson = httpsUtil.post(exceptionDevicesNotifyUrl, exceptionDevicesParamMap);
-                                            logger.info("微信消息异常发送反馈：" + resultJson);
                                             //邮件通知
                                             StringBuffer mailMessageBuf = new StringBuffer();
                                             mailMessageBuf.append("蔡红旺，您好：\n");

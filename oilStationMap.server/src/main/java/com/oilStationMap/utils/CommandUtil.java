@@ -79,6 +79,26 @@ public class CommandUtil {
     }
 
 
+    /**
+     * 通过adb devices命令检测android设备是否在线
+     * @param deviceName
+     * @return
+     * @throws IOException
+     */
+    public static boolean isOnline4AndroidDevice(String deviceName) throws IOException {
+        boolean isOnlineFlag = false;
+        String commandStr = "/opt/android_sdk/platform-tools/adb devices";
+        String commandRes = CommandUtil.run(commandStr);
+        if(commandRes.contains(deviceName)){
+            isOnlineFlag = true;
+        } else {
+            isOnlineFlag = false;
+        }
+        return isOnlineFlag;
+    }
+
+
+
     public static void main(String[] args) throws Exception{
 //        String commandStr = "ping blog.yoodb.com";
         String commandStr = "/opt/android_sdk/platform-tools/adb devices";
