@@ -2,7 +2,6 @@ package com.oilStationMap.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Scanner;
@@ -27,7 +26,7 @@ public class CommandUtil {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("GBK")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("UTF-8")));
             String line = null;
             while ((line = br.readLine()) != null) {
                 result += line + "\n";
@@ -60,7 +59,7 @@ public class CommandUtil {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("GBK")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("UTF-8")));
             String line = null;
             while ((line = br.readLine()) != null) {
                 result += line + "\n";
@@ -105,6 +104,7 @@ public class CommandUtil {
 //        CommandUtil.exeCmd(commandStr);
         CommandUtil.run(commandStr);
         CommandUtil.run(new String[]{"/bin/sh", "-c", commandStr});
+        System.out.println("isOnline4AndroidDevice = " + isOnline4AndroidDevice("候车室"));
     }
 
 
