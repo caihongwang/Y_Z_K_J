@@ -389,8 +389,28 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             //华为 P20 Pro  :   (220,1460)与(365,1610)
             //小米 Max3 Pro :   (220,1380)与(365,1530)
             //通用坐标：              (300,1500)
-            int rightThreePointLocaltion_X = 300;
-            int rightThreePointLocaltion_Y = 1500;
+            double boundary_x1 = 240;
+            double boundary_x2 = 365;
+            double boundary_y1 = 1040;
+            double boundary_y2 = 1120;
+            if(screenWidth >= 1080 && screenHeight >= 2160){        //分辨率设备为：华为 Mate 8
+                boundary_x1 = 240;
+                boundary_x2 = 365;
+                boundary_y1 = 1040;
+                boundary_y2 = 1120;
+            } else if(screenWidth >= 1080 && screenHeight >= 2160) {        //分辨率设备为：小米 Max3 Pro
+                boundary_x1 = 240;
+                boundary_x2 = 365;
+                boundary_y1 = 1340;
+                boundary_y2 = 1535;
+            } else if(screenWidth >= 1080 && screenHeight >= 2240) {        //分辨率设备为：华为 P20 Pro
+                boundary_x1 = 240;
+                boundary_x2 = 365;
+                boundary_y1 = 1450;
+                boundary_y2 = 1610;
+            }
+            double rightThreePointLocaltion_X = Math.floor(Math.random() * (boundary_x2 - boundary_x1) + boundary_x1);
+            double rightThreePointLocaltion_Y = Math.floor(Math.random() * (boundary_y2 - boundary_y1) + boundary_y1);
             String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + rightThreePointLocaltion_X + " " + rightThreePointLocaltion_Y;
             CommandUtil.run(tabCommondStr);
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【分享到朋友圈】成功....");
