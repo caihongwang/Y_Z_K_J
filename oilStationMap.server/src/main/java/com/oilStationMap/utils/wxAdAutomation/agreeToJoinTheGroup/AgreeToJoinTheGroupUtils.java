@@ -10,7 +10,6 @@ import com.oilStationMap.service.MailService;
 import com.oilStationMap.service.WX_DicService;
 import com.oilStationMap.service.WX_MessageService;
 import com.oilStationMap.utils.CommandUtil;
-import com.oilStationMap.utils.HttpsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

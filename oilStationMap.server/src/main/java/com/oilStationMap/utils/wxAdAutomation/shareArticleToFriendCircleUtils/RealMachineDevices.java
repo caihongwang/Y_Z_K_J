@@ -1,24 +1,16 @@
 package com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.appiumUtil.SwipeUtil;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
 import org.apache.commons.lang.time.StopWatch;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

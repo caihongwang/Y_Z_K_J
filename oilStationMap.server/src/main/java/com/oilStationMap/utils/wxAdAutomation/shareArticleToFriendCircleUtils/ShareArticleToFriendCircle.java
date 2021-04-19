@@ -1,7 +1,5 @@
 package com.oilStationMap.utils.wxAdAutomation.shareArticleToFriendCircleUtils;
 
-import org.apache.commons.lang.time.StopWatch;
-
 import java.util.Map;
 
 public interface ShareArticleToFriendCircle {

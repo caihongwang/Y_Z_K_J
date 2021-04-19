@@ -1,11 +1,9 @@
 package com.oilStationMap.utils.wxAdAutomation.agreeToJoinTheGroup;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.StringUtils;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;

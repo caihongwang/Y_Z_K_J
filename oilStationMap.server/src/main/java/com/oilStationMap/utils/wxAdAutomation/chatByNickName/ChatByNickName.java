@@ -1,7 +1,5 @@
 package com.oilStationMap.utils.wxAdAutomation.chatByNickName;
 
-import org.apache.commons.lang.time.StopWatch;
-
 import java.util.Map;
 
 public interface ChatByNickName {

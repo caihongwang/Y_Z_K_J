@@ -3,7 +3,6 @@ package com.oilStationMap.utils.wxAdAutomation.praiseAndCommentFriendsCircle;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;

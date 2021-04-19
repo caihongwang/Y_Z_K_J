@@ -1,13 +1,11 @@
 package com.oilStationMap.utils.wxAdAutomation.agreeToFriendRequest;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oilStationMap.utils.StringUtils;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
-import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -213,6 +211,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                     }
                 }
             } catch (Exception e) {
+                ////异常原因：因为微信好友与微信群比较多时，微信聊天页面加载比较多，会比较费时间才能打开，一直加载【地球与人】的界面，导致无法定位
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑【当前页面聊天好友信息】到底部时，可能存在异常，忽视....");
             }
         }
