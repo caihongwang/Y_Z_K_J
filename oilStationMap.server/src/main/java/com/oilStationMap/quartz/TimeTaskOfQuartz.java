@@ -75,6 +75,9 @@ public class TimeTaskOfQuartz {
     @Autowired
     private WX_SpiderService wxSpiderService;
 
+    @Autowired
+    private GlobalVariableConfig globalVariableConfig;
+
     /**
      * 每天小时第1分钟执行一次，根据数据库的配置：从第06个小时开始执行第一个设备
      * 分享微信文章到微信朋友圈，同时，根据微信昵称进行聊天，通知对方
@@ -280,6 +283,7 @@ public class TimeTaskOfQuartz {
      */
     @Scheduled(cron = "0 */1 * * * ?")
     public void do_checkGlobalVariableConfig() {
+        globalVariableConfig.initGlobalVariableAndServer();
         logger.info("每分钟检测GlobalVariableConfig的使用情况：" + JSON.toJSONString(GlobalVariableConfig.appiumPortMap));
     }
 

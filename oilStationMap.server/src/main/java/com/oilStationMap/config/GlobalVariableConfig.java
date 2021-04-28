@@ -52,16 +52,24 @@ public class GlobalVariableConfig {
     @PostConstruct
     public void initGlobalVariableAndServer() {
         imgFormatList = Arrays.asList(imgFormatStr.split(","));
+        //整理 appium 端口号，【记录已启动的 appium 端口号】 同时 【记录未启动的 appium 端口号】
+        Map<String, Map<String, String>> appiumPortMap_ToBeStart = Maps.newHashMap();
         String[] appiumPortArr = appiumPortStr.split(",");
         for (String appiumPort: appiumPortArr) {
+            Map<String, String> appiumPortDetailMap = Maps.newHashMap();
             if(IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){          //确认端口号被使用，才加入全局变量，等待使用
-                Map<String, String> appiumPortDetailMap = Maps.newHashMap();
+                if(appiumPortMap.get(appiumPort) != null && appiumPortMap.get(appiumPort).size() > 0){
+                    appiumPortDetailMap = appiumPortMap.get(appiumPort);
+                }
                 appiumPortMap.put(appiumPort, appiumPortDetailMap);
+            } else {
+                appiumPortMap.remove(appiumPort);
+                appiumPortMap_ToBeStart.put(appiumPort, appiumPortDetailMap);
             }
         }
         //开发环境，启动服务：appium、rethinkdb、rethinkdb、stf
         if ("develop".equals(useEnvironmental)) {
-            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap.entrySet()){
+            for(Map.Entry<String, Map<String, String>> entry: appiumPortMap_ToBeStart.entrySet()){
                 String appiumPort = entry.getKey();
                 if(!IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){
                     System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
