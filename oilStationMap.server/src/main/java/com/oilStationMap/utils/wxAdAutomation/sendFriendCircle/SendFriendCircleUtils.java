@@ -128,25 +128,8 @@ public class SendFriendCircleUtils {
                         List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                         //当前时间
                         sendFriendCircleParam.put("currentDate", currentDate);
-
-                        //1.将 图片文件 push 到安卓设备里面
+                        //操作类型：带图片发送朋友圈 或者 纯文本发送朋友圈
                         action = sendFriendCircleParam.get("action") != null ? sendFriendCircleParam.get("action").toString() : "textMessageFriendCircle";
-                        if (action.equals("imgMessageFriendCircle")) {
-                            boolean imgExistFlag = false;
-                            //将 图片文件 push 到安卓设备里面
-                            if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
-                                imgExistFlag = true;
-                            }
-                            if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
-                                //2.沉睡等待2分钟，确保USB传输文件到达手机相册
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
-                                Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
-                            } else {
-                                logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】未在广告排期已过期或者没有图片，异常退出.");
-                                continue;
-                            }
-                        }
-
                         //3.发送朋友圈
                         if (deviceNameList != null && deviceNameList.size() > 0) {
                             for (Map<String, Object> deviceNameMap : deviceNameList) {
@@ -169,8 +152,24 @@ public class SendFriendCircleUtils {
                                         String currentHour = new SimpleDateFormat("HH").format(currentDate);
                                         if (startHour.equals(currentHour)) {
                                             if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                                //3.1.将 图片文件 push 到安卓设备里面
+                                                if (action.equals("imgMessageFriendCircle")) {
+                                                    boolean imgExistFlag = false;
+                                                    //将 图片文件 push 到安卓设备里面
+                                                    if (pushImgFileToDevice(deviceNameList, sendFriendCircleParam)) {
+                                                        imgExistFlag = true;
+                                                    }
+                                                    if (imgExistFlag) {          //如果 图片 不存在则直接下一个, 同时将 图片文件 remove 到安卓设备里面
+                                                        //2.沉睡等待2分钟，确保USB传输文件到达手机相册
+                                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将图片保存到【手机本地的微信图片路径】成功，沉睡等待2分钟，确保USB传输文件到达手机相册....");
+                                                        Thread.sleep(1000 * 60 * 2);       //沉睡等待10分钟
+                                                    } else {
+                                                        logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】未在广告排期已过期或者没有图片，异常退出.");
+                                                        continue;
+                                                    }
+                                                }
+                                                //3.2.获取appium端口号
                                                 try {
-                                                    //获取appium端口号
                                                     appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
                                                     sendFriendCircleParam.put("appiumPort", appiumPort);
                                                     //设置当前这杯可执行的标志位
@@ -272,7 +271,7 @@ public class SendFriendCircleUtils {
                             index++;
                         }
 
-                        //5.将 图片文件 push 到安卓设备里面
+                        //5.将 图片文件  从安卓设备里面 删除
                         if (action.equals("imgMessageFriendCircle")) {
                             //将 图片文件  从安卓设备里面 删除
                             removeImgFileToDevice(deviceNameList, sendFriendCircleParam);
