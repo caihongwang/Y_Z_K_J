@@ -31,12 +31,15 @@ public class CommandUtil {
             while ((line = br.readLine()) != null) {
                 result += line + "\n";
             }
-            result = command + "\n" + result; //加上命令本身，打印出来
         } finally {
             if (process != null) {
                 process.destroy();
             }
+            //输出命令及结果
+            System.out.println();
+            System.out.println(command);
             System.out.println(result);
+            System.out.println();
         }
         return result;
     }
@@ -64,7 +67,6 @@ public class CommandUtil {
             while ((line = br.readLine()) != null) {
                 result += line + "\n";
             }
-            result = command + "\n" + result; //加上命令本身，打印出来
         } finally {
             if (input != null) {
                 input.close();
@@ -72,7 +74,14 @@ public class CommandUtil {
             if (process != null) {
                 process.destroy();
             }
+            //输出命令及结果
+            System.out.println();
+            for (String str : command) {
+                System.out.print(str + "\t");
+            }
+            System.out.println();
             System.out.println(result);
+            System.out.println();
         }
         return result;
     }
@@ -101,10 +110,10 @@ public class CommandUtil {
     public static void main(String[] args) throws Exception{
 //        String commandStr = "ping blog.yoodb.com";
         String commandStr = "/opt/android_sdk/platform-tools/adb devices";
-//        CommandUtil.exeCmd(commandStr);
+//        String commandStr = " ps -ef|grep appium | awk '{print $2}'";
         CommandUtil.run(commandStr);
         CommandUtil.run(new String[]{"/bin/sh", "-c", commandStr});
-        System.out.println("isOnline4AndroidDevice = " + isOnline4AndroidDevice("候车室"));
+//        System.out.println("isOnline4AndroidDevice = " + isOnline4AndroidDevice("候车室"));
     }
 
 

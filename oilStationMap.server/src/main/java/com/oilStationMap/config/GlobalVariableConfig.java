@@ -1,23 +1,27 @@
 package com.oilStationMap.config;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oilStationMap.dto.ResultDTO;
+import com.oilStationMap.service.WX_DicService;
+import com.oilStationMap.service.WX_SpiderService;
 import com.oilStationMap.utils.CommandUtil;
 import com.oilStationMap.utils.FileUtil;
 import com.oilStationMap.utils.IpUtil;
 import com.oilStationMap.utils.StringUtils;
+import com.oilStationMap.utils.wxAdAutomation.sendFriendCircle.SendFriendCircleUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-@Component
+@Configuration
 public class GlobalVariableConfig {
 
     @Value("${spring.profiles.active}")
@@ -41,7 +45,18 @@ public class GlobalVariableConfig {
     @Value("${spring.theRethinkdbPort}")
     private String theRethinkdbPort;
 
+    @Autowired
+    private WX_DicService wxDicService;
+
+    @Autowired
+    private WX_SpiderService wxSpiderService;
+
+    @Autowired
+    private SendFriendCircleUtils sendFriendCircleUtils;
+
     public static Map<String, Map<String, String>> appiumPortMap = Maps.newHashMap();       //appium端口使用情况
+
+    public static Map<String, Map<String, String>> androidDeviceMap = Maps.newHashMap();    //device设备使用情况
 
     public static List<String> imgFormatList = Lists.newArrayList();
 
@@ -98,6 +113,11 @@ public class GlobalVariableConfig {
                 C_thread.start();
             }
             System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动....");
+
+            Demonstrate_4_SendFriendCircleThread demonstrate_4_SendFriendCircleThread = new Demonstrate_4_SendFriendCircleThread();
+            Thread D_thread = new Thread(demonstrate_4_SendFriendCircleThread);
+            D_thread.start();
+            System.out.println("【演示模式：发送朋友圈】已启动....");
         }
     }
 
@@ -231,16 +251,44 @@ public class GlobalVariableConfig {
         }
     }
 
+    /**
+     * 演示模式：发送朋友圈
+     */
+    public class Demonstrate_4_SendFriendCircleThread implements Runnable {
+
+        public void run() {
+            if(sendFriendCircleUtils.checkNewDevicesConnected()){
+                System.out.println("有新设备接入电脑了，即将启动【演示模式】的【发送朋友圈】....");
+                //直接从现有的数据库中获取数据启动-发布朋友圈
+                Map<String, Object> paramMap = Maps.newHashMap();
+                List<String> nickNameList = Lists.newArrayList();
+                paramMap.put("dicType", "sendFriendCircle");
+                ResultDTO resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+                if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                    for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+                        nickNameList.add(sendFriendCircleMap.get("dicCode"));
+                    }
+                }
+                paramMap.clear();
+                LinkedList<String> currentDateList = Lists.newLinkedList();
+                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+                paramMap.put("currentDateListStr", JSONObject.toJSONString(currentDateList));
+                paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+                wxSpiderService.sendFriendCircle(paramMap);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "GlobalVariableConfig = " + JSON.toJSONString(this);
     }
+
 }
 
 //*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4723.sh
 //*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4725.sh
 //*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4727.sh
 //*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4729.sh
-//
 //*/10 * * * * /bin/bash /opt/defaultCommod/3.Rethinkdb_start.sh
 //*/10 * * * * /bin/bash /opt/defaultCommod/4.STF_start_192.168.43.181.sh

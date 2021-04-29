@@ -359,13 +359,7 @@ public class SendFriendCircleUtils {
     /**
      * 将 图片文件 push 到安卓设备里面
      * 顺序导入，如: 1.jpg，2.jpg，3.jpg，4.jpg ......
-     * adb -s QVM0216331002197 push 1.jpg /storage/emulated/0/DCIM/Camera/
-     * adb -s QVM0216331002197 push 2.jpg /storage/emulated/0/DCIM/Camera/
      * adb -s QVM0216331002197 push 3.jpg /storage/emulated/0/DCIM/Camera/
-     * <p>
-     * <p>
-     * adb -s 5LM0216122009385 push 1.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
-     * adb -s 5LM0216122009385 push 2.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
      * adb -s 5LM0216122009385 push 3.jpg /storage/emulated/0/tencent/MicroMsg/WeiXin/
      *
      * @param deviceNameList
@@ -605,6 +599,80 @@ public class SendFriendCircleUtils {
                 }
             }
         }
+    }
+
+    public boolean checkNewDevicesConnected(){
+        boolean isNewDevicesConnected = false;
+        Map<String, Object> paramMap = Maps.newHashMap();
+        String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndSendFriendCircleLocaltion";
+        try{
+            //获取【数据库】中的所有设备列表
+            paramMap.put("dicType", "deviceNameListAndLocaltion");
+            paramMap.put("dicCode", deviceNameListAnddeviceLocaltionOfCode);
+            List<Map<String, Object>> deviceNameAndLocaltionList = wxDicDao.getSimpleDicByCondition(paramMap);
+            if (deviceNameAndLocaltionList == null || deviceNameAndLocaltionList.size() <= 0) {
+                logger.info("【发送朋友圈】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
+                return isNewDevicesConnected;
+            }
+            Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
+            //获取ID
+            String id = deviceNameAndLocaltionMap.get("id") != null ? deviceNameAndLocaltionMap.get("id").toString() : "";
+            //获取dicRemark
+            String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
+            JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
+            //获取设备列表
+            String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
+            LinkedList<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, LinkedList.class);
+
+            //获取【连接电脑】中的所有设备列表
+            String commandStr = "/opt/android_sdk/platform-tools/adb devices";
+            String allDevicesInfoStr = CommandUtil.run(new String[]{"/bin/sh", "-c", commandStr});
+            if(allDevicesInfoStr != null && !"".equals(allDevicesInfoStr)){
+                String[] allDevicesInfoArr = allDevicesInfoStr.split("\n");
+                for (String devicesInfo : allDevicesInfoArr) {
+                    if(devicesInfo != null && !"".equals(devicesInfo) && !devicesInfo.contains("List")){
+                        String[] devicesInfoArr = devicesInfo.split("\t");
+                        if(devicesInfoArr.length >= 2){
+                            String deviceName = devicesInfoArr[0];
+                            String deviceStatus = devicesInfoArr[1];
+                            if(!deviceNameListStr.contains(deviceName)){
+                                if("online".equals(deviceStatus) || "device".equals(deviceStatus)){
+                                    HashMap<String, Object> devicesInfoMap = Maps.newHashMap();
+                                    devicesInfoMap.put("deviceName", deviceName);
+                                    devicesInfoMap.put("deviceNameDesc", "演示模式中的临时接入设备 - " + deviceName);
+                                    devicesInfoMap.put("startHour", new SimpleDateFormat("HH").format(new Date()));
+                                    deviceNameList.add(devicesInfoMap);
+                                    //将【演示模式中的临时接入设备】插入数据库中
+                                    deviceNameAndLocaltionJSONObject.replace("deviceNameList", deviceNameList);
+                                    String dicRemark = deviceNameAndLocaltionJSONObject.toJSONString();
+                                    paramMap.clear();
+                                    paramMap.put("id", id);
+                                    paramMap.put("dicRemark", dicRemark);
+                                    wxDicDao.updateDic(paramMap);
+                                    logger.info("【发送朋友圈】演示模式中的临时接入设备编码【" + deviceName + "】已插入数据库中去了 ....");
+                                    isNewDevicesConnected = true;
+                                } else {
+                                    //邮件通知，当前设备不在线，Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...
+                                    StringBuffer mailMessageBuf = new StringBuffer();
+                                    mailMessageBuf.append("蔡红旺，您好：\n");
+                                    mailMessageBuf.append("        ").append("\t操作名称：发布朋友圈").append("\n");
+                                    mailMessageBuf.append("        ").append("\t操作设备：新接入设备 ").append(deviceName).append(" 未连接在线\n");
+                                    mailMessageBuf.append("        ").append("\t异常时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
+                                    mailMessageBuf.append("        ").append("\t异常地点：").append("北京市昌平区").append("\n");
+                                    mailMessageBuf.append("        ").append("\t温馨提示：").append("请检查以下手机的接口，并手动辅助自动化操作.").append("\n");
+                                    mailMessageBuf.append("        ").append("\t异常原因描述：").append("当前设备不在线，未打开 开发者模式的USB调试功能且新人本机或者Usb接口不稳定断电或者手机被关机或者断电点，需要人工进行排查...").append("\n");
+                                    mailService.sendSimpleMail("caihongwang@dingtalk.com", "【服务异常通知】发布朋友圈", mailMessageBuf.toString());
+                                    logger.info("【邮件通知】【服务异常通知】发布朋友圈 ......");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isNewDevicesConnected;
     }
 
     public static void main(String[] args) {
