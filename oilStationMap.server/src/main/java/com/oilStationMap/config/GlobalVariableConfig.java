@@ -87,10 +87,11 @@ public class GlobalVariableConfig {
             for(Map.Entry<String, Map<String, String>> entry: appiumPortMap_ToBeStart.entrySet()){
                 String appiumPort = entry.getKey();
                 if(!IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){
-                    System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
                     StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
                     Thread A_thread = new Thread(starAppiumThread);
                     A_thread.start();
+                } else {
+                    System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动，无需再次启动..");
                 }
             }
 
@@ -98,21 +99,22 @@ public class GlobalVariableConfig {
                 RethinkdbThread rethinkdbThread = new RethinkdbThread("");
                 Thread B_thread = new Thread(rethinkdbThread);
                 B_thread.start();
-
                 try {
                     Thread.sleep(15000);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
+            } else {
+                System.out.println("【stfrethinkdb】已启动，无需再次启动..");
             }
-            System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theStfPort))){
                 StfThread stfThread = new StfThread(theStfIp);
                 Thread C_thread = new Thread(stfThread);
                 C_thread.start();
+            } else {
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动..");
             }
-            System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动....");
 
             Demonstrate_4_SendFriendCircleThread demonstrate_4_SendFriendCircleThread = new Demonstrate_4_SendFriendCircleThread();
             Thread D_thread = new Thread(demonstrate_4_SendFriendCircleThread);
@@ -199,7 +201,7 @@ public class GlobalVariableConfig {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-//                tempFile.delete();
+                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动...");
             }
         }
     }
@@ -219,6 +221,8 @@ public class GlobalVariableConfig {
                 CommandUtil.run("sh " + commondFilePath);
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
             }
         }
     }
@@ -246,7 +250,7 @@ public class GlobalVariableConfig {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-//                tempFile.delete();
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动..");
             }
         }
     }
