@@ -77,6 +77,7 @@ public class GlobalVariableConfig {
                     appiumPortDetailMap = appiumPortMap.get(appiumPort);
                 }
                 appiumPortMap.put(appiumPort, appiumPortDetailMap);
+                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动，无需再次启动.......");
             } else {
                 appiumPortMap.remove(appiumPort);
                 appiumPortMap_ToBeStart.put(appiumPort, appiumPortDetailMap);
@@ -86,13 +87,9 @@ public class GlobalVariableConfig {
         if ("develop".equals(useEnvironmental)) {
             for(Map.Entry<String, Map<String, String>> entry: appiumPortMap_ToBeStart.entrySet()){
                 String appiumPort = entry.getKey();
-                if(!IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){
-                    StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
-                    Thread A_thread = new Thread(starAppiumThread);
-                    A_thread.start();
-                } else {
-                    System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动，无需再次启动..");
-                }
+                StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
+                Thread A_thread = new Thread(starAppiumThread);
+                A_thread.start();
             }
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theRethinkdbPort))){
@@ -105,7 +102,7 @@ public class GlobalVariableConfig {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("【stfrethinkdb】已启动，无需再次启动..");
+                System.out.println("【stfrethinkdb】已启动，无需再次启动...................");
             }
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theStfPort))){
@@ -113,13 +110,13 @@ public class GlobalVariableConfig {
                 Thread C_thread = new Thread(stfThread);
                 C_thread.start();
             } else {
-                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动..");
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动...");
             }
 
             Demonstrate_4_SendFriendCircleThread demonstrate_4_SendFriendCircleThread = new Demonstrate_4_SendFriendCircleThread();
             Thread D_thread = new Thread(demonstrate_4_SendFriendCircleThread);
             D_thread.start();
-            System.out.println("【演示模式：发送朋友圈】已启动....");
+            System.out.println("【演示模式：发送朋友圈】已启动..........................");
         }
     }
 
@@ -201,7 +198,7 @@ public class GlobalVariableConfig {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动...");
+                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动..................");
             }
         }
     }
