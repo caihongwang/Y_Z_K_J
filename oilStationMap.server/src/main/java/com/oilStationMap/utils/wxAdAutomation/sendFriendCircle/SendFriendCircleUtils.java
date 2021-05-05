@@ -325,6 +325,7 @@ public class SendFriendCircleUtils {
                 e.printStackTrace();
             }
         }
+        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】已处理完毕...");
     }
 
     /**
@@ -371,34 +372,34 @@ public class SendFriendCircleUtils {
         //安卓设备的微信图片目录
         String phoneLocalPath = sendFriendCircleParam.get("phoneLocalPath") != null ? sendFriendCircleParam.get("phoneLocalPath").toString() : "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
         File[] imgFiles = null;
-        if (deviceNameList != null && deviceNameList.size() > 0) {
-            for (Map<String, Object> deviceNameMap : deviceNameList) {
-                sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
-                //广告投放-开始时间
-                String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
-                //广告投放-结束时间
-                String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
+//        if (deviceNameList != null && deviceNameList.size() > 0) {
+//            for (Map<String, Object> deviceNameMap : deviceNameList) {
+//                sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
+//                //广告投放-开始时间
+//                String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
+//                //广告投放-结束时间
+//                String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
                 //当前时间
                 Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date) sendFriendCircleParam.get("currentDate") : new Date();
                 //设备描述
-                String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : "";
+                String deviceNameDesc = sendFriendCircleParam.get("deviceNameDesc") != null ? sendFriendCircleParam.get("deviceNameDesc").toString() : "";
                 //设备编码
-                String deviceName = deviceNameMap.get("deviceName") != null ? deviceNameMap.get("deviceName").toString() : "";
+                String deviceName = sendFriendCircleParam.get("deviceName") != null ? sendFriendCircleParam.get("deviceName").toString() : "";
                 //图片文件路径，总路径+微信昵称
                 String imgDirPath = sendFriendCircleParam.get("imgDirPath") != null ? sendFriendCircleParam.get("imgDirPath").toString() : "";
-                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
+//                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
                     try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date startTime = sdf.parse(startTimeStr);
-                        Date endTime = sdf.parse(endTimeStr);
-                        if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
-                            //判断当前设备的执行小时时间是否与当前时间匹配
-                            String startHour =
-                                    sendFriendCircleParam.get("startHour") != null ?
-                                            sendFriendCircleParam.get("startHour").toString() :
-                                            "";
-                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                            if (startHour.equals(currentHour)) {
+//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                        Date startTime = sdf.parse(startTimeStr);
+//                        Date endTime = sdf.parse(endTimeStr);
+//                        if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
+//                            //判断当前设备的执行小时时间是否与当前时间匹配
+//                            String startHour =
+//                                    sendFriendCircleParam.get("startHour") != null ?
+//                                            sendFriendCircleParam.get("startHour").toString() :
+//                                            "";
+//                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
+//                            if (startHour.equals(currentHour)) {
                                 imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
                                 if (!"".equals(imgDirPath)) {
                                     File imgDir = new File(imgDirPath);
@@ -497,18 +498,18 @@ public class SendFriendCircleUtils {
                                             logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 到安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】失败，设备未连接到电脑上, e : ", e);
                                         }
                                     }
-                                }
-                            } else {
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
-                                continue;
-                            }
+//                                }
+//                            } else {
+//                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+//                                continue;
+//                            }
                         }
                     } catch (Exception e) {
                         logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】解析设备的执行时间段是异常， e : ", e);
                     }
-                }
-            }
-        }
+//                }
+//            }
+//        }
         return flag;
     }
 
@@ -523,34 +524,35 @@ public class SendFriendCircleUtils {
         //安卓设备的微信图片目录
         String phoneLocalPath = sendFriendCircleParam.get("phoneLocalPath") != null ? sendFriendCircleParam.get("phoneLocalPath").toString() : "/storage/emulated/0/tencent/MicroMsg/WeiXin/";
         File[] imgFiles = null;
-        if (deviceNameList != null && deviceNameList.size() > 0) {
-            for (Map<String, Object> deviceNameMap : deviceNameList) {
-                sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
-                //广告投放-开始时间
-                String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
-                //广告投放-结束时间
-                String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
+//        if (deviceNameList != null && deviceNameList.size() > 0) {
+//            for (Map<String, Object> deviceNameMap : deviceNameList) {
+//                sendFriendCircleParam.putAll(deviceNameMap);//判断推广时间是否还在推广期内
+//                //广告投放-开始时间
+//                String startTimeStr = sendFriendCircleParam.get("startTime") != null ? sendFriendCircleParam.get("startTime").toString() : "";
+//                //广告投放-结束时间
+//                String endTimeStr = sendFriendCircleParam.get("endTime") != null ? sendFriendCircleParam.get("endTime").toString() : "";
                 //当前时间
                 Date currentDate = sendFriendCircleParam.get("currentDate") != null ? (Date) sendFriendCircleParam.get("currentDate") : new Date();
                 //设备描述
-                String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : "";
+                String deviceNameDesc = sendFriendCircleParam.get("deviceNameDesc") != null ? sendFriendCircleParam.get("deviceNameDesc").toString() : "";
                 //设备编码
-                String deviceName = deviceNameMap.get("deviceName") != null ? deviceNameMap.get("deviceName").toString() : "";
+                String deviceName = sendFriendCircleParam.get("deviceName") != null ? sendFriendCircleParam.get("deviceName").toString() : "";
                 //图片文件路径，总路径+微信昵称
                 String imgDirPath = sendFriendCircleParam.get("imgDirPath") != null ? sendFriendCircleParam.get("imgDirPath").toString() : "";
-                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
+//                if (!"".equals(startTimeStr) && !"".equals(endTimeStr)) {
                     try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date startTime = sdf.parse(startTimeStr);
-                        Date endTime = sdf.parse(endTimeStr);
-                        if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
-                            //判断当前设备的执行小时时间是否与当前时间匹配
-                            String startHour =
-                                    sendFriendCircleParam.get("startHour") != null ?
-                                            sendFriendCircleParam.get("startHour").toString() :
-                                            "";
-                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                            if (startHour.equals(currentHour)) {
+                        //
+//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                        Date startTime = sdf.parse(startTimeStr);
+//                        Date endTime = sdf.parse(endTimeStr);
+//                        if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {      //确保当前朋友圈信息是在上午谈判的推广时间段之内
+//                            //判断当前设备的执行小时时间是否与当前时间匹配
+//                            String startHour =
+//                                    sendFriendCircleParam.get("startHour") != null ?
+//                                            sendFriendCircleParam.get("startHour").toString() :
+//                                            "";
+//                            String currentHour = new SimpleDateFormat("HH").format(currentDate);
+//                            if (startHour.equals(currentHour)) {
                                 imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
                                 if (!"".equals(imgDirPath)) {
                                     File imgDir = new File(imgDirPath);
@@ -588,17 +590,17 @@ public class SendFriendCircleUtils {
                                         }
                                     }
                                 }
-                            } else {
-                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
-                                continue;
-                            }
-                        }
+//                            } else {
+//                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+//                                continue;
+//                            }
+//                        }
                     } catch (Exception e) {
                         logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】解析手背的执行时间段是异常， e : ", e);
                     }
-                }
-            }
-        }
+//                }
+//            }
+//        }
     }
 
     public boolean checkNewDevicesConnected(){

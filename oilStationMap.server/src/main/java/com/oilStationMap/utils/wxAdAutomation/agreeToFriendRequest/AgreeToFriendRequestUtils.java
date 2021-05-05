@@ -225,5 +225,6 @@ public class AgreeToFriendRequestUtils {
                 e.printStackTrace();
             }
         }
+        logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】已处理完毕...");
     }
 }

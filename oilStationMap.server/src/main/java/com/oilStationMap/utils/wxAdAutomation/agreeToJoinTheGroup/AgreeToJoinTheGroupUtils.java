@@ -232,5 +232,6 @@ public class AgreeToJoinTheGroupUtils {
                 e.printStackTrace();
             }
         }
+        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】已处理完毕...");
     }
 }
