@@ -77,6 +77,7 @@ public class GlobalVariableConfig {
                     appiumPortDetailMap = appiumPortMap.get(appiumPort);
                 }
                 appiumPortMap.put(appiumPort, appiumPortDetailMap);
+                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动，无需再次启动.......");
             } else {
                 appiumPortMap.remove(appiumPort);
                 appiumPortMap_ToBeStart.put(appiumPort, appiumPortDetailMap);
@@ -86,38 +87,36 @@ public class GlobalVariableConfig {
         if ("develop".equals(useEnvironmental)) {
             for(Map.Entry<String, Map<String, String>> entry: appiumPortMap_ToBeStart.entrySet()){
                 String appiumPort = entry.getKey();
-                if(!IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){
-                    System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动....");
-                    StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
-                    Thread A_thread = new Thread(starAppiumThread);
-                    A_thread.start();
-                }
+                StarAppiumThread starAppiumThread = new StarAppiumThread(appiumPort);
+                Thread A_thread = new Thread(starAppiumThread);
+                A_thread.start();
             }
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theRethinkdbPort))){
                 RethinkdbThread rethinkdbThread = new RethinkdbThread("");
                 Thread B_thread = new Thread(rethinkdbThread);
                 B_thread.start();
-
                 try {
                     Thread.sleep(15000);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
+            } else {
+                System.out.println("【stfrethinkdb】已启动，无需再次启动...................");
             }
-            System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theStfPort))){
                 StfThread stfThread = new StfThread(theStfIp);
                 Thread C_thread = new Thread(stfThread);
                 C_thread.start();
+            } else {
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动...");
             }
-            System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动....");
 
             Demonstrate_4_SendFriendCircleThread demonstrate_4_SendFriendCircleThread = new Demonstrate_4_SendFriendCircleThread();
             Thread D_thread = new Thread(demonstrate_4_SendFriendCircleThread);
             D_thread.start();
-            System.out.println("【演示模式：发送朋友圈】已启动....");
+            System.out.println("【演示模式：发送朋友圈】已启动..........................");
         }
     }
 
@@ -199,7 +198,7 @@ public class GlobalVariableConfig {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-//                tempFile.delete();
+                System.out.println("【appium】服务 端口号为【" + appiumPort + "】已启动..................");
             }
         }
     }
@@ -219,6 +218,8 @@ public class GlobalVariableConfig {
                 CommandUtil.run("sh " + commondFilePath);
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
             }
         }
     }
@@ -246,7 +247,7 @@ public class GlobalVariableConfig {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-//                tempFile.delete();
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动..");
             }
         }
     }
@@ -285,10 +286,3 @@ public class GlobalVariableConfig {
     }
 
 }
-
-//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4723.sh
-//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4725.sh
-//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4727.sh
-//*/10 * * * * /bin/bash /opt/defaultCommod/1.Appium_start_4729.sh
-//*/10 * * * * /bin/bash /opt/defaultCommod/3.Rethinkdb_start.sh
-//*/10 * * * * /bin/bash /opt/defaultCommod/4.STF_start_192.168.43.181.sh

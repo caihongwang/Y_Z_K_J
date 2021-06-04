@@ -36,10 +36,8 @@ public class CommandUtil {
                 process.destroy();
             }
             //输出命令及结果
-            System.out.println();
-            System.out.println(command);
+            System.out.println("Java驱动Linux执行命令：" + command);
             System.out.println(result);
-            System.out.println();
         }
         return result;
     }
@@ -75,13 +73,11 @@ public class CommandUtil {
                 process.destroy();
             }
             //输出命令及结果
-            System.out.println();
+            System.out.print("Java驱动Linux执行命令：");
             for (String str : command) {
                 System.out.print(str + "\t");
             }
-            System.out.println();
             System.out.println(result);
-            System.out.println();
         }
         return result;
     }

@@ -373,10 +373,10 @@ public class RealMachineDevices implements SendFriendCircle {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("deviceName", "5LM0216122009385");
-            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
-            paramMap.put("action", "imgMessageFriendCircle");
-//            paramMap.put("action", "textMessageFriendCircle");
+            paramMap.put("deviceName", "S2D0219423001056");
+            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
+//            paramMap.put("action", "imgMessageFriendCircle");
+            paramMap.put("action", "textMessageFriendCircle");
             paramMap.put("index", 1);
             new RealMachineDevices().sendFriendCircle(paramMap);
             Thread.sleep(5000);
