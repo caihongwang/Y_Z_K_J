@@ -58,7 +58,7 @@
         <com.google.guava.version>22.0</com.google.guava.version>
         <com.jfdd.version>1.0.0</com.jfdd.version>
         <org.dom4j>1.6.1</org.dom4j>
-        <org.apache.poi.version>3.11</org.apache.poi.version>
+        <org.apache.poi.version>3.17</org.apache.poi.version>
         <com.squareup.okhttp3>3.6.0</com.squareup.okhttp3>
         <com.squareup.okio>1.11.0</com.squareup.okio>
         <jdom.version>1.0</jdom.version>
