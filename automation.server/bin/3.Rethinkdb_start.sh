@@ -1,0 +1,4 @@
+cd /opt
+
+rethinkdb
+

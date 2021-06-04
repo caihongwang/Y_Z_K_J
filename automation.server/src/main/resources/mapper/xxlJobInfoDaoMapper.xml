@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.automation.dao.XXL_JobInfoDao">
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        xji.id as "id",
+        xji.job_group as "jobGroup",
+        xji.job_cron as "jobCron",
+        xji.job_desc as "job_Desc",
+        xji.add_time as "addTime",
+        xji.update_time as "updateTime",
+        xji.author as "author",
+        xji.alarm_email as "alarmEmail",
+        xji.executor_route_strategy as "executorRouteStrategy",
+        xji.executor_handler as "executorHandler",
+        xji.executor_param as "executorParam",
+        xji.executor_block_strategy as "executorBlockStrategy",
+        xji.executor_timeout as "executorTimeout",
+        xji.executor_fail_retry_count as "executorFailRetryCount",
+        xji.glue_type as "glueType",
+        xji.glue_source as "glueSource",
+        xji.glue_remark as "glueRemark",
+        xji.glue_updatetime as "glueUpdatetime",
+        xji.child_jobid as "childJobid",
+        xji.trigger_status as "triggerStatus",
+        xji.trigger_last_time as "triggerLastTime",
+        xji.trigger_next_time as "triggerNextTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND xji.id = #{id}
+            </if>
+            <if test="jobDesc != null and jobDesc != ''">
+                AND xji.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
+            </if>
+        </where>
+        ORDER BY xji.add_time asc
+    </sql>
+
+    <select id="getSimpleJobInfoByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM xxl_job_info xji
+        <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleJobInfoTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from xxl_job_info xji
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

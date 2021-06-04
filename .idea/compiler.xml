@@ -30,12 +30,14 @@
           <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/4.0.3.RELEASE/spring-context-4.0.3.RELEASE.jar" />
           <entry name="$MAVEN_REPOSITORY$/joda-time/joda-time/2.9/joda-time-2.9.jar" />
         </processorPath>
-        <module name="oilStationMap.server" />
+        <module name="automation.server" />
         <module name="newMall.server" />
+        <module name="oilStationMap.server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="admin.server" target="1.8" />
+      <module name="automation.server" target="1.8" />
       <module name="eureka.server" target="1.8" />
       <module name="eureka.server (1)" target="1.8" />
       <module name="newMall.server" target="1.8" />
@@ -48,6 +50,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="admin.server" options="-parameters" />
+      <module name="automation.server" options="-parameters" />
       <module name="eureka.server" options="-parameters" />
       <module name="eureka.server (1)" options="-parameters" />
       <module name="newMall.server" options="-parameters" />

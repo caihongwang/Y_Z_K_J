@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.automation.dao.Automation_DicDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        dic_type,
+        dic_code,
+        dic_name,
+        dic_remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        ad.id as "id",
+        ad.dic_type as "dicType",
+        ad.dic_code as "dicCode",
+        ad.dic_name as "dicName",
+        ad.dic_remark as "dicRemark",
+        ad.dic_status as "dicStatus",
+        date_format(ad.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(ad.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>ad.dic_status='0'
+            <if test="id != null and id != ''">
+                AND ad.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND ad.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND ad.dic_code like concat('%',#{dicCode},'%')
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND ad.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND ad.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+        ORDER BY ad.create_time asc
+    </sql>
+
+    <insert id="addDic" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into automation_dic (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{dicType},
+        #{dicCode},
+        #{dicName},
+        #{dicRemark},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteDic">
+        update automation_dic set dic_status=1 where 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="dicType != null and dicType != ''">
+            AND dic_type = #{dicType}
+        </if>
+        <if test="dicCode != null and dicCode != ''">
+            AND dic_code = #{dicCode}
+        </if>
+<!--        DELETE FROM automation_dic WHERE 1=1-->
+<!--        <if test="id != null and id != ''">-->
+<!--            AND id = #{id}-->
+<!--        </if>-->
+<!--        <if test="dicType != null and dicType != ''">-->
+<!--            AND dic_type = #{dicType}-->
+<!--        </if>-->
+<!--        <if test="dicCode != null and dicCode != ''">-->
+<!--            AND dic_code = #{dicCode}-->
+<!--        </if>-->
+    </delete>
+
+    <update id="updateDic">
+        update automation_dic ad
+        <set>
+            <if test="dicStatus != null and dicStatus != ''">
+                ad.dic_status = #{dicStatus},
+            </if>
+            <if test="dicName != null and dicName != ''">
+                ad.dic_name = #{dicName},
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                ad.dic_remark = #{dicRemark},
+            </if>
+            ad.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and ad.id = #{id}
+        </if>
+        <if test="dicCode != null and dicCode != ''">
+            and ad.dic_code = #{dicCode}
+        </if>
+    </update>
+
+    <select id="getSimpleDicByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM automation_dic ad
+        <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleDicTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from automation_dic ad
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getLatelyDicByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM automation_dic ad
+        <where>ad.dic_status='0'
+            <if test="id != null and id != ''">
+                AND ad.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND ad.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND ad.dic_code = #{dicCode}
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND ad.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND ad.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+        ORDER BY ad.create_time desc LIMIT 0,1
+    </select>
+
+    <select id="getLatelyDicTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from automation_dic ad
+        <where>ad.dic_status='0'
+            <if test="id != null and id != ''">
+                AND ad.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND ad.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND ad.dic_code = #{dicCode}
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND ad.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND ad.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getDicListByConditionForAdmin" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM automation_dic ad
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND ad.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND ad.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND ad.dic_code like concat('%',#{dicCode},'%')
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND ad.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND ad.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+            <if test="dicStatus != null and dicStatus != ''">
+                AND ad.dic_status = #{dicStatus}
+            </if>
+        </where>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getDicListTotalByConditionForAdmin" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from automation_dic ad
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND ad.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND ad.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND ad.dic_code like concat('%',#{dicCode},'%')
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND ad.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND ad.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+            <if test="dicStatus != null and dicStatus != ''">
+                AND ad.dic_status = #{dicStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

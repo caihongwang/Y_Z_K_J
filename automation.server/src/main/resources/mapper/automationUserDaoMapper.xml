@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.automation.dao.Automation_UserDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        open_id,
+        nick_name,
+        avatar_url,
+        gender,
+        city,
+        province,
+        country,
+        language,
+        user_remark,
+        recommend_uid,
+        source,
+        gray_status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        au.id as "id",
+        au.open_id as "openId",
+        au.nick_name as "nickName",
+        au.avatar_url as "avatarUrl",
+        au.gender as "gender",
+        au.city as "city",
+        au.province as "province",
+        au.country as "country",
+        au.language as "language",
+        au.user_remark as "userRemark",
+        au.recommend_uid as "recommendUid",
+        au.is_admin as "isAdmin",
+        au.gray_status as "grayStatus",
+        au.create_time as "createTime",
+        au.update_time as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND au.id = #{id}
+            </if>
+            <if test="openId != null and openId != ''">
+                AND au.open_id = #{openId}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                AND au.nick_name = #{nickName}
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                AND au.avatar_url = #{avatarUrl}
+            </if>
+            <if test="gender != null and gender != ''">
+                AND au.gender = #{gender}
+            </if>
+            <if test="city != null and city != ''">
+                AND au.city = #{city}
+            </if>
+            <if test="province != null and province != ''">
+                AND au.province = #{province}
+            </if>
+            <if test="country != null and country != ''">
+                AND au.country = #{country}
+            </if>
+            <if test="language != null and language != ''">
+                AND au.language = #{language}
+            </if>
+            <if test="grayStatus != null and grayStatus != ''">
+                AND au.gray_status = #{grayStatus}
+            </if>
+            <if test="source != null and source != ''">
+                AND au.source = #{source}
+            </if>
+            <if test="userRemark != null and userRemark != ''">
+                AND au.user_remark = #{userRemark}
+            </if>
+        </where>
+        ORDER BY au.create_time desc
+    </sql>
+
+    <insert id="addUser" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into automation_user (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{openId},
+        #{nickName},
+        #{avatarUrl},
+        #{gender},
+        #{city},
+        #{province},
+        #{country},
+        #{language},
+        #{userRemark},
+        #{recommendUid},
+        #{source},
+        #{grayStatus},
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <delete id="deleteUser">
+        DELETE FROM automation_user au WHERE 1=1
+        <if test="id != null and id != ''">
+            AND au.id = #{id}
+        </if>
+        <if test="openId != null and openId != ''">
+            AND au.open_id = #{openId}
+        </if>
+    </delete>
+
+    <update id="updateUser">
+        update automation_user au
+        <set>
+            <if test="openId != null and openId != ''">
+                au.open_id = #{openId},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                au.nick_name = #{nickName},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                au.avatar_url = #{avatarUrl},
+            </if>
+            <if test="gender != null and gender != ''">
+                au.gender = #{gender},
+            </if>
+            <if test="city != null and city != ''">
+                au.city = #{city},
+            </if>
+            <if test="province != null and province != ''">
+                au.province = #{province},
+            </if>
+            <if test="country != null and country != ''">
+                au.country = #{country},
+            </if>
+            <if test="language != null and language != ''">
+                au.language = #{language},
+            </if>
+            <if test="grayStatus != null and grayStatus != ''">
+                au.gray_status = #{grayStatus},
+            </if>
+            <if test="userRemark != null and userRemark != ''">
+                au.user_remark = #{userRemark},
+            </if>
+            update_time = CURRENT_TIMESTAMP
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateUserOfRecommendUid">
+        update automation_user au
+        <set>
+            <if test="recommendUid != null and recommendUid != ''">
+                au.recommend_uid = #{recommendUid},
+            </if>
+            update_time = CURRENT_TIMESTAMP
+        </set>
+        where au.id = #{id} and
+            (au.recommend_uid is NULL OR au.recommend_uid = '')
+    </update>
+
+    <select id="getSimpleUserByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM automation_user au
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleUserTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from automation_user au
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getUserByCondition" resultType="java.util.Map">
+        SELECT
+            au.id as "id",
+            au.open_id as "openId",
+            au.nick_name as "nickName",
+            au.avatar_url as "avatarUrl",
+            au.gender as "gender",
+            au.city as "city",
+            au.province as "province",
+            au.country as "country",
+            au.language as "language",
+            au.user_remark as "userRemark",
+            au.recommend_uid as "recommendUid",
+            au.source as "source",
+            od.dic_name as "sourceName",
+            au.is_admin as "isAdmin",
+            au.gray_status as "grayStatus",
+            au.create_time as "createTime",
+            au.update_time as "updateTime"
+        FROM automation_user au inner join o_dic od on au.source=od.dic_code and od.dic_type='customMessageAccount'
+        where 1=1
+        <if test="id != null and id != ''">
+            AND au.id = #{id}
+        </if>
+        <if test="openId != null and openId != ''">
+            AND au.open_id = #{openId}
+        </if>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getUserTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        FROM automation_user au inner join o_dic od on au.source=od.dic_code and od.dic_type='customMessageAccount'
+        where 1=1
+        <if test="id != null and id != ''">
+            and au.id = #{id}
+        </if>
+    </select>
+
+</mapper>

@@ -20,6 +20,7 @@
         <module>oilStationMap.server</module>
         <module>xxl-job-core</module>
         <module>admin.server</module>
+        <module>automation.server</module>
     </modules>
 
 

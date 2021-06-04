@@ -1,0 +1,129 @@
+my:
+  name: automation
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://www.yzkj.store:9010/eureka/
+
+server:
+  port: 9030
+  servlet:
+    context-path: /automation
+
+#开发环境
+
+spring:
+  profiles: develop
+  application:
+    name: automation
+  datasource:
+    url: jdbc:mysql://www.yzkj.store:3306/Y_Z_K_J?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    username: caihongwang
+    password: hejinrong@520
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5 # 初始化连接数
+      min-idle: 5 # 最小空闲连接数
+      max-active: 20 # 最大活跃连接数
+      max-wait: 30000 # 最大连接等待超时时间，单位是毫秒(ms)
+      time-between-eviction-runs-millis: 60000 # 多久检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000 # 配置一个连接在池中最小生存的时间，单位是毫秒
+      validation-query: select 1 # 验证数据库连接的查询语句，这个查询语句必须是至少返回一条数据的SELECT语句
+      test-while-idle: true # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-on-borrow: false # 申请连接时执行validationQuery检测连接是否有效，会降低性能
+      test-on-return: false # 归还连接时执行validationQuery检测连接是否有效，会降低性能
+      pool-prepared-statements: false # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      max-pool-prepared-statement-per-connection-size: 20
+      filter: stat,wall,slf4j # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      use-global-data-source-stat: true # 合并多个DruidDataSource的监控数据
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      ### 监控配置
+      web-stat-filter: # 配置DruidStatFilter
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet: # 配置DruidStatViewServlet
+        url-pattern: "/druid/*"
+        allow: 127.0.0.1 # IP白名单(没有配置或者为空，则允许所有访问)
+        deny: "" # IP黑名单 (白名单与黑名单同时存在时，黑名单优先)
+        reset-enable: false # 是否开启监控页面页面上的重置功能
+        login-username: admin # 用户名
+        login-password: admin # 密码
+#    type: com.zaxxer.hikari.HikariDataSource
+#    hikari:
+#      pool-name: HikariCP
+#      minimum-idle: 100 # 此属性控制HikariCP尝试在池中维护的最小空闲连接数
+#      maximum-pool-size: 1000 # 此属性控制允许池达到的最大大小，包括空闲和使用中的连接
+#      auto-commit: true # 此属性控制从池返回的连接的默认自动提交行为
+#      idle-timeout: 60000 # 此属性控制允许连接在池中保持空闲状态的最长时间
+#      max-lifetime: 1800000 # 此属性控制池中连接的最大生存期
+#      connection-timeout: 120000 # 此属性控制客户端（即您）等待来自池的连接的最大毫秒数
+#      connection-test-query: SELECT 1 # 如果您的驱动程序支持JDBC4，我们强烈建议不要设置此属性
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+  redis:
+      database: 1
+#      host: 139.224.56.97
+      host: www.yzkj.store
+      port: 6379
+      password:
+      jedis:
+        pool:
+          max-active:  100 # 连接池最大连接数（使用负值表示没有限制）
+          max-idle: 100 # 连接池中的最大空闲连接
+          min-idle: 50 # 连接池中的最小空闲连接
+          max-wait: -6000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      timeout: 10000
+      store-type: none
+  #线程池配置参数
+  task:
+    pool:
+      corePoolSize: 100 #设置核心线程数
+      maxPoolSize: 500  #设置最大线程数
+      keepAliveSeconds: 60 #设置线程活跃时间（秒）
+      queueCapacity: 100 #设置队列容量
+      threadNamePrefix: YZKJ-AsyncThread- # 线程名称前缀
+  #QQ邮箱配置
+  mail:
+    host: smtp.163.com #发送邮件服务器
+    username: yzkj_yzkj@163.com #发送邮件的邮箱地址
+    password:  JLPZZUQDTCOQUWXP #客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
+    properties.mail.smtp.port: 25 #端口号465或587
+    from: yzkj_yzkj@163.com # 发送邮件的地址，和上面username一致
+    default-encoding: utf-8
+#    host: smtp.qq.com #发送邮件服务器
+#    username: 976499921@qq.com #发送邮件的邮箱地址
+#    password:  qbpqvmswgbxfbfbf #客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
+#    properties.mail.smtp.port: 587 #端口号465或587
+#    from: 976499921@qq.com # 发送邮件的地址，和上面username一致
+#    default-encoding: utf-8
+  #appium启动端口号
+  appiumPortStr: 4723,4725,4727,4729,4731,4733,4735,4737,4739,4741,4743,4745,4747,4749
+  theStfIp: 192.168.43.181
+#  theStfIp: 192.168.43.110
+  theStfPort: 7100
+  theRethinkdbPort: 8080
+  defaultCommodPath: /opt/defaultCommodPath
+  imgFormatStr: bmp,pcx,png,jpg,jpeg,gif,tiff
+
+mybatis:
+  mapper-locations: mapper/**Mapper.xml
+  configuration:
+      map-underscore-to-camel-case: true
+
+logging:
+  config-locations: log4j2.xml
+
+xxl:
+  job:
+    accessToken:
+    admin:
+      address: http://www.yzkj.store:9020/myAdmin
+    executor:
+      appname: oil-station-map-server
+      ip: 139.224.56.97
+      port: 9999
+      logpath: /opt/automation.server/logs
+      logretentiondays: 30

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Y_Z_K_J.iml" filepath="$PROJECT_DIR$/.idea/Y_Z_K_J.iml" />
       <module fileurl="file://$PROJECT_DIR$/admin.server/admin.server.iml" filepath="$PROJECT_DIR$/admin.server/admin.server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/automation.server/automation.server.iml" filepath="$PROJECT_DIR$/automation.server/automation.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka.server/eureka.server.iml" filepath="$PROJECT_DIR$/eureka.server/eureka.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/newMall.server/newMall.server.iml" filepath="$PROJECT_DIR$/newMall.server/newMall.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/oilStationMap.server/oilStationMap.server.iml" filepath="$PROJECT_DIR$/oilStationMap.server/oilStationMap.server.iml" />

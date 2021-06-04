@@ -12,3 +12,5 @@
 
 4.启动newMall.server 新商城服务
 
+5.启动automation.server 自动化服务：微信自动化、新浪口袋自动化、微博自动化...
+
