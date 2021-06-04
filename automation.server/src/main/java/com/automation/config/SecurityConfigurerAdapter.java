@@ -36,7 +36,9 @@ public class SecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 //静态资源
                 "/resourceOfOilStationMap/**",
-                //爬虫类请求
+                //字典信息
+                "/dic/**",
+                //微信自动化
                 "/wx/**"
         );
     }

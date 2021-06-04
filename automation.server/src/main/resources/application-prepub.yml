@@ -4,10 +4,10 @@ my:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://139.224.56.97:9010/eureka/
+      defaultZone: http://www.yzkj.store:9010/eureka/
 
 server:
-  port: 9030
+  port: 9050
   servlet:
     context-path: /automation
 
@@ -18,7 +18,7 @@ spring:
   application:
     name: automation
   datasource:
-    url: jdbc:mysql://139.224.56.97:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://www.yzkj.store:3306/oil_station_map?allowMultiQueries=true&useUnicode=true&characterEncoding=utf8
     username: caihongwang
     password: hejinrong@520
     type: com.alibaba.druid.pool.DruidDataSource
@@ -65,7 +65,7 @@ spring:
     time-zone: GMT+8
   redis:
       database: 1
-      host: 139.224.56.97
+      host: www.yzkj.store
       port: 6379
       password:
       jedis:
@@ -100,7 +100,7 @@ spring:
     #    default-encoding: utf-8
   #appium启动端口号
   appiumPortStr: 4723,4725,4727,4729,4731,4733,4735,4737,4739,4741,4743,4745,4747,4749
-  theStfIp: 139.224.56.97
+  theStfIp: www.yzkj.store
   theStfPort: 7100
   theRethinkdbPort: 8080
   defaultCommodPath: /opt/defaultCommodPath
@@ -118,10 +118,10 @@ xxl:
   job:
     accessToken:
     admin:
-      address: http://139.224.56.97:9020/myAdmin
+      address: http://www.yzkj.store:9020/myAdmin
     executor:
       appname: oil-station-map-server
-      ip: 139.224.56.97
+      ip: www.yzkj.store
       port: 9999
       logpath: /opt/automation.server/logs
       logretentiondays: 30

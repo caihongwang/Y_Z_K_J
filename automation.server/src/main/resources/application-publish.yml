@@ -7,7 +7,7 @@ eureka:
       defaultZone: http://127.0.0.1:9010/eureka/
 
 server:
-  port: 9030
+  port: 9050
   servlet:
     context-path: /automation
 
