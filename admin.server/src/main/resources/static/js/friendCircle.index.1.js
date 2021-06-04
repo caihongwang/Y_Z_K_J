@@ -6,8 +6,8 @@ $(function() {
 	    "serverSide": true,
         "scrollX": true,
 		"ajax": {
-			// url: "http://localhost:9030/oilStationMap/wxDic/getDicListByConditionForAdmin",
-			url: "https://www.yzkj.store/oilStationMap/wxDic/getDicListByConditionForAdmin",
+			// url: "http://localhost:9050/automation/dic/getDicListByConditionForAdmin",
+			url: "https://www.yzkj.store/automation/dic/getDicListByConditionForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};

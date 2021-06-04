@@ -16,7 +16,8 @@ management:
 
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/oil_station_map?Unicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/Y_Z_K_J?Unicode=true&characterEncoding=UTF-8
+#    url: jdbc:mysql://www.yzkj.store:3306/Y_Z_K_J?Unicode=true&characterEncoding=UTF-8
     username: caihongwang
     password: hejinrong@520
     driver-class-name: com.mysql.jdbc.Driver
