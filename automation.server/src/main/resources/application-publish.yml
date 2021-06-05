@@ -120,8 +120,8 @@ xxl:
     admin:
       address: http://127.0.0.1:9020/myAdmin
     executor:
-      appname: oil-station-map-server
+      appname: automation-server-server
       ip: 127.0.0.1
-      port: 8888
+      port: 9998
       logpath: /opt/automation.server/logs
       logretentiondays: 30

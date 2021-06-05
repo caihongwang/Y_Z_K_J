@@ -120,8 +120,8 @@ xxl:
     admin:
       address: http://www.yzkj.store:9020/myAdmin
     executor:
-      appname: oil-station-map-server
+      appname: automation-server-server
       ip: www.yzkj.store
-      port: 9999
+      port: 9998
       logpath: /opt/automation.server/logs
       logretentiondays: 30
