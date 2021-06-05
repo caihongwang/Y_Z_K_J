@@ -13,14 +13,10 @@
 	<@netCommon.commonLeft "webDiskInfo" />
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1>${I18n.webDiskInfo}</h1>
+			<h1><a target="_blank" href="http://nextcloud.yzkj.store/index.php">${I18n.webDiskInfo}</a></h1>
 		</section>
 		<section class="content">
-			<div class="callout callout-info">
-				<p>
-					点击 <a target="_blank" href="http://nextcloud.yzkj.store/index.php">nextCloud网盘</a> (<a target="_blank" href="http://3038012rx1.zicp.vip:3380/owncloud/index.php/login">备用链接</a>) 管理
-				</p>
-			</div>
+			<iframe src="http://nextcloud.yzkj.store/index.php" frameborder="0" scrolling="0" style="width:100%;height:785.15px;"></iframe>
 		</section>
 	</div>
 	<@netCommon.commonFooter />

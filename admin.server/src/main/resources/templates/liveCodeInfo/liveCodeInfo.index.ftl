@@ -13,14 +13,10 @@
 	<@netCommon.commonLeft "liveCodeInfo" />
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1>${I18n.liveCodeInfo}</h1>
+			<h1><a target="_blank" href="https://livecode.yzkj.store/login">${I18n.liveCodeInfo}</a></h1>
 		</section>
 		<section class="content">
-			<div class="callout callout-info">
-				<p>
-					点击 <a target="_blank" href="https://livecode.yzkj.store/login">我的活码</a> 管理
-				</p>
-			</div>
+			<iframe src="https://livecode.yzkj.store/login" frameborder="0" scrolling="0" style="width:100%;height:785.15px;"></iframe>
 		</section>
 	</div>
 	<@netCommon.commonFooter />

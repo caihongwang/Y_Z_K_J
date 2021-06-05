@@ -13,14 +13,10 @@
 	<@netCommon.commonLeft "databaseInfo" />
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1>${I18n.databaseInfo}</h1>
+			<h1><a target="_blank" href="https://phpmyadmin.yzkj.store/index.php">${I18n.databaseInfo}</a></h1>
 		</section>
 		<section class="content">
-			<div class="callout callout-info">
-				<p>
-					点击 <a target="_blank" href="http://www.yzkj.store/phpmyadmin">phpmyadmin数据库</a> 管理
-				</p>
-			</div>
+			<iframe src="https://phpmyadmin.yzkj.store/index.php" frameborder="0" scrolling="0" style="width:100%;height:785.15px;"></iframe>
 		</section>
 	</div>
 	<@netCommon.commonFooter />

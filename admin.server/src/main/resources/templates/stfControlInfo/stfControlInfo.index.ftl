@@ -13,14 +13,10 @@
 	<@netCommon.commonLeft "stfControlInfo" />
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1>${I18n.stfControlInfo}</h1>
+			<h1><a target="_blank" href="http://192.168.43.110:7100/">${I18n.stfControlInfo}</a>（注：请在工作室内局域网打开）</h1>
 		</section>
 		<section class="content">
-			<div class="callout callout-info">
-				<p>
-					点击 <a target="_blank" href="http://192.168.43.110:7100/">我的云控</a> 管理 （注：请在工作室内局域网打开）
-				</p>
-			</div>
+			<iframe src="http://192.168.43.110:7100/" frameborder="0" scrolling="0" style="width:100%;height:785.15px;"></iframe>
 		</section>
 	</div>
 	<@netCommon.commonFooter />
