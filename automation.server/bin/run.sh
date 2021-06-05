@@ -23,7 +23,7 @@ start(){
         echo "${APP_NAME} is already running. pid=${pid} ."
     else
         BUILD_ID=dontKillMe
-        nohup java -DisOpen=true -Xms600m -Xmx600m -Xmn300m -XX:SurvivorRatio=8 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC \
+        nohup java -DisOpen=true -Xms200m -Xmx200m -Xmn100m -XX:SurvivorRatio=8 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC \
         -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly \
         -jar $APP_NAME > ./$LOG_NAME 2>&1 &
     fi
