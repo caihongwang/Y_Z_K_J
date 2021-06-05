@@ -122,6 +122,6 @@ xxl:
     executor:
       appname: oil-station-map-server
       ip: 127.0.0.1
-      port: 9999
+      port: 8888
       logpath: /opt/automation.server/logs
       logretentiondays: 30
