@@ -235,7 +235,11 @@ $(function() {
         $("#updateModal .form input[name='dicCode']").val( row.dicCode );                                           //微信昵称
         $("#updateModal .form select[name='dicName'] option[value="+ row.dicName + "]").prop('selected', true);     //业务方式
         $("#updateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
-        $("#updateModal .form textarea[name='dicRemark']").val( row.dicRemark );                                    //业务详情
+        try {
+            $("#updateModal .form textarea[name='dicRemark']").val( JSON.stringify(JSON.parse(row.dicRemark),null,2) );//业务详情
+        } catch (e) {
+            $("#updateModal .form textarea[name='dicRemark']").val( row.dicRemark );//业务详情
+        }
 
         // show
         $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');

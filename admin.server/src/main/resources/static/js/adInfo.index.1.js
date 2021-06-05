@@ -236,7 +236,11 @@ $(function() {
         $("#updateModal .form input[name='adTitle']").val( row.adTitle );           //广告标题
         $("#updateModal .form input[name='adImgUrl']").val( row.adImgUrl );         //广告图片
         $("#updateModal .form textarea[name='adContent']").val( row.adContent );    //广告内容
-        $("#updateModal .form textarea[name='adRemark']").val( row.adRemark );      //广告备注
+        try {
+            $("#updateModal .form textarea[name='adRemark']").val( JSON.stringify(JSON.parse(row.adRemark),null,2) );//广告备注
+        } catch (e) {
+            $("#updateModal .form textarea[name='adRemark']").val( row.adRemark );//广告备注
+        }
         $("#updateModal .form select[name='status']").val( row.status );             //广告状态
         // show
         $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');
