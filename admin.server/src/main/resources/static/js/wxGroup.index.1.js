@@ -159,8 +159,8 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(
-                // "http://localhost:9030/oilStationMap/wxDic/addDicForAdmin",
-                "https://www.yzkj.store/oilStationMap/wxDic/addDicForAdmin",
+                // "http://localhost:9050/automation/dic/addDicForAdmin",
+                "https://www.yzkj.store/automation/dic/addDicForAdmin",
                 $("#addModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
@@ -200,8 +200,8 @@ $(function() {
         }, function(index){
             layer.close(index);
             $.post(
-                // "http://localhost:9030/oilStationMap/wxDic/deleteDicForAdmin",
-                "https://www.yzkj.store/oilStationMap/wxDic/deleteDicForAdmin",
+                // "http://localhost:9050/automation/dic/deleteDicForAdmin",
+                "https://www.yzkj.store/automation/dic/deleteDicForAdmin",
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
@@ -264,8 +264,8 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(
-                // "http://localhost:9030/oilStationMap/wxDic/updateDicForAdmin",
-                "https://www.yzkj.store/oilStationMap/wxDic/updateDicForAdmin",
+                // "http://localhost:9050/automation/dic/updateDicForAdmin",
+                "https://www.yzkj.store/automation/dic/updateDicForAdmin",
                 $("#updateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
