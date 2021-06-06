@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by xuxueli on 16/9/30.
+ * Created by caihongwang on 16/9/30.
  */
 public class XxlJobGroup {
 

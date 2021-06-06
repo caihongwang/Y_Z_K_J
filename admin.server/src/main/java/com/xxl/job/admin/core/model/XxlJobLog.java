@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * xxl-job log, used to track trigger process
- * @author xuxueli  2015-12-19 23:19:09
+ * @author caihongwang  2015-12-19 23:19:09
  */
 public class XxlJobLog {
 	

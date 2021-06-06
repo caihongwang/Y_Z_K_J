@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 /**
  * xxl-job config
  *
- * @author xuxueli 2017-04-28
+ * @author caihongwang 2017-04-28
  */
 
 @Component

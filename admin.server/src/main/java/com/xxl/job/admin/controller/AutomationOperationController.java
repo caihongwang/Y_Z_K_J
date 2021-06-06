@@ -31,8 +31,8 @@ import java.util.*;
  * @author caihongwang 2019-05-04 16:39:50
  */
 @Controller
-@RequestMapping("/deviceListAndLocaltion")
-public class DeviceListAndLocaltionController {
+@RequestMapping("/automationOperation")
+public class AutomationOperationController {
 
     @Resource
     private XxlJobGroupDao xxlJobGroupDao;
@@ -59,7 +59,7 @@ public class DeviceListAndLocaltionController {
         model.addAttribute("JobGroupList", jobGroupList);
         model.addAttribute("jobGroup", jobGroup);
 
-        return "deviceListAndLocaltion/deviceListAndLocaltion.index";
+        return "automationOperation/automationOperation.index";
     }
 
     public static List<XxlJobGroup> filterJobGroupByRole(HttpServletRequest request, List<XxlJobGroup> jobGroupList_all){

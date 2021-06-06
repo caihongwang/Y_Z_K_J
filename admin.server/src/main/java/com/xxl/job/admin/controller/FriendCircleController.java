@@ -28,7 +28,7 @@ import java.text.ParseException;
 import java.util.*;
 
 /**
- * @author xuxueli 2019-05-04 16:39:50
+ * @author caihongwang 2019-05-04 16:39:50
  */
 @Controller
 @RequestMapping("/friendCircle")

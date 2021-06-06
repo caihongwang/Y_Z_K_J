@@ -3,7 +3,7 @@ package com.xxl.job.admin.core.model;
 import org.springframework.util.StringUtils;
 
 /**
- * @author xuxueli 2019-05-04 16:43:12
+ * @author caihongwang 2019-05-04 16:43:12
  */
 public class XxlJobUser {
 	

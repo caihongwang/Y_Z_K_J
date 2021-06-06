@@ -29,7 +29,7 @@ import java.util.*;
 
 /**
  * index controller
- * @author xuxueli 2015-12-19 16:13:16
+ * @author caihongwang 2015-12-19 16:13:16
  */
 @Controller
 @RequestMapping("/jobinfo")
