@@ -31,12 +31,12 @@
 					<div class="info-box bg-aqua">
 						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">阅读微信文章并点击广告</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">阅读微信文章并点击广告</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在定向微信回话阅读微信文章并点击广告</span>
+							<span class="progress-description">在指定群聊中阅读微信文章并点击广告</span>
 						</div>
 					</div>
 				</div>
@@ -45,12 +45,12 @@
 					<div class="info-box bg-yellow">
 						<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">同意好友请求</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">同意好友请求</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">对所有微信的微信会话进行同意好友请求</span>
+							<span class="progress-description">在所有聊天会话中检测并同意好友请求</span>
 						</div>
 					</div>
 				</div>
@@ -59,12 +59,12 @@
 					<div class="info-box bg-green">
 						<span class="info-box-icon"><i class="fa ion-ios-settings-strong"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">将群保存到通讯录</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">将群保存到通讯录</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">对所有微信的微信会话进行同意好友请求</span>
+							<span class="progress-description">在所有聊天会话中检测并保存群到通讯录</span>
 						</div>
 					</div>
 				</div>
@@ -76,8 +76,8 @@
 					<div class="info-box bg-yellow">
 						<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">点赞和评论朋友圈</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">点赞和评论朋友圈</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
@@ -90,12 +90,12 @@
 					<div class="info-box bg-green">
 						<span class="info-box-icon"><i class="fa ion-ios-settings-strong"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">同意进群</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">同意进群</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">对所有微信的微信会话进行同意进群</span>
+							<span class="progress-description">对指定聊天会话中检测并同意进群</span>
 						</div>
 					</div>
 				</div>
@@ -104,12 +104,12 @@
 					<div class="info-box bg-aqua">
 						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">发送朋友圈</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">发送朋友圈</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在微信中发送朋友圈</span>
+							<span class="progress-description">在微信中发送文字或者图片朋友圈</span>
 						</div>
 					</div>
 				</div>
@@ -121,8 +121,8 @@
 					<div class="info-box bg-green">
 						<span class="info-box-icon"><i class="fa ion-ios-settings-strong"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">根据微信昵称进行聊天</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">根据微信昵称进行聊天</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
@@ -135,12 +135,12 @@
 					<div class="info-box bg-aqua">
 						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">分享微信文章到微信朋友圈</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">分享微信文章到微信朋友圈</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在定向微信会话中分享微信文章到微信朋友圈</span>
+							<span class="progress-description">在指定群聊中分享微信文章到微信朋友圈</span>
 						</div>
 					</div>
 				</div>
@@ -149,12 +149,12 @@
 					<div class="info-box bg-yellow">
 						<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">通过V群添加其成员为好友</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">通过V群添加其成员为好友</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在定向微信群中添加其成员为好友</span>
+							<span class="progress-description">在指定群聊中添加其群成员为好友</span>
 						</div>
 					</div>
 				</div>
@@ -166,12 +166,12 @@
 					<div class="info-box bg-aqua">
 						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-text">转发微信消息</span>
-							<span class="info-box-number">12台在线设备</span>
+							<span class="info-box-number">转发微信消息</span>
+							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在定向微信会话中转发微信消息</span>
+							<span class="progress-description">在指定群聊中转发微信消息</span>
 						</div>
 					</div>
 				</div>
