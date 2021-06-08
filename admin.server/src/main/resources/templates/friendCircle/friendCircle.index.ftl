@@ -57,7 +57,7 @@
 					<div class="input-group">
 						<select class="form-control"  id="dicStatus" name="dicStatus">
 							<option value="0"  selected>正常</option>
-							<option value="1">禁用</option>
+							<option value="1">删除</option>
 						</select>
 					</div>
 				</div>

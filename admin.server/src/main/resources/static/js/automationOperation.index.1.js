@@ -153,7 +153,7 @@ $(function() {
     $("#chatByNickName").on('click', function(){
         //设置默认参数
         var automationOperation_name = "根据微信昵称进行聊天";
-        var automationOperation_url = "http://localhost:9050/automation/wx/chatByNickName";
+        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/chatByNickName";
         var automationOperation_param = "[\n" +
             "    \"2020-10-25 10\",\n" +
             "    \"2020-10-25 11\",\n" +
@@ -275,14 +275,14 @@ $(function() {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: (data.message || I18n.system_add_suc ),
+                            content: (data.message || I18n.system_opt_suc ),
                             icon: '1'
                         });
                     } else {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: (data.message || I18n.system_add_fail ),
+                            content: (data.message || I18n.system_opt_fail ),
                             icon: '2'
                         });
                     }

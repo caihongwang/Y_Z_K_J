@@ -6,8 +6,7 @@ $(function() {
 	    "serverSide": true,
         "scrollX": true,
 		"ajax": {
-			// url: "http://localhost:9050/automation/dic/getDicListByConditionForAdmin",
-			url: "https://www.yzkj.store/automation/dic/getDicListByConditionForAdmin",
+			url: I18n.system_url_pre+"/automation/dic/getDicListByConditionForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
@@ -83,7 +82,7 @@ $(function() {
                     if(data == "0"){
                         return "正常";
                     } if(data == "1"){
-                        return "禁用";
+                        return "删除";
                     } else {
                         return "未知";
                     }
@@ -151,8 +150,7 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(
-                // "http://localhost:9050/automation/dic/addDicForAdmin",
-                "https://www.yzkj.store/automation/dic/addDicForAdmin",
+                I18n.system_url_pre+"/automation/dic/addDicForAdmin",
                 $("#addModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
@@ -160,7 +158,7 @@ $(function() {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: I18n.system_add_suc ,
+                            content: I18n.system_opt_suc ,
                             icon: '1',
                             end: function(layero, index){
                                 jobTable.fnDraw();
@@ -170,7 +168,7 @@ $(function() {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: (data.msg || I18n.system_add_fail ),
+                            content: (data.msg || I18n.system_opt_fail ),
                             icon: '2'
                         });
                     }
@@ -192,8 +190,7 @@ $(function() {
         }, function(index){
             layer.close(index);
             $.post(
-                // "http://localhost:9050/automation/dic/deleteDicForAdmin",
-                "https://www.yzkj.store/automation/dic/deleteDicForAdmin",
+                I18n.system_url_pre+"/automation/dic/deleteDicForAdmin",
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
@@ -260,8 +257,7 @@ $(function() {
         },
         submitHandler : function(form) {
             $.post(
-                // "http://localhost:9050/automation/dic/updateDicForAdmin",
-                "https://www.yzkj.store/automation/dic/updateDicForAdmin",
+                I18n.system_url_pre+"/automation/dic/updateDicForAdmin",
                 $("#updateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {

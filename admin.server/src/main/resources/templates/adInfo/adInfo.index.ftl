@@ -44,7 +44,7 @@
 							<div class="input-group">
 								<select class="form-control"  id="status" name="status">
 									<option value="0" selected>正常</option>
-									<option value="1">禁用</option>
+									<option value="1">删除</option>
 								</select>
 							</div>
 						</div>
@@ -103,8 +103,8 @@
 								<label for="lastname" class="col-sm-2 control-label">广告图片<font color="black">*</font></label>
 								<div class="col-sm-4">
 									<select class="form-control" name="adImgUrl">
-										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/freeRideCar.jpg" selected>人找车</option>
-										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/carLookingForPeople.jpg">车找人</option>
+										<option value="${I18n.system_url_pre}/resourceOfOilStationMap/ad/ad_banner/freeRideCar.jpg" selected>人找车</option>
+										<option value="${I18n.system_url_pre}/resourceOfOilStationMap/ad/ad_banner/carLookingForPeople.jpg">车找人</option>
 									</select>
 								</div>
 							</div>
@@ -167,8 +167,8 @@
 								<label for="lastname" class="col-sm-2 control-label">广告图片<font color="black">*</font></label>
 								<div class="col-sm-4">
 									<select class="form-control" name="adImgUrl">
-										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/freeRideCar.jpg" selected>人找车</option>
-										<option value="https://www.yzkj.store/resourceOfOilStationMap/ad/ad_banner/carLookingForPeople.jpg">车找人</option>
+										<option value="${I18n.system_url_pre}/resourceOfOilStationMap/ad/ad_banner/freeRideCar.jpg" selected>人找车</option>
+										<option value="${I18n.system_url_pre}/resourceOfOilStationMap/ad/ad_banner/carLookingForPeople.jpg">车找人</option>
 									</select>
 								</div>
 

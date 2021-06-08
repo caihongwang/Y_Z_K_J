@@ -7,7 +7,7 @@ $(function() {
         "scrollX": true,
 		"ajax": {
 			// url: "http://localhost:9030/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
-			url: "https://www.yzkj.store/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
+			url: I18n.system_url_pre+"/oilStationMap/wxAdInfo/getSimpleAdInfoByConditionForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
@@ -91,7 +91,7 @@ $(function() {
                     if(data == "0"){
                         return "正常";
                     } if(data == "1"){
-                        return "禁用";
+                        return "删除";
                     } else {
                         return "未知";
                     }
@@ -160,7 +160,7 @@ $(function() {
         submitHandler : function(form) {
             $.post(
                 // "http://localhost:9030/oilStationMap/wxAdInfo/addAdInfoForAdmin",
-                "https://www.yzkj.store/oilStationMap/wxAdInfo/addAdInfoForAdmin",
+                I18n.system_url_pre+"/oilStationMap/wxAdInfo/addAdInfoForAdmin",
                 $("#addModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
@@ -168,7 +168,7 @@ $(function() {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: I18n.system_add_suc ,
+                            content: I18n.system_opt_suc ,
                             icon: '1',
                             end: function(layero, index){
                                 jobTable.fnDraw();
@@ -178,7 +178,7 @@ $(function() {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: (data.message || I18n.system_add_fail ),
+                            content: (data.message || I18n.system_opt_fail ),
                             icon: '2'
                         });
                     }
@@ -200,7 +200,7 @@ $(function() {
             layer.close(index);
             $.post(
                 // "http://localhost:9030/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
-                "https://www.yzkj.store/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
+                I18n.system_url_pre+"/oilStationMap/wxAdInfo/deleteAdInfoForAdmin",
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
@@ -262,7 +262,7 @@ $(function() {
         submitHandler : function(form) {
             $.post(
                 // "http://localhost:9030/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
-                "https://www.yzkj.store/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
+                I18n.system_url_pre+"/oilStationMap/wxAdInfo/updateAdInfoForAdmin",
                 $("#updateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {

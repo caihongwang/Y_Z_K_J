@@ -154,3 +154,12 @@ $(function(){
     });
 	
 });
+
+/**
+ * 判断 变量obj 是否为空
+ * @param obj
+ * @returns {boolean}
+ */
+function isNull(obj) {
+    return !obj && obj !== 0 && typeof obj !== "boolean" ? true : false;
+}

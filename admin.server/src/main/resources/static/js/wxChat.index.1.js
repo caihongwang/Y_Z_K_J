@@ -6,8 +6,7 @@ $(function() {
 	    "serverSide": true,
         "scrollX": true,
 		"ajax": {
-			// url: "http://localhost:9050/automation/dic/getDicListByConditionForAdmin",
-			url: "https://www.yzkj.store/automation/dic/getDicListByConditionForAdmin",
+			url: I18n.system_url_pre+"/automation/dic/getDicListByConditionForAdmin",
 			type: "post",
 	        data: function ( d ) {			//参数
 	        	var obj = {};
@@ -15,7 +14,7 @@ $(function() {
 				obj.size = 10;
                 obj.dicType = $('#dicType').children('option:selected').val();
                 obj.dicCode = $('#dicCode').val();
-                obj.dicName = $('#dicName').val();
+                obj.dicName = $('#dicName').children('option:selected').val();
                 obj.dicStatus = $('#dicStatus').children('option:selected').val();
                 return obj;
             }
@@ -27,7 +26,7 @@ $(function() {
                 "data": I18n.system_opt,
                 "bSortable": false,
                 "visible" : true,
-                "width": 80,
+                "width": 100,
                 "render": function (data, type, row) {
                     return function () {
                         tableData['key'+row.id] = row;
@@ -50,7 +49,7 @@ $(function() {
                 "data": 'id',
                 "bSortable": false,
                 "visible" : true,
-                "width": 50,
+                "width": 80,
                 "render": function ( data, type, row ) {
                     return data;
                 }
@@ -58,17 +57,17 @@ $(function() {
                 "data": 'dicType',
                 "bSortable": false,
                 "visible" : true,
-                "width": 150
+                "width": 200
             },{
                 "data": 'dicCode',
                 "bSortable": false,
                 "visible" : true,
-                "width": 150
+                "width": 200
             },{
                 "data": 'dicName',
                 "bSortable": false,
                 "visible" : true,
-                "width": 150
+                "width": 300
             },{
                 "data": 'dicRemark',
                 "bSortable": false,
@@ -91,7 +90,7 @@ $(function() {
                     if(data == "0"){
                         return "正常";
                     } if(data == "1"){
-                        return "禁用";
+                        return "删除";
                     } else {
                         return "未知";
                     }
@@ -134,16 +133,50 @@ $(function() {
 
     // add 新增
     $(".add").click(function(){
+        clearFormValue();           //清空表单信息
+        $("#addOrupdateModal .form").attr("operatorType", "add");                           //操作类型，新增或者删除
+        $("#addOrupdateModal .form input[name='dicCode']").attr("readonly", true);          //业务编码
+        $("#addOrupdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
+        $("#addOrupdateModal h4[class='modal-title']").html($("#addOrupdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
 
-        $("#addModal .form input[name='dicType']").val( "" );           //业务类型
-        $("#addModal .form input[name='dicCode']").val( "" );           //业务编码
-        $("#addModal .form input[name='dicName']").val( "" );           //业务名称
-        $("#addModal .form input[name='dicStatus']").val( "0" );        //业务状态
-        $("#addModal .form textarea[name='dicRemark']").val( "" );      //业务详情
-
-        $('#addModal').modal({backdrop: false, keyboard: false}).modal('show');
+        // show
+        $('#addOrupdateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
-    var addModalValidate = $("#addModal .form").validate({
+
+    // update 更新
+    $("#job_list").on('click', '.update',function() {
+        clearFormValue();           //清空表单信息
+        $("#addOrupdateModal .form").attr("operatorType", "update");                             //操作类型，新增或者删除
+        $("#addOrupdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
+        $("#addOrupdateModal .form input[name='nickName']").attr("readonly", true);              //目标微信群昵称
+        $("#addOrupdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
+        $("#addOrupdateModal h4[class='modal-title']").html($("#addOrupdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
+
+        var id = $(this).parents('ul').attr("_id");
+        var row = tableData['key'+id];
+        console.log(row);
+        console.log("row.dicType = " + row.dicType);
+        console.log("row.dicName = " + row.dicName);
+        console.log("row.dicStatus = " + row.dicStatus);
+        console.log("row.dicRemark = " + row.dicRemark);
+        $("#addOrupdateModal .form input[name='id']").val( row.id );
+        $("#addOrupdateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);    //业务类型
+        $("#addOrupdateModal .form input[name='dicCode']").val( row.dicCode );                                           //业务编码
+        $("#addOrupdateModal .form select[name='dicName'] option[value=" + row.dicName + "]").prop('selected', true);    //业务名称
+        $("#addOrupdateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
+        //拆分显示 dicRemark
+        var dicRemark_jsonObj = JSON.parse(row.dicRemark);
+        $("#addOrupdateModal .form input[name='nickName']").val(dicRemark_jsonObj.nickName);                             //目标微信群昵称
+        $("#addOrupdateModal .form input[name='textMessage']").val(dicRemark_jsonObj.textMessage);                       //聊天内容
+        try {
+            $("#addOrupdateModal .form textarea[name='dicRemark']").val( JSON.stringify(JSON.parse(row.dicRemark),null,2) );//业务详情
+        } catch (e) {
+            $("#addOrupdateModal .form textarea[name='dicRemark']").val( row.dicRemark );//业务详情
+        }
+        // show
+        $('#addOrupdateModal').modal({backdrop: false, keyboard: false}).modal('show');
+    });
+    var addOrupdateModalValidate = $("#addOrupdateModal .form").validate({
         errorElement : 'span',
         errorClass : 'help-block',
         focusInvalid : true,
@@ -158,17 +191,33 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
+            var operatorType = $("#addOrupdateModal .form").attr("operatorType");
+            console.log("operatorType = " + operatorType);
+            var operatorUrl;
+            if ("add" == operatorType) {
+                operatorUrl = I18n.system_url_pre+"/automation/dic/addDicForAdmin";
+            } else if ("update" == operatorType) {
+                operatorUrl = I18n.system_url_pre+"/automation/dic/updateDicForAdmin";
+            }
+            if (isNull(operatorUrl)) {
+                layer.open({
+                    title: I18n.system_tips,
+                    btn: [I18n.system_ok],
+                    content: '终止操作行为，当前操作未明确是新增还是操作，请检查.',
+                    icon: '2'
+                });
+                return;
+            }
             $.post(
-                // "http://localhost:9050/automation/dic/addDicForAdmin",
-                "https://www.yzkj.store/automation/dic/addDicForAdmin",
-                $("#addModal .form").serialize(),
+                operatorUrl,
+                $("#addOrupdateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
-                        $('#addModal').modal('hide');
+                        $('#addOrupdateModal').modal('hide');
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: I18n.system_add_suc ,
+                            content: I18n.system_update_suc ,
                             icon: '1',
                             end: function(layero, index){
                                 jobTable.fnDraw();
@@ -178,14 +227,14 @@ $(function() {
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
-                            content: (data.msg || I18n.system_add_fail ),
+                            content: (data.msg || I18n.system_update_fail ),
                             icon: '2'
                         });
                     }
-                });
+                }
+            );
         }
     });
-
 
     // delete 删除
     $("#job_list").on('click', '.delete',function() {
@@ -200,12 +249,11 @@ $(function() {
         }, function(index){
             layer.close(index);
             $.post(
-                // "http://localhost:9050/automation/dic/deleteDicForAdmin",
-                "https://www.yzkj.store/automation/dic/deleteDicForAdmin",
+                I18n.system_url_pre+"/automation/dic/deleteDicForAdmin",
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
-                        $('#updateModal').modal('hide');
+                        $('#addOrupdateModal').modal('hide');
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
@@ -226,73 +274,56 @@ $(function() {
                 }
             );
         });
-
     });
-
-    // update 更新
-    $("#job_list").on('click', '.update',function() {
-
-        var id = $(this).parents('ul').attr("_id");
-        var row = tableData['key'+id];
-        console.log(row);
-        console.log("row.dicType = " + row.dicType);
-        console.log("row.dicName = " + row.dicName);
-        console.log("row.dicStatus = " + row.dicStatus);
-        $("#updateModal .form input[name='id']").val( row.id );
-        $("#updateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);    //业务类型
-        $("#updateModal .form input[name='dicCode']").val( row.dicCode );                                           //业务编码
-        $("#updateModal .form input[name='dicName']").val( row.dicName );                                           //业务名称
-        $("#updateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
-        try {
-            $("#updateModal .form textarea[name='dicRemark']").val( JSON.stringify(JSON.parse(row.dicRemark),null,2) );//业务详情
-        } catch (e) {
-            $("#updateModal .form textarea[name='dicRemark']").val( row.dicRemark );//业务详情
-        }
-
-        // show
-        $('#updateModal').modal({backdrop: false, keyboard: false}).modal('show');
-    });
-    var updateModalValidate = $("#updateModal .form").validate({
-        errorElement : 'span',
-        errorClass : 'help-block',
-        focusInvalid : true,
-        highlight : function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        success : function(label) {
-            label.closest('.form-group').removeClass('has-error');
-            label.remove();
-        },
-        errorPlacement : function(error, element) {
-            element.parent('div').append(error);
-        },
-        submitHandler : function(form) {
-            $.post(
-                // "http://localhost:9050/automation/dic/updateDicForAdmin",
-                "https://www.yzkj.store/automation/dic/updateDicForAdmin",
-                $("#updateModal .form").serialize(),
-                function(data, status) {
-                    if (data.code == "0") {
-                        $('#updateModal').modal('hide');
-                        layer.open({
-                            title: I18n.system_tips ,
-                            btn: [ I18n.system_ok ],
-                            content: I18n.system_update_suc ,
-                            icon: '1',
-                            end: function(layero, index){
-                                jobTable.fnDraw();
-                            }
-                        });
-                    } else {
-                        layer.open({
-                            title: I18n.system_tips ,
-                            btn: [ I18n.system_ok ],
-                            content: (data.msg || I18n.system_update_fail ),
-                            icon: '2'
-                        });
-                    }
-            });
-        }
-    });
-
 });
+
+/**
+ * 清空表单信息
+ */
+function clearFormValue() {
+    //清空信息
+    $("#addOrupdateModal .form input[name='dicType']").val("");           //字典类型
+    $("#addOrupdateModal .form input[name='dicCode']").val("");           //字典编码
+    $("#addOrupdateModal .form input[name='dicName']").val("");           //字典名称
+    $("#addOrupdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true); //业务状态，默认正常
+    $("#addOrupdateModal .form input[name='nickName']").val("");           //目标微信群昵称
+    $("#addOrupdateModal .form input[name='textMessage']").val("");        //聊天内容
+    $("#addOrupdateModal .form textarea[name='dicRemark']").val("");       //字典详情
+    //删除只读属性
+    $("#addOrupdateModal .form input[name='dicType']").removeAttr("readonly");           //字典类型
+    $("#addOrupdateModal .form input[name='dicCode']").removeAttr("readonly");           //字典编码
+    $("#addOrupdateModal .form input[name='dicName']").removeAttr("readonly");           //字典名称
+    $("#addOrupdateModal .form input[name='dicStatus']").removeAttr("readonly");         //字典状态
+    $("#addOrupdateModal .form input[name='nickName']").removeAttr("readonly");          //目标微信群昵称
+    $("#addOrupdateModal .form input[name='textMessage']").removeAttr("readonly");       //聊天内容
+    $("#addOrupdateModal .form textarea[name='dicRemark']").removeAttr("readonly");      //字典详情
+}
+
+/**
+ * 整理 dicRemark 的 val
+ */
+function changeDicRemark() {
+    console.log("changeDicRemark 被执行了...");
+    //整理 dicRemark
+    var dicRemark_jsonObj = {};
+    try {
+        dicRemark_jsonObj = JSON.parse($("#addOrupdateModal .form textarea[name='dicRemark']").val());
+    } catch (e) {
+        dicRemark_jsonObj = dicRemark_jsonObj;
+    }
+    console.log(dicRemark_jsonObj);
+    //目标微信群昵称
+    var nickName = $("#addOrupdateModal .form input[name='nickName']").val();
+    if (!isNull(nickName)) {
+        dicRemark_jsonObj["nickName"] = nickName;
+    }
+    //聊天内容
+    var textMessage = $("#addOrupdateModal .form input[name='textMessage']").val();
+    if (!isNull(textMessage)) {
+        dicRemark_jsonObj["textMessage"] = textMessage;
+    }
+    //业务编码
+    $("#addOrupdateModal .form input[name='dicCode']").val(nickName);
+    //业务详情
+    $("#addOrupdateModal .form textarea[name='dicRemark']").val(JSON.stringify(dicRemark_jsonObj, null, 4));
+}

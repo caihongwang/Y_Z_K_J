@@ -35,15 +35,22 @@
 				</div>
 				<div class="col-xs-2">
 					<div class="input-group">
-						<input type="text" class="form-control" id="dicName" autocomplete="on"
-							   placeholder="${I18n.system_please_input}业务名称">
+						<select class="form-control"  id="dicName" name="dicName">
+							<option value="转发微信消息" selected>转发微信消息</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<div class="input-group">
+						<input type="text" class="form-control" id="dicCode" autocomplete="on"
+							   placeholder="${I18n.system_please_input}业务编码">
 					</div>
 				</div>
 				<div class="col-xs-1">
 					<div class="input-group">
 						<select class="form-control"  id="dicStatus" name="dicStatus">
 							<option value="0"  selected>正常</option>
-							<option value="1">禁用</option>
+							<option value="1">删除</option>
 						</select>
 					</div>
 				</div>
@@ -84,8 +91,8 @@
 	<@netCommon.commonFooter />
 </div>
 
-<!-- 更新.模态框 -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- 模态框 -->
+<div class="modal fade" id="addOrupdateModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -95,26 +102,28 @@
 				<form class="form-horizontal form" role="form">
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务类型<font
-									color="red">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">业务类型<font color="red">*</font></label>
 						<div class="col-sm-4">
 							<select class="form-control" name="dicType">
 								<option value="relayTheWxMessage" selected>添加设备列表与坐标</option>
 							</select>
 						</div>
-						<label for="lastname" class="col-sm-2 control-label">业务编码<font
-									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"  readonly="readonly"
-													 placeholder="${I18n.system_please_input}业务编码"
-													 maxlength="100"></div>
+						<label for="lastname" class="col-sm-2 control-label">业务名称<font color="red">*</font></label>
+						<div class="col-sm-4">
+							<select class="form-control" name="dicName">
+								<option value="转发微信消息" selected>转发微信消息</option>
+							</select>
+						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务名称<font
-									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicName"  readonly="readonly"
-													 placeholder="${I18n.system_please_input}业务名称"
-													 maxlength="100"></div>
+						<label for="lastname" class="col-sm-2 control-label">业务编码<font
+									color="black">*</font></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="dicCode"
+								   placeholder="${I18n.system_please_input}业务编码"
+								   maxlength="100">
+						</div>
 						<label for="lastname" class="col-sm-2 control-label">业务状态<font
 									color="black">*</font></label>
 						<div class="col-sm-4">
@@ -126,71 +135,16 @@
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">业务详情<font
-									color="black">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">目标设备描述<font color="black">*</font></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="targetDeviceNameDesc" placeholder="${I18n.system_please_input}目标设备描述" maxlength="100" onchange="changeDicRemark()">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">目标群聊列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-                            <textarea class="textarea form-control" name="dicRemark"
-									  placeholder="${I18n.system_please_input}业务详情"
-									  maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
-						</div>
-					</div>
-
-					<hr>
-					<div class="form-group">
-						<div class="col-sm-offset-3 col-sm-6">
-							<button type="submit" class="btn btn-primary">${I18n.system_save}</button>
-							<button type="button" class="btn btn-default"
-									data-dismiss="modal">${I18n.system_cancel}</button>
-							<input type="hidden" name="id">
-						</div>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<!-- 新增.模态框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">添加【转发消息】信息</h4>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal form" role="form">
-
-					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务类型<font
-									color="red">*</font></label>
-						<div class="col-sm-4">
-							<select class="form-control" name="dicType">
-								<option value="relayTheWxMessage" selected>转发消息</option>
-							</select>
-						</div>
-
-						<label for="lastname" class="col-sm-2 control-label">业务编码<font
-									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"
-													 placeholder="${I18n.system_please_input}业务编码"
-													 maxlength="100"></div>
-					</div>
-
-					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务方式<font
-									color="red">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicName"
-													 placeholder="${I18n.system_please_input}业务名称"
-													 maxlength="100"></div>
-						<label for="lastname" class="col-sm-2 control-label">业务状态<font
-									color="black">*</font></label>
-						<div class="col-sm-4">
-							<select class="form-control" name="dicStatus">
-								<option value="0" selected>正常</option>
-								<option value="1">异常</option>
-							</select>
+                            <textarea class="textarea form-control" name="relayTargetGroupList" placeholder="${I18n.system_please_input}目标群聊列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"  onchange="changeDicRemark()"></textarea>
 						</div>
 					</div>
 
