@@ -27,7 +27,7 @@
 			<div class="row">
 				<div class="col-xs-2">
 					<div class="input-group">
-						<select class="form-control" id="dicType" name="dicType">
+						<select class="form-control" id="dicType" name="dicType" onchange="changeDicTypeForQueryConditionFun()">
 							<option value="sendFriendCircle" selected>发布图片/文字朋友圈</option>
 							<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 						</select>
@@ -38,7 +38,7 @@
 						<select class="form-control" id="dicName" name="dicName">
 							<option id="imgMessageFriendCircle" value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
 							<option id="textMessageFriendCircle" value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
-							<option id="shareArticleToFriendCircle" value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
+							<option id="shareArticleToFriendCircle" value="分享文章链接到朋友圈" style="display: none;">分享文章链接到朋友圈</option>
 						</select>
 					</div>
 				</div>
@@ -106,7 +106,7 @@
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">业务类型<font color="red">*</font></label>
 						<div class="col-sm-4">
-							<select class="form-control" name="dicType" onchange="changeForDicTypeFun(this)">
+							<select class="form-control" name="dicType" onchange="changeDicTypeForAddOrUpdateModalFun(this)">
 								<option value="sendFriendCircle" selected>发送朋友圈</option>
 								<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 							</select>
@@ -117,7 +117,7 @@
 							<select class="form-control" name="dicName">
 								<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
 								<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
-								<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
+								<option value="分享文章链接到朋友圈" style="display: none;">分享文章链接到朋友圈</option>
 							</select>
 						</div>
 					</div>
@@ -162,7 +162,7 @@
 							<select class="form-control" name="action" onchange="changeDicRemark()">
 								<option value="imgMessageFriendCircle" selected>发布图片内容到朋友圈</option>
 								<option value="textMessageFriendCircle">发布文字内容到朋友圈</option>
-								<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
+								<option value="shareArticleToFriendCircle" style="display: none;">分享文章链接到朋友圈</option>
 							</select>
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">发圈后通知微信号<font

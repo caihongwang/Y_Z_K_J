@@ -293,11 +293,27 @@ $(function() {
     });
 });
 
+
+
 /**
- * 朋友圈类别选择时间
+ * 朋友圈类别选择时间 for QueryCondition
  * @param obj
  */
-function changeForDicTypeFun(obj){
+function changeDicTypeForQueryConditionFun(obj){
+    var dicType = $("#dicType").children('option:selected').val();
+    console.log("dicType = " + dicType);
+    if(dicType == "sendFriendCircle"){
+        $("#dicName").html("<option id='imgMessageFriendCircl' value='发布图片内容到朋友圈' selected>发布图片内容到朋友圈</option><option id='textMessageFriendCircle' value='发布文字内容到朋友圈'>发布文字内容到朋友圈</option>");
+    } else if(dicType == "shareArticleToFriendCircle"){
+        $("#dicName").html("<option id='shareArticleToFriendCircle' value='分享文章链接到朋友圈' selected>分享文章链接到朋友圈</option>");
+    }
+}
+
+/**
+ * 朋友圈类别选择时间 for addOrupdateModal
+ * @param obj
+ */
+function changeDicTypeForAddOrUpdateModalFun(obj){
     console.log("changeForDicTypeFun 被点击了....");
     console.log(obj);
     var dicType = $("#addOrupdateModal .form select[name='dicType']").children('option:selected').val();
@@ -305,9 +321,13 @@ function changeForDicTypeFun(obj){
     if(dicType == "sendFriendCircle"){
         $("#addOrupdateModal .sendFriendCircle").css("display", "block");
         $("#addOrupdateModal .shareArticleToFriendCircle").css("display", "none");
+        $("#addOrupdateModal .form select[name='dicName']").html("<option value='发布图片内容到朋友圈' selected>发布图片内容到朋友圈</option><option value='发布文字内容到朋友圈'>发布文字内容到朋友圈</option>");
+        $("#addOrupdateModal .form select[name='action']").html("<option id='imgMessageFriendCircl' value='发布图片内容到朋友圈' selected>发布图片内容到朋友圈</option><option id='textMessageFriendCircle' value='发布文字内容到朋友圈'>发布文字内容到朋友圈</option>");
     } else if(dicType == "shareArticleToFriendCircle"){
         $("#addOrupdateModal .sendFriendCircle").css("display", "none");
         $("#addOrupdateModal .shareArticleToFriendCircle").css("display", "block");
+        $("#addOrupdateModal .form select[name='dicName']").html("<option value='分享文章链接到朋友圈' selected>分享文章链接到朋友圈</option>");
+        $("#addOrupdateModal .form select[name='action']").html("<option id='shareArticleToFriendCircle' value='分享文章链接到朋友圈' selected>分享文章链接到朋友圈</option>");
     }
 }
 
@@ -350,6 +370,8 @@ function clearFormValue() {
  */
 function changeDicRemark() {
     console.log("changeDicRemark 被执行了...");
+    var dicType = $("#addOrupdateModal .form select[name='dicType']").children('option:selected').val();
+    console.log("dicType = " + dicType);
     //整理 dicRemark
     var dicRemark_jsonObj = {};
     try {
@@ -373,30 +395,33 @@ function changeDicRemark() {
     if (!isNull(action)) {
         dicRemark_jsonObj["action"] = action;
     }
-    //图片路径
-    var imgDirPath = $("#addOrupdateModal .form input[name='imgDirPath']").val();
-    if (!isNull(imgDirPath)) {
-        dicRemark_jsonObj["imgDirPath"] = imgDirPath;
-    }
     //发圈后通知微信号
     var nickName = $("#addOrupdateModal .form input[name='nickName']").val();
     if (!isNull(nickName)) {
         dicRemark_jsonObj["nickName"] = nickName;
     }
-    //发圈内容
-    var textMessage = $("#addOrupdateModal .form textarea[name='textMessage']").val();
-    if (!isNull(textMessage)) {
-        dicRemark_jsonObj["textMessage"] = textMessage;
-    }
-    //转发文章Url
-    var shareArticleUrl = $("#addOrupdateModal .form input[name='shareArticleUrl']").val();
-    if (!isNull(shareArticleUrl)) {
-        dicRemark_jsonObj["shareArticleUrl"] = shareArticleUrl;
-    }
-    //转发文章标题
-    var shareArticleTitle = $("#addOrupdateModal .form input[name='shareArticleTitle']").val();
-    if (!isNull(shareArticleUrl)) {
-        dicRemark_jsonObj["shareArticleTitle"] = shareArticleTitle;
+    if(dicType == "sendFriendCircle"){
+        //图片路径
+        var imgDirPath = $("#addOrupdateModal .form input[name='imgDirPath']").val();
+        if (!isNull(imgDirPath)) {
+            dicRemark_jsonObj["imgDirPath"] = imgDirPath;
+        }
+        //发圈内容
+        var textMessage = $("#addOrupdateModal .form textarea[name='textMessage']").val();
+        if (!isNull(textMessage)) {
+            dicRemark_jsonObj["textMessage"] = textMessage;
+        }
+    } else if(dicType == "shareArticleToFriendCircle"){
+        //转发文章Url
+        var shareArticleUrl = $("#addOrupdateModal .form input[name='shareArticleUrl']").val();
+        if (!isNull(shareArticleUrl)) {
+            dicRemark_jsonObj["shareArticleUrl"] = shareArticleUrl;
+        }
+        //转发文章标题
+        var shareArticleTitle = $("#addOrupdateModal .form input[name='shareArticleTitle']").val();
+        if (!isNull(shareArticleUrl)) {
+            dicRemark_jsonObj["shareArticleTitle"] = shareArticleTitle;
+        }
     }
     //业务编码
     $("#addOrupdateModal .form input[name='dicCode']").val(nickName);
