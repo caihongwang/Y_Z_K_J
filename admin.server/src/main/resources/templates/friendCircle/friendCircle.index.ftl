@@ -24,13 +24,10 @@
 
 		<!-- Main content -->
 		<section class="content">
-
 			<div class="row">
 				<div class="col-xs-2">
 					<div class="input-group">
-<#--						<input type="text" class="form-control" id="dicType" autocomplete="on"  readonly="readonly"-->
-<#--							   value="sendFriendCircle" placeholder="${I18n.system_please_input}业务类型">-->
-						<select class="form-control"  id="dicType" name="dicType">
+						<select class="form-control" id="dicType" name="dicType">
 							<option value="sendFriendCircle" selected>发布图片/文字朋友圈</option>
 							<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 						</select>
@@ -38,19 +35,17 @@
 				</div>
 				<div class="col-xs-2">
 					<div class="input-group">
-						<input type="text" class="form-control" id="dicCode" autocomplete="on"
-							   placeholder="${I18n.system_please_input}微信昵称">
+						<select class="form-control" id="dicName" name="dicName">
+							<option id="imgMessageFriendCircle" value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
+							<option id="textMessageFriendCircle" value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
+							<option id="shareArticleToFriendCircle" value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
+						</select>
 					</div>
 				</div>
 				<div class="col-xs-2">
 					<div class="input-group">
-						<#--						<input type="text" class="form-control" id="dicName" autocomplete="on"-->
-						<#--							   placeholder="${I18n.system_please_input}业务方式">-->
-						<select class="form-control"  id="dicName" name="dicName">
-							<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
-							<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
-							<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
-						</select>
+						<input type="text" class="form-control" id="dicCode" autocomplete="on"
+							   placeholder="${I18n.system_please_input}业务编码">
 					</div>
 				</div>
 				<div class="col-xs-1">
@@ -79,8 +74,8 @@
 									<th>${I18n.system_opt}</th>
 									<th name="id">ID</th>
 									<th name="dicType">业务类型</th>
-									<th name="dicCode">微信昵称</th>
-									<th name="dicName">业务方式</th>
+									<th name="dicCode">业务编码</th>
+									<th name="dicName">业务名称</th>
 									<th name="dicRemark">业务详情</th>
 									<th name="dicStatus">业务状态</th>
 								</tr>
@@ -98,8 +93,8 @@
 	<@netCommon.commonFooter />
 </div>
 
-<!-- 更新.模态框 -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- 模态框 -->
+<div class="modal fade" id="addOrupdateModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -109,43 +104,33 @@
 				<form class="form-horizontal form" role="form">
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务类型<font
-									color="red">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">业务类型<font color="red">*</font></label>
 						<div class="col-sm-4">
-<#--							<input type="text" class="form-control" name="dicType" readonly="readonly"-->
-<#--													 placeholder="${I18n.system_please_input}业务类型"-->
-<#--													 maxlength="50">-->
-							<select class="form-control" name="dicType">
+							<select class="form-control" name="dicType" onchange="changeForDicTypeFun(this)">
 								<option value="sendFriendCircle" selected>发送朋友圈</option>
 								<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 							</select>
 						</div>
-						<label for="lastname" class="col-sm-2 control-label">微信昵称<font
+						<label for="lastname" class="col-sm-2 control-label">业务名称<font
+									color="red">*</font></label>
+						<div class="col-sm-4">
+							<select class="form-control" name="dicName">
+								<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
+								<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
+								<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">业务编码<font
 									color="black">*</font></label>
 						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"  readonly="readonly"
-													 placeholder="${I18n.system_please_input}微信昵称"
+													 placeholder="${I18n.system_please_input}业务编码"
 													 maxlength="100"></div>
-					</div>
-
-					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务方式<font
-									color="red">*</font></label>
-						<div class="col-sm-4">
-<#--							<input type="text" class="form-control" name="dicName"-->
-<#--													 placeholder="${I18n.system_please_input}业务方式"-->
-<#--													 maxlength="50">-->
-							<select class="form-control" name="dicName">
-								<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
-								<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
-								<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
-							</select>
-						</div>
 						<label for="lastname" class="col-sm-2 control-label">业务状态<font
 									color="black">*</font></label>
 						<div class="col-sm-4">
-<#--							<input type="text" class="form-control"  name="dicStatus" -->
-<#--													 placeholder="${I18n.system_please_input}业务状态"-->
-<#--													 maxlength="100">-->
 							<select class="form-control" name="dicStatus">
 								<option value="0" selected>正常</option>
 								<option value="1">异常</option>
@@ -154,85 +139,75 @@
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">业务详情<font
+						<label for="lastname" class="col-sm-2 control-label">开始时间<font
 									color="black">*</font></label>
-						<div class="col-sm-10">
-                            <textarea class="textarea form-control" name="dicRemark"
-									  placeholder="${I18n.system_please_input}业务详情"
-									  maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
-						</div>
-					</div>
-
-					<hr>
-					<div class="form-group">
-						<div class="col-sm-offset-3 col-sm-6">
-							<button type="submit" class="btn btn-primary">${I18n.system_save}</button>
-							<button type="button" class="btn btn-default"
-									data-dismiss="modal">${I18n.system_cancel}</button>
-							<input type="hidden" name="id">
-						</div>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<!-- 新增.模态框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">添加【朋友圈】信息</h4>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal form" role="form">
-
-					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务类型<font
-									color="red">*</font></label>
 						<div class="col-sm-4">
-<#--							<input type="text" class="form-control" name="dicType"-->
-<#--													 placeholder="${I18n.system_please_input}业务类型"-->
-<#--													 maxlength="50">-->
-							<select class="form-control" name="dicType">
-								<option value="sendFriendCircle" selected>发送朋友圈</option>
+							<input type="text" class="form-control"  name="startTime"
+								   placeholder="${I18n.system_please_input}开始时间"
+								   maxlength="100" onchange="changeDicRemark()">
+						</div>
+						<label for="lastname" class="col-sm-2 control-label">结束时间<font
+									color="black">*</font></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="endTime"
+								   placeholder="${I18n.system_please_input}结束时间"
+								   maxlength="100" onchange="changeDicRemark()">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">发圈类别<font
+									color="black">*</font></label>
+						<div class="col-sm-4">
+							<select class="form-control" name="action" onchange="changeDicRemark()">
+								<option value="imgMessageFriendCircle" selected>发布图片内容到朋友圈</option>
+								<option value="textMessageFriendCircle">发布文字内容到朋友圈</option>
 								<option value="shareArticleToFriendCircle">分享文章链接到朋友圈</option>
 							</select>
 						</div>
-
-						<label for="lastname" class="col-sm-2 control-label">微信昵称<font
+						<label for="lastname" class="col-sm-2 control-label">发圈后通知微信号<font
 									color="black">*</font></label>
-						<div class="col-sm-4"><input type="text" class="form-control"  name="dicCode"
-													 placeholder="${I18n.system_please_input}微信昵称"
-													 maxlength="100"></div>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="nickName"
+								   placeholder="${I18n.system_please_input}发圈后通知微信号"
+								   maxlength="100" onchange="changeDicRemark()">
+						</div>
 					</div>
 
-					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务方式<font
-									color="red">*</font></label>
-						<div class="col-sm-4">
-<#--							<input type="text" class="form-control" name="dicName"-->
-<#--													 placeholder="${I18n.system_please_input}业务方式"-->
-<#--													 maxlength="50">-->
-							<select class="form-control" name="dicName">
-								<option value="发布图片内容到朋友圈" selected>发布图片内容到朋友圈</option>
-								<option value="发布文字内容到朋友圈">发布文字内容到朋友圈</option>
-								<option value="分享文章链接到朋友圈">分享文章链接到朋友圈</option>
-							</select>
+					<div class="form-group sendFriendCircle">
+						<label for="lastname" class="col-sm-2 control-label">图片路径<font
+									color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="imgDirPath"
+								   placeholder="${I18n.system_please_input}图片路径"
+								   maxlength="100" onchange="changeDicRemark()">
 						</div>
-						<label for="lastname" class="col-sm-2 control-label">业务状态<font
+					</div>
+
+					<div class="form-group sendFriendCircle">
+						<label for="firstname" class="col-sm-2 control-label">发圈内容<font
+									color="black">*</font></label>
+						<div class="col-sm-10">
+                            <textarea class="textarea form-control" name="textMessage"
+									  placeholder="${I18n.system_please_input}发圈内容"
+									  maxlength="10240000" style="height: 250px; line-height: 1.2;" onchange="changeDicRemark()"></textarea>
+						</div>
+					</div>
+
+					<div class="form-group shareArticleToFriendCircle">
+						<label for="lastname" class="col-sm-2 control-label">转发文章Url<font
 									color="black">*</font></label>
 						<div class="col-sm-4">
-<#--							<input type="text" class="form-control"  name="dicStatus" readonly="readonly"-->
-<#--													 placeholder="${I18n.system_please_input}业务状态"-->
-<#--													 maxlength="100">-->
-							<select class="form-control" name="dicStatus">
-								<option value="0" selected>正常</option>
-								<option value="1">异常</option>
-							</select>
+							<input type="text" class="form-control"  name="shareArticleUrl"
+								   placeholder="${I18n.system_please_input}文章地址Url"
+								   maxlength="100" onchange="changeDicRemark()">
+						</div>
+						<label for="lastname" class="col-sm-2 control-label">转发文章标题<font
+									color="black">*</font></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="shareArticleTitle"
+								   placeholder="${I18n.system_please_input}转发文章标题"
+								   maxlength="100" onchange="changeDicRemark()">
 						</div>
 					</div>
 
