@@ -29,7 +29,7 @@
 				<#-- 阅读微信文章并点击广告 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="clickArticleAd">
 					<div class="info-box bg-aqua">
-						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
+						<span class="info-box-icon"><i class="fa fa-eraser"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">阅读微信文章并点击广告</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -43,7 +43,7 @@
 				<#-- 同意好友请求 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="agreeToFriendRequest">
 					<div class="info-box bg-yellow">
-						<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+						<span class="info-box-icon"><i class="fa fa-puzzle-piece"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">同意好友请求</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -57,7 +57,7 @@
 				<#-- 将群保存到通讯录 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="saveToAddressBook">
 					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa ion-ios-settings-strong"></i></span>
+						<span class="info-box-icon"><i class="fa fa-microphone"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">将群保存到通讯录</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -74,7 +74,7 @@
 				<#-- 点赞和评论朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="praiseAndCommentFriendsCircle">
 					<div class="info-box bg-yellow">
-						<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+						<span class="info-box-icon"><i class="fa fa-shield"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">点赞和评论朋友圈</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -88,7 +88,7 @@
 				<#-- 同意进群 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="agreeToJoinTheGroup">
 					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa ion-ios-settings-strong"></i></span>
+						<span class="info-box-icon"><i class="fa fa-fire-extinguisher"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">同意进群</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -102,7 +102,7 @@
 				<#-- 发送朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="sendFriendCircle">
 					<div class="info-box bg-aqua">
-						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
+						<span class="info-box-icon"><i class="fa fa-rocket"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">发送朋友圈</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -119,7 +119,7 @@
 				<#-- 根据微信昵称进行聊天 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="chatByNickName">
 					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa ion-ios-settings-strong"></i></span>
+						<span class="info-box-icon"><i class="fa fa-maxcdn"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">根据微信昵称进行聊天</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -133,7 +133,7 @@
 				<#-- 分享微信文章到微信朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="shareArticleToFriendCircle">
 					<div class="info-box bg-aqua">
-						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
+						<span class="info-box-icon"><i class="fa fa-anchor"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">分享微信文章到微信朋友圈</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -144,12 +144,12 @@
 						</div>
 					</div>
 				</div>
-				<#-- 通过V群添加其成员为好友 -->
+				<#-- 添加群成员为好友的V群 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="addGroupMembersAsFriends">
 					<div class="info-box bg-yellow">
-						<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+						<span class="info-box-icon"><i class="fa fa-ticket"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-number">通过V群添加其成员为好友</span>
+							<span class="info-box-number">添加群成员为好友的V群</span>
 							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
@@ -164,7 +164,7 @@
 				<#-- 转发微信消息 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="relayTheWxMessage">
 					<div class="info-box bg-aqua">
-						<span class="info-box-icon"><i class="fa fa-flag-o"></i></span>
+						<span class="info-box-icon"><i class="fa fa-compass"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">转发微信消息</span>
 							<span class="info-box-text">12台在线设备</span>
@@ -183,34 +183,34 @@
 	<@netCommon.commonFooter />
 </div>
 
-<!-- 弹窗.模态框 -->
+<!-- 模态框 For 默认：阅读微信文章并点击广告 或者 同意好友请求 或者 将群保存到通讯录 或者 同意进群 或者 转发微信消息 -->
 <div class="modal fade" id="automationOperationModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" name="modalTitle">自动化操作</h4>
+				<h4 class="modal-title" name="modalTitle">转发微信消息-自动化操作</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal form" role="form">
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label"> 操作名称<font color="black">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">操作名称<font color="black">*</font></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control"  name="automationOperation_name" placeholder="${I18n.system_please_input}操作名称" readonly="true">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label"> 操作地址<font color="black">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">操作地址<font color="black">*</font></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control"  name="automationOperation_url" placeholder="${I18n.system_please_input}操作地址" maxlength="1000">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">操作参数<font color="black">*</font></label>
+						<label for="firstname" class="col-sm-2 control-label">操作时间列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-                            <textarea class="textarea form-control" name="automationOperation_param" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+                            <textarea class="textarea form-control" name="currentDateListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -229,6 +229,126 @@
 		</div>
 	</div>
 </div>
+
+<!-- 模态框 For 点赞和评论朋友圈 -->
+<div class="modal fade" id="praiseAndCommentFriendsCircleModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" name="modalTitle">点赞和评论朋友圈-自动化操作</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal form" role="form">
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作名称<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_name" placeholder="${I18n.system_please_input}操作名称" readonly="true">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作地址<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_url" placeholder="${I18n.system_please_input}操作地址" maxlength="1000">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作微信号<font color="black">*</font></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="nickName" placeholder="${I18n.system_please_input}所有、广告或者微信号" maxlength="1000">
+						</div>
+						<label for="lastname" class="col-sm-2 control-label">滑动朋友圈次数<font color="black">*</font></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control"  name="allSwipeNum" placeholder="${I18n.system_please_input}滑动朋友圈次数" maxlength="1000">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">评论内容<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="commentContent" placeholder="${I18n.system_please_input}评论内容" maxlength="1000">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-sm-2 control-label">操作时间列表<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="currentDateListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+						</div>
+					</div>
+
+					<hr>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-6">
+							<button type="submit" class="btn btn-primary">${I18n.system_opt}</button>
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">${I18n.system_cancel}</button>
+							<input type="hidden" name="id">
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 模态框 For 发送朋友圈 或者 根据微信昵称进行聊天 或者 分享微信文章到微信朋友圈 或者 添加群成员为好友的V群 -->
+<div class="modal fade" id="sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" name="modalTitle">发送朋友圈-自动化操作</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal form" role="form">
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作名称<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_name" placeholder="${I18n.system_please_input}操作名称" readonly="true">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作地址<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_url" placeholder="${I18n.system_please_input}操作地址" maxlength="1000">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-sm-2 control-label">微信号列表<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}微信号列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-sm-2 control-label">操作时间列表<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="currentDateListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+						</div>
+					</div>
+
+					<hr>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-6">
+							<button type="submit" class="btn btn-primary">${I18n.system_opt}</button>
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">${I18n.system_cancel}</button>
+							<input type="hidden" name="id">
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <@netCommon.commonScript />
 <!-- DataTables -->

@@ -105,7 +105,7 @@
 						<label for="lastname" class="col-sm-2 control-label">业务类型<font color="red">*</font></label>
 						<div class="col-sm-4">
 							<select class="form-control" name="dicType">
-								<option value="relayTheWxMessage" selected>添加设备列表与坐标</option>
+								<option value="relayTheWxMessage" selected>转发消息</option>
 							</select>
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">业务名称<font color="red">*</font></label>
