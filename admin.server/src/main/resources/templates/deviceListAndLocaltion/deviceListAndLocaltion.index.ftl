@@ -85,7 +85,7 @@
 </div>
 
 <!-- 模态框 -->
-<div class="modal fade" id="addOrupdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="addOrUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -133,9 +133,9 @@
 					</div>
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">目标群聊列表<font color="black">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="deviceNameList" placeholder="${I18n.system_please_input}目标群聊列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"  onchange="changeDicRemark()"></textarea>
+							<textarea class="textarea form-control" name="deviceNameList" placeholder="${I18n.system_please_input}设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"  onchange="changeDicRemark()"></textarea>
 						</div>
 					</div>
 

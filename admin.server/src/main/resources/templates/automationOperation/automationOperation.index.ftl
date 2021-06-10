@@ -71,8 +71,8 @@
 			</div>
 
 			<div class="row">
-				<#-- 点赞和评论朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="praiseAndCommentFriendsCircle">
+					<#-- 点赞和评论朋友圈 -->
 					<div class="info-box bg-yellow">
 						<span class="info-box-icon"><i class="fa fa-shield"></i></span>
 						<div class="info-box-content">

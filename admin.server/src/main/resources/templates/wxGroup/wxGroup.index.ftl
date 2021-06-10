@@ -92,7 +92,7 @@
 </div>
 
 <!-- 模态框 -->
-<div class="modal fade" id="addOrupdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="addOrUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -141,7 +141,7 @@
 
 						<label for="lastname" class="col-sm-2 control-label">添加好友的起始位置<font color="black">*</font></label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control"  name="startAddFrirndTotalNumStr" placeholder="${I18n.system_please_input}添加好友的起始位置" maxlength="100" onchange="changeDicRemark()">
+							<input type="text" class="form-control"  name="startAddFrirndTotalNumStr" placeholder="${I18n.system_please_input}添加好友的起始位置" maxlength="4" onchange="changeDicRemark()">
 						</div>
 					</div>
 

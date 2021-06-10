@@ -5,6 +5,52 @@ $(function () {
         "processing": true,
         "serverSide": true,
         "scrollX": true,
+        rules : {
+            dicType: {
+                required: true
+            },
+            dicName: {
+                required: true
+            },
+            dicCode: {
+                required: true
+            },
+            dicStatus: {
+                required: true
+            },
+            deviceLocaltion: {
+                required: true
+            },
+            deviceNameList: {
+                required: true
+            },
+            dicRemark: {
+                required: true
+            }
+        },
+        messages : {
+            dicType : {
+                required : I18n.system_please_input + '业务类型'
+            },
+            dicName : {
+                required : I18n.system_please_input + '业务名称'
+            },
+            dicCode : {
+                required : I18n.system_please_input + '业务编码'
+            },
+            dicStatus : {
+                required : I18n.system_please_input + '业务状态'
+            },
+            deviceLocaltion : {
+                required : I18n.system_please_input + '设备坐标'
+            },
+            deviceNameList : {
+                required : I18n.system_please_input + '设备列表'
+            },
+            dicRemark : {
+                required : I18n.system_please_input + '业务详情'
+            }
+        },
         "ajax": {
             url: I18n.system_url_pre + "/automation/dic/getDicListByConditionForAdmin",
             type: "post",
@@ -134,22 +180,22 @@ $(function () {
     // add 新增
     $(".add").click(function () {
         clearFormValue();           //清空表单信息
-        $("#addOrupdateModal .form").attr("operatorType", "add");                           //操作类型，新增或者删除
-        $("#addOrupdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
-        $("#addOrupdateModal h4[class='modal-title']").html($("#addOrupdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
+        $("#addOrUpdateModal .form").attr("operatorType", "add");                           //操作类型，新增或者删除
+        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
+        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
 
         // show
-        $('#addOrupdateModal').modal({backdrop: false, keyboard: false}).modal('show');
+        $('#addOrUpdateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     // update 更新
     $("#job_list").on('click', '.update', function () {
         clearFormValue();           //清空表单信息
-        $("#addOrupdateModal .form").attr("operatorType", "update");                             //操作类型，新增或者删除
-        $("#addOrupdateModal .form input[name='dicName']").attr("readonly", true);               //业务名称
-        $("#addOrupdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
-        $("#addOrupdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
-        $("#addOrupdateModal h4[class='modal-title']").html($("#addOrupdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
+        $("#addOrUpdateModal .form").attr("operatorType", "update");                             //操作类型，新增或者删除
+        $("#addOrUpdateModal .form input[name='dicName']").attr("readonly", true);               //业务名称
+        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
+        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
+        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
 
         var id = $(this).parents('ul').attr("_id");
         var row = tableData['key' + id];
@@ -158,35 +204,35 @@ $(function () {
         console.log("row.dicName = " + row.dicName);
         console.log("row.dicStatus = " + row.dicStatus);
         console.log("row.dicRemark = " + row.dicRemark);
-        $("#addOrupdateModal .form input[name='id']").val(row.id);
-        $("#addOrupdateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);    //业务类型
-        $("#addOrupdateModal .form input[name='dicCode']").val(row.dicCode);                                             //业务编码
-        $("#addOrupdateModal .form input[name='dicName']").val(row.dicName);                                             //业务名称
-        $("#addOrupdateModal .form select[name='dicStatus'] option[value=" + row.dicStatus + "]").prop('selected', true);//业务状态
+        $("#addOrUpdateModal .form input[name='id']").val(row.id);
+        $("#addOrUpdateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);    //业务类型
+        $("#addOrUpdateModal .form input[name='dicCode']").val(row.dicCode);                                             //业务编码
+        $("#addOrUpdateModal .form input[name='dicName']").val(row.dicName);                                             //业务名称
+        $("#addOrUpdateModal .form select[name='dicStatus'] option[value=" + row.dicStatus + "]").prop('selected', true);//业务状态
         // 拆分显示 dicRemark
         var dicRemark_jsonObj = JSON.parse(row.dicRemark);
         var deviceLocaltion = dicRemark_jsonObj.deviceLocaltion;
         try {
             // deviceLocaltion = deviceLocaltion.replace(/\\/g, '');
-            $("#addOrupdateModal .form textarea[name='deviceLocaltion']").val(JSON.stringify(deviceLocaltion, null, 4));//设备坐标
+            $("#addOrUpdateModal .form textarea[name='deviceLocaltion']").val(JSON.stringify(deviceLocaltion, null, 4));//设备坐标
         } catch (e) {
-            $("#addOrupdateModal .form textarea[name='deviceLocaltion']").val(deviceLocaltion);//设备坐标
+            $("#addOrUpdateModal .form textarea[name='deviceLocaltion']").val(deviceLocaltion);//设备坐标
         }
         var deviceNameList = dicRemark_jsonObj.deviceNameList;
         try {
             // deviceNameList = deviceNameList.replace(/\\/g, '');
-            $("#addOrupdateModal .form textarea[name='deviceNameList']").val(JSON.stringify(deviceNameList, null, 4));//目标群聊列表
+            $("#addOrUpdateModal .form textarea[name='deviceNameList']").val(JSON.stringify(deviceNameList, null, 4));//设备列表
         } catch (e) {
-            $("#addOrupdateModal .form textarea[name='deviceNameList']").val(deviceNameList);//目标群聊列表
+            $("#addOrUpdateModal .form textarea[name='deviceNameList']").val(deviceNameList);//设备列表
         }
         try {
-            $("#addOrupdateModal .form textarea[name='dicRemark']").val(JSON.stringify(JSON.parse(row.dicRemark), null, 2));//业务详情
+            $("#addOrUpdateModal .form textarea[name='dicRemark']").val(JSON.stringify(JSON.parse(row.dicRemark), null, 2));//业务详情
         } catch (e) {
-            $("#addOrupdateModal .form textarea[name='dicRemark']").val(row.dicRemark);//业务详情
+            $("#addOrUpdateModal .form textarea[name='dicRemark']").val(row.dicRemark);//业务详情
         }
 
         // show
-        $('#addOrupdateModal').modal({backdrop: false, keyboard: false}).modal('show');
+        $('#addOrUpdateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     // delete 删除
@@ -206,7 +252,7 @@ $(function () {
                 paramStr,
                 function (data, status) {
                     if (data.code == "0") {
-                        $('#addOrupdateModal').modal('hide');
+                        $('#addOrUpdateModal').modal('hide');
                         layer.open({
                             title: I18n.system_tips,
                             btn: [I18n.system_ok],
@@ -230,10 +276,56 @@ $(function () {
 
     });
 
-    var addOrupdateModalValidate = $("#addOrupdateModal .form").validate({
+    var addOrUpdateModalValidate = $("#addOrUpdateModal .form").validate({
         errorElement: 'span',
         errorClass: 'help-block',
         focusInvalid: true,
+        rules : {
+            dicType: {
+                required: true
+            },
+            dicName: {
+                required: true
+            },
+            dicCode: {
+                required: true
+            },
+            dicStatus: {
+                required: true
+            },
+            deviceLocaltion: {
+                required: true
+            },
+            deviceNameList: {
+                required: true
+            },
+            dicRemark: {
+                required: true
+            }
+        },
+        messages : {
+            dicType : {
+                required : I18n.system_please_input + '业务类型'
+            },
+            dicName : {
+                required : I18n.system_please_input + '业务名称'
+            },
+            dicCode : {
+                required : I18n.system_please_input + '业务编码'
+            },
+            dicStatus : {
+                required : I18n.system_please_input + '业务状态'
+            },
+            deviceLocaltion : {
+                required : I18n.system_please_input + '设备坐标'
+            },
+            deviceNameList : {
+                required : I18n.system_please_input + '设备列表'
+            },
+            dicRemark : {
+                required : I18n.system_please_input + '业务详情'
+            }
+        },
         highlight: function (element) {
             $(element).closest('.form-group').addClass('has-error');
         },
@@ -245,7 +337,7 @@ $(function () {
             element.parent('div').append(error);
         },
         submitHandler: function (form) {
-            var operatorType = $("#addOrupdateModal .form").attr("operatorType");
+            var operatorType = $("#addOrUpdateModal .form").attr("operatorType");
             console.log("operatorType = " + operatorType);
             var operatorUrl;
             if ("add" == operatorType) {
@@ -265,10 +357,10 @@ $(function () {
             //发起请求
             $.post(
                 operatorUrl,
-                $("#addOrupdateModal .form").serialize(),
+                $("#addOrUpdateModal .form").serialize(),
                 function (data, status) {
                     if (data.code == "0") {
-                        $('#addOrupdateModal').modal('hide');
+                        $('#addOrUpdateModal').modal('hide');
                         layer.open({
                             title: I18n.system_tips,
                             btn: [I18n.system_ok],
@@ -297,21 +389,21 @@ $(function () {
  */
 function clearFormValue() {
     //清空信息
-    $("#addOrupdateModal .form input[name='dicType']").val("");           //字典类型
-    $("#addOrupdateModal .form input[name='dicCode']").val("");           //字典编码
-    $("#addOrupdateModal .form input[name='dicName']").val("");           //字典名称
-    $("#addOrupdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true); //业务状态，默认正常
-    $("#addOrupdateModal .form textarea[name='deviceLocaltion']").val("");//设备坐标
-    $("#addOrupdateModal .form textarea[name='deviceNameList']").val("");//目标群聊列表
-    $("#addOrupdateModal .form textarea[name='dicRemark']").val("");       //字典详情
+    $("#addOrUpdateModal .form input[name='dicType']").val("");           //字典类型
+    $("#addOrUpdateModal .form input[name='dicCode']").val("");           //字典编码
+    $("#addOrUpdateModal .form input[name='dicName']").val("");           //字典名称
+    $("#addOrUpdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true); //业务状态，默认正常
+    $("#addOrUpdateModal .form textarea[name='deviceLocaltion']").val("");//设备坐标
+    $("#addOrUpdateModal .form textarea[name='deviceNameList']").val("");//设备列表
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").val("");       //字典详情
     //删除只读属性
-    $("#addOrupdateModal .form input[name='dicType']").removeAttr("readonly");           //字典类型
-    $("#addOrupdateModal .form input[name='dicCode']").removeAttr("readonly");           //字典编码
-    $("#addOrupdateModal .form input[name='dicName']").removeAttr("readonly");           //字典名称
-    $("#addOrupdateModal .form input[name='dicStatus']").removeAttr("readonly");         //字典状态
-    $("#addOrupdateModal .form textarea[name='deviceLocaltion']").removeAttr("readonly");//设备坐标
-    $("#addOrupdateModal .form textarea[name='deviceNameList']").removeAttr("readonly");//目标群聊列表
-    $("#addOrupdateModal .form textarea[name='dicRemark']").removeAttr("readonly");       //字典详情
+    $("#addOrUpdateModal .form input[name='dicType']").removeAttr("readonly");           //字典类型
+    $("#addOrUpdateModal .form input[name='dicCode']").removeAttr("readonly");           //字典编码
+    $("#addOrUpdateModal .form input[name='dicName']").removeAttr("readonly");           //字典名称
+    $("#addOrUpdateModal .form input[name='dicStatus']").removeAttr("readonly");         //字典状态
+    $("#addOrUpdateModal .form textarea[name='deviceLocaltion']").removeAttr("readonly");//设备坐标
+    $("#addOrUpdateModal .form textarea[name='deviceNameList']").removeAttr("readonly");//设备列表
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").removeAttr("readonly");       //字典详情
 }
 
 /**
@@ -322,23 +414,31 @@ function changeDicRemark() {
     //整理 dicRemark
     var dicRemark_jsonObj = {};
     try {
-        dicRemark_jsonObj = JSON.parse($("#addOrupdateModal .form textarea[name='dicRemark']").val());
+        dicRemark_jsonObj = JSON.parse($("#addOrUpdateModal .form textarea[name='dicRemark']").val());
     } catch (e) {
         dicRemark_jsonObj = dicRemark_jsonObj;
     }
     console.log(dicRemark_jsonObj);
     //设备坐标
-    var deviceLocaltion = $("#addOrupdateModal .form textarea[name='deviceLocaltion']").val();
+    var deviceLocaltion = $("#addOrUpdateModal .form textarea[name='deviceLocaltion']").val();
     if (!isNull(deviceLocaltion)) {
-        dicRemark_jsonObj["deviceLocaltion"] = JSON.parse(deviceLocaltion);
+        try {
+            dicRemark_jsonObj["deviceLocaltion"] = JSON.parse(deviceLocaltion);
+        } catch (e) {
+            dicRemark_jsonObj["deviceLocaltion"] = deviceLocaltion;
+        }
     }
-    //目标群聊列表
-    var deviceNameList = $("#addOrupdateModal .form textarea[name='deviceNameList']").val();
+    //设备列表
+    var deviceNameList = $("#addOrUpdateModal .form textarea[name='deviceNameList']").val();
     if (!isNull(deviceNameList)) {
-        dicRemark_jsonObj["deviceNameList"] = JSON.parse(deviceNameList);
+        try {
+            dicRemark_jsonObj["deviceNameList"] = JSON.parse(deviceNameList);
+        } catch (e) {
+            dicRemark_jsonObj["deviceNameList"] = deviceNameList;
+        }
     }
     console.log("JSON.stringify(dicRemark_jsonObj, null, 4) = " + JSON.stringify(dicRemark_jsonObj, null, 4));
     console.log(dicRemark_jsonObj);
     //业务详情
-    $("#addOrupdateModal .form textarea[name='dicRemark']").val(JSON.stringify(dicRemark_jsonObj, null, 4));
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").val(JSON.stringify(dicRemark_jsonObj, null, 4));
 }

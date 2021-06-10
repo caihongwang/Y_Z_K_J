@@ -134,23 +134,23 @@ $(function() {
     // add 新增
     $(".add").click(function(){
         clearFormValue();           //清空表单信息
-        $("#addOrupdateModal .form").attr("operatorType", "add");                           //操作类型，新增或者删除
-        $("#addOrupdateModal .form input[name='dicCode']").attr("readonly", true);          //业务编码
-        $("#addOrupdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
-        $("#addOrupdateModal h4[class='modal-title']").html($("#addOrupdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
+        $("#addOrUpdateModal .form").attr("operatorType", "add");                           //操作类型，新增或者删除
+        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);          //业务编码
+        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
+        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
 
         // show
-        $('#addOrupdateModal').modal({backdrop: false, keyboard: false}).modal('show');
+        $('#addOrUpdateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
 
     // update 更新
     $("#job_list").on('click', '.update',function() {
         clearFormValue();           //清空表单信息
-        $("#addOrupdateModal .form").attr("operatorType", "update");                             //操作类型，新增或者删除
-        $("#addOrupdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
-        $("#addOrupdateModal .form input[name='nickName']").attr("readonly", true);              //目标微信群昵称
-        $("#addOrupdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
-        $("#addOrupdateModal h4[class='modal-title']").html($("#addOrupdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
+        $("#addOrUpdateModal .form").attr("operatorType", "update");                             //操作类型，新增或者删除
+        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
+        $("#addOrUpdateModal .form input[name='nickName']").attr("readonly", true);              //目标微信群昵称
+        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
+        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
 
         var id = $(this).parents('ul').attr("_id");
         var row = tableData['key'+id];
@@ -159,27 +159,74 @@ $(function() {
         console.log("row.dicName = " + row.dicName);
         console.log("row.dicStatus = " + row.dicStatus);
         console.log("row.dicRemark = " + row.dicRemark);
-        $("#addOrupdateModal .form input[name='id']").val( row.id );
-        $("#addOrupdateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);    //业务类型
-        $("#addOrupdateModal .form input[name='dicCode']").val( row.dicCode );                                           //业务编码
-        $("#addOrupdateModal .form select[name='dicName'] option[value=" + row.dicName + "]").prop('selected', true);    //业务名称
-        $("#addOrupdateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
+        $("#addOrUpdateModal .form input[name='id']").val( row.id );
+        $("#addOrUpdateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);    //业务类型
+        $("#addOrUpdateModal .form input[name='dicCode']").val( row.dicCode );                                           //业务编码
+        $("#addOrUpdateModal .form select[name='dicName'] option[value=" + row.dicName + "]").prop('selected', true);    //业务名称
+        $("#addOrUpdateModal .form select[name='dicStatus'] option[value="+ row.dicStatus + "]").prop('selected', true); //业务状态
         //拆分显示 dicRemark
         var dicRemark_jsonObj = JSON.parse(row.dicRemark);
-        $("#addOrupdateModal .form input[name='nickName']").val(dicRemark_jsonObj.nickName);                             //目标微信群昵称
-        $("#addOrupdateModal .form input[name='textMessage']").val(dicRemark_jsonObj.textMessage);                       //聊天内容
+        $("#addOrUpdateModal .form input[name='nickName']").val(dicRemark_jsonObj.nickName);                             //目标微信群昵称
+        $("#addOrUpdateModal .form input[name='textMessage']").val(dicRemark_jsonObj.textMessage);                       //聊天内容
         try {
-            $("#addOrupdateModal .form textarea[name='dicRemark']").val( JSON.stringify(JSON.parse(row.dicRemark),null,2) );//业务详情
+            $("#addOrUpdateModal .form textarea[name='dicRemark']").val( JSON.stringify(JSON.parse(row.dicRemark),null,2) );//业务详情
         } catch (e) {
-            $("#addOrupdateModal .form textarea[name='dicRemark']").val( row.dicRemark );//业务详情
+            $("#addOrUpdateModal .form textarea[name='dicRemark']").val( row.dicRemark );//业务详情
         }
         // show
-        $('#addOrupdateModal').modal({backdrop: false, keyboard: false}).modal('show');
+        $('#addOrUpdateModal').modal({backdrop: false, keyboard: false}).modal('show');
     });
-    var addOrupdateModalValidate = $("#addOrupdateModal .form").validate({
+
+    var addOrUpdateModalValidate = $("#addOrUpdateModal .form").validate({
         errorElement : 'span',
         errorClass : 'help-block',
         focusInvalid : true,
+        rules : {
+            dicType: {
+                required: true
+            },
+            dicName: {
+                required: true
+            },
+            dicCode: {
+                required: true
+            },
+            dicStatus: {
+                required: true
+            },
+            nickName: {
+                required: true
+            },
+            textMessage: {
+                required: true
+            },
+            dicRemark: {
+                required: true
+            }
+        },
+        messages : {
+            dicType : {
+                required : I18n.system_please_input + '业务类型'
+            },
+            dicName : {
+                required : I18n.system_please_input + '业务名称'
+            },
+            dicCode : {
+                required : I18n.system_please_input + '业务编码'
+            },
+            dicStatus : {
+                required : I18n.system_please_input + '业务状态'
+            },
+            nickName : {
+                required : I18n.system_please_input + '目标微信群昵称'
+            },
+            textMessage : {
+                required : I18n.system_please_input + '聊天内容'
+            },
+            dicRemark : {
+                required : I18n.system_please_input + '业务详情'
+            }
+        },
         highlight : function(element) {
             $(element).closest('.form-group').addClass('has-error');
         },
@@ -191,7 +238,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            var operatorType = $("#addOrupdateModal .form").attr("operatorType");
+            var operatorType = $("#addOrUpdateModal .form").attr("operatorType");
             console.log("operatorType = " + operatorType);
             var operatorUrl;
             if ("add" == operatorType) {
@@ -210,10 +257,10 @@ $(function() {
             }
             $.post(
                 operatorUrl,
-                $("#addOrupdateModal .form").serialize(),
+                $("#addOrUpdateModal .form").serialize(),
                 function(data, status) {
                     if (data.code == "0") {
-                        $('#addOrupdateModal').modal('hide');
+                        $('#addOrUpdateModal').modal('hide');
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
@@ -253,7 +300,7 @@ $(function() {
                 paramStr,
                 function(data, status) {
                     if (data.code == "0") {
-                        $('#addOrupdateModal').modal('hide');
+                        $('#addOrUpdateModal').modal('hide');
                         layer.open({
                             title: I18n.system_tips ,
                             btn: [ I18n.system_ok ],
@@ -282,21 +329,21 @@ $(function() {
  */
 function clearFormValue() {
     //清空信息
-    $("#addOrupdateModal .form input[name='dicType']").val("");           //字典类型
-    $("#addOrupdateModal .form input[name='dicCode']").val("");           //字典编码
-    $("#addOrupdateModal .form input[name='dicName']").val("");           //字典名称
-    $("#addOrupdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true); //业务状态，默认正常
-    $("#addOrupdateModal .form input[name='nickName']").val("");           //目标微信群昵称
-    $("#addOrupdateModal .form input[name='textMessage']").val("");        //聊天内容
-    $("#addOrupdateModal .form textarea[name='dicRemark']").val("");       //字典详情
+    $("#addOrUpdateModal .form input[name='dicType']").val("");           //字典类型
+    $("#addOrUpdateModal .form input[name='dicCode']").val("");           //字典编码
+    $("#addOrUpdateModal .form input[name='dicName']").val("");           //字典名称
+    $("#addOrUpdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true); //业务状态，默认正常
+    $("#addOrUpdateModal .form input[name='nickName']").val("");           //目标微信群昵称
+    $("#addOrUpdateModal .form input[name='textMessage']").val("");        //聊天内容
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").val("");       //字典详情
     //删除只读属性
-    $("#addOrupdateModal .form input[name='dicType']").removeAttr("readonly");           //字典类型
-    $("#addOrupdateModal .form input[name='dicCode']").removeAttr("readonly");           //字典编码
-    $("#addOrupdateModal .form input[name='dicName']").removeAttr("readonly");           //字典名称
-    $("#addOrupdateModal .form input[name='dicStatus']").removeAttr("readonly");         //字典状态
-    $("#addOrupdateModal .form input[name='nickName']").removeAttr("readonly");          //目标微信群昵称
-    $("#addOrupdateModal .form input[name='textMessage']").removeAttr("readonly");       //聊天内容
-    $("#addOrupdateModal .form textarea[name='dicRemark']").removeAttr("readonly");      //字典详情
+    $("#addOrUpdateModal .form input[name='dicType']").removeAttr("readonly");           //字典类型
+    $("#addOrUpdateModal .form input[name='dicCode']").removeAttr("readonly");           //字典编码
+    $("#addOrUpdateModal .form input[name='dicName']").removeAttr("readonly");           //字典名称
+    $("#addOrUpdateModal .form input[name='dicStatus']").removeAttr("readonly");         //字典状态
+    $("#addOrUpdateModal .form input[name='nickName']").removeAttr("readonly");          //目标微信群昵称
+    $("#addOrUpdateModal .form input[name='textMessage']").removeAttr("readonly");       //聊天内容
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").removeAttr("readonly");      //字典详情
 }
 
 /**
@@ -307,23 +354,23 @@ function changeDicRemark() {
     //整理 dicRemark
     var dicRemark_jsonObj = {};
     try {
-        dicRemark_jsonObj = JSON.parse($("#addOrupdateModal .form textarea[name='dicRemark']").val());
+        dicRemark_jsonObj = JSON.parse($("#addOrUpdateModal .form textarea[name='dicRemark']").val());
     } catch (e) {
         dicRemark_jsonObj = dicRemark_jsonObj;
     }
     console.log(dicRemark_jsonObj);
     //目标微信群昵称
-    var nickName = $("#addOrupdateModal .form input[name='nickName']").val();
+    var nickName = $("#addOrUpdateModal .form input[name='nickName']").val();
     if (!isNull(nickName)) {
         dicRemark_jsonObj["nickName"] = nickName;
     }
     //聊天内容
-    var textMessage = $("#addOrupdateModal .form input[name='textMessage']").val();
+    var textMessage = $("#addOrUpdateModal .form input[name='textMessage']").val();
     if (!isNull(textMessage)) {
         dicRemark_jsonObj["textMessage"] = textMessage;
     }
     //业务编码
-    $("#addOrupdateModal .form input[name='dicCode']").val(nickName);
+    $("#addOrUpdateModal .form input[name='dicCode']").val(nickName);
     //业务详情
-    $("#addOrupdateModal .form textarea[name='dicRemark']").val(JSON.stringify(dicRemark_jsonObj, null, 4));
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").val(JSON.stringify(dicRemark_jsonObj, null, 4));
 }

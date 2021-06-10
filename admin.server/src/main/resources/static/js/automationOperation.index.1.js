@@ -161,23 +161,23 @@ function clickFunc_For_default(){
     $("#automationOperationModal h4[class='modal-title']").html(operationTitle);
     //设置默认参数
     var automationOperation_name = "转发微信消息";
-    var automationOperation_url = "http://192.168.43.181:9050/automation/wx/relayTheWxMessage";     //转发微信消息
+    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/relayTheWxMessage";     //转发微信消息
 
     if(operationId == "relayTheWxMessage"){
         var automationOperation_name = "转发微信消息";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/relayTheWxMessage";     //转发微信消息
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/relayTheWxMessage";     //转发微信消息
     } else if(operationId == "agreeToJoinTheGroup"){
         var automationOperation_name = "同意进群";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/agreeToJoinTheGroup";   //同意进群
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/agreeToJoinTheGroup";   //同意进群
     } else if(operationId == "saveToAddressBook"){
         var automationOperation_name = "将群保存到通讯录";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/saveToAddressBook";     //将群保存到通讯录
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/saveToAddressBook";     //将群保存到通讯录
     } else if(operationId == "agreeToFriendRequest"){
         var automationOperation_name = "同意好友请求";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/agreeToFriendRequest";  //同意好友请求
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/agreeToFriendRequest";  //同意好友请求
     } else if(operationId == "clickArticleAd"){
         var automationOperation_name = "阅读微信文章并点击广告";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/clickArticleAd";        //阅读微信文章并点击广告
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/clickArticleAd";        //阅读微信文章并点击广告
     }
     var currentDateListStr = "[\n" +
         "    \"2020-10-25 10\",\n" +
@@ -213,7 +213,7 @@ function clickFunc_For_praiseAndCommentFriendsCircle(){
     $("#praiseAndCommentFriendsCircleModal h4[class='modal-title']").html(operationTitle);
     //设置默认参数
     var automationOperation_name = "点赞和评论朋友圈";
-    var automationOperation_url = "http://192.168.43.181:9050/automation/wx/praiseAndCommentFriendsCircle";
+    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/praiseAndCommentFriendsCircle";
     var nickName = "所有";
     var allSwipeNum = "11";
     var commentContent = "看着好高级啊，真棒...";
@@ -255,23 +255,25 @@ function clickFunc_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFrien
     $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal h4[class='modal-title']").html(operationTitle);
     //设置默认参数
     var automationOperation_name = "发送朋友圈";
-    var automationOperation_url = "http://192.168.43.181:9050/automation/wx/sendFriendCircle";
+    var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
+    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/sendFriendCircle";
     if(operationId == "sendFriendCircle"){
         var automationOperation_name = "发送朋友圈";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/sendFriendCircle";              //发送朋友圈
+        var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/sendFriendCircle";              //发送朋友圈
     } else if(operationId == "shareArticleToFriendCircle"){
         var automationOperation_name = "分享微信文章到微信朋友圈";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/shareArticleToFriendCircle";    //分享微信文章到微信朋友圈
+        var nickNameListStr = "[\n" + "    \"油站科技\"\n" + "]";
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareArticleToFriendCircle";    //分享微信文章到微信朋友圈
     } else if(operationId == "chatByNickName"){
         var automationOperation_name = "根据微信昵称进行聊天";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/chatByNickName";                //根据微信昵称进行聊天
+        var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/chatByNickName";                //根据微信昵称进行聊天
     } else if(operationId == "addGroupMembersAsFriends"){
         var automationOperation_name = "添加群成员为好友的V群";
-        var automationOperation_url = "http://192.168.43.181:9050/automation/wx/addGroupMembersAsFriends";      //添加群成员为好友的V群
+        var nickNameListStr = "[\n" + "    \"印江千里眼\"\n" + "]";
+        var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/addGroupMembersAsFriends";      //添加群成员为好友的V群
     }
-    var nickNameListStr = "[\n" +
-        "    \"油价地图\"\n" +
-        "]";
     var currentDateListStr = "[\n" +
         "    \"2020-10-25 10\",\n" +
         "    \"2020-10-25 11\",\n" +
