@@ -278,7 +278,7 @@ public class SendFriendCircleUtils {
                         }
 
                         //5.将 图片文件  从安卓设备里面 删除
-                        if (action.equals("imgMessageFriendCircle")) {
+                        if (CommandUtil.isOnline4AndroidDevice(deviceName) && action.equals("imgMessageFriendCircle")) {
                             //将 图片文件  从安卓设备里面 删除
                             removeImgFileToDevice(deviceNameList, sendFriendCircleParam);
                         }
