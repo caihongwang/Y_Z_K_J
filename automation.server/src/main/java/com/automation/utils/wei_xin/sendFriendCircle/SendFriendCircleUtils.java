@@ -278,7 +278,7 @@ public class SendFriendCircleUtils {
                         }
 
                         //5.将 图片文件  从安卓设备里面 删除
-                        if (CommandUtil.isOnline4AndroidDevice(deviceName) && action.equals("imgMessageFriendCircle")) {
+                        if (action.equals("imgMessageFriendCircle")) {
                             //将 图片文件  从安卓设备里面 删除
                             removeImgFileToDevice(deviceNameList, sendFriendCircleParam);
                         }
@@ -409,76 +409,77 @@ public class SendFriendCircleUtils {
                                             "";
                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
                             if (startHour.equals(currentHour)) {
-                                imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
-                                if (!"".equals(imgDirPath)) {
-                                    File imgDir = new File(imgDirPath);
-                                    if ("今日油价".equals(imgDir.getName())) {
-                                        imgFiles = new File[1];
-                                        try {
-                                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
-                                            if (!imgFile.exists()) {
-                                                imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
-                                            }
-                                            if (imgFile.exists()) {
-                                                imgFiles[0] = imgFile;
-                                            } else {
-                                                return false;
-                                            }
-                                        } catch (Exception e) {
-                                            logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】获取 今日油价 图片失败.");
-                                        }
-                                    } else {
-                                        imgFiles = imgDir.listFiles();
-                                    }
-                                }
-
-                                //移除imgFiles中的非图片格式文件
-                                List<File> imgFileList = new ArrayList(Arrays.asList(imgFiles));
-                                Iterator<File> iterator = imgFileList.iterator();
-                                while (iterator.hasNext()) {
-                                    File imgFile = iterator.next();
-                                    String[] fileNameArr = imgFile.getName().split("\\.");
-                                    //图片格式必须在 GlobalVariableConfig.imgFormatList范围之内
-                                    if (fileNameArr != null && fileNameArr.length >= 2 && !GlobalVariableConfig.imgFormatList.contains(fileNameArr[1])) {
-                                        iterator.remove();
-                                        logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】非图片格式，imgFile = " + imgFile.getPath());
-                                    }
-                                }
-                                imgFiles = new File[imgFileList.size()];
-                                imgFileList.toArray(imgFiles);
-
-                                //确保 文件件存在 ，并清空其他路径的图片
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell mkdir " + phoneLocalPath);
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/tencent/MicroMsg/WeiXin/*");//微信手动传输的图片路径
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/WeiXin/*");        //微信保存的图片路径
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/Screenshots/*");   //截屏的图片路径
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/bluetooth/*");      //蓝牙传输的路径
-                                CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/DCIM/Camera/*");    //拍照的图片路径
-
-                                if (imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
-                                    for (int i = 0; i < imgFiles.length; i++) {
-                                        try {
-                                            //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-                                            File imgFile = imgFiles[i];
-                                            if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
-                                                continue;
-                                            }
-                                            for (File tempFile : imgFiles) {          //确保文件顺序导出.
-                                                String[] fileNameArr = tempFile.getName().split("\\.");
-                                                if (fileNameArr[0].equals(i + 1 + "")) {
-                                                    imgFile = tempFile;
-                                                    break;
+                                if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                    imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
+                                    if (!"".equals(imgDirPath)) {
+                                        File imgDir = new File(imgDirPath);
+                                        if ("今日油价".equals(imgDir.getName())) {
+                                            imgFiles = new File[1];
+                                            try {
+                                                File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
+                                                if (!imgFile.exists()) {
+                                                    imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
                                                 }
+                                                if (imgFile.exists()) {
+                                                    imgFiles[0] = imgFile;
+                                                } else {
+                                                    return false;
+                                                }
+                                            } catch (Exception e) {
+                                                logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】获取 今日油价 图片失败.");
                                             }
-                                            //将图片push到设备
-                                            String pushCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
-                                            CommandUtil.run(pushCommandStr);
-                                            Thread.sleep(1000);
-                                            //每张图片 发送100次push通知，确保图片在微信的图片预览中出现
-                                            for (int j = 1; j <= 100; j++) {
-                                                String refreshCommandStr = "";
-                                                refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                                                CommandUtil.run(refreshCommandStr);
+                                        } else {
+                                            imgFiles = imgDir.listFiles();
+                                        }
+                                    }
+
+                                    //移除imgFiles中的非图片格式文件
+                                    List<File> imgFileList = new ArrayList(Arrays.asList(imgFiles));
+                                    Iterator<File> iterator = imgFileList.iterator();
+                                    while (iterator.hasNext()) {
+                                        File imgFile = iterator.next();
+                                        String[] fileNameArr = imgFile.getName().split("\\.");
+                                        //图片格式必须在 GlobalVariableConfig.imgFormatList范围之内
+                                        if (fileNameArr != null && fileNameArr.length >= 2 && !GlobalVariableConfig.imgFormatList.contains(fileNameArr[1])) {
+                                            iterator.remove();
+                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】非图片格式，imgFile = " + imgFile.getPath());
+                                        }
+                                    }
+                                    imgFiles = new File[imgFileList.size()];
+                                    imgFileList.toArray(imgFiles);
+
+                                    //确保 文件件存在 ，并清空其他路径的图片
+                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell mkdir " + phoneLocalPath);
+                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/tencent/MicroMsg/WeiXin/*");//微信手动传输的图片路径
+                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/WeiXin/*");        //微信保存的图片路径
+                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/Pictures/Screenshots/*");   //截屏的图片路径
+                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/bluetooth/*");      //蓝牙传输的路径
+                                    CommandUtil.run("/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm /storage/emulated/0/DCIM/Camera/*");    //拍照的图片路径
+
+                                    if (imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
+                                        for (int i = 0; i < imgFiles.length; i++) {
+                                            try {
+                                                //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+                                                File imgFile = imgFiles[i];
+                                                if (imgFile.getName().startsWith(".")) {          //过滤部分操作系统的隐藏文件
+                                                    continue;
+                                                }
+                                                for (File tempFile : imgFiles) {          //确保文件顺序导出.
+                                                    String[] fileNameArr = tempFile.getName().split("\\.");
+                                                    if (fileNameArr[0].equals(i + 1 + "")) {
+                                                        imgFile = tempFile;
+                                                        break;
+                                                    }
+                                                }
+                                                //将图片push到设备
+                                                String pushCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " push " + imgFile.getPath() + " " + phoneLocalPath;
+                                                CommandUtil.run(pushCommandStr);
+                                                Thread.sleep(1000);
+                                                //每张图片 发送100次push通知，确保图片在微信的图片预览中出现
+                                                for (int j = 1; j <= 100; j++) {
+                                                    String refreshCommandStr = "";
+                                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                                    CommandUtil.run(refreshCommandStr);
 //                                                try{
 //                                                    refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + i + ".jpg";
 //                                                    CommandUtil.run(new String[]{"/bin/sh", "-c", refreshCommandStr});
@@ -497,21 +498,28 @@ public class SendFriendCircleUtils {
 //                                                } catch (Exception e) {
 //                                                    logger.info("点击坐标【选择图片】失败，第【"+j+"】次更新【文件夹】图片失败，即将重启..... , refreshCommandStr = " + refreshCommandStr + " , e : ", e);
 //                                                }
-                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，第【" + j + "】次发送通知更新【" + sendFriendCircleParam.get("nickName") + "】" + imgFile.getName() + " 图片成功..... ");
+                                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，第【" + j + "】次发送通知更新【" + sendFriendCircleParam.get("nickName") + "】" + imgFile.getName() + " 图片成功..... ");
+                                                }
+                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
+                                                if (!flag) {
+                                                    flag = true;
+                                                }
+                                            } catch (Exception e) {
+                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 到安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】失败，设备未连接到电脑上, e : ", e);
                                             }
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
-                                            if (!flag) {
-                                                flag = true;
-                                            }
-                                        } catch (Exception e) {
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 push 到安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】失败，设备未连接到电脑上, e : ", e);
                                         }
                                     }
+                                } else {
+                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】不在线....");
+                                    continue;
                                 }
                             } else {
                                 logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                 continue;
                             }
+                        } else {
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前朋友圈信息不在推广时间段之内....");
+                            continue;
                         }
                     } catch (Exception e) {
                         logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】解析设备的执行时间段是异常， e : ", e);
@@ -561,50 +569,58 @@ public class SendFriendCircleUtils {
                                             "";
                             String currentHour = new SimpleDateFormat("HH").format(currentDate);
                             if (startHour.equals(currentHour)) {
-                                imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
-                                if (!"".equals(imgDirPath)) {
-                                    File imgDir = new File(imgDirPath);
-                                    if ("今日油价".equals(imgDir.getName())) {
-                                        imgFiles = new File[1];
-                                        try {
-                                            File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
-                                            if (!imgFile.exists()) {
-                                                imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
+                                if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                    imgDirPath = imgDirPath + "/" + sendFriendCircleParam.get("nickName");
+                                    if (!"".equals(imgDirPath)) {
+                                        File imgDir = new File(imgDirPath);
+                                        if ("今日油价".equals(imgDir.getName())) {
+                                            imgFiles = new File[1];
+                                            try {
+                                                File imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpeg");
+                                                if (!imgFile.exists()) {
+                                                    imgFile = new File(imgDir.getPath() + "/今日油价_" + new SimpleDateFormat("yyyy_MM_dd").format(currentDate) + ".jpg");
+                                                }
+                                                imgFiles[0] = imgFile;
+                                            } catch (Exception e) {
+                                                logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】获取 今日油价 图片失败.");
                                             }
-                                            imgFiles[0] = imgFile;
-                                        } catch (Exception e) {
-                                            logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】获取 今日油价 图片失败.");
-                                        }
-                                    } else {
-                                        imgFiles = imgDir.listFiles();
-                                    }
-                                }
-                                if (imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
-                                    for (int i = 0; i < imgFiles.length; i++) {
-                                        try {
-                                            //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
-                                            File imgFile = imgFiles[i];
-                                            String removeCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + "*";
-                                            CommandUtil.run(removeCommandStr);
-                                            Thread.sleep(1000);
-                                            for (int j = 1; j <= 100; j++) {
-                                                String refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
-                                                CommandUtil.run(refreshCommandStr);
-                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 remove 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，第【" + j + "】次发送通知更新【" + sendFriendCircleParam.get("nickName") + "】" + imgFile.getName() + " 图片成功..... ");
-                                            }
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 remove 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
-                                        } catch (Exception e) {
-                                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 remove 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】失败，设备未连接到电脑上, e : ", e);
+                                        } else {
+                                            imgFiles = imgDir.listFiles();
                                         }
                                     }
+                                    if (imgFiles != null && imgFiles.length > 0 && !"".equals(deviceName)) {
+                                        for (int i = 0; i < imgFiles.length; i++) {
+                                            try {
+                                                //1.使用adb传输文件到手机，并发起广播，广播不靠谱，添加图片到文件系统里面去，但是在相册里面不确定能看得见.
+                                                File imgFile = imgFiles[i];
+                                                String removeCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell rm " + phoneLocalPath + "*";
+                                                CommandUtil.run(removeCommandStr);
+                                                Thread.sleep(1000);
+                                                for (int j = 1; j <= 100; j++) {
+                                                    String refreshCommandStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://" + phoneLocalPath + imgFile.getName();
+                                                    CommandUtil.run(refreshCommandStr);
+                                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 remove 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】，第【" + j + "】次发送通知更新【" + sendFriendCircleParam.get("nickName") + "】" + imgFile.getName() + " 图片成功..... ");
+                                                }
+                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 remove 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】成功，imgFile = " + imgFile.getPath());
+                                            } catch (Exception e) {
+                                                logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】将 图片文件 remove 从安卓设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】失败，设备未连接到电脑上, e : ", e);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】不在线....");
+                                    continue;
                                 }
                             } else {
                                 logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                 continue;
                             }
+                        } else {
+                            logger.info("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前朋友圈信息不在推广时间段之内....");
+                            continue;
                         }
                     } catch (Exception e) {
-                        logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】解析手背的执行时间段是异常， e : ", e);
+                        logger.error("【发送朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】解析设备的执行时间段是异常， e : ", e);
                     }
                 }
             }
