@@ -1,18 +1,23 @@
 package com.automation.utils.wei_xin.shareArticleToFriendCircleUtils;
 
-import com.automation.utils.appiumUtil.ContextUtil;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.automation.utils.CommandUtil;
 import com.automation.utils.appiumUtil.SwipeUtil;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
 import org.apache.commons.lang.time.StopWatch;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -137,7 +142,6 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             desiredCapabilities.setCapability("noReset", true);                                         //不用重新安装APK
             desiredCapabilities.setCapability("sessionOverride", true);                                 //每次启动时覆盖session，否则第二次后运行会报错不能新建session
             desiredCapabilities.setCapability("automationName", "UiAutomator2");                        //UI定位器2
-//            desiredCapabilities.setCapability("autoWebview", true);                  //使得 Appium 在会话初始化时自动进入 Web/App 视图上下文
             desiredCapabilities.setCapability("newCommandTimeout", 20);                                 //在下一个命令执行之前的等待最大时长,单位为秒
             desiredCapabilities.setCapability("deviceReadyTimeout", 30);                                //等待设备就绪的时间,单位为秒
             desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", 10000);                //等待uiAutomator2服务启动的超时时间，单位毫秒
@@ -222,11 +226,14 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 throw new Exception("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
             }
         }
-        for (int i = 0; i <= 1; i++) {     //发送 文章链接 发送十次，避免 点击坐标【点击微信文章链接】错乱，防止别人发的消息，获取到最左边的消息导致左边计算失败
+        for (int i = 0; i <= 10; i++) {     //发送 文章链接 发送十次，避免 点击坐标【点击微信文章链接】错乱，防止别人发的消息，获取到最左边的消息导致左边计算失败
             //6.点击坐标【聊天内容输入框】
             try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(shareArticleUrl);
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").click();
                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【聊天输入框】成功....");
+                Thread.sleep(1000);
+                driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")").sendKeys(shareArticleUrl);
+                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【聊天输入框】输入信息成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -235,13 +242,22 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             //7.点击坐标【发送】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
-                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发送】成功....");
+                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByAndroidUIAutomator 点击坐标【发送】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new Exception("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发送】出现异常,请检查设备描述[" + deviceNameDesc + "]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因....");
+                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByAndroidUIAutomator 点击坐标【发送】失败....");
+                try {
+                    driver.findElementByXPath("//android.widget.Button[@text='" + sendBtnLocaltion + "']").click();
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByXPath 点击坐标【发送】成功....");
+                    Thread.sleep(1000);
+                } catch (Exception e1) {
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByAndroidUIAutomator 与 findElementByXPath 点击坐标【发送】均失败....");
+                    e.printStackTrace();
+                    throw new Exception("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发送】出现异常,请检查设备描述[" + deviceNameDesc + "]设备编码[" + deviceName + "]的应用是否更新导致坐标变化等原因....");
+                }
             }
         }
+
         //8.点击坐标【分享到朋友圈】
 //        //方法一（废弃，不适用）：根据关键字【分享到朋友圈】进行定位
 //        try {
@@ -293,8 +309,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         int findNum = 0;       //循环的次数
         int maxFindNum = 50;       //默认超过30次
         boolean isFindBtnLocaltionFlag = false;
-        int screenWidth = driver.manage().window().getSize().width;         //1080
-        int screenHeight = driver.manage().window().getSize().height;       //2030
+        double screenWidth = driver.manage().window().getSize().width;         //1080
+        double screenHeight = driver.manage().window().getSize().height;       //2030
+        System.out.println("screenWidth = " + screenWidth + "，screenHeight = " + screenHeight);
         //检测区域范围
         double boundary_x1 = 0;
         double boundary_x2 = screenWidth;
@@ -305,26 +322,83 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
 //        |--------------------------------|
 //        |--------------------------------|
 //        |--------------------------------|
-//        |----------------------------(1080,2030)
+//        |---------------------------(540,2030)
         double theLocaltion_X = boundary_x1;        //点击 X 坐标
         double theLocaltion_Y = boundary_y1;        //点击 Y 坐标
-        while(true) {
+        while (true) {
             //8 点击坐标【点击微信文章链接】聊天信息无法被text与content-desc识别
+            driver.hideKeyboard();      //隐藏键盘
             List<WebElement> chatContentRelativeLayoutList = driver.findElementsByXPath("//android.widget.ListView/android.widget.RelativeLayout");
             for (int i = 0; i < chatContentRelativeLayoutList.size(); i++) {
-                if(i >= 2){     //从上到下，从第二条消息开始点击，避免点击到android的消息push进行误点
+                if (i >= 2) {     //从上到下，从第二条消息开始点击，避免点击到android的消息push进行误点
                     try {
-                        WebElement chatContentRelativeLayout = chatContentRelativeLayoutList.get(i);
-                        chatContentRelativeLayout.click();
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【点击微信文章链接】成功....");
-                        Thread.sleep(1500);
-                    } catch (Exception e1) {
+                        //方法一：通过click点击消息RelativeLayout，可能会存在某些机型无法命中点击
+                        WebElement chatContent_RelativeLayout = chatContentRelativeLayoutList.get(i);
+                        try {
+                            chatContent_RelativeLayout.click();
+                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次 click 点击坐标【点击微信文章链接】成功....");
+                            Thread.sleep(1500);
+                        } catch (Exception e) {
+
+                        } finally {
+                            try {
+                                WebElement chatInput_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")");
+                                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【" + chatInputLocation + "】成功，即点击【点击微信文章链接】失败....");
+                                Thread.sleep(1000);
+                            } catch (Exception e1) {
+                                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【" + chatInputLocation + "】失败，即点击【点击微信文章链接】成功....");
+                                break;
+                            }
+                        }
+                        //方法二：通过公式[y = 0.21 * x + 299]Touch (x,y) 点击坐标【点击微信文章链接】，目前适配大多数机型
+//                        WebElement chatContent_RelativeLayout = chatContentRelativeLayoutList.get(i);
+                        Rectangle chatContent_Rectangle = chatContent_RelativeLayout.getRect();
+                        int x = chatContent_Rectangle.getX();
+                        int y = chatContent_Rectangle.getY();
+                        double width = chatContent_Rectangle.getWidth();
+                        double height = chatContent_Rectangle.getHeight();
+                        //点击
+                        for (double theTemp_x = x; theTemp_x <= (x + width); theTemp_x = theTemp_x + 50) {
+                            try {
+                                double theTemp_y = (height / width) * theTemp_x + y;    //获取直线的斜率，y = k * x + b  --->>> y = (height/width) * x + y
+                                if (theTemp_y <= (y + height)) {
+                                    new TouchAction(driver).tap((int) theTemp_x, (int) theTemp_y).release().perform();
+                                    System.out.println("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次 TouchAction 点击坐标(" + theTemp_x + "," + theTemp_y + ")【点击微信文章链接】成功...");
+                                    Thread.sleep(200);
+                                } else {
+                                    break;
+                                }
+                            } catch (Exception e) {
+
+                            } finally {
+                                try {
+                                    WebElement chatInput_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")");
+                                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【" + chatInputLocation + "】成功，即点击【点击微信文章链接】失败....");
+                                    Thread.sleep(1000);
+                                } catch (Exception e1) {
+                                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【" + chatInputLocation + "】失败，即点击【点击微信文章链接】成功....");
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次 点击坐标【点击微信文章链接】失败....");
+                        e.printStackTrace();
                         break;
+                    } finally {
+                        try {
+                            WebElement chatInput_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")");
+                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【" + chatInputLocation + "】成功，即点击【点击微信文章链接】失败....");
+                            Thread.sleep(1000);
+                        } catch (Exception e1) {
+                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【" + chatInputLocation + "】失败，即点击【点击微信文章链接】成功....");
+                            break;
+                        }
                     }
                 }
             }
             //9.向上滑动微信文章
-            if(findNum == 0){
+            if (findNum == 0) {
                 for (int i = 0; i < 3; i++) {
                     SwipeUtil.SwipeDown(driver);
                     logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】向上滑动【微信文章】成功....");
@@ -348,42 +422,43 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 e.printStackTrace();
                 throw new Exception("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【右上角的横三点】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
             }
-            try{
+            try {
                 //11.1 通过公式[y = 1.88 * x + 1015]点击坐标（X，Y）坐标点击坐标【分享到朋友圈】...
                 theLocaltion_X = theLocaltion_X + 20;
-                if(theLocaltion_X > (boundary_x2/2)){
+                if (theLocaltion_X > (boundary_x2 / 2)) {
                     theLocaltion_X = boundary_x2;
                 }
-                theLocaltion_Y = 1.88 * theLocaltion_X + screenHeight / 2;
-                if(theLocaltion_Y > boundary_y2){
+                double k = ((screenHeight/2) / (screenWidth/2));
+                theLocaltion_Y= k * theLocaltion_X + screenHeight / 2;    //获取直线的斜率，y = k * x + b  --->>> y = (height/width) * x + y
+                if (theLocaltion_Y > boundary_y2) {
                     theLocaltion_Y = boundary_y2;
                 }
                 String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + theLocaltion_X + " " + theLocaltion_Y;
                 CommandUtil.run(tabCommondStr);
-                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】点击坐标 ("+theLocaltion_X+","+theLocaltion_Y+") 成功....");
+                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】点击坐标 (" + theLocaltion_X + "," + theLocaltion_Y + ") 成功....");
                 //11.2 通过检测坐标【这一刻的想法...】检测是否成功点击坐标【分享到朋友圈】...
-                try{
+                try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + shareArticleTitleLocaltion + "\")");
-                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByAndroidUIAutomator 寻找坐标【"+shareArticleTitleLocaltion+"】成功....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByAndroidUIAutomator 寻找坐标【" + shareArticleTitleLocaltion + "】成功....");
                 } catch (Exception e) {
-                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByAndroidUIAutomator 寻找坐标【"+shareArticleTitleLocaltion+"】失败....");
-                    driver.findElementByXPath("//android.widget.EditText[@text='"+shareArticleTitleLocaltion+"']");
-                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByXPath 寻找坐标【"+shareArticleTitleLocaltion+"】成功....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByAndroidUIAutomator 寻找坐标【" + shareArticleTitleLocaltion + "】失败....");
+                    driver.findElementByXPath("//android.widget.EditText[@text='" + shareArticleTitleLocaltion + "']");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByXPath 寻找坐标【" + shareArticleTitleLocaltion + "】成功....");
                 }
                 isFindBtnLocaltionFlag = true;
                 Thread.sleep(1500);
             } catch (Exception e) {
-                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByAndroidUIAutomator 与 findElementByXPath 寻找坐标【"+shareArticleTitleLocaltion+"】失败....");
+                logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】findElementByAndroidUIAutomator 与 findElementByXPath 寻找坐标【" + shareArticleTitleLocaltion + "】失败....");
                 //11.3 检测 聊天会话中的 输入框 android.widget.EditText 是否存在，最终返回【聊天会话】
                 for (int index = 0; index < 5; index++) {
                     WebElement chatInput_WebElement = null;
                     try {
                         chatInput_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + chatInputLocation + "\")");
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + index + "】次寻找坐标【"+chatInputLocation+"】返回聊天会话 成功....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【临时】第【" + index + "】次寻找坐标【" + chatInputLocation + "】返回聊天会话 成功....");
                         Thread.sleep(1500);
                         break;
                     } catch (Exception e1) {
-                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + index + "】次寻找坐标【"+chatInputLocation+"】返回聊天会话 失败....");
+                        logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【临时】第【" + index + "】次寻找坐标【" + chatInputLocation + "】返回聊天会话 失败....");
                         driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【聊天会话】
                         Thread.sleep(1500);
                     }
@@ -393,9 +468,9 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 if (isFindBtnLocaltionFlag) {
                     break;
                 } else {
-                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】寻找坐标【"+shareArticleTitleLocaltion+"】失败....");
+                    logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + findNum + "】寻找坐标【" + shareArticleTitleLocaltion + "】失败....");
                     if (findNum > maxFindNum) {
-                        throw new Exception("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】寻找坐标【"+shareArticleTitleLocaltion+"】失败，无法继续下一步，请调整检测区域范围及检测步长....");
+                        throw new Exception("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】寻找坐标【" + shareArticleTitleLocaltion + "】失败，无法继续下一步，请调整检测区域范围及检测步长....");
                     }
                 }
             }
@@ -407,8 +482,8 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             Thread.sleep(1000);
         } catch (Exception e) {
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByAndroidUIAutomator 点击坐标【输入分享文本框】失败....");
-            try{
-                driver.findElementByXPath("//android.widget.EditText[@text='"+shareArticleTitleLocaltion+"']").sendKeys(shareArticleTitle);
+            try {
+                driver.findElementByXPath("//android.widget.EditText[@text='" + shareArticleTitleLocaltion + "']").sendKeys(shareArticleTitle);
                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByXPath 点击坐标【输入分享文本框】成功....");
             } catch (Exception e1) {
                 e.printStackTrace();
@@ -434,6 +509,10 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
             StopWatch sw = new StopWatch();
             sw.start();
             Map<String, Object> paramMap = Maps.newHashMap();
+//            paramMap.put("deviceName", "S2D0219423001056");
+//            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
+            paramMap.put("deviceName", "9f4eda95");
+            paramMap.put("deviceNameDesc", "小米 Max 3");
             paramMap.put("action", "shareArticleToFriendCircle");
             new RealMachineDevices().shareArticleToFriendCircle(paramMap);
             Thread.sleep(5000);
