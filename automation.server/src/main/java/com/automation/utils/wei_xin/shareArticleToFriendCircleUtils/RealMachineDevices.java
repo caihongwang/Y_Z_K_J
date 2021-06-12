@@ -48,7 +48,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "小米Max3";
+                        "小米 Max 3";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?

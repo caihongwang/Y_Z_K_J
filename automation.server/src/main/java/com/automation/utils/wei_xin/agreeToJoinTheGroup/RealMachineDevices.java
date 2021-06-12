@@ -41,12 +41,12 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "D5F0218325003946";
+                        "9f4eda95";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 P20 P20";
+                        "小米 Max 3";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -393,21 +393,20 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 //                            break;
                             //通过对下方区域进行密集型点击
                             boolean breakFlag = false;
-                            int width = driver.manage().window().getSize().width;
-                            int height = driver.manage().window().getSize().height;
-                            for (int i = 0; i < 30; i++) {
-                                height = height - 20;
-                                width = width - 20;
-                                String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + width + " " + height;
+                            double width = driver.manage().window().getSize().width;
+                            double height = driver.manage().window().getSize().height;
+                            for (double theTemp_x = 0; theTemp_x <= width; theTemp_x = theTemp_x + 50) {
+                                double theTemp_y = ((height/2) / width) * theTemp_x + height/2;    //获取直线的斜率，y = k * x + b  --->>> y = (height/width) * x + y
+                                String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + theTemp_x + " " + theTemp_y;
                                 CommandUtil.run(tabCommondStr);
                                 Thread.sleep(200);
-                                System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次 成功，tabCommondStr--->>>" + tabCommondStr);
+                                System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令成功，tabCommondStr--->>>" + tabCommondStr);
                                 try {
                                     driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + threePointLocaltion + "\")").click();
-                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次 跳转成功...");         //大概在第11次成功
+                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令成功，跳转成功...");         //大概在第11次成功
                                     breakFlag = true;
                                 } catch (Exception e) {
-                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次 跳转失败...");         //大概在第11次成功
+                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令失败，跳转失败...");         //大概在第11次成功
                                     breakFlag = false;
                                 } finally {
                                     if (breakFlag) {

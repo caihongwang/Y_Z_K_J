@@ -40,12 +40,12 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "D5F0218325003946";
+                        "9f4eda95";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 P20 Pro";
+                        "小米 Max 3";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?

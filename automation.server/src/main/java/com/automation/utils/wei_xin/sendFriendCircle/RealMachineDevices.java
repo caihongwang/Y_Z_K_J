@@ -42,12 +42,12 @@ public class RealMachineDevices implements SendFriendCircle {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "5LM0216122009385";
+                        "9f4eda95";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 Mate 8 _ 6";
+                        "小米 Max 3";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?

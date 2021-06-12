@@ -33,12 +33,12 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "D5F0218325003946";
+                        "9f4eda95";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 P20 Pro";
+                        "小米 Max 3";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -190,12 +190,6 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
             throw new Exception("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【朋友圈】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
         }
         if ("所有".equals(nickName)) {
-//            try {
-//                driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(10)");
-//                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】屏幕先向上滚动10次，成功....");
-//            } catch (Exception e) {
-//                logger.info("scroll上滑中，10次....");
-//            }
             for (int i = 0; i < allSwipeNum; i++) {
                 logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次上滑朋友圈...");
                 List<WebElement> commentToPointElementList = Lists.newLinkedList();
@@ -344,7 +338,8 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
                 }
             }
         } else {
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 3; i++) {
+                logger.info("【点赞和评论朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次上滑朋友圈...");
                 //上滑至坐标【广告/指定昵称】
                 try {
                     WebElement ad_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollForward().scrollIntoView(new UiSelector().text(\"" + nickName + "\"))");
@@ -430,9 +425,14 @@ public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-//            paramMap.put("nickName", "汽车原装皮套批发");
-//            paramMap.put("nickName", "广告");
-            paramMap.put("nickName", "所有");
+//            paramMap.put("deviceName", "S2D0219423001056");
+//            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
+            paramMap.put("deviceName", "9f4eda95");
+            paramMap.put("deviceNameDesc", "小米 Max 3");
+
+//            paramMap.put("nickName", "思南妹子");
+            paramMap.put("nickName", "广告");
+//            paramMap.put("nickName", "所有");
             paramMap.put("allSwipeNum", "20");
             paramMap.put("commentContent", "看着好高级啊，真棒...");
             new RealMachineDevices().praiseAndCommentFriendsCircle(paramMap);

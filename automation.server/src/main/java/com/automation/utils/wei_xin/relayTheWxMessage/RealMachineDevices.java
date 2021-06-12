@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * 真机设备 转发微信消息 策略
- * 注：只支持【小程序】【图片】，转发的的微信消息不能是自己发的，必须是别人发的
+ * 注：只支持最后一条消息是【图片】【小程序】【微信公众号文章】
  * 默认 华为 Mate 8
  */
 public class RealMachineDevices implements RelayTheWxMessage {
@@ -40,12 +40,12 @@ public class RealMachineDevices implements RelayTheWxMessage {
         String deviceName =
                 paramMap.get("deviceName") != null ?
                         paramMap.get("deviceName").toString() :
-                        "D5F0218325003946";
+                        "9f4eda95";
         //设备描述
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "华为 P20 Pro";
+                        "小米 Max 3";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -66,6 +66,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
         String relayTargetGroupListStr =
                 paramMap.get("relayTargetGroupList") != null ?
                         paramMap.get("relayTargetGroupList").toString() :
+//                        "[\"内部交流群\"]";
                         "[\"内部交流群\",\"铜仁市～思南县～车友群\",\"铜仁市～松桃县～本地油价\",\"铜仁市～碧江区～车友群\",\"铜仁市～万山区～车友群\",\"铜仁市～德江县～车友群\",\"铜仁市～印江县～车友群\",\"铜仁市～沿河县～车友群\",\"铜仁市～江口县～车友群\",\"铜仁市～松桃县～车友群\",\"铜仁市～玉屏县～车友群\"]";
         List<String> relayTargetGroupList = JSON.parseObject(relayTargetGroupListStr, List.class);
         //微信群昵称
@@ -280,24 +281,29 @@ public class RealMachineDevices implements RelayTheWxMessage {
                             }
                         } catch (Exception e) {
                             logger.info("【转发微信消息】点击坐标【单条微信消息CheckBox】异常....");
+                        } finally {
+                            if (relayTheWxMessageNum_selected >= relayTheWxMessageNum) {
+                                break;
+                            }
                         }
                     }
-                    if (relayTheWxMessageNum_selected >= relayTheWxMessageNum) {
-                        break;
-                    }
-                    //向下滑动
-                    try {
-                        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollBackward()");
-                        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-                        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
-                    }
-                    logger.info("【转发微信消息】点击坐标【转发微信消息】成功....");
                 } catch (Exception e) {
                     logger.info("【转发微信消息】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常....");
                     if (getAllCheckBoxWebNum >= 10) {
                         logger.info("【转发微信消息】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常，" + e.getMessage());
+                    }
+                } finally {
+                    if (relayTheWxMessageNum_selected >= relayTheWxMessageNum) {
+                        break;
+                    } else {
+                        //向下滑动
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollBackward()");
+                            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
+                            Thread.sleep(1000);
+                        } catch (Exception e) {
+                            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
+                        }
                     }
                 }
             }
@@ -376,6 +382,11 @@ public class RealMachineDevices implements RelayTheWxMessage {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
+//            paramMap.put("deviceName", "S2D0219423001056");
+//            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
+            paramMap.put("deviceName", "9f4eda95");
+            paramMap.put("deviceNameDesc", "小米 Max 3");
+            paramMap.put("relayTheWxMessageNumStr", "1");
             paramMap.put("action", "relayTheWxMessage");
             new RealMachineDevices().relayTheWxMessage(paramMap);
             Thread.sleep(5000);
