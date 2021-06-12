@@ -26,79 +26,6 @@
 		<section class="content">
 
 			<div class="row">
-				<#-- 阅读微信文章并点击广告 -->
-				<div class="col-md-4 col-sm-6 col-xs-12" id="clickArticleAd">
-					<div class="info-box bg-aqua">
-						<span class="info-box-icon"><i class="fa fa-eraser"></i></span>
-						<div class="info-box-content">
-							<span class="info-box-number">阅读微信文章并点击广告</span>
-							<span class="info-box-text">12台在线设备</span>
-							<div class="progress">
-								<div class="progress-bar" style="width: 100%"></div>
-							</div>
-							<span class="progress-description">在指定群聊中阅读微信文章并点击广告</span>
-						</div>
-					</div>
-				</div>
-				<#-- 同意好友请求 -->
-				<div class="col-md-4 col-sm-6 col-xs-12" id="agreeToFriendRequest">
-					<div class="info-box bg-yellow">
-						<span class="info-box-icon"><i class="fa fa-puzzle-piece"></i></span>
-						<div class="info-box-content">
-							<span class="info-box-number">同意好友请求</span>
-							<span class="info-box-text">12台在线设备</span>
-							<div class="progress">
-								<div class="progress-bar" style="width: 100%"></div>
-							</div>
-							<span class="progress-description">在所有聊天会话中检测并同意好友请求</span>
-						</div>
-					</div>
-				</div>
-				<#-- 将群保存到通讯录 -->
-				<div class="col-md-4 col-sm-6 col-xs-12" id="saveToAddressBook">
-					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa fa-microphone"></i></span>
-						<div class="info-box-content">
-							<span class="info-box-number">将群保存到通讯录</span>
-							<span class="info-box-text">12台在线设备</span>
-							<div class="progress">
-								<div class="progress-bar" style="width: 100%"></div>
-							</div>
-							<span class="progress-description">在所有聊天会话中检测并保存群到通讯录</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-4 col-sm-6 col-xs-12" id="praiseAndCommentFriendsCircle">
-					<#-- 点赞和评论朋友圈 -->
-					<div class="info-box bg-yellow">
-						<span class="info-box-icon"><i class="fa fa-shield"></i></span>
-						<div class="info-box-content">
-							<span class="info-box-number">点赞和评论朋友圈</span>
-							<span class="info-box-text">12台在线设备</span>
-							<div class="progress">
-								<div class="progress-bar" style="width: 100%"></div>
-							</div>
-							<span class="progress-description">在微信朋友圈中点赞和评论朋友圈</span>
-						</div>
-					</div>
-				</div>
-				<#-- 同意进群 -->
-				<div class="col-md-4 col-sm-6 col-xs-12" id="agreeToJoinTheGroup">
-					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa fa-fire-extinguisher"></i></span>
-						<div class="info-box-content">
-							<span class="info-box-number">同意进群</span>
-							<span class="info-box-text">12台在线设备</span>
-							<div class="progress">
-								<div class="progress-bar" style="width: 100%"></div>
-							</div>
-							<span class="progress-description">对指定聊天会话中检测并同意进群</span>
-						</div>
-					</div>
-				</div>
 				<#-- 发送朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="sendFriendCircle">
 					<div class="info-box bg-aqua">
@@ -113,26 +40,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
-				<#-- 根据微信昵称进行聊天 -->
-				<div class="col-md-4 col-sm-6 col-xs-12" id="chatByNickName">
-					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa fa-maxcdn"></i></span>
-						<div class="info-box-content">
-							<span class="info-box-number">根据微信昵称进行聊天</span>
-							<span class="info-box-text">12台在线设备</span>
-							<div class="progress">
-								<div class="progress-bar" style="width: 100%"></div>
-							</div>
-							<span class="progress-description">在微信中根据微信昵称进行聊天</span>
-						</div>
-					</div>
-				</div>
 				<#-- 分享微信文章到微信朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="shareArticleToFriendCircle">
-					<div class="info-box bg-aqua">
+					<div class="info-box bg-yellow">
 						<span class="info-box-icon"><i class="fa fa-anchor"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">分享微信文章到微信朋友圈</span>
@@ -144,6 +54,23 @@
 						</div>
 					</div>
 				</div>
+				<#-- 点赞和评论朋友圈 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="praiseAndCommentFriendsCircle">
+					<div class="info-box bg-green">
+						<span class="info-box-icon"><i class="fa fa-shield"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">点赞和评论朋友圈</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">在微信朋友圈中点赞和评论朋友圈</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
 				<#-- 添加群成员为好友的V群 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="addGroupMembersAsFriends">
 					<div class="info-box bg-yellow">
@@ -158,12 +85,40 @@
 						</div>
 					</div>
 				</div>
+				<#-- 同意好友请求 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="agreeToFriendRequest">
+					<div class="info-box bg-green">
+						<span class="info-box-icon"><i class="fa fa-puzzle-piece"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">同意好友请求</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">在所有聊天会话中检测并同意好友请求</span>
+						</div>
+					</div>
+				</div>
+				<#-- 将群保存到通讯录 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="saveToAddressBook">
+					<div class="info-box bg-aqua">
+						<span class="info-box-icon"><i class="fa fa-microphone"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">将群保存到通讯录</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">在所有聊天会话中检测并保存群到通讯录</span>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="row">
 				<#-- 转发微信消息 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="relayTheWxMessage">
-					<div class="info-box bg-aqua">
+					<div class="info-box bg-green">
 						<span class="info-box-icon"><i class="fa fa-compass"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">转发微信消息</span>
@@ -171,7 +126,52 @@
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在指定群聊中转发微信消息</span>
+							<span class="progress-description">只支持最后一条消息是【图片】【小程序】【微信公众号文章】</span>
+						</div>
+					</div>
+				</div>
+				<#-- 根据微信昵称进行聊天 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="chatByNickName">
+					<div class="info-box bg-aqua">
+						<span class="info-box-icon"><i class="fa fa-maxcdn"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">根据微信昵称进行聊天</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">在微信中根据微信昵称进行聊天</span>
+						</div>
+					</div>
+				</div>
+				<#-- 同意进群 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="agreeToJoinTheGroup">
+					<div class="info-box bg-yellow">
+						<span class="info-box-icon"><i class="fa fa-fire-extinguisher"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">同意进群</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">对指定聊天会话中检测并同意进群</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<#-- 阅读微信文章并点击广告 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="clickArticleAd">
+					<div class="info-box bg-aqua">
+						<span class="info-box-icon"><i class="fa fa-eraser"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">阅读微信文章并点击广告</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">在指定群聊中阅读微信文章并点击广告</span>
 						</div>
 					</div>
 				</div>
