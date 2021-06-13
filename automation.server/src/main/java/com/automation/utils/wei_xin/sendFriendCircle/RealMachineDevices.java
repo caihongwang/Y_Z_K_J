@@ -47,7 +47,7 @@ public class RealMachineDevices implements SendFriendCircle {
         String deviceNameDesc =
                 paramMap.get("deviceNameDesc") != null ?
                         paramMap.get("deviceNameDesc").toString() :
-                        "小米 Max 3";
+                        "小米Max3_08";
         //appium端口号
         String appiumPort =
                 paramMap.get("appiumPort") != null ?
@@ -373,11 +373,10 @@ public class RealMachineDevices implements SendFriendCircle {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("deviceName", "5LM0216122009385");
-            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
-            paramMap.put("action", "imgMessageFriendCircle");
-//            paramMap.put("action", "textMessageFriendCircle");
-            paramMap.put("index", 1);
+//            paramMap.put("deviceName", "5LM0216122009385");
+//            paramMap.put("deviceNameDesc", "华为 Mate 8 _ 6");
+//            paramMap.put("action", "imgMessageFriendCircle");
+            paramMap.put("action", "textMessageFriendCircle");
             new RealMachineDevices().sendFriendCircle(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {

@@ -42,15 +42,15 @@ public class SaveToAddressBookUtils {
      * @throws Exception
      */
     public void saveToAddressBook(Map<String, Object> paramMap) throws Exception {
-        String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
-        LinkedList<String> currentDateList = Lists.newLinkedList();
+        String currentDeviceListStr = paramMap.get("currentDeviceListStr") != null ? paramMap.get("currentDeviceListStr").toString() : "";
+        LinkedList<String> currentDeviceList = Lists.newLinkedList();
         try {
-            currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
+            currentDeviceList = JSON.parseObject(currentDeviceListStr, LinkedList.class);
         } catch (Exception e) {
-            throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
+            throw new Exception("解析json设备列表失败，currentDeviceListStr = " + currentDeviceListStr + " ， e : ", e);
         } finally {
-            if (currentDateList.size() <= 0) {
-                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            if (currentDeviceList.size() <= 0) {
+                currentDeviceList.add("小米Max3_10");
             }
         }
         //appiumPort
@@ -59,6 +59,8 @@ public class SaveToAddressBookUtils {
         String deviceName = "未知-设备编码";
         //设备描述
         String deviceNameDesc = "未知-设备描述";
+        //设备执行小时
+        String deviceStartHour = "未知-设备时间";
         //当前 自动化操作 将群保存到通讯录
         String action = "saveToAddressBook";
         //获取 将群保存到通讯录 设备列表和配套的坐标配置
@@ -73,13 +75,13 @@ public class SaveToAddressBookUtils {
             throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
         }
         Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
-        for (String currentDateStr : currentDateList) {
+        for (String currentDevice : currentDeviceList) {
             try {
                 boolean isOperatedFlag = false;     //当前设备是否操作【已经添加过好友】的标志位
                 Map<String, Object> saveToAddressBookParam = Maps.newHashMap();
                 HashMap<String, Object> reboot_saveToAddressBookParam = Maps.newHashMap();
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
-                Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
+                String currentHour = currentDevice.contains("_") ? currentDevice.split("_")[1] : null;
                 //获取dicRemark
                 String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
                 JSONObject deviceNameAndLocaltionJSONObject = JSONObject.parseObject(deviceNameAndLocaltionStr);
@@ -97,12 +99,16 @@ public class SaveToAddressBookUtils {
                         deviceName = saveToAddressBookParam.get("deviceName") != null ? saveToAddressBookParam.get("deviceName").toString() : null;
                         //当前设备描述
                         deviceNameDesc = saveToAddressBookParam.get("deviceNameDesc") != null ? saveToAddressBookParam.get("deviceNameDesc").toString() : null;
+                        //当前设备执行小时
+                        deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
+                        if (deviceStartHour == null || deviceNameDesc == null) {
+                            continue;
+                        }
+
                         //判断当前设备的执行小时时间是否与当前时间匹配
                         boolean isExecuteFlag = false;
-                        String startHour = saveToAddressBookParam.get("startHour") != null ? saveToAddressBookParam.get("startHour").toString() : "";
-                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                        if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                            if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                        if (deviceStartHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
+                            if (CommandUtil.isOnline4AndroidDevice(deviceName)) {
                                 try {
                                     //获取appium端口号
                                     appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
@@ -134,7 +140,7 @@ public class SaveToAddressBookUtils {
                                 logger.info("【邮件通知】【服务异常通知】将群保存到通讯录 ......");
                             }
                         } else {
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】，当前设备的执行时间第【" + deviceStartHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                             continue;
                         }
                         try {

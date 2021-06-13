@@ -153,32 +153,32 @@ echo "--------------------------------- start【oilStationMap.server】 done----
 
 
 
-echo "-------------------kill【newMall.server】 pid will sleep 20s.---------------------"
-rm /opt/newMall.server/run.sh
-cp /opt/deployAllApplication/Y_Z_K_J/newMall.server/bin/run.sh /opt/newMall.server/run.sh
-sh /opt/newMall.server/run.sh stop
-sleep 20s
-echo "-------------------kill【newMall.server】 pid done.-------------------------------"
-
-
-
-
-
-
-echo "-------------------start 【newMall.server】 project  will sleep 30s.--------------"
-rm -r /opt/newMall.server/logs
-rm /opt/newMall.server/newMall.server.jar
-cp /opt/deployAllApplication/Y_Z_K_J/newMall.server/target/newMall.server.jar /opt/newMall.server/newMall.server.jar
-cd /opt/newMall.server
-sh /opt/newMall.server/run.sh start
-sleep 20s
-echo "-------------------start 【newMall.server】 project  done.------------------------"
-
-
-
-
-
-echo "--------------------------------- start【newMall.server】 done--------------------"
-echo "--------------------------------- start【newMall.server】 done--------------------"
-echo "--------------------------------- start【newMall.server】 done--------------------"
+#echo "-------------------kill【newMall.server】 pid will sleep 20s.---------------------"
+#rm /opt/newMall.server/run.sh
+#cp /opt/deployAllApplication/Y_Z_K_J/newMall.server/bin/run.sh /opt/newMall.server/run.sh
+#sh /opt/newMall.server/run.sh stop
+#sleep 20s
+#echo "-------------------kill【newMall.server】 pid done.-------------------------------"
+#
+#
+#
+#
+#
+#
+#echo "-------------------start 【newMall.server】 project  will sleep 30s.--------------"
+#rm -r /opt/newMall.server/logs
+#rm /opt/newMall.server/newMall.server.jar
+#cp /opt/deployAllApplication/Y_Z_K_J/newMall.server/target/newMall.server.jar /opt/newMall.server/newMall.server.jar
+#cd /opt/newMall.server
+#sh /opt/newMall.server/run.sh start
+#sleep 20s
+#echo "-------------------start 【newMall.server】 project  done.------------------------"
+#
+#
+#
+#
+#
+#echo "--------------------------------- start【newMall.server】 done--------------------"
+#echo "--------------------------------- start【newMall.server】 done--------------------"
+#echo "--------------------------------- start【newMall.server】 done--------------------"
 

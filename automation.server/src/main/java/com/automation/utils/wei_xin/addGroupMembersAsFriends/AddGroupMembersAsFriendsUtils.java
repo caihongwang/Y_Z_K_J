@@ -44,15 +44,15 @@ public class AddGroupMembersAsFriendsUtils {
      */
     public void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception {
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
-        String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
-        LinkedList<String> currentDateList = Lists.newLinkedList();
+        String currentDeviceListStr = paramMap.get("currentDeviceListStr") != null ? paramMap.get("currentDeviceListStr").toString() : "";
+        LinkedList<String> currentDeviceList = Lists.newLinkedList();
         try {
-            currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
+            currentDeviceList = JSON.parseObject(currentDeviceListStr, LinkedList.class);
         } catch (Exception e) {
-            throw new Exception("解析json时间列表失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
+            throw new Exception("解析json设备列表失败，currentDeviceListStr = " + currentDeviceListStr + " ， e : ", e);
         } finally {
-            if (currentDateList.size() <= 0) {
-                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            if (currentDeviceList.size() <= 0) {
+                currentDeviceList.add("小米Max3_10");
             }
         }
         LinkedList<String> nickNameList = Lists.newLinkedList();
@@ -69,6 +69,8 @@ public class AddGroupMembersAsFriendsUtils {
         String deviceName = "未知-设备编码";
         //设备描述
         String deviceNameDesc = "未知-设备描述";
+        //设备执行小时
+        String deviceStartHour = "未知-设备时间";
         //当前 自动化操作 添加群成员为好友的V群
         String action = "addGroupMembersAsFriends";
         //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
@@ -99,10 +101,10 @@ public class AddGroupMembersAsFriendsUtils {
             throw new Exception("【添加群成员为好友的V群】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
         }
         Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
-        for (String currentDateStr : currentDateList) {
+        for (String currentDevice : currentDeviceList) {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
-                Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
+                String currentHour = currentDevice.contains("_") ? currentDevice.split("_")[1] : null;
                 for (Map<String, String> addGroupMembersAsFriends : addGroupMembersAsFriendList) {
                     Map<String, Object> addGroupMembersAsFriendsParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_addGroupMembersAsFriendsParam = Maps.newHashMap();
@@ -126,22 +128,23 @@ public class AddGroupMembersAsFriendsUtils {
                         if (deviceNameList != null && deviceNameList.size() > 0) {
                             for (Map<String, Object> deviceNameMap : deviceNameList) {
                                 addGroupMembersAsFriendsParam.putAll(deviceNameMap);
-                                //获取设备编码
+                                //当前设备编码
                                 deviceName = addGroupMembersAsFriendsParam.get("deviceName") != null ? addGroupMembersAsFriendsParam.get("deviceName").toString() : null;
                                 //当前设备描述
                                 deviceNameDesc = addGroupMembersAsFriendsParam.get("deviceNameDesc") != null ? addGroupMembersAsFriendsParam.get("deviceNameDesc").toString() : null;
-                                //目标设备描述-即群对应设备描述
+                                //当前设备执行小时
+                                deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
+                                //目标设备描述-即群对应设备描述targetDeviceNameDesc
                                 String targetDeviceNameDesc = addGroupMembersAsFriendsParam.get("targetDeviceNameDesc") != null ? addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString() : null;
                                 //群的指定目标的设备与当前的设备不符合直接continue
-                                if (deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)) {
+                                if (deviceStartHour == null || deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)) {
                                     continue;
                                 }
+
                                 //判断当前设备的执行小时时间是否与当前时间匹配
                                 boolean isExecuteFlag = false;
-                                String startHour = addGroupMembersAsFriendsParam.get("startHour") != null ? addGroupMembersAsFriendsParam.get("startHour").toString() : "";
-                                String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                if (startHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
-                                    if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                if (deviceStartHour.equals(currentHour)) {    //当前设备在规定的执行时间才执行自动化操作，同时获取对应的appium端口号
+                                    if (CommandUtil.isOnline4AndroidDevice(deviceName)) {
                                         try {
                                             //获取appium端口号
                                             appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
@@ -175,7 +178,7 @@ public class AddGroupMembersAsFriendsUtils {
                                     }
                                 } else {
                                     isExecuteFlag = false;
-                                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + deviceStartHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                     continue;
                                 }
                                 try {

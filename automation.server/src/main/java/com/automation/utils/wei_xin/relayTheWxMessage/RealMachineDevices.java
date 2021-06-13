@@ -55,7 +55,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
         String action =
                 paramMap.get("action") != null ?
                         paramMap.get("action").toString() :
-                        "shareArticleToFriendCircle";
+                        "relayTheWxMessage";
         //转发消息数量
         String relayTheWxMessageNumStr =
                 paramMap.get("relayTheWxMessageNumStr") != null ?

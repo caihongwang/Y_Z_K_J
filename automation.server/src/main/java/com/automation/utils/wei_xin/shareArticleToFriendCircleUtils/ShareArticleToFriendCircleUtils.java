@@ -54,15 +54,15 @@ public class ShareArticleToFriendCircleUtils {
      */
     public void shareArticleToFriendCircle(Map<String, Object> paramMap) throws Exception {
         String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
-        String currentDateListStr = paramMap.get("currentDateListStr") != null ? paramMap.get("currentDateListStr").toString() : "";
-        LinkedList<String> currentDateList = Lists.newLinkedList();
+        String currentDeviceListStr = paramMap.get("currentDeviceListStr") != null ? paramMap.get("currentDeviceListStr").toString() : "";
+        LinkedList<String> currentDeviceList = Lists.newLinkedList();
         try {
-            currentDateList = JSON.parseObject(currentDateListStr, LinkedList.class);
+            currentDeviceList = JSON.parseObject(currentDeviceListStr, LinkedList.class);
         } catch (Exception e) {
-            throw new Exception("解析json失败，currentDateListStr = " + currentDateListStr + " ， e : ", e);
+            throw new Exception("解析json设备列表失败，currentDeviceListStr = " + currentDeviceListStr + " ， e : ", e);
         } finally {
-            if (currentDateList.size() <= 0) {
-                currentDateList.add(new SimpleDateFormat("yyyy-MM-dd HH").format(new Date()));
+            if (currentDeviceList.size() <= 0) {
+                currentDeviceList.add("小米Max3_10");
             }
         }
         LinkedList<String> nickNameList = Lists.newLinkedList();
@@ -79,6 +79,8 @@ public class ShareArticleToFriendCircleUtils {
         String deviceName = "未知-设备编码";
         //设备描述
         String deviceNameDesc = "未知-设备描述";
+        //设备执行小时
+        String deviceStartHour = "未知-设备时间";
         //当前 自动化操作 分享微信文章到微信朋友圈
         String action = "shareArticleToFriendCircle";
         //获取 分享微信文章到微信朋友圈 设备列表和配套的坐标配置
@@ -109,11 +111,13 @@ public class ShareArticleToFriendCircleUtils {
             throw new Exception("【分享微信文章到微信朋友圈】" + deviceNameListAnddeviceLocaltionOfCode + " 设备列表和配套的坐标配置 不存在，请使用adb命令查询设备号并入库.");
         }
         Map<String, Object> deviceNameAndLocaltionMap = deviceNameAndLocaltionList.get(0);
-        //开始遍历时间列表
-        for (String currentDateStr : currentDateList) {
+        for (String currentDevice : currentDeviceList) {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
-                Date currentDate = new SimpleDateFormat("yyyy-MM-dd HH").parse(currentDateStr);
+                String currentHour = currentDevice.contains("_") ? currentDevice.split("_")[1] : null;
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(currentHour));
+                Date currentDate = calendar.getTime();
                 for (Map<String, String> shareArticleToFriendCircle : shareArticleToFriendCircleList) {
                     Map<String, Object> shareArticleToFriendCircleParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_shareArticleToFriendCircleParam = Maps.newHashMap();
@@ -140,6 +144,12 @@ public class ShareArticleToFriendCircleUtils {
                                 deviceName = shareArticleToFriendCircleParam.get("deviceName") != null ? shareArticleToFriendCircleParam.get("deviceName").toString() : null;
                                 //当前设备描述
                                 deviceNameDesc = shareArticleToFriendCircleParam.get("deviceNameDesc") != null ? shareArticleToFriendCircleParam.get("deviceNameDesc").toString() : null;
+                                //当前设备执行小时
+                                deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
+                                if (deviceStartHour == null || deviceNameDesc == null) {
+                                    continue;
+                                }
+
                                 //判断当前设备的执行小时时间是否与当前时间匹配
                                 boolean isExecuteFlag = false;
                                 //判断推广时间是否还在推广期内
@@ -151,10 +161,8 @@ public class ShareArticleToFriendCircleUtils {
                                     Date endTime = sdf.parse(endTimeStr);
                                     if (DateUtil.isEffectiveDate(currentDate, startTime, endTime)) {
                                         //判断当前设备的执行小时时间是否与当前时间匹配
-                                        String startHour = shareArticleToFriendCircleParam.get("startHour") != null ? shareArticleToFriendCircleParam.get("startHour").toString() : "";
-                                        String currentHour = new SimpleDateFormat("HH").format(currentDate);
-                                        if (startHour.equals(currentHour)) {
-                                            if(CommandUtil.isOnline4AndroidDevice(deviceName)){
+                                        if (deviceStartHour.equals(currentHour)) {
+                                            if (CommandUtil.isOnline4AndroidDevice(deviceName)) {
                                                 try {
                                                     //获取appium端口号
                                                     appiumPort = GlobalVariableConfig.getAppiumPort(action, deviceNameDesc);
@@ -187,7 +195,7 @@ public class ShareArticleToFriendCircleUtils {
                                                 logger.info("【邮件通知】【服务异常通知】分享微信文章到微信朋友圈 ......");
                                             }
                                         } else {
-                                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + startHour + "】小时，当前时间是第【" + currentHour + "】小时....");
+                                            logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】，当前设备的执行时间第【" + deviceStartHour + "】小时，当前时间是第【" + currentHour + "】小时....");
                                             continue;
                                         }
                                     } else if (DateUtil.isBeforeDate(currentDate, startTime)) {
@@ -298,7 +306,7 @@ public class ShareArticleToFriendCircleUtils {
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                                 logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】成功....");
                                 //向nickName对象发送聊天消息进行通知
-                                nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName, currentDateStr);
+                                nextOperator_chatByNickName(deviceNameDesc, deviceName, nickName);
                             }
                         }
                     } catch (Exception e) {
@@ -317,24 +325,48 @@ public class ShareArticleToFriendCircleUtils {
      * @param deviceNameDesc
      * @param deviceName
      * @param nickName
-     * @param currentDateStr
      */
-    public void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName,
-                                            String currentDateStr) {
+    public void nextOperator_chatByNickName(String deviceNameDesc, String deviceName, String nickName) {
         try {
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
             logger.info("【分享微信文章到微信朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】昵称【" + nickName + "】即将开始根据微信昵称进行聊天....");
+            //获取设备列表
+            LinkedList<String> currentDeviceList_fro_chatByNickName = Lists.newLinkedList();
+            Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("dicType", "deviceNameListAndLocaltion");
+            paramMap.put("dicCode", "HuaWeiListAndChatByNickNameLocaltion");
+            ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+            if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+                    String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
+                    List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                    if (deviceNameList != null && deviceNameList.size() > 0) {
+                        for (Map<String, Object> deviceNameMap : deviceNameList) {
+                            //当前设备描述
+                            String deviceName_temp = deviceNameMap.get("deviceName") != null ? deviceNameMap.get("deviceName").toString() : null;
+                            if(deviceName.equals(deviceName_temp)){
+                                String deviceNameDesc_temp = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
+                                currentDeviceList_fro_chatByNickName.add(deviceNameDesc_temp);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            //获取昵称列表
             List<String> nickNameList_fro_chatByNickName = Lists.newArrayList();
             nickNameList_fro_chatByNickName.add(nickName);
-            LinkedList<String> currentDateList_fro_chatByNickName = Lists.newLinkedList();
-            currentDateList_fro_chatByNickName.add(DateUtil.getPostponeTimesOradvanceTimes(currentDateStr, -4));
-            Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
-            paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
-            paramMap_fro_chatByNickName.put("currentDateListStr", JSONObject.toJSONString(currentDateList_fro_chatByNickName));
-            chatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
+
+            //准备参数，开始根据微信昵称进行聊天
+            if(currentDeviceList_fro_chatByNickName.size() > 0){
+                Map<String, Object> paramMap_fro_chatByNickName = Maps.newHashMap();
+                paramMap_fro_chatByNickName.put("nickNameListStr", JSONObject.toJSONString(nickNameList_fro_chatByNickName));
+                paramMap_fro_chatByNickName.put("currentDeviceListStr", JSONObject.toJSONString(currentDeviceList_fro_chatByNickName));
+                chatByNickNameUtils.chatByNickName(paramMap_fro_chatByNickName);
+            }
         } catch (Exception e) {
             logger.info("【分享微信文章到微信朋友圈】根据微信昵称进行聊天失败.");
         }

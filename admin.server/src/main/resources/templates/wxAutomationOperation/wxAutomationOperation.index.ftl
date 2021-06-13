@@ -208,9 +208,9 @@
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">操作时间列表<font color="black">*</font></label>
+						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-                            <textarea class="textarea form-control" name="currentDateListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+                            <textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -273,9 +273,9 @@
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">操作时间列表<font color="black">*</font></label>
+						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDateListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -327,9 +327,9 @@
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-sm-2 control-label">操作时间列表<font color="black">*</font></label>
+						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDateListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 

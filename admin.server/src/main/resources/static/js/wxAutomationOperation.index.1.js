@@ -179,23 +179,23 @@ function clickFunc_For_default(){
         var automationOperation_name = "阅读微信文章并点击广告";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/clickArticleAd";        //阅读微信文章并点击广告
     }
-    var currentDateListStr = "[\n" +
-        "    \"2020-10-25 10\",\n" +
-        "    \"2020-10-25 11\",\n" +
-        "    \"2020-10-25 12\",\n" +
-        "    \"2020-10-25 13\",\n" +
-        "    \"2020-10-25 14\",\n" +
-        "    \"2020-10-25 15\",\n" +
-        "    \"2020-10-25 16\",\n" +
-        "    \"2020-10-25 17\",\n" +
-        "    \"2020-10-25 18\",\n" +
-        "    \"2020-10-25 19\",\n" +
-        "    \"2020-10-25 20\",\n" +
-        "    \"2020-10-25 21\"\n" +
+    var currentDeviceListStr = "[\n" +
+        "    \"小米Max3_10\",\n" +
+        "    \"华为Mate8_11\",\n" +
+        "    \"华为Mate8_12\",\n" +
+        "    \"华为Mate8_13\",\n" +
+        "    \"华为Mate8_14\",\n" +
+        "    \"华为Mate8_15\",\n" +
+        "    \"华为Mate8_16\",\n" +
+        "    \"华为Mate8_17\",\n" +
+        "    \"华为Mate8海外版_18\",\n" +
+        "    \"华为Mate8_19\",\n" +
+        "    \"华为Mate8_20\",\n" +
+        "    \"华为Mate8_21\"\n" +
         "]";
     $("#automationOperationModal .form input[name='automationOperation_name']").val( automationOperation_name );  //操作名称
     $("#automationOperationModal .form input[name='automationOperation_url']").val( automationOperation_url );    //操作地址
-    $("#automationOperationModal .form textarea[name='currentDateListStr']").val( JSON.stringify(JSON.parse(currentDateListStr),null,2) );//操作时间列表
+    $("#automationOperationModal .form textarea[name='currentDeviceListStr']").val( JSON.stringify(JSON.parse(currentDeviceListStr),null,2) );//操作时间列表
     $('#automationOperationModal').modal({backdrop: false, keyboard: false}).modal('show');
 }
 
@@ -217,26 +217,26 @@ function clickFunc_For_praiseAndCommentFriendsCircle(){
     var nickName = "所有";
     var allSwipeNum = "11";
     var commentContent = "看着好高级啊，真棒...";
-    var currentDateListStr = "[\n" +
-        "    \"2020-10-25 10\",\n" +
-        "    \"2020-10-25 11\",\n" +
-        "    \"2020-10-25 12\",\n" +
-        "    \"2020-10-25 13\",\n" +
-        "    \"2020-10-25 14\",\n" +
-        "    \"2020-10-25 15\",\n" +
-        "    \"2020-10-25 16\",\n" +
-        "    \"2020-10-25 17\",\n" +
-        "    \"2020-10-25 18\",\n" +
-        "    \"2020-10-25 19\",\n" +
-        "    \"2020-10-25 20\",\n" +
-        "    \"2020-10-25 21\"\n" +
+    var currentDeviceListStr = "[\n" +
+        "    \"小米Max3_10\",\n" +
+        "    \"华为Mate8_11\",\n" +
+        "    \"华为Mate8_12\",\n" +
+        "    \"华为Mate8_13\",\n" +
+        "    \"华为Mate8_14\",\n" +
+        "    \"华为Mate8_15\",\n" +
+        "    \"华为Mate8_16\",\n" +
+        "    \"华为Mate8_17\",\n" +
+        "    \"华为Mate8海外版_18\",\n" +
+        "    \"华为Mate8_19\",\n" +
+        "    \"华为Mate8_20\",\n" +
+        "    \"华为Mate8_21\"\n" +
         "]";
     $("#praiseAndCommentFriendsCircleModal .form input[name='automationOperation_name']").val( automationOperation_name );  //操作名称
     $("#praiseAndCommentFriendsCircleModal .form input[name='automationOperation_url']").val( automationOperation_url );    //操作地址
     $("#praiseAndCommentFriendsCircleModal .form input[name='nickName']").val( nickName );                                  //操作微信号
     $("#praiseAndCommentFriendsCircleModal .form input[name='allSwipeNum']").val( allSwipeNum );                            //滑动朋友圈次数
     $("#praiseAndCommentFriendsCircleModal .form input[name='commentContent']").val( commentContent );                      //评论内容
-    $("#praiseAndCommentFriendsCircleModal .form textarea[name='currentDateListStr']").val( JSON.stringify(JSON.parse(currentDateListStr),null,4) );//操作时间列表
+    $("#praiseAndCommentFriendsCircleModal .form textarea[name='currentDeviceListStr']").val( JSON.stringify(JSON.parse(currentDeviceListStr),null,4) );//操作时间列表
     $('#praiseAndCommentFriendsCircleModal').modal({backdrop: false, keyboard: false}).modal('show');
 }
 
@@ -257,40 +257,68 @@ function clickFunc_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFrien
     var automationOperation_name = "发送朋友圈";
     var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
     var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/sendFriendCircle";
+    var currentDeviceListStr = "[\n" +
+        "    \"小米Max3_10\",\n" +
+        "    \"华为Mate8_11\",\n" +
+        "    \"华为Mate8_12\",\n" +
+        "    \"华为Mate8_13\",\n" +
+        "    \"华为Mate8_14\",\n" +
+        "    \"华为Mate8_15\",\n" +
+        "    \"华为Mate8_16\",\n" +
+        "    \"华为Mate8_17\",\n" +
+        "    \"华为Mate8海外版_18\",\n" +
+        "    \"华为Mate8_19\",\n" +
+        "    \"华为Mate8_20\",\n" +
+        "    \"华为Mate8_21\"\n" +
+        "]";
     if(operationId == "sendFriendCircle"){
         var automationOperation_name = "发送朋友圈";
         var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/sendFriendCircle";              //发送朋友圈
+        var currentDeviceListStr = "[\n" +
+        "    \"小米Max3_08\",\n" +
+        "    \"华为Mate8_09\",\n" +
+        "    \"华为Mate8_10\",\n" +
+        "    \"华为Mate8_11\",\n" +
+        "    \"华为Mate8_12\",\n" +
+        "    \"华为Mate8_13\",\n" +
+        "    \"华为Mate8_14\",\n" +
+        "    \"华为Mate8_15\",\n" +
+        "    \"华为Mate8海外版_16\",\n" +
+        "    \"华为Mate8_17\",\n" +
+        "    \"华为Mate8_18\",\n" +
+        "    \"华为Mate8_19\"\n" +
+        "]";
     } else if(operationId == "shareArticleToFriendCircle"){
         var automationOperation_name = "分享微信文章到微信朋友圈";
         var nickNameListStr = "[\n" + "    \"油站科技\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareArticleToFriendCircle";    //分享微信文章到微信朋友圈
+        var currentDeviceListStr = "[\n" +
+            "    \"小米Max3_06\",\n" +
+            "    \"华为Mate8_07\",\n" +
+            "    \"华为Mate8_08\",\n" +
+            "    \"华为Mate8_09\",\n" +
+            "    \"华为Mate8_10\",\n" +
+            "    \"华为Mate8_11\",\n" +
+            "    \"华为Mate8_12\",\n" +
+            "    \"华为Mate8_13\",\n" +
+            "    \"华为Mate8海外版_14\",\n" +
+            "    \"华为Mate8_15\",\n" +
+            "    \"华为Mate8_16\",\n" +
+            "    \"华为Mate8_17\"\n" +
+            "]";
     } else if(operationId == "chatByNickName"){
         var automationOperation_name = "根据微信昵称进行聊天";
         var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/chatByNickName";                //根据微信昵称进行聊天
     } else if(operationId == "addGroupMembersAsFriends"){
         var automationOperation_name = "添加群成员为好友的V群";
-        var nickNameListStr = "[\n" + "    \"印江千里眼\"\n" + "]";
+        var nickNameListStr = "[\n" + "    \"印江跑跑群\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/addGroupMembersAsFriends";      //添加群成员为好友的V群
     }
-    var currentDateListStr = "[\n" +
-        "    \"2020-10-25 10\",\n" +
-        "    \"2020-10-25 11\",\n" +
-        "    \"2020-10-25 12\",\n" +
-        "    \"2020-10-25 13\",\n" +
-        "    \"2020-10-25 14\",\n" +
-        "    \"2020-10-25 15\",\n" +
-        "    \"2020-10-25 16\",\n" +
-        "    \"2020-10-25 17\",\n" +
-        "    \"2020-10-25 18\",\n" +
-        "    \"2020-10-25 19\",\n" +
-        "    \"2020-10-25 20\",\n" +
-        "    \"2020-10-25 21\"\n" +
-        "]";
     $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form input[name='automationOperation_name']").val( automationOperation_name );  //操作名称
     $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form input[name='automationOperation_url']").val( automationOperation_url );    //操作地址
     $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='nickNameListStr']").val( JSON.stringify(JSON.parse(nickNameListStr),null,4) );           //微信号列表
-    $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='currentDateListStr']").val( JSON.stringify(JSON.parse(currentDateListStr),null,4) );  //操作时间列表
+    $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='currentDeviceListStr']").val( JSON.stringify(JSON.parse(currentDeviceListStr),null,4) );  //操作时间列表
     $('#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal').modal({backdrop: false, keyboard: false}).modal('show');
 }
