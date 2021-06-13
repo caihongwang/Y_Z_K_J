@@ -229,11 +229,19 @@ public class RealMachineDevices implements AgreeToFriendRequest {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-//            if (!chatFriendNickName.contains("驰墨教育")) {//A车～09.08-09.05 1米 一曲       A车～秀山重庆往返17358385547田丰
-//                continue;
-//            }
+            String regex = ".*\\[[0-9]*条\\].*";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(chatFriendNickName);
+            if (m.matches()) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[122条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
             if (chatFriendNickName.contains("油站科技")) {      //确保坐标：微信( 存在
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.endsWith("群")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】末尾包含【群】对应的是【微信群昵称】,继续下一个昵称....");
                 continue;
             }
             if (chatFriendNickName.contains("[店员消息]")) {
@@ -248,12 +256,44 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
+            if (chatFriendNickName.contains("[文件]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[文件]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[视频]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[视频]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
             if (chatFriendNickName.contains("[小程序]")) {
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
             if (chatFriendNickName.contains("[群待办]")) {
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[聊天记录]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[聊天记录]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[语音]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[语音]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[语音通话]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[语音通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[视频通话]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[视频通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[草稿]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[草稿]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
+            }
+            if (chatFriendNickName.contains("[动画表情]")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[动画表情]】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
             if (chatFriendNickName.contains("[有人@我]")) {
@@ -276,22 +316,10 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
                 continue;
             }
-            String chatRecordNumStr = "-1";
-            try {                                       //判断是否为-微信群的聊天记录，示例：[2条] 宋天宇: 宝润国际电梯房屋出售：，急售…
-                Pattern pattern = Pattern.compile("(?<=\\[)(.+?)(?=条\\])");
-                Matcher matcher = pattern.matcher(chatFriendNickName);
-                while (matcher.find()) {
-                    chatRecordNumStr = matcher.group();
-                }
-                Integer groupTotalNum = Integer.parseInt(chatRecordNumStr);
-                if (groupTotalNum >= 0) {
-                    logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【[*条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-                    continue;
-                }
-            } catch (Exception e) {
-
+            if (chatFriendNickName.startsWith("移除群里")) {
+                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + chatFriendNickName + "】包含【*移除群里】对应的是【微信群的聊天记录】,继续下一个昵称....");
+                continue;
             }
-
             //检测昵称是否末尾包含"…"，示例：A车～05.25-06.25 50米 沿河…
             if (chatFriendNickName.endsWith("…")) {
                 logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之前昵称【" + chatFriendNickName + "】....");
@@ -361,19 +389,25 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                 while (true) {
                     try {
                         driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                        logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】成功....");
                         Thread.sleep(1000);
                         break;
                     } catch (Exception e) {
-                        logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
-                        if (backChatPage_num <= 10) {
-                            driver.pressKeyCode(AndroidKeyCode.BACK);
-                            Thread.sleep(1000);
-                        } else {
-                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                            Thread.sleep(2000);
-                            break;
+                        logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】失败....");
+                        try{
+                            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")");
+                            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
+                        } catch (Exception e1) {
+                            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
+                            if (backChatPage_num <= 10) {
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                            } else {
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                                Thread.sleep(2000);
+                                break;
+                            }
                         }
                     } finally {
                         backChatPage_num++;
@@ -682,12 +716,23 @@ public class RealMachineDevices implements AgreeToFriendRequest {
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-            paramMap.put("deviceName", "5LM0216122009385");
-            paramMap.put("deviceNameDesc", "华为 Mate8 _ 6");
+            paramMap.put("deviceName", "S2D0219423001056");
+            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
+//            paramMap.put("deviceName", "9f4eda95");
+//            paramMap.put("deviceNameDesc", "小米 Max 3");
             new RealMachineDevices().agreeToFriendRequest(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        String content = "cacadc[123条]sdcsdc";
+//        String regex = ".*\\[[0-9]*条\\].*";
+//        Pattern p = Pattern.compile(regex);
+//        Matcher m = p.matcher(content);
+//        if (m.matches()) {
+//            System.out.println("字符串中是否包含了 '条]' 子字符串? " + true);
+//        } else {
+//            System.out.println("字符串中是否包含了 '条]' 子字符串? " + false);
+//        }
     }
 }

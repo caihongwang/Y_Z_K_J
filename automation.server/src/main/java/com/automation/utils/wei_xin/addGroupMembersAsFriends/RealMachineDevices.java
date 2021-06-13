@@ -129,6 +129,11 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                 paramMap.get("checkAllGroupMembers") != null ?
                         paramMap.get("checkAllGroupMembers").toString() :
                         "查看全部群成员";
+        //坐标【查看更多群成员】
+        String checkMoreGroupMembers =
+                paramMap.get("checkMoreGroupMembers") != null ?
+                        paramMap.get("checkMoreGroupMembers").toString() :
+                        "查看更多群成员";
         //坐标【发消息】
         String sendMessageBtnLocaltion =
                 paramMap.get("sendMessageBtnLocaltion") != null ?
@@ -310,11 +315,18 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
             try {
                 WebElement checkAllGroupMembers_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward().scrollIntoView(new UiSelector().text(\"" + checkAllGroupMembers + "\"))");
                 checkAllGroupMembers_WebElement.click();
-                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【上滑同时检测坐标查看全部群成员】并点击成功...");
+                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑同时检测坐标【查看全部群成员】并点击成功...");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【上滑同时检测坐标查看全部群成员】并点击失败...");
-                throw new Exception("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【上滑同时检测坐标查看全部群成员】并点击失败...");
+                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑同时检测坐标【查看全部群成员】并点击失败...");
+                try {//低版本微信中是【查看全部群成员】，高版本微信中是【查看更多群成员】
+                    WebElement checkMoreGroupMembers_WebElement = driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward().scrollIntoView(new UiSelector().text(\"" + checkMoreGroupMembers + "\"))");
+                    checkMoreGroupMembers_WebElement.click();
+                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑同时检测坐标【查看更多群成员】并点击成功...");
+                } catch (Exception e1) {
+                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑同时检测坐标【查看全部群成员】与【查看更多群成员】均失败...");
+                    throw new Exception("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑同时检测坐标【查看全部群成员】与【查看更多群成员】均失败...");
+                }
             }
             //9.下滑，回到群成员的顶部
             try {
@@ -376,7 +388,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                     }
                 }
                 for (String key : groupMembersMap.keySet()) {
-                    System.out.println("\t" + groupMembersMap.get(key).get("groupMemberIndex") + " ---->>> " + key + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
+                    logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】\t" + groupMembersMap.get(key).get("groupMemberIndex") + " ---->>> " + key + " ---->>> " + JSON.toJSONString(groupMembersMap.get(key)));
                 }
                 logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【上滑同时检测坐标查看全部群成员】成功....");
                 Thread.sleep(1000);
@@ -455,11 +467,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                                         if (sendMessageBtn_Element != null) {
                                             logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【发消息】成功，您与【" + groupMemberNickName + "】已是好友，则直接下一个群成员坐标....");
-                                            Thread.sleep(1000);
-                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【聊天成员界面】
-                                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【发消息】之后并返回【聊天成员界面】成功....");
-                                            Thread.sleep(4000);
                                             groupMember.put("isAddFlag", "true");
+                                            Thread.sleep(1000);
                                             break;
                                         }
                                     } catch (Exception e) {
@@ -478,12 +487,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         WebElement sendMessageBtn_Element = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendMessageBtnLocaltion + "\")");
                                         if (sendMessageBtn_Element != null) {
                                             logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，检测坐标【发消息】成功，在点击坐标【添加到通讯录】直接被对方【" + groupMemberNickName + "】通过为好友（即通知发送成功），则直接下一个群成员坐标....");
-                                            Thread.sleep(1000);
-                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【聊天成员界面】
-                                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，检测坐标【发消息】之后并返回【聊天成员界面】成功....");
-                                            Thread.sleep(4000);
                                             groupMember.put("isAddFlag", "true");
                                             addFriendNum++;
+                                            Thread.sleep(1000);
                                             break;
                                         }
                                     } catch (Exception e) {
@@ -499,13 +505,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                                 logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【确定】退出【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】的【弹窗】成功....");
                                             } catch (Exception e) {
                                                 logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【确定】退出【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】的【弹窗】失败....");
-                                                driver.pressKeyCode(AndroidKeyCode.BACK);
                                             }
-                                            Thread.sleep(4000);
-                                            driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【聊天成员界面】
-                                            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】返回【聊天成员界面】成功....");
-                                            Thread.sleep(4000);
                                             groupMember.put("isAddFlag", "true");
+                                            Thread.sleep(4000);
                                             break;
                                         }
                                     } catch (Exception e) {
@@ -518,13 +520,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                                     logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【确定】退出【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】的【弹窗】成功....");
                                                 } catch (Exception e1) {
                                                     logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【确定】退出【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】的【弹窗】失败....");
-                                                    driver.pressKeyCode(AndroidKeyCode.BACK);
                                                 }
-                                                Thread.sleep(4000);
-                                                driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【聊天成员界面】
-                                                logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，显示内容【由于对方的隐私设置，你无法通过群聊将其添加至通讯录】的【确定】成功之后返回【聊天成员界面】成功....");
-                                                Thread.sleep(4000);
                                                 groupMember.put("isAddFlag", "true");
+                                                Thread.sleep(4000);
                                                 break;
                                             }
                                         } catch (Exception e2) {
@@ -537,16 +535,11 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，检测坐标【发送添加朋友申请】成功....");
                                         Thread.sleep(1000);
                                     } catch (Exception e) {
+                                        groupMember.put("isAddFlag", "true");
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，检测坐标【发送添加朋友申请】异常，以为【单个群成员简介】显示push【对方账号异常，无法添加朋友。】，消失得很快，无法捕捉，则直接下一个群成员坐标....");
                                         Thread.sleep(1000);
-                                        driver.pressKeyCode(AndroidKeyCode.BACK);                   //返回【聊天成员界面】
-                                        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，检测坐标【发送添加朋友申请】之后并返回【聊天成员界面】成功....");
-                                        Thread.sleep(4000);
-                                        groupMember.put("isAddFlag", "true");
-                                        addFriendNum++;
                                         break;
                                     }
-
                                     //11.9 点击坐标【发送添加朋友申请-输入框】并输入【添加对方为好友的打招呼内容】
                                     try {
                                         driver.findElementByXPath("//android.widget.TextView[@text=\"" + sendRequestMsgLocaltion + "\"]/../android.widget.EditText").clear();
@@ -557,7 +550,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     } catch (Exception e) {
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标并输入【发送添加朋友申请-输入框】【xpath】异常，直接进入下一步....");
                                     }
-                                    //11.10 点击坐标【朋友圈】，主要是为了选择权限
+                                    //11.10 点击坐标【朋友圈】，主要是为了选择【权限】
                                     try {
                                         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + friendCircleLocaltion + "\")").click();
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【朋友圈】成功....");
@@ -567,7 +560,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     }
                                     //11.11 点击坐标【发送】
                                     try {
-                                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
+//                                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")").click();
+                                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendBtnLocaltion + "\")");
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发送】成功....");
                                         addFriendNum++;
                                         Thread.sleep(5000);
@@ -614,25 +608,27 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                     }
                 }
             }
-            System.out.println(JSON.toJSON(groupMembersMap));
+            logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】groupMembersMap = " + JSON.toJSON(groupMembersMap));
         } else {
             logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】群成员未超过40人，则不添加当前群的成员为好友....");
         }
         //更新群成员信息，便于统计那些群成员已经发起过添加好友申请.
         paramMap.put("groupMembersMapStr", JSON.toJSONString(groupMembersMap));
-        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】添加好友【" + theAddNum + "】个发送成功....");
+        logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】添加好友【" + theAddNum + "】个，实质发送好友【" + addFrirndTotalNum + "】个申请 成功....");
         return true;
     }
 
     public static void main(String[] args) {
         try {
             Map<String, Object> paramMap = Maps.newHashMap();
-//            paramMap.put("deviceName", "S2D0219423001056");
-//            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
-            paramMap.put("deviceName", "9f4eda95");
-            paramMap.put("deviceNameDesc", "小米 Max 3");
-            paramMap.put("nickName", "全国微帮总汇1⃣[[%F0%9F%88%B5]]");
-            paramMap.put("nickName", "印江跑跑群");
+            paramMap.put("deviceName", "S2D0219423001056");
+            paramMap.put("deviceNameDesc", "华为 Mate 20 Pro");
+//            paramMap.put("deviceName", "9f4eda95");
+//            paramMap.put("deviceNameDesc", "小米 Max 3");
+//            paramMap.put("nickName", "印江跑跑群");
+            paramMap.put("nickName", "工商财务税务交流群");
+            paramMap.put("startAddFrirndTotalNumStr", "100");
+            paramMap.put("addFrirndTotalNumStr", "10");
             new RealMachineDevices().addGroupMembersAsFriends(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
