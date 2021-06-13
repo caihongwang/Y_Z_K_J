@@ -147,7 +147,7 @@
 				<li class="nav-click <#if pageName == "wxChat">active</#if>" ><a href="${request.contextPath}/wxChat"><i class="fa fa-circle-o text-green"></i><span>${I18n.wxChat}</span></a></li>
 				<li class="nav-click <#if pageName == "relayMessage">active</#if>" ><a href="${request.contextPath}/relayMessage"><i class="fa fa-circle-o text-red"></i><span>${I18n.relayMessage}</span></a></li>
 				<li class="nav-click <#if pageName == "deviceListAndLocaltion">active</#if>" ><a href="${request.contextPath}/deviceListAndLocaltion"><i class="fa fa-circle-o text-purple"></i><span>${I18n.deviceListAndLocaltion}</span></a></li>
-				<li class="nav-click <#if pageName == "automationOperation">active</#if>" ><a href="${request.contextPath}/automationOperation"><i class="fa fa-circle-o text-purple"></i><span>${I18n.automationOperation}</span></a></li>
+				<li class="nav-click <#if pageName == "wxAutomationOperation">active</#if>" ><a href="${request.contextPath}/wxAutomationOperation"><i class="fa fa-circle-o text-purple"></i><span>${I18n.wxAutomationOperation}</span></a></li>
 
 				<li class="nav-click <#if pageName == "adInfo">active</#if>" ><a href="${request.contextPath}/adInfo"><i class="fa fa-circle-o text-maroon"></i><span>${I18n.adInfo}</span></a></li>
 				<li class="nav-click <#if pageName == "oilStationInfo">active</#if>" ><a href="${request.contextPath}/oilStationInfo"><i class="fa fa-circle-o text-yellow"></i><span>${I18n.oilStationInfo}</span></a></li>

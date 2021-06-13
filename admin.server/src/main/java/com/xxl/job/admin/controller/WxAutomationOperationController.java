@@ -31,8 +31,8 @@ import java.util.*;
  * @author caihongwang 2019-05-04 16:39:50
  */
 @Controller
-@RequestMapping("/automationOperation")
-public class AutomationOperationController {
+@RequestMapping("/wxAutomationOperation")
+public class WxAutomationOperationController {
 
     @Resource
     private XxlJobGroupDao xxlJobGroupDao;
@@ -59,7 +59,7 @@ public class AutomationOperationController {
         model.addAttribute("JobGroupList", jobGroupList);
         model.addAttribute("jobGroup", jobGroup);
 
-        return "automationOperation/automationOperation.index";
+        return "wxAutomationOperation/wxAutomationOperation.index";
     }
 
     public static List<XxlJobGroup> filterJobGroupByRole(HttpServletRequest request, List<XxlJobGroup> jobGroupList_all){
