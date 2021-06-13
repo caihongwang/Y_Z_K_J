@@ -118,7 +118,7 @@ xxl:
   job:
     accessToken:
     admin:
-      address: http://139.224.56.97:9020/myAdmin
+      address: http://139.224.56.97:9020/admin
     executor:
       appname: oil-station-map-server
       ip: 139.224.56.97

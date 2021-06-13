@@ -119,7 +119,7 @@ xxl:
   job:
     accessToken:
     admin:
-      address: http://localhost:9020/myAdmin
+      address: http://localhost:9020/admin
     executor:
       appname: automation-server-server
       ip: localhost
