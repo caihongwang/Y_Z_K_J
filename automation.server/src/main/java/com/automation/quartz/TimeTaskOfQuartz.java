@@ -187,8 +187,6 @@ public class TimeTaskOfQuartz {
                             }
                         }
                     }
-                    currentDeviceList.clear();
-                    currentDeviceList.add("小米Max3_08");
 
                     //直接从现有的数据库中获取数据启动-发布朋友圈
                     paramMap.clear();
