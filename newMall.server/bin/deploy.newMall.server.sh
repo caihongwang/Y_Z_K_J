@@ -50,12 +50,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/newMall.server/bin/run.sh /opt/newMall.serv
 sh /opt/newMall.server/run.sh stop
 sleep 20s
 echo "-------------------kill【newMall.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【newMall.server】 project  will sleep 30s.--------------"
 rm -r /opt/newMall.server/logs
 rm /opt/newMall.server/newMall.server.jar
@@ -64,12 +58,6 @@ cd /opt/newMall.server
 sh /opt/newMall.server/run.sh start
 sleep 20s
 echo "-------------------start 【newMall.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【newMall.server】 done--------------------"
 echo "--------------------------------- start【newMall.server】 done--------------------"
 echo "--------------------------------- start【newMall.server】 done--------------------"

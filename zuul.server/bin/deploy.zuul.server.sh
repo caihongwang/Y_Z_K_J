@@ -41,12 +41,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/zuul.server/bin/run.sh /opt/zuul.server/run
 sh /opt/zuul.server/run.sh stop
 sleep 20s
 echo "-------------------kill【zuul.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【zuul.server】 project  will sleep 30s.--------------"
 rm -r /opt/zuul.server/logs
 rm /opt/zuul.server/zuul.server.jar
@@ -55,12 +49,6 @@ cd /opt/zuul.server
 sh /opt/zuul.server/run.sh start
 sleep 20s
 echo "-------------------start 【zuul.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【zuul.server】 done--------------------"
 echo "--------------------------------- start【zuul.server】 done--------------------"
 echo "--------------------------------- start【zuul.server】 done--------------------"

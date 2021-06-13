@@ -52,12 +52,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/eureka.server/bin/run.sh /opt/eureka.server
 sh /opt/eureka.server/run.sh stop
 sleep 20s
 echo "-------------------kill【eureka.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【eureka.server】 project  will sleep 30s.--------------"
 mkdir /opt/eureka.server
 rm -r /opt/eureka.server/logs
@@ -67,12 +61,6 @@ cd /opt/eureka.server
 sh /opt/eureka.server/run.sh start
 sleep 20s
 echo "-------------------start 【eureka.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【eureka.server】 done--------------------"
 echo "--------------------------------- start【eureka.server】 done--------------------"
 echo "--------------------------------- start【eureka.server】 done--------------------"
@@ -89,12 +77,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/admin.server/bin/run.sh /opt/admin.server/r
 sh /opt/admin.server/run.sh stop
 sleep 20s
 echo "-------------------kill【admin.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【admin.server】 project  will sleep 30s.--------------"
 rm -r /opt/admin.server/logs/*.*
 rm /opt/admin.server/admin.server.jar
@@ -103,15 +85,32 @@ cd /opt/admin.server
 sh /opt/admin.server/run.sh start
 sleep 20s
 echo "-------------------start 【admin.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【admin.server】 done--------------------"
 echo "--------------------------------- start【admin.server】 done--------------------"
 echo "--------------------------------- start【admin.server】 done--------------------"
+
+
+
+
+
+
+echo "-------------------kill【automation.server】 pid will sleep 20s.---------------------"
+rm /opt/automation.server/run.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/run.sh /opt/automation.server/run.sh
+sh /opt/automation.server/run.sh stop
+sleep 20s
+echo "-------------------kill【automation.server】 pid done.-------------------------------"
+echo "-------------------start 【automation.server】 project  will sleep 30s.--------------"
+rm -r /opt/automation.server/logs
+rm /opt/automation.server/automation.server.jar
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/target/automation.server.jar /opt/automation.server/automation.server.jar
+cd /opt/automation.server
+sh /opt/automation.server/run.sh start
+sleep 20s
+echo "-------------------start 【automation.server】 project  done.------------------------"
+echo "-------------------start 【automation.server】 done----------------------------------"
+echo "-------------------start 【automation.server】 done----------------------------------"
+echo "-------------------start 【automation.server】 done----------------------------------"
 
 
 
@@ -124,12 +123,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/oilStationMap.server/bin/run.sh /opt/oilSta
 sh /opt/oilStationMap.server/run.sh stop
 sleep 20s
 echo "-------------------kill【oilStationMap.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【oilStationMap.server】 project  will sleep 30s.--------------"
 rm -r /opt/oilStationMap.server/logs
 rm /opt/oilStationMap.server/oilStationMap.server.jar
@@ -138,12 +131,6 @@ cd /opt/oilStationMap.server
 sh /opt/oilStationMap.server/run.sh start
 sleep 20s
 echo "-------------------start 【oilStationMap.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【oilStationMap.server】 done--------------------"
 echo "--------------------------------- start【oilStationMap.server】 done--------------------"
 echo "--------------------------------- start【oilStationMap.server】 done--------------------"
@@ -159,12 +146,6 @@ echo "--------------------------------- start【oilStationMap.server】 done----
 #sh /opt/newMall.server/run.sh stop
 #sleep 20s
 #echo "-------------------kill【newMall.server】 pid done.-------------------------------"
-#
-#
-#
-#
-#
-#
 #echo "-------------------start 【newMall.server】 project  will sleep 30s.--------------"
 #rm -r /opt/newMall.server/logs
 #rm /opt/newMall.server/newMall.server.jar
@@ -173,11 +154,6 @@ echo "--------------------------------- start【oilStationMap.server】 done----
 #sh /opt/newMall.server/run.sh start
 #sleep 20s
 #echo "-------------------start 【newMall.server】 project  done.------------------------"
-#
-#
-#
-#
-#
 #echo "--------------------------------- start【newMall.server】 done--------------------"
 #echo "--------------------------------- start【newMall.server】 done--------------------"
 #echo "--------------------------------- start【newMall.server】 done--------------------"

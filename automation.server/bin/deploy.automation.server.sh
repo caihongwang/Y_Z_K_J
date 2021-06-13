@@ -77,12 +77,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/run.sh /opt/automatio
 sh /opt/automation.server/run.sh stop
 sleep 20s
 echo "-------------------kill【automation.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【automation.server】 project  will sleep 30s.--------------"
 rm -r /opt/automation.server/logs
 rm /opt/automation.server/automation.server.jar
@@ -91,12 +85,6 @@ cd /opt/automation.server
 sh /opt/automation.server/run.sh start
 sleep 20s
 echo "-------------------start 【automation.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "-------------------start 【automation.server】 done----------------------------------"
 echo "-------------------start 【automation.server】 done----------------------------------"
 echo "-------------------start 【automation.server】 done----------------------------------"

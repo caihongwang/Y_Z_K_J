@@ -41,12 +41,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/eureka.server/bin/run.sh /opt/eureka.server
 sh /opt/eureka.server/run.sh stop
 sleep 20s
 echo "-------------------kill【eureka.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【eureka.server】 project  will sleep 30s.--------------"
 rm -r /opt/eureka.server/logs
 rm /opt/eureka.server/eureka.server.jar
@@ -55,12 +49,6 @@ cd /opt/eureka.server
 sh /opt/eureka.server/run.sh start
 sleep 20s
 echo "-------------------start 【eureka.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【eureka.server】 done--------------------"
 echo "--------------------------------- start【eureka.server】 done--------------------"
 echo "--------------------------------- start【eureka.server】 done--------------------"

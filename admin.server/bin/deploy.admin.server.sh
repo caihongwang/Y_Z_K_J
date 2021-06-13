@@ -49,12 +49,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/admin.server/bin/run.sh /opt/admin.server/r
 sh /opt/admin.server/run.sh stop
 sleep 20s
 echo "-------------------kill【admin.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【admin.server】 project  will sleep 30s.--------------"
 rm -r /opt/admin.server/logs/*.*
 rm /opt/admin.server/admin.server.jar
@@ -63,12 +57,6 @@ cd /opt/admin.server
 sh /opt/admin.server/run.sh start
 sleep 20s
 echo "-------------------start 【admin.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【admin.server】 done--------------------"
 echo "--------------------------------- start【admin.server】 done--------------------"
 echo "--------------------------------- start【admin.server】 done--------------------"

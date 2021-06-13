@@ -58,12 +58,6 @@ cp /opt/deployAllApplication/Y_Z_K_J/oilStationMap.server/bin/run.sh /opt/oilSta
 sh /opt/oilStationMap.server/run.sh stop
 sleep 20s
 echo "-------------------kill【oilStationMap.server】 pid done.-------------------------------"
-
-
-
-
-
-
 echo "-------------------start 【oilStationMap.server】 project  will sleep 30s.--------------"
 rm -r /opt/oilStationMap.server/logs
 rm /opt/oilStationMap.server/oilStationMap.server.jar
@@ -72,12 +66,6 @@ cd /opt/oilStationMap.server
 sh /opt/oilStationMap.server/run.sh start
 sleep 20s
 echo "-------------------start 【oilStationMap.server】 project  done.------------------------"
-
-
-
-
-
-
 echo "--------------------------------- start【oilStationMap.server】 done--------------------"
 echo "--------------------------------- start【oilStationMap.server】 done--------------------"
 echo "--------------------------------- start【oilStationMap.server】 done--------------------"
