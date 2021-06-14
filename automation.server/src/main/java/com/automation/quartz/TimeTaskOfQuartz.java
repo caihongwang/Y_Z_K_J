@@ -101,16 +101,18 @@ public class TimeTaskOfQuartz {
                     }
                     //获取昵称列表
                     List<String> nickNameList = Lists.newArrayList();
-                    {
-                        paramMap.clear();
-                        paramMap.put("dicType", "shareArticleToFriendCircle");
-                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
-                            }
-                        }
-                    }
+//                    {
+//                        paramMap.clear();
+//                        paramMap.put("dicType", "shareArticleToFriendCircle");
+//                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+//                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+//                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+//                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
+//                            }
+//                        }
+//                    }
+
+                    //准备参数
                     paramMap.clear();
                     paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                     paramMap.put("currentDeviceListStr", JSONObject.toJSONString(currentDeviceList));
@@ -175,20 +177,20 @@ public class TimeTaskOfQuartz {
                             }
                         }
                     }
-                    //获取昵称列表
+                    //获取昵称列表，默所有朋友圈
                     List<String> nickNameList = Lists.newArrayList();
-                    {
-                        paramMap.clear();
-                        paramMap.put("dicType", "sendFriendCircle");
-                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
-                            }
-                        }
-                    }
+//                    {
+//                        paramMap.clear();
+//                        paramMap.put("dicType", "sendFriendCircle");
+//                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+//                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+//                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+//                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
+//                            }
+//                        }
+//                    }
 
-                    //直接从现有的数据库中获取数据启动-发布朋友圈
+                    //准备参数
                     paramMap.clear();
                     paramMap.put("currentDeviceListStr", JSONObject.toJSONString(currentDeviceList));
                     paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));

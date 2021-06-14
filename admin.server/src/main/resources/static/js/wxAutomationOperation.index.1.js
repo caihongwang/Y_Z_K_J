@@ -291,7 +291,7 @@ function clickFunc_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFrien
         "]";
     } else if(operationId == "shareArticleToFriendCircle"){
         var automationOperation_name = "分享微信文章到微信朋友圈";
-        var nickNameListStr = "[\n" + "    \"油站科技\"\n" + "]";
+        var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareArticleToFriendCircle";    //分享微信文章到微信朋友圈
         var currentDeviceListStr = "[\n" +
             "    \"小米Max3_06\",\n" +
