@@ -106,14 +106,28 @@ public class CommandUtil {
     }
 
 
+    /**
+     * 通过adb devices命令检测android设备连接数量
+     * @return
+     * @throws IOException
+     */
+    public static int getAndroidDeviceNum() throws IOException {
+        String commandStr = "/opt/android_sdk/platform-tools/adb devices";
+        String commandRes = CommandUtil.run(commandStr);
+        String[] commandResArr = commandRes.split("\n");
+        return commandResArr.length;
+    }
+
 
     public static void main(String[] args) throws Exception{
-//        String commandStr = "ping blog.yoodb.com";
-        String commandStr = "/opt/android_sdk/platform-tools/adb devices";
-//        String commandStr = " ps -ef|grep appium | awk '{print $2}'";
-        CommandUtil.run(commandStr);
-        CommandUtil.run(new String[]{"/bin/sh", "-c", commandStr});
-//        System.out.println("isOnline4AndroidDevice = " + isOnline4AndroidDevice("候车室"));
+////        String commandStr = "ping blog.yoodb.com";
+//        String commandStr = "/opt/android_sdk/platform-tools/adb devices";
+////        String commandStr = " ps -ef|grep appium | awk '{print $2}'";
+//        CommandUtil.run(commandStr);
+//        CommandUtil.run(new String[]{"/bin/sh", "-c", commandStr});
+////        System.out.println("isOnline4AndroidDevice = " + isOnline4AndroidDevice("候车室"));
+
+        getAndroidDeviceNum();
     }
 
 

@@ -56,8 +56,6 @@ public class GlobalVariableConfig {
 
     public static Map<String, Map<String, String>> appiumPortMap = Maps.newHashMap();       //appium端口使用情况
 
-    public static Map<String, Map<String, String>> androidDeviceMap = Maps.newHashMap();    //device设备使用情况
-
     public static List<String> imgFormatList = Lists.newArrayList();
 
     /**
@@ -69,19 +67,28 @@ public class GlobalVariableConfig {
         imgFormatList = Arrays.asList(imgFormatStr.split(","));
         //整理 appium 端口号，【记录已启动的 appium 端口号】 同时 【记录未启动的 appium 端口号】
         Map<String, Map<String, String>> appiumPortMap_ToBeStart = Maps.newHashMap();
-        String[] appiumPortArr = appiumPortStr.split(",");
-        for (String appiumPort: appiumPortArr) {
-            Map<String, String> appiumPortDetailMap = Maps.newHashMap();
-            if(IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){          //确认端口号被使用，才加入全局变量，等待使用
-                if(appiumPortMap.get(appiumPort) != null && appiumPortMap.get(appiumPort).size() > 0){
-                    appiumPortDetailMap = appiumPortMap.get(appiumPort);
+        Integer androidDeviceNum = 1;
+        try {
+            androidDeviceNum = CommandUtil.getAndroidDeviceNum();        //获取当前Android设备的在线数量，来决定启动多少appium端口
+        } catch (Exception e) {
+            androidDeviceNum = 1;
+        } finally {
+            Integer defaultAppiumPort = 4723;       //默认的appium端口
+            for (int i = 0; i < androidDeviceNum; i++) {    //4723 4725 4727
+                String appiumPort = (defaultAppiumPort + i * 2) + "";
+                Map<String, String> appiumPortDetailMap = Maps.newHashMap();
+                if(IpUtil.isLocalPortUsing(Integer.parseInt(appiumPort))){          //确认端口号被使用，才加入全局变量，等待使用
+                    if(appiumPortMap.get(appiumPort) != null && appiumPortMap.get(appiumPort).size() > 0){
+                        appiumPortDetailMap = appiumPortMap.get(appiumPort);
+                    }
+                    appiumPortMap.put(appiumPort, appiumPortDetailMap);
+                } else {
+                    appiumPortMap.remove(appiumPort);
+                    appiumPortMap_ToBeStart.put(appiumPort, appiumPortDetailMap);
                 }
-                appiumPortMap.put(appiumPort, appiumPortDetailMap);
-            } else {
-                appiumPortMap.remove(appiumPort);
-                appiumPortMap_ToBeStart.put(appiumPort, appiumPortDetailMap);
             }
         }
+
         //开发环境，启动服务：appium、rethinkdb、rethinkdb、stf
         if ("develop".equals(useEnvironmental)) {
             for(Map.Entry<String, Map<String, String>> entry: appiumPortMap_ToBeStart.entrySet()){
@@ -95,29 +102,32 @@ public class GlobalVariableConfig {
             }
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theRethinkdbPort))){
-                RethinkdbThread rethinkdbThread = new RethinkdbThread("");
-                Thread B_thread = new Thread(rethinkdbThread);
-                B_thread.start();
-
                 try {
+                    RethinkdbThread rethinkdbThread = new RethinkdbThread("");
+                    Thread B_thread = new Thread(rethinkdbThread);
+                    B_thread.start();
                     Thread.sleep(15000);
                 } catch (Exception e) {
 
                 }
+                System.out.println("【rethinkdb】服务 启动成功，即将等待15秒，确保rethinkdb服务完全启动成功....");
+            } else {
+                System.out.println("【rethinkdb】服务 已启动，无需再次启动....");
             }
-            System.out.println("【rethinkdb】服务 已启动，即将等待15秒，确保rethinkdb服务完全启动成功....");
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theStfPort))){
                 StfThread stfThread = new StfThread(theStfIp);
                 Thread C_thread = new Thread(stfThread);
                 C_thread.start();
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】启动成功....");
+            } else {
+                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动....");
             }
-            System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动....");
 
             Demonstrate_4_SendFriendCircleThread demonstrate_4_SendFriendCircleThread = new Demonstrate_4_SendFriendCircleThread();
             Thread D_thread = new Thread(demonstrate_4_SendFriendCircleThread);
             D_thread.start();
-            System.out.println("【演示模式：发送朋友圈】已启动....");
+            System.out.println("【演示模式：发送朋友圈】已启动，无需再次启动....");
         }
     }
 

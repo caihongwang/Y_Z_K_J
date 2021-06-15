@@ -206,7 +206,7 @@ public class TimeTaskOfQuartz {
      * 每天小时第1分钟执行一次，根据数据库的配置：从第10个小时开始执行第一个设备
      * 添加群成员为好友的V群
      */
-    @Scheduled(cron = "0 02 */1 * * ?")
+    @Scheduled(cron = "0 01 */1 * * ?")
     public void do_addGroupMembersAsFriends() {
         if ("develop".equals(useEnvironmental)) {
             Map<String, Object> paramMap = Maps.newHashMap();
