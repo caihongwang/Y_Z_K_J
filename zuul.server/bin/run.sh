@@ -1,6 +1,7 @@
 #!/bin/bash
 LOG_NAME=center-nohup.log
 APP_NAME=zuul.server.jar
+cd /opt/zuul.server
 #使用说明，用来提示输入参数
 usage() {
     echo "Usage: sh 执行脚本.sh [start|stop|restart|status]"

@@ -1,6 +1,7 @@
 #!/bin/bash
 LOG_NAME=center-nohup.log
 APP_NAME=admin.server.jar
+cd /opt/admin.server
 #使用说明，用来提示输入参数
 usage() {
     echo "Usage: sh 执行脚本.sh [start|stop|restart|status]"
