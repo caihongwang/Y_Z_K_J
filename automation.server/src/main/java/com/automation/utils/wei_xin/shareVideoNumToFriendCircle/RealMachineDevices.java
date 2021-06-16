@@ -1,4 +1,4 @@
-package com.automation.utils.wei_xin.relayTheWxMessage;
+package com.automation.utils.wei_xin.shareVideoNumToFriendCircle;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -18,23 +18,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 真机设备 转发微信消息 策略
- * 注：只支持最后一条消息是【图片】【小程序】【微信公众号文章】
+ * 真机设备 分享视频号到朋友圈 策略
+ * 注：只支持最后一条消息是【视频号-小程序】
  * 默认 小米Max3
  */
-public class RealMachineDevices implements RelayTheWxMessage {
+public class RealMachineDevices implements ShareVideoNumToFriendCircle {
 
     public static final Logger logger = LoggerFactory.getLogger(RealMachineDevices.class);
 
     /**
      * 前置条件：将微信消息群发到【油站科技-内部交流群】里面
-     * 转发微信消息
+     * 分享视频号到朋友圈
      *
-     * @param paramMap
+     * @param para【图片】mMap
      * @throws Exception
      */
     @Override
-    public boolean relayTheWxMessage(Map<String, Object> paramMap) throws Exception {
+    public boolean shareVideoNumToFriendCircle(Map<String, Object> paramMap) throws Exception {
         //0.获取参数
         //设备编码
         String deviceName =
@@ -151,48 +151,48 @@ public class RealMachineDevices implements RelayTheWxMessage {
             desiredCapabilities.setCapability("waitForSelectorTimeout", 20000);
             URL remoteUrl = new URL("http://localhost:" + appiumPort + "/wd/hub");                            //连接本地的appium
             driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
+            logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】连接Appium【" + appiumPort + "】成功....");
             Thread.sleep(10000);                                                                     //加载安卓页面10秒,保证xml树完全加载
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("【转发微信消息】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
+            throw new Exception("【分享视频号到朋友圈】配置连接android驱动出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】Appium端口号【" + appiumPort + "】的环境是否正常运行等原因....");
         }
         for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
             //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
-                logger.info("【转发微信消息】点击坐标【搜索框】成功....");
+                logger.info("【分享视频号到朋友圈】点击坐标【搜索框】成功....");
                 Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
             } catch (Exception e) {
-                logger.info("【转发微信消息】点击坐标【搜索框】失败，因为微信正在建立索引....");
+                logger.info("【分享视频号到朋友圈】点击坐标【搜索框】失败，因为微信正在建立索引....");
                 if (i == 30) {
-                    throw new Exception("【转发微信消息】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                    throw new Exception("【分享视频号到朋友圈】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                 } else {
                     Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                    logger.info("【转发微信消息】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
+                    logger.info("【分享视频号到朋友圈】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
                     continue;
                 }
             }
             //3.点击坐标【搜索输入框】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(targetGroup);
-                logger.info("【转发微信消息】点击坐标【输入昵称到搜索框:text/搜索】成功....");
+                logger.info("【分享视频号到朋友圈】点击坐标【输入昵称到搜索框:text/搜索】成功....");
                 Thread.sleep(1000);
                 break;
             } catch (Exception e) {
-                logger.info("【转发微信消息】点击坐标【输入昵称到搜索框:text/搜索】失败....");
+                logger.info("【分享视频号到朋友圈】点击坐标【输入昵称到搜索框:text/搜索】失败....");
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(targetGroup);
-                    logger.info("【转发微信消息】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
+                    logger.info("【分享视频号到朋友圈】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
                     Thread.sleep(1000);
                     break;
                 } catch (Exception e1) {
-                    logger.info("【转发微信消息】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
+                    logger.info("【分享视频号到朋友圈】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
                     if (i == 30) {
-                        throw new Exception("【转发微信消息】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                        throw new Exception("【分享视频号到朋友圈】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                     } else {
                         Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                        logger.info("【转发微信消息】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
+                        logger.info("【分享视频号到朋友圈】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
                         continue;
                     }
                 }
@@ -207,22 +207,22 @@ public class RealMachineDevices implements RelayTheWxMessage {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
                 Thread.sleep(1000);
             } catch (Exception e1) {
-                throw new Exception("【转发微信消息】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + targetGroup + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                throw new Exception("【分享视频号到朋友圈】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + targetGroup + "】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
 
             }
         }
         //5.点击坐标【昵称对应的微信好友群】
         try {
             driver.findElementByXPath("//android.widget.TextView[@text=\"" + groupLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-            logger.info("【转发微信消息】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+            logger.info("【分享视频号到朋友圈】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             try {
                 driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                logger.info("【转发微信消息】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                logger.info("【分享视频号到朋友圈】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
                 Thread.sleep(1000);
             } catch (Exception e1) {
-                throw new Exception("【转发微信消息】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                throw new Exception("【分享视频号到朋友圈】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
             }
         }
         //根据 根据转发的群昵称List 进行遍历
@@ -234,33 +234,33 @@ public class RealMachineDevices implements RelayTheWxMessage {
             List<WebElement> chatContentRelativeLayoutList = Lists.newArrayList();
             try {
                 chatContentRelativeLayoutList = driver.findElementsByXPath(chatContentRelativeLayoutLocaltion);
-                logger.info("【转发微信消息】获取所有的微信消息RelativeLayout 成功....");
+                logger.info("【分享视频号到朋友圈】获取所有的微信消息RelativeLayout 成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                throw new Exception("【转发微信消息】获取所有的微信消息RelativeLayout 异常....");
+                throw new Exception("【分享视频号到朋友圈】获取所有的微信消息RelativeLayout 异常....");
             }
             //长按最后一条聊天消息等待弹出【多选等弹窗】
             try {
                 Duration duration = Duration.ofMillis(2000);
                 new TouchAction(driver).press(chatContentRelativeLayoutList.get(chatContentRelativeLayoutList.size() - 1)).waitAction(WaitOptions.waitOptions(duration)).release().perform();
-                logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
+                logger.info("【分享视频号到朋友圈】长按最后一条消息等待弹出【多选等弹窗】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new Exception("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】异常，" + e.getMessage());
+                throw new Exception("【分享视频号到朋友圈】长按最后一条消息等待弹出【多选等弹窗】异常，" + e.getMessage());
             }
             //长按最后一条聊天消息等待弹出【多选等弹窗】new UiSelector().text("多选")
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + multipleChoiceLocaltion + "\")").click();
-                logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
+                logger.info("【分享视频号到朋友圈】长按最后一条消息等待弹出【多选等弹窗】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + multipleChoiceLocaltion + "\")").click();
-                    logger.info("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】成功....");
+                    logger.info("【分享视频号到朋友圈】长按最后一条消息等待弹出【多选等弹窗】成功....");
                     Thread.sleep(1000);
                 } catch (Exception e1) {
-                    throw new Exception("【转发微信消息】长按最后一条消息等待弹出【多选等弹窗】异常....");
+                    throw new Exception("【分享视频号到朋友圈】长按最后一条消息等待弹出【多选等弹窗】异常....");
                 }
             }
             //选择单选框 new UiSelector().className("android.widget.CheckBox")
@@ -269,7 +269,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
             while (true) {
                 try {
                     List<WebElement> checkBoxWebElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().className(\"" + singleCheckBoxLocaltion + "\")");
-                    logger.info("【转发微信消息】点击坐标【获取所有单选框CheckBox】成功....");
+                    logger.info("【分享视频号到朋友圈】点击坐标【获取所有单选框CheckBox】成功....");
                     for (int i = (checkBoxWebElementList.size() - 1); i >= 0; i--) {
                         try {
                             WebElement checkBoxWebElement = checkBoxWebElementList.get(i);
@@ -280,7 +280,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
                                 Thread.sleep(1000);
                             }
                         } catch (Exception e) {
-                            logger.info("【转发微信消息】点击坐标【单条微信消息CheckBox】异常....");
+                            logger.info("【分享视频号到朋友圈】点击坐标【单条微信消息CheckBox】异常....");
                         } finally {
                             if (relayTheWxMessageNum_selected >= relayTheWxMessageNum) {
                                 break;
@@ -288,9 +288,9 @@ public class RealMachineDevices implements RelayTheWxMessage {
                         }
                     }
                 } catch (Exception e) {
-                    logger.info("【转发微信消息】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常....");
+                    logger.info("【分享视频号到朋友圈】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常....");
                     if (getAllCheckBoxWebNum >= 10) {
-                        logger.info("【转发微信消息】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常，" + e.getMessage());
+                        logger.info("【分享视频号到朋友圈】第【" + getAllCheckBoxWebNum + "】次获取所有【微信消息CheckBox】异常，" + e.getMessage());
                     }
                 } finally {
                     if (relayTheWxMessageNum_selected >= relayTheWxMessageNum) {
@@ -299,10 +299,10 @@ public class RealMachineDevices implements RelayTheWxMessage {
                         //向下滑动
                         try {
                             driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollBackward()");
-                            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
+                            logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
                             Thread.sleep(1000);
                         } catch (Exception e) {
-                            logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
+                            logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】【下滑】显示更多需要转发的微信消息....");
                         }
                     }
                 }
@@ -310,62 +310,62 @@ public class RealMachineDevices implements RelayTheWxMessage {
             //点击坐标【分享】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + shareLocaltion + "\")").click();
-                logger.info("【转发微信消息】点击坐标【分享】成功....");
+                logger.info("【分享视频号到朋友圈】点击坐标【分享】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                throw new Exception("【转发微信消息】点击坐标【分享】异常....");
+                throw new Exception("【分享视频号到朋友圈】点击坐标【分享】异常....");
             }
             //点击坐标【逐条转发】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + forwardOneByOneLocaltion + "\")").click();
-                logger.info("【转发微信消息】点击坐标【逐条转发】成功....");
+                logger.info("【分享视频号到朋友圈】点击坐标【逐条转发】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                throw new Exception("【转发微信消息】点击坐标【逐条转发】异常....");
+                throw new Exception("【分享视频号到朋友圈】点击坐标【逐条转发】异常....");
             }
             //点击坐标【多选】
             try {
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + multipleChoiceLocaltion + "\")").click();
-                logger.info("【转发微信消息】点击坐标【多选】成功....");
+                logger.info("【分享视频号到朋友圈】点击坐标【多选】成功....");
                 Thread.sleep(1000);
             } catch (Exception e) {
-                throw new Exception("【转发微信消息】点击坐标【多选】异常....");
+                throw new Exception("【分享视频号到朋友圈】点击坐标【多选】异常....");
             }
             while (true) {
                 //点击坐标【搜索】
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").clear();
                     driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").sendKeys(relayTargetGroup);
-                    logger.info("【转发微信消息】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】成功....");
+                    logger.info("【分享视频号到朋友圈】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】成功....");
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    throw new Exception("【转发微信消息】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】异常....");
+                    throw new Exception("【分享视频号到朋友圈】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】异常....");
                 }
                 //点击坐标【群名】           //android.widget.TextView[@text="内部交流群"]
                 try {
                     driver.findElementByXPath("//android.widget.TextView[@text=\"" + relayTargetGroup + "\"]").click();
-                    logger.info("【转发微信消息】点击坐标【群名：" + relayTargetGroup + "】【xpath】成功....");
+                    logger.info("【分享视频号到朋友圈】点击坐标【群名：" + relayTargetGroup + "】【xpath】成功....");
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    logger.info("【转发微信消息】点击坐标【群名：" + relayTargetGroup + "】【xpath】异常....");
+                    logger.info("【分享视频号到朋友圈】点击坐标【群名：" + relayTargetGroup + "】【xpath】异常....");
                 }
                 relayNumOfOne++;
                 if (relayNumOfOne >= 9 || relayNumOfOne >= relayTargetGroupList.size() || !iterator.hasNext()) {
                     //点击坐标【发送(】
                     try {
                         driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + sendLocaltion + "\")").click();
-                        logger.info("【转发微信消息】点击坐标【发送(】成功....");
+                        logger.info("【分享视频号到朋友圈】点击坐标【发送(】成功....");
                         Thread.sleep(1000);
                     } catch (Exception e) {
-                        throw new Exception("【转发微信消息】点击坐标【发送(】异常....");
+                        throw new Exception("【分享视频号到朋友圈】点击坐标【发送(】异常....");
                     }
                     //点击坐标【发送】
                     try {
                         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendLocaltion + "\")").click();
-                        logger.info("【转发微信消息】点击坐标【发送】成功....");
+                        logger.info("【分享视频号到朋友圈】点击坐标【发送】成功....");
                         Thread.sleep(1000);
                     } catch (Exception e) {
-                        throw new Exception("【转发微信消息】点击坐标【发送】异常....");
+                        throw new Exception("【分享视频号到朋友圈】点击坐标【发送】异常....");
                     } finally {
                         break;
                     }
@@ -375,7 +375,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
             }
             iterator.remove();
         }
-        logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
+        logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 发送成功....");
         return true;
     }
 
@@ -388,7 +388,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
             paramMap.put("deviceNameDesc", "小米 Max 3");
             paramMap.put("relayTheWxMessageNumStr", "1");
             paramMap.put("action", "relayTheWxMessage");
-            new RealMachineDevices().relayTheWxMessage(paramMap);
+            new RealMachineDevices().shareVideoNumToFriendCircle(paramMap);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();

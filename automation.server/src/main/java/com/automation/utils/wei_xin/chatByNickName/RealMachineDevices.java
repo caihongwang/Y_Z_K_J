@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * 真机设备 根据微信昵称进行聊天 策略
- * 默认 华为 Mate 8
+ * 默认 小米Max3
  */
 public class RealMachineDevices implements ChatByNickName {
 

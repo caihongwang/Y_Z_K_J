@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * 真机设备 分享微信文章到微信朋友圈 策略
- * 默认 华为 Mate 8
+ * 默认 小米Max3
  */
 public class RealMachineDevices implements ShareArticleToFriendCircle {
 

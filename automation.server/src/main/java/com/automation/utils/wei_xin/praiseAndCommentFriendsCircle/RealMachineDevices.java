@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * 真机设备 点赞和评论朋友圈 策略
- * 默认 华为 Mate 8
+ * 默认 小米Max3
  */
 public class RealMachineDevices implements PraiseAndCommentFriendsCircle {
 
