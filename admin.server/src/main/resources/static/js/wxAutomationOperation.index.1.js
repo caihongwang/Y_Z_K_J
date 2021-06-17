@@ -145,6 +145,54 @@ $(function() {
             );
         }
     });
+
+
+
+    //点击 For 分享视频到朋友圈
+    $("#shareVideoNumToFriendCircle").on('click', clickFunc_For_shareVideoNumToFriendCircle);
+    //表单提交 For 分享视频到朋友圈
+    var shareVideoNumToFriendCircleModalValidate = $("#shareVideoNumToFriendCircleModal .form").validate({
+        errorElement : 'span',
+        errorClass : 'help-block',
+        focusInvalid : true,
+        highlight : function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        success : function(label) {
+            label.closest('.form-group').removeClass('has-error');
+            label.remove();
+        },
+        errorPlacement : function(error, element) {
+            element.parent('div').append(error);
+        },
+        submitHandler : function(form) {
+            var automationOperation_url = $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_url']").val();
+            console.log("automationOperation_url = " + automationOperation_url);
+            console.log($("#shareVideoNumToFriendCircleModal .form").serializeArray());
+            $.post(
+                automationOperation_url,
+                $("#shareVideoNumToFriendCircleModal .form").serialize(),
+                function(data, status) {
+                    if (data.code == "0") {
+                        $('#shareVideoNumToFriendCircleModal').modal('hide');
+                        layer.open({
+                            title: I18n.system_tips ,
+                            btn: [ I18n.system_ok ],
+                            content: (data.message || I18n.system_opt_suc ),
+                            icon: '1'
+                        });
+                    } else {
+                        layer.open({
+                            title: I18n.system_tips ,
+                            btn: [ I18n.system_ok ],
+                            content: (data.message || I18n.system_opt_fail ),
+                            icon: '2'
+                        });
+                    }
+                }
+            );
+        }
+    });
 });
 
 /**
@@ -321,4 +369,42 @@ function clickFunc_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFrien
     $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='nickNameListStr']").val( JSON.stringify(JSON.parse(nickNameListStr),null,4) );           //微信号列表
     $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='currentDeviceListStr']").val( JSON.stringify(JSON.parse(currentDeviceListStr),null,4) );  //操作时间列表
     $('#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal').modal({backdrop: false, keyboard: false}).modal('show');
+}
+
+
+/**
+ * 点击 For 分享视频到朋友圈
+ */
+function clickFunc_For_shareVideoNumToFriendCircle(){
+    console.log(this);
+    console.log($(this).find('span.info-box-number').html() + "\t" + $(this).attr('id'));
+    //变更 modal-title
+    var operationId = $(this).attr('id');
+    var operationName = $(this).find('span.info-box-number').html();
+    var operationTitleArr = $("#shareVideoNumToFriendCircleModal h4[class='modal-title']").html().split("-");
+    var operationTitle = operationName + ' - ' + operationTitleArr[1];
+    $("#shareVideoNumToFriendCircleModal h4[class='modal-title']").html(operationTitle);
+    //设置默认参数
+    var automationOperation_name = "分享视频到朋友圈";
+    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareVideoNumToFriendCircleModal";     //分享视频到朋友圈
+    var automationOperation_shareFendCircleCentent = "恩，怎么说呢，你还是自己看吧，文字描述已无力...";
+    var currentDeviceListStr = "[\n" +
+        "    \"小米Max3_10\",\n" +
+        "    \"华为Mate8_11\",\n" +
+        "    \"华为Mate8_12\",\n" +
+        "    \"华为Mate8_13\",\n" +
+        "    \"华为Mate8_14\",\n" +
+        "    \"华为Mate8_15\",\n" +
+        "    \"华为Mate8_16\",\n" +
+        "    \"华为Mate8_17\",\n" +
+        "    \"华为Mate8海外版_18\",\n" +
+        "    \"华为Mate8_19\",\n" +
+        "    \"华为Mate8_20\",\n" +
+        "    \"华为Mate8_21\"\n" +
+        "]";
+    $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_name']").val( automationOperation_name );  //操作名称
+    $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_url']").val( automationOperation_url );    //操作地址
+    $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_shareFendCircleCentent']").val( automationOperation_shareFendCircleCentent );    //分享视频到朋友圈
+    $("#shareVideoNumToFriendCircleModal .form textarea[name='currentDeviceListStr']").val( JSON.stringify(JSON.parse(currentDeviceListStr),null,2) );//操作时间列表
+    $('#shareVideoNumToFriendCircleModal').modal({backdrop: false, keyboard: false}).modal('show');
 }

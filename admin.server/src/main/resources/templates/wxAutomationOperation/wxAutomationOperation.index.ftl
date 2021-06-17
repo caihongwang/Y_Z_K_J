@@ -54,17 +54,17 @@
 						</div>
 					</div>
 				</div>
-				<#-- 点赞和评论朋友圈 -->
-				<div class="col-md-4 col-sm-6 col-xs-12" id="praiseAndCommentFriendsCircle">
-					<div class="info-box bg-green">
-						<span class="info-box-icon"><i class="fa fa-shield"></i></span>
+				<#-- 分享微信文章到微信朋友圈 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="shareVideoNumToFriendCircle">
+					<div class="info-box bg-yellow">
+						<span class="info-box-icon"><i class="fa fa-anchor"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-number">点赞和评论朋友圈</span>
+							<span class="info-box-number">分享视频到朋友圈</span>
 							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在微信朋友圈中点赞和评论朋友圈</span>
+							<span class="progress-description">在指定群聊中分享视频到朋友圈</span>
 						</div>
 					</div>
 				</div>
@@ -161,9 +161,23 @@
 			</div>
 
 			<div class="row">
+				<#-- 点赞和评论朋友圈 -->
+				<div class="col-md-4 col-sm-6 col-xs-12" id="praiseAndCommentFriendsCircle">
+					<div class="info-box bg-aqua">
+						<span class="info-box-icon"><i class="fa fa-shield"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-number">点赞和评论朋友圈</span>
+							<span class="info-box-text">12台在线设备</span>
+							<div class="progress">
+								<div class="progress-bar" style="width: 100%"></div>
+							</div>
+							<span class="progress-description">在微信朋友圈中点赞和评论朋友圈</span>
+						</div>
+					</div>
+				</div>
 				<#-- 阅读微信文章并点击广告 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="clickArticleAd">
-					<div class="info-box bg-aqua">
+					<div class="info-box bg-yellow">
 						<span class="info-box-icon"><i class="fa fa-eraser"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">阅读微信文章并点击广告</span>
@@ -210,7 +224,7 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-                            <textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -349,6 +363,62 @@
 	</div>
 </div>
 
+
+
+
+<!-- 模态框 For 分享视频到朋友圈 -->
+<div class="modal fade" id="shareVideoNumToFriendCircleModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" name="modalTitle">分享视频到朋友圈-自动化操作</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal form" role="form">
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作名称<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_name" placeholder="${I18n.system_please_input}操作名称" readonly="true">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">分享朋友圈内容<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_shareFendCircleCentent" placeholder="${I18n.system_please_input}分享朋友圈内容" readonly="true">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作地址<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_url" placeholder="${I18n.system_please_input}操作地址" maxlength="1000">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+						</div>
+					</div>
+
+					<hr>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-6">
+							<button type="submit" class="btn btn-primary">${I18n.system_opt}</button>
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">${I18n.system_cancel}</button>
+							<input type="hidden" name="id">
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <@netCommon.commonScript />
 <!-- DataTables -->
