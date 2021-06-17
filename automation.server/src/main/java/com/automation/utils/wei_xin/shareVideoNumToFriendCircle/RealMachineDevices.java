@@ -102,9 +102,9 @@ public class RealMachineDevices implements ShareVideoNumToFriendCircle {
                         paramMap.get("shareFendCircleCentent").toString() :
                         "恩，怎么说呢，你还是自己看吧，文字描述已无力...";
         //坐标:输入分享文本框
-        String shareArticleTitleLocaltion =
-                paramMap.get("shareArticleTitleLocaltion") != null ?
-                        paramMap.get("shareArticleTitleLocaltion").toString() :
+        String shareFendCircleCententLocaltion =
+                paramMap.get("shareFendCircleCententLocaltion") != null ?
+                        paramMap.get("shareFendCircleCententLocaltion").toString() :
                         "这一刻的想法...";
         //坐标:发表
         String publishBtnLocaltion =
@@ -249,13 +249,13 @@ public class RealMachineDevices implements ShareVideoNumToFriendCircle {
         }
         //10.点击坐标【输入分享文本内容】
         try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + shareArticleTitleLocaltion + "\")").sendKeys(shareFendCircleCentent);
+            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + shareFendCircleCententLocaltion + "\")").sendKeys(shareFendCircleCentent);
             logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByAndroidUIAutomator 点击坐标【输入分享文本框】成功....");
             Thread.sleep(1000);
         } catch (Exception e) {
             logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByAndroidUIAutomator 点击坐标【输入分享文本框】失败....");
             try {
-                driver.findElementByXPath("//android.widget.EditText[@text='" + shareArticleTitleLocaltion + "']").sendKeys(shareFendCircleCentent);
+                driver.findElementByXPath("//android.widget.EditText[@text='" + shareFendCircleCententLocaltion + "']").sendKeys(shareFendCircleCentent);
                 logger.info("【分享视频号到朋友圈】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】findElementByXPath 点击坐标【输入分享文本框】成功....");
             } catch (Exception e1) {
                 e.printStackTrace();
