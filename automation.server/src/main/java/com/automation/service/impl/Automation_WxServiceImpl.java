@@ -28,7 +28,7 @@ public class Automation_WxServiceImpl implements Automation_WxService {
     private static final Logger logger = LoggerFactory.getLogger(Automation_WxServiceImpl.class);
 
     /**
-     * 启动appium,分享视频号到朋友圈
+     * 启动appium，分享视频号到朋友圈
      * @param paramMap
      * @return
      */
@@ -41,19 +41,19 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     shareVideoNumToFriendCircleUtils.shareVideoNumToFriendCircle(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，分享视频号到朋友圈】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，分享视频号到朋友圈】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
     /**
-     * 启动appium,转发微信消息
+     * 启动appium，转发微信消息
      * @param paramMap
      * @return
      */
@@ -66,19 +66,19 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     relayTheWxMessageUtils.relayTheWxMessage(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,转发微信消息-relayTheWxMessage is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，转发微信消息-】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,转发微信消息-relayTheWxMessage,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，转发微信消息-】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
     /**
-     * 启动appium,自动化发送微信朋友圈
+     * 启动appium，自动化发送微信朋友圈
      * @param paramMap
      * @return
      */
@@ -91,14 +91,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     sendFriendCircleUtils.sendFriendCircle(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,自动化发送微信朋友圈-sendFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，自动化发送微信朋友圈】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,自动化发送微信朋友圈-sendFriendCircle,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，自动化发送微信朋友圈】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
@@ -116,14 +116,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     agreeToJoinTheGroupUtils.agreeToJoinTheGroup(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,同意进群-agreeToJoinTheGroup is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，同意进群】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,同意进群-saveToAddressBook,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，同意进群】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
@@ -141,14 +141,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     praiseAndCommentFriendsCircleUtils.praiseAndCommentFriendsCircle(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,点赞和评论朋友圈-praiseAndCommentFriendsCircle is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，点赞和评论朋友圈】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,点赞和评论朋友圈-saveToAddressBook,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，点赞和评论朋友圈】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
@@ -166,14 +166,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     saveToAddressBookUtils.saveToAddressBook(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,将群保存到通讯录工具-saveToAddressBook is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，将群保存到通讯录工具】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,将群保存到通讯录-saveToAddressBook,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，将群保存到通讯录工具】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
@@ -191,14 +191,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     agreeToFriendRequestUtils.agreeToFriendRequest(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,同意好友请求-agreeToFriendRequest is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，同意好友请求】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,同意好友请求-agreeToFriendRequest,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，同意好友请求】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
@@ -216,14 +216,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     addGroupMembersAsFriendsUtils.addGroupMembersAsFriends(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，根据微信群昵称添加群成员为好友】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,根据微信群昵称添加群成员为好友-addGroupMembersAsFriends,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，根据微信群昵称添加群成员为好友】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
@@ -241,20 +241,20 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     chatByNickNameUtils.chatByNickName(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,根据微信昵称进行聊天-chatByNickName is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，根据微信昵称进行聊天】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,根据微信昵称进行聊天-addGroupMembersAsFriends,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，根据微信昵称进行聊天】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
     /**
      * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
-     * 启动appium,分享微信文章到微信朋友圈
+     * 启动appium，分享微信文章到微信朋友圈
      * @param paramMap
      * @return
      */
@@ -267,20 +267,20 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                 try {
                     shareArticleToFriendCircleUtils.shareArticleToFriendCircle(paramMap);
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，分享微信文章到微信朋友圈】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,分享微信文章到微信朋友圈-shareArticleToFriendCircle,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，分享微信文章到微信朋友圈】，结果-result:" + messageDTO);
         return messageDTO;
     }
 
     /**
      * 前置条件：将微信文章群发到【油站科技-内部交流群】里面
-     * 启动appium,点击微信文章中的广告
+     * 启动appium，点击微信文章中的广告
      * @param paramMap
      * @return
      */
@@ -293,14 +293,14 @@ public class Automation_WxServiceImpl implements Automation_WxService {
                     //待开发.....
                     //待开发.....
                 } catch (Exception e) {
-                    logger.error("在【service】中启动appium,点击微信文章中的广告-clickArticleAd is error, paramMap : " + paramMap + ", e : ", e);
+                    logger.error("【service】【启动appium，点击微信文章中的广告】 is error, paramMap : " + paramMap + ", e : ", e);
                 }
             }
         }.start();
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setCode(Automation_Code.SUCCESS.getNo());
         messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
-        logger.info("在【service】中启动appium,点击微信文章中的广告-clickArticleAd,结果-result:" + messageDTO);
+        logger.info("【service】【启动appium，点击微信文章中的广告】，结果-result:" + messageDTO);
         return messageDTO;
     }
 }

@@ -66,7 +66,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             boolDTO.setCode(Automation_Code.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getNo());
             boolDTO.setMessage(Automation_Code.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getMessage());
         }
-        logger.info("在service中添加字典-addDic,结果-result:" + boolDTO);
+        logger.info("【service】【添加字典】，结果-result:" + boolDTO);
         return boolDTO;
     }
 
@@ -98,7 +98,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             boolDTO.setCode(Automation_Code.DIC_ID_OR_CODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(Automation_Code.DIC_ID_OR_CODE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在service中删除字典-deleteDic,结果-result:" + boolDTO);
+        logger.info("【service】【删除字典】，结果-result:" + boolDTO);
         return boolDTO;
     }
 
@@ -130,7 +130,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             boolDTO.setCode(Automation_Code.DIC_ID_OR_CODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(Automation_Code.DIC_ID_OR_CODE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在service中更新字典-updateDic,结果-result:" + boolDTO);
+        logger.info("【service】【更新字典】，结果-result:" + boolDTO);
         return boolDTO;
     }
 
@@ -174,7 +174,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             resultDTO.setCode(Automation_Code.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(Automation_Code.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:" + resultDTO);
+        logger.info("【service】【获取单一的字典信息】，结果-result:" + resultDTO);
         return resultDTO;
     }
 
@@ -226,7 +226,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             resultMapDTO.setCode(Automation_Code.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(Automation_Code.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在service中获取多个的字典-getMoreDicByCondition,结果-result:" + resultMapDTO);
+        logger.info("【service】【获取多个的字典信息】，结果-result:" + resultMapDTO);
         return resultMapDTO;
     }
 
@@ -264,7 +264,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             resultDTO.setCode(Automation_Code.DIC_LIST_IS_NULL.getNo());
             resultDTO.setMessage(Automation_Code.DIC_LIST_IS_NULL.getMessage());
         }
-        logger.info("【service】获取单一的字典列表For管理中心-getDicListByConditionForAdmin,结果-result:" + resultDTO);
+        logger.info("【service】【获取单一的字典列表For管理中心】，结果-result:" + resultDTO);
         return resultDTO;
     }
 

@@ -34,7 +34,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在controller中添加字典-addDic,请求-paramMap:" + paramMap);
+        logger.info("【controller】【添加字典】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             BoolDTO boolDTO = automation_DicService.addDic(objectParamMap);
@@ -42,12 +42,12 @@ public class Automation_DicController {
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中添加字典-addDic is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【添加字典】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在controller中添加字典-addDic,响应-response:" + resultMap);
+        logger.info("【controller】【添加字典】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -58,7 +58,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在controller中删除字典-deleteDic,请求-paramMap:" + paramMap);
+        logger.info("【controller】【删除字典】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             BoolDTO boolDTO = automation_DicService.deleteDic(objectParamMap);
@@ -66,12 +66,12 @@ public class Automation_DicController {
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中删除字典-deleteDic is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【删除字典】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在controller中删除字典-deleteDic,响应-response:" + resultMap);
+        logger.info("【controller】【删除字典】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -82,7 +82,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在controller中修改字典-updateDic,请求-paramMap:" + paramMap);
+        logger.info("【controller】【修改字典】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             BoolDTO boolDTO = automation_DicService.updateDic(objectParamMap);
@@ -90,12 +90,12 @@ public class Automation_DicController {
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中修改字典-updateDic is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【修改字典】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在controller中修改字典-updateDic,响应-response:" + resultMap);
+        logger.info("【controller】【修改字典】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -106,7 +106,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在controller中获取单一的字典-getSimpleDicByCondition,请求-paramMap:" + paramMap);
+        logger.info("【controller】【获取单一的字典】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(objectParamMap);
@@ -115,12 +115,12 @@ public class Automation_DicController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中修改字典-getSimpleDicByCondition is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【获取单一的字典】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在controller中修改字典-getSimpleDicByCondition,响应-response:" + resultMap);
+        logger.info("【controller】【获取单一的字典】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -131,7 +131,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在controller中获取多个的字典-getMoreDicByCondition,请求-paramMap:" + paramMap);
+        logger.info("【controller】【获取多个的字典】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             ResultMapDTO resultMapDTO = automation_DicService.getMoreDicByCondition(objectParamMap);
@@ -140,12 +140,12 @@ public class Automation_DicController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在controller中获取多个的字典-getMoreDicByCondition is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【获取多个的字典】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在controller中获取多个的字典-getMoreDicByCondition,响应-response:" + resultMap);
+        logger.info("【controller】【获取多个的字典】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -158,7 +158,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】添加字典For管理中心-addDicForAdmin,请求-paramMap:" + paramMap);
+        logger.info("【controller】【添加字典For管理中心】，请求-paramMap:" + paramMap);
         try {
             paramMap.remove("id");
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
@@ -167,12 +167,12 @@ public class Automation_DicController {
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】添加字典For管理中心-addDicForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【添加字典For管理中心】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】添加字典For管理中心-addDicForAdmin,响应-response:" + resultMap);
+        logger.info("【controller】【添加字典For管理中心】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -183,7 +183,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】删除字典For管理中心-deleteDicForAdmin,请求-paramMap:" + paramMap);
+        logger.info("【controller】【删除字典For管理中心】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             BoolDTO boolDTO = automation_DicService.deleteDic(objectParamMap);
@@ -191,12 +191,12 @@ public class Automation_DicController {
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】删除字典For管理中心-deleteDicForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【删除字典For管理中心】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】删除字典For管理中心-deleteDicForAdmin,响应-response:" + resultMap);
+        logger.info("【controller】【删除字典For管理中心】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -207,7 +207,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】修改字典For管理中心-updateDicForAdmin,请求-paramMap:" + paramMap);
+        logger.info("【controller】【修改字典For管理中心】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             BoolDTO boolDTO = automation_DicService.updateDic(objectParamMap);
@@ -215,12 +215,12 @@ public class Automation_DicController {
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】修改字典For管理中心-updateDicForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【修改字典For管理中心】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】修改字典For管理中心-updateDicForAdmin,响应-response:" + resultMap);
+        logger.info("【controller】【修改字典For管理中心】，响应-response:" + resultMap);
         return resultMap;
     }
 
@@ -231,7 +231,7 @@ public class Automation_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】获取单一的字典列表For管理中心-getDicListByConditionForAdmin,请求-paramMap:" + paramMap);
+        logger.info("【controller】【获取单一的字典列表For管理中心】，请求-paramMap:" + paramMap);
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             ResultDTO resultDTO = automation_DicService.getDicListByConditionForAdmin(objectParamMap);
@@ -241,12 +241,12 @@ public class Automation_DicController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】获取单一的字典列表For管理中心-getDicListByConditionForAdmin is error, paramMap : " + paramMap + ", e : " + e);
+            logger.error("【controller】【获取单一的字典列表For管理中心】 is error, paramMap : " + paramMap + ", e : " + e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】获取单一的字典列表For管理中心-getDicListByConditionForAdmin,响应-response:" + resultMap);
+        logger.info("【controller】【获取单一的字典列表For管理中心】，响应-response:" + resultMap);
         return resultMap;
     }
 

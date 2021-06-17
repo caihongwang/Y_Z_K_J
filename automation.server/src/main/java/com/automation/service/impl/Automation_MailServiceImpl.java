@@ -45,7 +45,6 @@ public class Automation_MailServiceImpl implements Automation_MailService {
      */
     @Override
     public MessageDTO sendSimpleMail(Map<String, Object> paramMap) {
-        logger.info("在【service】中发送文本邮件-sendSimpleMail,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         MessageDTO messageDTO = new MessageDTO();
         if (paramMap.size() > 0) {
             try {
@@ -69,7 +68,7 @@ public class Automation_MailServiceImpl implements Automation_MailService {
                 messageDTO.setCode(Automation_Code.SUCCESS.getNo());
                 messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
             } catch (Exception e) {
-                logger.error("在【service】中发送文本邮件-sendSimpleMail is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【service】【发送文本邮件】 is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 messageDTO.setCode(Automation_Code.SERVER_INNER_ERROR.getNo());
                 messageDTO.setMessage(Automation_Code.SERVER_INNER_ERROR.getMessage());
             }
@@ -77,7 +76,7 @@ public class Automation_MailServiceImpl implements Automation_MailService {
             messageDTO.setCode(Automation_Code.PARAM_IS_NULL.getNo());
             messageDTO.setMessage(Automation_Code.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【service】中发送文本邮件-sendSimpleMail,响应-resultDTO = {}", JSONObject.toJSONString(messageDTO));
+        logger.info("【service】【发送文本邮件】，响应-resultDTO = {}", JSONObject.toJSONString(messageDTO));
         return messageDTO;
     }
 

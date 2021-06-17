@@ -42,19 +42,19 @@ public class Automation_MailController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中发送文本邮件-sendSimpleMail,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】【发送文本邮件】，请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             MessageDTO messageDTO = automation_MailService.sendSimpleMail(objectParamMap);
             messageDTO.setCode(Automation_Code.SUCCESS.getNo());
             messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中发送文本邮件-sendSimpleMail is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】【发送文本邮件】 is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中发送文本邮件-sendSimpleMail,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】【发送文本邮件】，响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
