@@ -2,10 +2,20 @@ package com.automation.service;
 
 import com.automation.dto.MessageDTO;
 import com.automation.dto.MessageDTO;
+import com.automation.utils.wei_xin.shareVideoNumToFriendCircle.ShareVideoNumToFriendCircleUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
 public interface Automation_WxService {
+
+
+    /**
+     * 启动appium,分享视频号到朋友圈
+     * @param paramMap
+     * @return
+     */
+    public MessageDTO shareVideoNumToFriendCircle(Map<String, Object> paramMap);
 
     /**
      * 启动appium,转发微信消息

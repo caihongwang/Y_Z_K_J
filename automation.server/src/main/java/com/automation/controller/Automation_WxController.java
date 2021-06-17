@@ -25,6 +25,28 @@ public class Automation_WxController {
     @Autowired
     private Automation_WxService automation_WxService;
 
+    @RequestMapping("/shareVideoNumToFriendCircle")
+    @ResponseBody
+    public Map<String, Object> shareVideoNumToFriendCircle(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle,请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            MessageDTO messageDTO = automation_WxService.shareVideoNumToFriendCircle(objectParamMap);
+            resultMap.put("code", messageDTO.getCode());
+            resultMap.put("message", messageDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+            resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle,响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/relayTheWxMessage")
     @ResponseBody
     public Map<String, Object> relayTheWxMessage(HttpServletRequest request) {

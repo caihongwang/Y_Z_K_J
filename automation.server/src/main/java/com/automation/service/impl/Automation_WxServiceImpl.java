@@ -12,6 +12,7 @@ import com.automation.utils.wei_xin.relayTheWxMessage.RelayTheWxMessageUtils;
 import com.automation.utils.wei_xin.saveToAddressBook.SaveToAddressBookUtils;
 import com.automation.utils.wei_xin.sendFriendCircle.SendFriendCircleUtils;
 import com.automation.utils.wei_xin.shareArticleToFriendCircleUtils.ShareArticleToFriendCircleUtils;
+import com.automation.utils.wei_xin.shareVideoNumToFriendCircle.ShareVideoNumToFriendCircleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,31 @@ import java.util.Map;
 public class Automation_WxServiceImpl implements Automation_WxService {
 
     private static final Logger logger = LoggerFactory.getLogger(Automation_WxServiceImpl.class);
+
+    /**
+     * 启动appium,分享视频号到朋友圈
+     * @param paramMap
+     * @return
+     */
+    @Autowired
+    private ShareVideoNumToFriendCircleUtils shareVideoNumToFriendCircleUtils;
+    @Override
+    public MessageDTO shareVideoNumToFriendCircle(Map<String, Object> paramMap) {
+        new Thread() {
+            public void run() {
+                try {
+                    shareVideoNumToFriendCircleUtils.shareVideoNumToFriendCircle(paramMap);
+                } catch (Exception e) {
+                    logger.error("在【service】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setCode(Automation_Code.SUCCESS.getNo());
+        messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
+        logger.info("在【service】中启动appium,分享视频号到朋友圈-shareVideoNumToFriendCircle,结果-result:" + messageDTO);
+        return messageDTO;
+    }
 
     /**
      * 启动appium,转发微信消息
