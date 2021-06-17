@@ -56,7 +56,7 @@
 				</div>
 				<#-- 分享微信文章到微信朋友圈 -->
 				<div class="col-md-4 col-sm-6 col-xs-12" id="shareVideoNumToFriendCircle">
-					<div class="info-box bg-yellow">
+					<div class="info-box bg-green">
 						<span class="info-box-icon"><i class="fa fa-anchor"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-number">分享视频到朋友圈</span>
@@ -386,7 +386,7 @@
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">分享朋友圈内容<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  name="automationOperation_shareFendCircleCentent" placeholder="${I18n.system_please_input}分享朋友圈内容" readonly="true">
+							<input type="text" class="form-control"  name="automationOperation_shareFendCircleCentent" placeholder="${I18n.system_please_input}分享朋友圈内容">
 						</div>
 					</div>
 
