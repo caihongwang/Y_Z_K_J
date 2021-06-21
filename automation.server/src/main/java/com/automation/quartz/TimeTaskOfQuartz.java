@@ -77,40 +77,31 @@ public class TimeTaskOfQuartz {
                     //获取设备列表
                     LinkedList<String> currentDeviceList = Lists.newLinkedList();
                     String currentHour = new SimpleDateFormat("HH").format(new Date());
-                    {
-                        paramMap.clear();
-                        paramMap.put("dicType", "deviceNameListAndLocaltion");
-                        paramMap.put("dicCode", "HuaWeiListAndShareArticleToFriendCircleLocaltion");
-                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-                                String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
-                                List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                                if (deviceNameList != null && deviceNameList.size() > 0) {
-                                    for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                        //当前设备描述
-                                        String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
-                                        String deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
-                                        if(currentHour.equals(deviceStartHour)){
-                                            currentDeviceList.add(deviceNameDesc);
-                                        }
+                    paramMap.clear();
+                    paramMap.put("dicType", "deviceNameListAndLocaltion");
+                    paramMap.put("dicCode", "HuaWeiListAndShareArticleToFriendCircleLocaltion");
+                    ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+                    if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                        for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+                            String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
+                            List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                            if (deviceNameList != null && deviceNameList.size() > 0) {
+                                for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                    //当前设备描述
+                                    String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
+                                    String deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
+                                    if(currentHour.equals(deviceStartHour)){
+                                        currentDeviceList.add(deviceNameDesc);
                                     }
                                 }
                             }
                         }
                     }
+                    if(currentDeviceList.size() <= 0){
+                        return;
+                    }
                     //获取昵称列表
                     List<String> nickNameList = Lists.newArrayList();
-//                    {
-//                        paramMap.clear();
-//                        paramMap.put("dicType", "shareArticleToFriendCircle");
-//                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-//                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-//                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-//                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
-//                            }
-//                        }
-//                    }
 
                     //准备参数
                     paramMap.clear();
@@ -155,40 +146,31 @@ public class TimeTaskOfQuartz {
                     //获取设备列表
                     LinkedList<String> currentDeviceList = Lists.newLinkedList();
                     String currentHour = new SimpleDateFormat("HH").format(new Date());
-                    {
-                        paramMap.clear();
-                        paramMap.put("dicType", "deviceNameListAndLocaltion");
-                        paramMap.put("dicCode", "HuaWeiListAndSendFriendCircleLocaltion");
-                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-                                String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
-                                List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
-                                if (deviceNameList != null && deviceNameList.size() > 0) {
-                                    for (Map<String, Object> deviceNameMap : deviceNameList) {
-                                        //当前设备描述
-                                        String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
-                                        String deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
-                                        if(currentHour.equals(deviceStartHour)){
-                                            currentDeviceList.add(deviceNameDesc);
-                                        }
+                    paramMap.clear();
+                    paramMap.put("dicType", "deviceNameListAndLocaltion");
+                    paramMap.put("dicCode", "HuaWeiListAndSendFriendCircleLocaltion");
+                    ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+                    if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                        for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+                            String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
+                            List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                            if (deviceNameList != null && deviceNameList.size() > 0) {
+                                for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                    //当前设备描述
+                                    String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
+                                    String deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
+                                    if(currentHour.equals(deviceStartHour)){
+                                        currentDeviceList.add(deviceNameDesc);
                                     }
                                 }
                             }
                         }
                     }
+                    if(currentDeviceList.size() <= 0){
+                        return;
+                    }
                     //获取昵称列表，默所有朋友圈
                     List<String> nickNameList = Lists.newArrayList();
-//                    {
-//                        paramMap.clear();
-//                        paramMap.put("dicType", "sendFriendCircle");
-//                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-//                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-//                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-//                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
-//                            }
-//                        }
-//                    }
 
                     //准备参数
                     paramMap.clear();
@@ -253,6 +235,9 @@ public class TimeTaskOfQuartz {
                                     }
                                 }
                             }
+                        }
+                        if(currentDeviceList.size() <= 0){
+                            return;
                         }
                     }
                     //获取昵称列表
