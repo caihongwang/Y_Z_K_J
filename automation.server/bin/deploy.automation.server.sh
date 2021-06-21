@@ -42,6 +42,7 @@ echo "------------------install 【xxl-job-core】 done-------------------------
 
 
 echo "-------------------start ready【defaultCommodPath】.---------------------"
+mkdir -p /opt/defaultCommodPath
 rm /opt/defaultCommodPath/1.Appium_start.sh
 cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/1.Appium_start.sh /opt/defaultCommodPath/1.Appium_start.sh
 
