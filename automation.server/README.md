@@ -10,6 +10,7 @@
     4.本地安装与配置open-stf环境；
     5.启动前台管理admin.server服务；
     6.启动后台管理automation.server服务；
+
     
     
      

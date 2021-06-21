@@ -1,0 +1,150 @@
+Linux系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
+
+    1.更新软件源，sudo apt-get update
+
+    2.安装npm，sudo apt-get install npm
+
+    3.检查npm安装是否成功，npm -v
+
+    4.通过npm安装n模块(n模块是用来安装各个版本的node的一个工具，参数-g，表示全局安装)， npm install n -g
+
+    5.安装最新长期支持版node，sudo n lts
+
+    6.安装v8.9.4版本的node，sudo n v8.9.4
+
+    7.检查node安装是否成功，node -v
+
+    8.node版本之间的切换，sudo n use [版本] 或者 直接sudo n然后选择版本
+
+    9.设置npm的国内淘宝镜像，这样网速快一点，npm config set registry https://registry.npm.taobao.org/
+
+    10.通过npm安装cnmp，npm install -g cnpm
+
+    11.检查cnpm安装是否成功，cnpm -v
+
+    12.通过cnpm安装版本1.15.1的appium，cnpm install -g appium@1.15.1
+
+    13.通过cnpm安装appium-doctor，cnpm install -g appium-doctor
+
+    14.启动appium，直接输入 appium 即可，默认监听4723端口
+
+
+
+Mac系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
+
+    1.通过brew安装node，brew install node
+
+    2.检查npm安装是否成功，npm -v
+
+    3.检查npm安装是否成功，npm -v
+
+    4.通过npm安装appium，会有点慢，得多尝试几次，npm install -g appium@1.15.1
+
+    5.启动appium，直接输入 appium 即可，默认监听4723端口
+
+
+
+Windows系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
+
+    待完善，做软件开发的，谁还用windows开发啊，此系统文档完善有点慢，等着吧 ....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

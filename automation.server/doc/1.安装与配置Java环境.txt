@@ -1,0 +1,35 @@
+Linux系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
+
+    1.下载[jdk.1.8.0_171.zip]文件包，https://www.aliyundrive.com/drive/folder/60c9f818022e4b71ea3d4a1b9c418894187d2fd7/jdk1.8.0_171.jdk.zip
+
+    2.解压，unzip -d /opt/java jdk.1.8.0_171.zip
+
+    3.配置环境变量，vim /etc/profile，在最后一行附上
+        export JAVA_HOME=/opt/java/jdk.1.8.0_171
+        export PATH=$PATH:$JAVA_HOME/bin/
+
+    4.生效环境变量，source /etc/profile
+
+    5.检测Java环境是否生效，java -version
+
+
+
+Mac系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
+
+    1.下载[jdk.1.8.0_171.zip]文件包，https://www.aliyundrive.com/drive/folder/607ce882f39e884483eb48e08aef9ad958a89fd3/jdk1.8.0_171.jdk.zip
+
+    2.解压，unzip -d /opt/java jdk.1.8.0_171.zip
+
+    3.配置环境变量，vim /etc/profile，在最后一行附上
+        export JAVA_HOME=/opt/java/jdk.1.8.0_171
+        export PATH=$PATH:$JAVA_HOME/bin/
+
+    4.生效环境变量，source /etc/profile
+
+    5.检测Java环境是否生效，java -version
+
+
+
+Windows系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
+
+    待完善，做软件开发的，谁还用windows开发啊，此系统文档完善有点慢，等着吧 ....
