@@ -24,7 +24,6 @@ echo "----------------------------pull new code 【oilStationMap.server】 done-
 
 
 
-
 echo "----------------------------start clone and package 【AllServer】-------------------"
 cd Y_Z_K_J
 mvn clean package -DskipTests
@@ -39,6 +38,36 @@ echo "----------------------------install 【xxl-job-core】-------------------"
 cd xxl-job-core
 mvn clean install
 echo "----------------------------install 【xxl-job-core】 done--------------------"
+
+
+
+
+
+echo "-------------------start ready【defaultCommodPath】.---------------------"
+rm /opt/defaultCommodPath/1.Appium_start.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/1.Appium_start.sh /opt/defaultCommodPath/1.Appium_start.sh
+
+rm /opt/defaultCommodPath/2.Automation_start.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/2.Automation_start.sh /opt/defaultCommodPath/2.Automation_start.sh
+
+rm /opt/defaultCommodPath/3.Rethinkdb_start.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/3.Rethinkdb_start.sh /opt/defaultCommodPath/3.Rethinkdb_start.sh
+
+rm /opt/defaultCommodPath/4.STF_start.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/4.STF_start.sh /opt/defaultCommodPath/4.STF_start.sh
+
+rm /opt/defaultCommodPath/rebootAllAndroidDevices.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/rebootAllAndroidDevices.sh /opt/defaultCommodPath/rebootAllAndroidDevices.sh
+
+rm /opt/defaultCommodPath/shutDownAllAndroidDevices.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/shutDownAllAndroidDevices.sh /opt/defaultCommodPath/shutDownAllAndroidDevices.sh
+
+rm /opt/defaultCommodPath/turnOffTheScreenForComputer.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/turnOffTheScreenForComputer.sh /opt/defaultCommodPath/turnOffTheScreenForComputer.sh
+
+rm /opt/defaultCommodPath/turnOffTheScreenForAllAndroidDevices.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/turnOffTheScreenForAllAndroidDevices.sh /opt/defaultCommodPath/turnOffTheScreenForAllAndroidDevices.sh
+echo "-------------------start ready【automation.server】done.-------------------------------"
 
 
 
