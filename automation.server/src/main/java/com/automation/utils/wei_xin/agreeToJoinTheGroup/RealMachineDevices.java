@@ -152,22 +152,23 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                             logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是聊天好友元素....");
                         }
                     }
-                    if (cyclesNumber >= maxCyclesNumber) {           //当循环下拉的次数超过30次时，则强制终止循环，主要是群成员中存在昵称相同的人，导致groupMembersMap无法添加进去，导致数量达不到真实的群成员数量
-                        //停止循环
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】已滑到聊天界面的底部，第【" + cyclesNumber + "】次，scroll上滑中,检测当前页面聊天好友信息，当前 chatFriendsSet 的大小为：" + chatFriendsSet.size() + "...");
-                        break;
-                    } else {
-                        try {
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + cyclesNumber + "】次，scroll上滑中,检测当前页面聊天好友信息，当前 chatFriendsSet 的大小为：" + chatFriendsSet.size() + "...");
-                            driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
-                        } catch (Exception e) {
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】scroll上滑中,检测当前页面聊天好友信息....");
-                        }
-                        cyclesNumber++;
-                    }
                 }
             } catch (Exception e) {
                 logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】上滑【当前页面聊天好友信息】到底部时，可能存在异常，忽视....");
+            } finally {
+                if (cyclesNumber >= maxCyclesNumber) {           //当循环下拉的次数超过30次时，则强制终止循环，主要是群成员中存在昵称相同的人，导致groupMembersMap无法添加进去，导致数量达不到真实的群成员数量
+                    //停止循环
+                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】已滑到聊天界面的底部，第【" + cyclesNumber + "】次，scroll上滑中,检测当前页面聊天好友信息，当前 chatFriendsSet 的大小为：" + chatFriendsSet.size() + "...");
+                    break;
+                } else {
+                    try {
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + cyclesNumber + "】次，scroll上滑中,检测当前页面聊天好友信息，当前 chatFriendsSet 的大小为：" + chatFriendsSet.size() + "...");
+                        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                    } catch (Exception e) {
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】scroll上滑中,检测当前页面聊天好友信息....");
+                    }
+                    cyclesNumber++;
+                }
             }
         }
         logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【上滑同时检测坐标检测当前页面聊天好友信息】成功....");
@@ -354,18 +355,18 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
                             logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
                         } catch (Exception e1) {
                             logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
-                            if (backChatPage_num <= 10) {
-                                driver.pressKeyCode(AndroidKeyCode.BACK);
-                                Thread.sleep(1000);
-                            } else {
-                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                                Thread.sleep(2000);
-                                break;
-                            }
                         }
                     } finally {
-                        backChatPage_num++;
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                            backChatPage_num++;
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
                     }
                 }
                 continue;
