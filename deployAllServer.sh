@@ -16,7 +16,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------Start pull new code 【AllServer】 from repository-----------------"
 cd /opt/deployAllApplication
-rm -rf Y_Z_K_J
+rm -rf /opt/deployAllApplication/Y_Z_K_J
 git clone --depth=1 -b master https://github.com/caihongwang/Y_Z_K_J.git
 echo "----------------------------pull new code 【oilStationMap.server】 done------------------------"
 
@@ -25,7 +25,7 @@ echo "----------------------------pull new code 【oilStationMap.server】 done-
 
 
 echo "----------------------------start clone and package 【AllServer】-------------------"
-cd Y_Z_K_J
+cd /opt/deployAllApplication/Y_Z_K_J
 mvn clean package -DskipTests
 echo "----------------------------clone and package 【AllServer】 done--------------------"
 
@@ -35,7 +35,7 @@ echo "----------------------------clone and package 【AllServer】 done--------
 
 
 echo "----------------------------install 【xxl-job-core】-------------------"
-cd xxl-job-core
+cd /opt/deployAllApplication/xxl-job-core
 mvn clean install
 echo "----------------------------install 【xxl-job-core】 done--------------------"
 

@@ -17,7 +17,7 @@ echo "--------------------------------------------------------------------------
 echo "------------------Start pull new code 【zuul.server】 from repository-----------------"
 mkdir /opt/zuul.server
 cd /opt/deployAllApplication
-rm -rf Y_Z_K_J
+rm -rf /opt/deployAllApplication/Y_Z_K_J
 git clone --depth=1 -b master https://github.com/caihongwang/Y_Z_K_J.git
 echo "----------------------------pull new code 【zuul.server】 done------------------------"
 
@@ -26,7 +26,7 @@ echo "----------------------------pull new code 【zuul.server】 done----------
 
 
 echo "----------------------------start clone and package 【zuul.server】-------------------"
-cd Y_Z_K_J
+cd /opt/deployAllApplication/Y_Z_K_J
 mvn clean package -DskipTests
 echo "----------------------------clone and package 【zuul.server】 done--------------------"
 
