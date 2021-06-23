@@ -185,121 +185,96 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-            //检测昵称是否末尾包含"…"，示例：A车～05.25-06.25 50米 沿河…
-            if (chatFriendNickName.endsWith("…")) {
-                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之前昵称【" + chatFriendNickName + "】....");
-                chatFriendNickName = chatFriendNickName.substring(0, chatFriendNickName.length() - 1);
-                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之后昵称【" + chatFriendNickName + "】....");
-            }
-
-            for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
-                //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】成功....");
-                    Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                } catch (Exception e) {
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】失败，因为微信正在建立索引....");
-                    if (i == 30) {
-                        throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
-                    } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
-                        driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
-                        continue;
-                    } else {
-                        Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
-                        continue;
-                    }
+            Integer backChatPage_num = 1;
+            boolean isBackChatPageFlag = true;
+            try {
+                //检测昵称是否末尾包含"…"，示例：A车～05.25-06.25 50米 沿河…
+                if (chatFriendNickName.endsWith("…")) {
+                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之前昵称【" + chatFriendNickName + "】....");
+                    chatFriendNickName = chatFriendNickName.substring(0, chatFriendNickName.length() - 1);
+                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之后昵称【" + chatFriendNickName + "】....");
                 }
-                //3.点击坐标【搜索输入框】并输入昵称
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(chatFriendNickName);
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】成功....");
-                    Thread.sleep(1000);
-                    break;
-                } catch (Exception e) {
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】失败....");
+
+                for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
+                    //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
                     try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(chatFriendNickName);
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
-                        Thread.sleep(1000);
-                        break;
-                    } catch (Exception e1) {
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
+                        driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】成功....");
+                        Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+                    } catch (Exception e) {
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】失败，因为微信正在建立索引....");
                         if (i == 30) {
-                            throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                            throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                         } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
                             driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                             logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
                             continue;
                         } else {
                             Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
                             continue;
                         }
                     }
-                }
-            }
-            //4.判断坐标【联系人】与【最常使用】是否存在
-            boolean isChatGroupFlag = false;
-            try {
-                driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
-                Thread.sleep(1000);
-                isChatGroupFlag = true;
-            } catch (Exception e) {
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
-                    Thread.sleep(1000);
-                    isChatGroupFlag = true;
-                } catch (Exception e1) {
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
-                }
-            }
-            if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                Integer backChatPage_num = 1;
-                while (true) {
+                    //3.点击坐标【搜索输入框】并输入昵称
                     try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】成功....");
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(chatFriendNickName);
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】成功....");
                         Thread.sleep(1000);
                         break;
                     } catch (Exception e) {
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】失败....");
-                        try{
-                            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")");
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
-                        } catch (Exception e1) {
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
-                        }
-                    } finally {
-                        if (backChatPage_num <= 10) {
-                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】失败....");
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(chatFriendNickName);
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
                             Thread.sleep(1000);
-                            backChatPage_num++;
-                        } else {
-                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                            Thread.sleep(2000);
                             break;
+                        } catch (Exception e1) {
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
+                            if (i == 30) {
+                                throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                            } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
+                                continue;
+                            } else {
+                                Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+                                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
+                                continue;
+                            }
                         }
                     }
                 }
-                continue;
-            }
-
-            //5.点击坐标【昵称对应的微信好友】
-            try {
-                driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
-            } catch (Exception e) {
+                //4.判断坐标【联系人】与【最常使用】是否存在
+                boolean isChatGroupFlag = false;
                 try {
-                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
-                } catch (Exception e1) {
-                    throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + contactLocaltion + "\")");
+                    Thread.sleep(1000);
+                    isChatGroupFlag = true;
+                } catch (Exception e) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
+                        Thread.sleep(1000);
+                        isChatGroupFlag = true;
+                    } catch (Exception e1) {
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】判断坐标【联系人】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
+                    }
                 }
-            }
+                if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
+                    continue;   //重注：执行continue;立刻跳转到finally代码块，通过循环返回【微信聊天界面】...
+                }
+
+                //5.点击坐标【昵称对应的微信好友】
+                try {
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + contactLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+                } catch (Exception e) {
+                    try {
+                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                    } catch (Exception e1) {
+                        throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                    }
+                }
 //            try {
 //                String str_0_of_9 = chatFriendNickName;
 //                List<WebElement> targetGroupElementList = Lists.newArrayList();
@@ -321,85 +296,99 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
 //            } catch (Exception e) {
 //                throw new Exception("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
 //            }
-            try {
-                List<WebElement> inviteChatInfo_webElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + inviteJoinGroupLocaltion + "\")");
-                if (inviteChatInfo_webElementList != null && inviteChatInfo_webElementList.size() > 0) {
-                    for (int index = 0; index < inviteChatInfo_webElementList.size(); index++) {
-                        if (index != (inviteChatInfo_webElementList.size() - 1)) {
-                            continue;
-                        }
-                        WebElement inviteChatInfo_webElement = inviteChatInfo_webElementList.get(index);
-                        //6.点击坐标【群邀请消息】
-                        try {
-                            inviteChatInfo_webElement.click();
-                            Thread.sleep(8000);
-                        } catch (Exception e) {
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【群邀请消息】异常，继续点击下一个【群邀请消息】...");
-                            continue;
-                        }
-                        //7.点击坐标【加入群聊】，此处为H5页面，需要整合context进行
-                        try {
+                try {
+                    List<WebElement> inviteChatInfo_webElementList = driver.findElementsByAndroidUIAutomator("new UiSelector().textContains(\"" + inviteJoinGroupLocaltion + "\")");
+                    if (inviteChatInfo_webElementList != null && inviteChatInfo_webElementList.size() > 0) {
+                        for (int index = 0; index < inviteChatInfo_webElementList.size(); index++) {
+                            if (index != (inviteChatInfo_webElementList.size() - 1)) {
+                                continue;
+                            }
+                            WebElement inviteChatInfo_webElement = inviteChatInfo_webElementList.get(index);
+                            //6.点击坐标【群邀请消息】
+                            try {
+                                inviteChatInfo_webElement.click();
+                                Thread.sleep(8000);
+                            } catch (Exception e) {
+                                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【群邀请消息】异常，继续点击下一个【群邀请消息】...");
+                                continue;
+                            }
+                            //7.点击坐标【加入群聊】，此处为H5页面，需要整合context进行
+                            try {
 //                            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + joinGroupLocaltion + "\")").click();
 //                            Thread.sleep(5000);
 //                            break;
-                            //通过对下方区域进行密集型点击
-                            boolean breakFlag = false;
-                            double width = driver.manage().window().getSize().width;
-                            double height = driver.manage().window().getSize().height;
-                            for (double theTemp_x = 0; theTemp_x <= width; theTemp_x = theTemp_x + 50) {
-                                double theTemp_y = ((height/2) / width) * theTemp_x + height/2;    //获取直线的斜率，y = k * x + b  --->>> y = (height/width) * x + y
-                                String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + theTemp_x + " " + theTemp_y;
-                                CommandUtil.run(tabCommondStr);
-                                Thread.sleep(200);
-                                System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令成功，tabCommondStr--->>>" + tabCommondStr);
-                                try {
-                                    driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + threePointLocaltion + "\")").click();
-                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令成功，跳转成功...");         //大概在第11次成功
-                                    breakFlag = true;
-                                } catch (Exception e) {
-                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令失败，跳转失败...");         //大概在第11次成功
-                                    breakFlag = false;
-                                } finally {
-                                    if (breakFlag) {
-                                        break;
+                                //通过对下方区域进行密集型点击
+                                boolean breakFlag = false;
+                                double width = driver.manage().window().getSize().width;
+                                double height = driver.manage().window().getSize().height;
+                                for (double theTemp_x = 0; theTemp_x <= width; theTemp_x = theTemp_x + 50) {
+                                    double theTemp_y = ((height/2) / width) * theTemp_x + height/2;    //获取直线的斜率，y = k * x + b  --->>> y = (height/width) * x + y
+                                    String tabCommondStr = "/opt/android_sdk/platform-tools/adb -s " + deviceName + " shell input tap " + theTemp_x + " " + theTemp_y;
+                                    CommandUtil.run(tabCommondStr);
+                                    Thread.sleep(200);
+                                    System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令成功，tabCommondStr--->>>" + tabCommondStr);
+                                    try {
+                                        driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + threePointLocaltion + "\")").click();
+                                        System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令成功，跳转成功...");         //大概在第11次成功
+                                        breakFlag = true;
+                                    } catch (Exception e) {
+                                        System.out.println("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】执行adb命令失败，跳转失败...");         //大概在第11次成功
+                                        breakFlag = false;
+                                    } finally {
+                                        if (breakFlag) {
+                                            break;
+                                        }
                                     }
                                 }
+                            } catch (Exception e) {
+                                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【加入群聊】异常，您已进入此群或者群邀请已过期，继续点击下一个【群邀请消息】...");
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                                continue;
                             }
-                        } catch (Exception e) {
-                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【加入群聊】异常，您已进入此群或者群邀请已过期，继续点击下一个【群邀请消息】...");
-                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                        }
+                    }
+                } catch (Exception e) {
+                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】获取当前用户的消息List失败....");
+                } finally {
+                    continue;   //重注：执行continue;立刻跳转到finally代码块，通过循环返回【微信聊天界面】...
+                }
+            } catch (Exception e) {
+
+            } finally {
+                while (true) {
+                    try {
+                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】成功....");
+                        isBackChatPageFlag = false;
+                        Thread.sleep(1000);
+                        break;
+                    } catch (Exception e) {
+                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】失败....");
+                        try{
+                            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")");
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
+                            isBackChatPageFlag = false;
                             Thread.sleep(1000);
-                            continue;
+                        } catch (Exception e1) {
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
+                        }
+                    } finally {
+                        if (backChatPage_num <= 10) {
+                            if(isBackChatPageFlag){
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                                backChatPage_num++;
+                            }
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
                         }
                     }
                 }
-            } catch (Exception e) {
-                logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】获取当前用户的消息List失败....");
             }
-
-            Integer backChatPage_num = 1;
-            while (true) {
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
-                    Thread.sleep(1000);
-                    break;
-                } catch (Exception e) {
-                    logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
-                    if (backChatPage_num <= 10) {
-                        driver.pressKeyCode(AndroidKeyCode.BACK);
-                        Thread.sleep(1000);
-                    } else {
-                        driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                        logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                        Thread.sleep(2000);
-                        break;
-                    }
-                } finally {
-                    backChatPage_num++;
-                }
-            }
-            continue;
         }
         logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 同意进群【" + theSaveToAddressBookNum + "】个发送成功....");
         return true;
@@ -412,91 +401,91 @@ public class RealMachineDevices implements AgreeToJoinTheGroup {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(nickNameStr);
         if (m.matches()) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[122条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[122条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("油站科技")) {      //确保坐标：微信( 存在
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.endsWith("群")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】末尾包含【群】对应的是【微信群昵称】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】末尾包含【群】对应的是【微信群昵称】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[店员消息]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[链接]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[链接]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[链接]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[图片]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[文件]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[文件]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[文件]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[视频]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[视频]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[视频]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[小程序]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[群待办]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[聊天记录]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[聊天记录]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[聊天记录]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[语音]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[语音]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[语音]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[语音通话]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[语音通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[语音通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[视频通话]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[视频通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[视频通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[草稿]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[草稿]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[草稿]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[动画表情]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[动画表情]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[动画表情]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("[有人@我]")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("我通过了你的朋友验证请求")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("与群里其他人都不是")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【与群里其他人都不是微信朋友关系】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【与群里其他人都不是微信朋友关系】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.contains("对方为企业微信用户")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【对方为企业微信用户】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【对方为企业微信用户】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.startsWith("你已添加了")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         if (nickNameStr.startsWith("移除群里")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【*移除群里】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            logger.info("【同意进群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【*移除群里】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         return isChatGroupOrChatNickFlag;

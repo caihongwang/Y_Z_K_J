@@ -199,125 +199,99 @@ public class RealMachineDevices implements SaveToAddressBook {
 
         //循环遍历好友昵称列表，点击坐标【搜索】与【搜索框】
         for (String chatFriendNickName : chatFriendsSet) {
-
-            //检测昵称是否末尾包含"…"，示例：A车～05.25-06.25 50米 沿河…
-            if (chatFriendNickName.endsWith("…")) {
-                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之前昵称【" + chatFriendNickName + "】....");
-                chatFriendNickName = chatFriendNickName.substring(0, chatFriendNickName.length() - 1);
-                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之后昵称【" + chatFriendNickName + "】....");
-            }
-            for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
-                //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】成功....");
-                    Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                } catch (Exception e) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】失败，因为微信正在建立索引....");
-                    if (i == 30) {
-                        throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
-                    } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
-                        driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
-                        continue;
-                    } else {
-                        Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
-                        continue;
-                    }
+            Integer backChatPage_num = 1;
+            boolean isBackChatPageFlag = true;
+            try {
+                //检测昵称是否末尾包含"…"，示例：A车～05.25-06.25 50米 沿河…
+                if (chatFriendNickName.endsWith("…")) {
+                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之前昵称【" + chatFriendNickName + "】....");
+                    chatFriendNickName = chatFriendNickName.substring(0, chatFriendNickName.length() - 1);
+                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测昵称末尾包含\"…\"，处理之后昵称【" + chatFriendNickName + "】....");
                 }
-                //3.点击坐标【搜索输入框】并输入昵称
-                try {
-                    driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(chatFriendNickName);
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】成功....");
-                    Thread.sleep(1000);
-                    break;
-                } catch (Exception e) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】失败....");
+                for (int i = 1; i <= 30; i++) {     //每间隔5秒点击一次，持续90秒
+                    //2.点击坐标【搜索】，当前坐标会引起微信对当前所有联系人和聊天对象进行建立索引，会有点慢，需要进行特别支持，暂时循环点击10次
                     try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(chatFriendNickName);
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
-                        Thread.sleep(1000);
-                        break;
-                    } catch (Exception e1) {
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
+                        driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")").click();
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】成功....");
+                        Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】失败，因为微信正在建立索引....");
                         if (i == 30) {
-                            throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                            throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
                         } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
                             driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
                             continue;
                         } else {
                             Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，因为微信正在建立索引....");
                             continue;
                         }
                     }
-                }
-            }
-            //4.判断坐标【群聊】与【最常使用】是否存在
-            boolean isChatGroupFlag = false;
-            try {
-                WebElement group_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupLocaltion + "\")");
-                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【群聊】成功....");
-                Thread.sleep(1000);
-                isChatGroupFlag = true;
-            } catch (Exception e) {
-                try {
-                    WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【最常使用】成功....");
-                    Thread.sleep(1000);
-                    isChatGroupFlag = true;
-                } catch (Exception e1) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【群聊】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
-                }
-            }
-            if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                Integer backChatPage_num = 1;
-                while (true) {
+                    //3.点击坐标【搜索输入框】并输入昵称
                     try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】成功....");
+                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + searchInputLocaltion + "\")").sendKeys(chatFriendNickName);
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】成功....");
                         Thread.sleep(1000);
                         break;
                     } catch (Exception e) {
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】失败....");
-                        try{
-                            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")");
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
-                        } catch (Exception e1) {
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
-                        }
-                    } finally {
-                        if (backChatPage_num <= 10) {
-                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】失败....");
+                        try {
+                            driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.EditText\")").sendKeys(chatFriendNickName);
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】成功....");
                             Thread.sleep(1000);
-                            backChatPage_num++;
-                        } else {
-                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                            Thread.sleep(2000);
                             break;
+                        } catch (Exception e1) {
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
+                            if (i == 30) {
+                                throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
+                            } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
+                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
+                                continue;
+                            } else {
+                                Thread.sleep(5000);         //此处会创建索引，会比较费时间才能打开
+                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败，因为微信正在建立索引....");
+                                continue;
+                            }
                         }
                     }
                 }
-                continue;
-            }
-
-            //5.点击坐标【昵称对应的微信好友】
-            try {
-                driver.findElementByXPath("//android.widget.TextView[@text=\"" + groupLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
-                Thread.sleep(1000);
-            } catch (Exception e) {
+                //4.判断坐标【群聊】与【最常使用】是否存在
+                boolean isChatGroupFlag = false;
                 try {
-                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                    WebElement group_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + groupLocaltion + "\")");
+                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【群聊】成功....");
                     Thread.sleep(1000);
-                } catch (Exception e1) {
-                    throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                    isChatGroupFlag = true;
+                } catch (Exception e) {
+                    try {
+                        WebElement contactor_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + mostUsedLocaltion + "\")");
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【最常使用】成功....");
+                        Thread.sleep(1000);
+                        isChatGroupFlag = true;
+                    } catch (Exception e1) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测坐标【群聊】与【最常使用】均不存在，当前昵称【" + chatFriendNickName + "】对应的可能是【联系人】或者【公众号】或者【聊天记录】....");
+                    }
                 }
-            }
+                if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
+                    continue;   //重注：执行continue;立刻跳转到finally代码块，通过循环返回【微信聊天界面】...
+                }
+
+                //5.点击坐标【昵称对应的微信好友】
+                try {
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + groupLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【联系人的xpath】成功....");
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    try {
+                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + mostUsedLocaltion + "\"]/../../../android.widget.RelativeLayout[2]").click();
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友群】通过【最常使用的xpath】成功....");
+                        Thread.sleep(1000);
+                    } catch (Exception e1) {
+                        throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【联系人的xpath】与【最常使用的xpath】点击坐标【昵称对应的微信好友】均失败，当前昵称【\" + nickName + \"】对应的可能是【微信群】或者【公众号】或者【聊天记录】....");
+                    }
+                }
 //            try {
 //                String str_0_of_9 = chatFriendNickName;
 ////                int firstEmojiIndex = EmojiUtil.getFirstEmojiIndex(chatFriendNickName);
@@ -344,134 +318,84 @@ public class RealMachineDevices implements SaveToAddressBook {
 //                throw new Exception("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【昵称对应的微信好友】出现异常,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
 //            }
 
-            //6.点击坐标【设置】new UiSelector().description("当前所在页面,与的聊天")
-            try {
-                WebElement chatInfo_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + chatInfoLocaltion + "\")");
-                chatInfo_WebElement.click();
-                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【设置】成功....");
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                Integer backChatPage_num = 1;
-                while (true) {
+                //6.点击坐标【设置】new UiSelector().description("当前所在页面,与的聊天")
+                try {
+                    WebElement chatInfo_WebElement = driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + chatInfoLocaltion + "\")");
+                    chatInfo_WebElement.click();
+                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【设置】成功....");
+                    Thread.sleep(2000);
+                } catch (Exception e) {
+                    continue;   //重注：执行continue;立刻跳转到finally代码块，通过循环返回【微信聊天界面】...
+                }
+
+                //7.查看坐标【群成员总数：聊天信息(】
+                isChatGroupFlag = false;
+                try {
+                    WebElement groupTotalNumWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + groupTotalNumLocation + "\")");
+                    String text = groupTotalNumWebElement.getAttribute("text");
+                    String groupTotalNumStr = ((text.split("\\("))[1].split("\\)"))[0];
+                    Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
+                    if (groupTotalNum > 0) {
+                        isChatGroupFlag = true;
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测【是否为微信群】成功，【微信群】--->>>【" + chatFriendNickName + "】群成员总数为：" + groupTotalNum + "个....");
+                    }
+                } catch (Exception e) {
+
+                } finally {
+                    if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
+                        continue;   //重注：执行continue;立刻跳转到finally代码块，通过循环返回【微信聊天界面】...
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {       //向上滑动三次
                     try {
-                        driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
-                        Thread.sleep(1000);
-                        break;
-                    } catch (Exception e1) {
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
-                        if (backChatPage_num <= 10) {
-                            driver.pressKeyCode(AndroidKeyCode.BACK);
-                            Thread.sleep(1000);
-                        } else {
-                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                            Thread.sleep(2000);
-                            break;
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次，scroll上滑中,检测【保存到通讯录】...");
+                        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】scroll上滑中,检测【保存到通讯录】....");
+                    }
+                }
+
+                try {
+                    //8.点击坐标【保存到通讯录】
+                    try {
+                        WebElement aadToAddressBookLocalElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + aadToAddressBookLocaltion + "\"]/../../android.view.View");
+                        //android.widget.TextView[@text="保存到通讯录"]/../../android.view.View
+                        String switchName = aadToAddressBookLocalElement.getAttribute("content-desc");
+                        if ("已关闭".equals(switchName)) {
+                            aadToAddressBookLocalElement.click();
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【保存到通讯录】【XPath定位】的【开关】成功....");
                         }
-                    } finally {
-                        backChatPage_num++;
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是【保存到通讯录】【XPath定位】的【开关】元素....");
                     }
-                }
-//                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】返回【当前页面聊天好友信息】....");
-//                Thread.sleep(2000);
-                continue;
-            }
+                    Thread.sleep(2000);
 
-            //7.查看坐标【群成员总数：聊天信息(】
-            isChatGroupFlag = false;
-            try {
-                WebElement groupTotalNumWebElement = driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + groupTotalNumLocation + "\")");
-                String text = groupTotalNumWebElement.getAttribute("text");
-                String groupTotalNumStr = ((text.split("\\("))[1].split("\\)"))[0];
-                Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
-                if (groupTotalNum > 0) {
-                    isChatGroupFlag = true;
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测【是否为微信群】成功，【微信群】--->>>【" + chatFriendNickName + "】群成员总数为：" + groupTotalNum + "个....");
-                }
-            } catch (Exception e) {
-
-            } finally {
-                if (!isChatGroupFlag) {         //非好友与联系人，返回【当前页面聊天好友信息】，继续下一个昵称
-                    Integer backChatPage_num = 1;
-                    while (true) {
-                        try {
-                            driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
-                            Thread.sleep(1000);
-                            break;
-                        } catch (Exception e1) {
-                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
-                            if (backChatPage_num <= 10) {
-                                driver.pressKeyCode(AndroidKeyCode.BACK);
-                                Thread.sleep(1000);
-                            } else {
-                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                                Thread.sleep(2000);
-                                break;
-                            }
-                        } finally {
-                            backChatPage_num++;
+                    //9.点击坐标【置顶聊天】
+                    try {
+                        WebElement topChatLocaltionElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + topChatLocaltion + "\"]/../../android.view.View");
+                        String switchName = topChatLocaltionElement.getAttribute("content-desc");
+                        if ("已开启".equals(switchName) && !chatFriendNickName.contains("内部交流群")) {
+                            topChatLocaltionElement.click();
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【置顶聊天】【XPath定位】的【开关】成功....");
                         }
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是【置顶聊天】【XPath定位】的【开关】元素....");
                     }
-//                    driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-//                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】返回【当前页面聊天好友信息】....");
-//                    Thread.sleep(2000);
-                    continue;
-                }
-            }
+                    Thread.sleep(2000);
 
-            for (int i = 0; i < 3; i++) {       //向上滑动三次
-                try {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次，scroll上滑中,检测【保存到通讯录】...");
-                    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollForward()");
-                } catch (Exception e) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】scroll上滑中,检测【保存到通讯录】....");
-                }
-            }
-
-            try {
-                //8.点击坐标【保存到通讯录】
-                try {
-                    WebElement aadToAddressBookLocalElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + aadToAddressBookLocaltion + "\"]/../../android.view.View");
-                    //android.widget.TextView[@text="保存到通讯录"]/../../android.view.View
-                    String switchName = aadToAddressBookLocalElement.getAttribute("content-desc");
-                    if ("已关闭".equals(switchName)) {
-                        aadToAddressBookLocalElement.click();
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【保存到通讯录】【XPath定位】的【开关】成功....");
+                    //10.点击坐标【消息免打扰】
+                    try {
+                        WebElement dontDisturbTheNewsLocalElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + dontDisturbTheNewsLocaltion + "\"]/../../android.view.View");
+                        String switchName = dontDisturbTheNewsLocalElement.getAttribute("content-desc");
+                        if ("已关闭".equals(switchName)) {
+                            dontDisturbTheNewsLocalElement.click();
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【保存到通讯录】【XPath定位】的【开关】成功....");
+                        }
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是【保存到通讯录】【XPath定位】的【开关】元素....");
                     }
-                } catch (Exception e) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是【保存到通讯录】【XPath定位】的【开关】元素....");
-                }
-                Thread.sleep(2000);
-
-                //9.点击坐标【置顶聊天】
-                try {
-                    WebElement topChatLocaltionElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + topChatLocaltion + "\"]/../../android.view.View");
-                    String switchName = topChatLocaltionElement.getAttribute("content-desc");
-                    if ("已开启".equals(switchName) && !chatFriendNickName.contains("内部交流群")) {
-                        topChatLocaltionElement.click();
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【置顶聊天】【XPath定位】的【开关】成功....");
-                    }
-                } catch (Exception e) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是【置顶聊天】【XPath定位】的【开关】元素....");
-                }
-                Thread.sleep(2000);
-
-                //10.点击坐标【消息免打扰】
-                try {
-                    WebElement dontDisturbTheNewsLocalElement = driver.findElementByXPath("//android.widget.TextView[@text=\"" + dontDisturbTheNewsLocaltion + "\"]/../../android.view.View");
-                    String switchName = dontDisturbTheNewsLocalElement.getAttribute("content-desc");
-                    if ("已关闭".equals(switchName)) {
-                        dontDisturbTheNewsLocalElement.click();
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【保存到通讯录】【XPath定位】的【开关】成功....");
-                    }
-                } catch (Exception e) {
-                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前不是【保存到通讯录】【XPath定位】的【开关】元素....");
-                }
-                Thread.sleep(2000);
+                    Thread.sleep(2000);
 
 //                //8.点击坐标【已关闭】
 //                List<WebElement> switchList_webElement = driver.findElementsByAndroidUIAutomator("new UiSelector().description(\"" + shutDownLocaltion + "\")");
@@ -482,36 +406,48 @@ public class RealMachineDevices implements SaveToAddressBook {
 //                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【已关闭】的【开关】成功....");
 //                    }
 //                }
+                } catch (Exception e) {
+                    logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【消息免打扰】或者【消息免打扰】异常，当前昵称已是你的好友，继续下一个昵称....");
+                    e.printStackTrace();
+                } finally {
+                    theSaveToAddressBookNum++;
+                    continue;   //重注：执行continue;立刻跳转到finally代码块，通过循环返回【微信聊天界面】...
+                }
             } catch (Exception e) {
-                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【消息免打扰】或者【消息免打扰】异常，当前昵称已是你的好友，继续下一个昵称....");
-                e.printStackTrace();
+
             } finally {
-                theSaveToAddressBookNum++;
-                Integer backChatPage_num = 1;
                 while (true) {
                     try {
                         driver.findElementByAndroidUIAutomator("new UiSelector().textStartsWith(\"" + chatLocation + "\")");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】成功....");
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】成功....");
+                        isBackChatPageFlag = false;
                         Thread.sleep(1000);
                         break;
-                    } catch (Exception e1) {
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次返回【微信聊天界面】失败....");
-                        if (backChatPage_num <= 10) {
-                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                    } catch (Exception e) {
+                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】返回【微信聊天界面】失败....");
+                        try{
+                            driver.findElementByAndroidUIAutomator("new UiSelector().description(\"" + searchLocaltionStr + "\")");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
+                            isBackChatPageFlag = false;
                             Thread.sleep(1000);
+                        } catch (Exception e1) {
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
+                        }
+                    } finally {
+                        if (backChatPage_num <= 10) {
+                            if(isBackChatPageFlag){
+                                driver.pressKeyCode(AndroidKeyCode.BACK);
+                                Thread.sleep(1000);
+                                backChatPage_num++;
+                            }
                         } else {
                             driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
                             Thread.sleep(2000);
                             break;
                         }
-                    } finally {
-                        backChatPage_num++;
                     }
                 }
-//                driver.startActivity(chatActivity);         ////返回【当前页面聊天好友信息】
-//                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】返回【当前页面聊天好友信息】....");
-//                Thread.sleep(2000);
             }
         }
         logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 将群保存到通讯录【" + theSaveToAddressBookNum + "】个发送成功....");
@@ -634,4 +570,5 @@ public class RealMachineDevices implements SaveToAddressBook {
             e.printStackTrace();
         }
     }
+
 }
