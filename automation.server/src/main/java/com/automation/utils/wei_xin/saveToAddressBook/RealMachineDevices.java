@@ -377,18 +377,18 @@ public class RealMachineDevices implements SaveToAddressBook {
                             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
                         } catch (Exception e1) {
                             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
-                            if (backChatPage_num <= 10) {
-                                driver.pressKeyCode(AndroidKeyCode.BACK);
-                                Thread.sleep(1000);
-                            } else {
-                                driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
-                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
-                                Thread.sleep(2000);
-                                break;
-                            }
                         }
                     } finally {
-                        backChatPage_num++;
+                        if (backChatPage_num <= 10) {
+                            driver.pressKeyCode(AndroidKeyCode.BACK);
+                            Thread.sleep(1000);
+                            backChatPage_num++;
+                        } else {
+                            driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】通过【chatActivity】返回【当前页面聊天好友信息】....");
+                            Thread.sleep(2000);
+                            break;
+                        }
                     }
                 }
                 continue;
