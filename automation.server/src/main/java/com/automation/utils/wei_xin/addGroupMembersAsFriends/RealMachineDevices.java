@@ -154,7 +154,8 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
         String sendRequestMsgLocaltion =
                 paramMap.get("sendRequestMsgLocaltion") != null ?
                         paramMap.get("sendRequestMsgLocaltion").toString() :
-                        "发送添加朋友申请";
+//                        "发送添加朋友申请";
+                        "申请";
         //坐标【朋友圈】
         String friendCircleLocaltion =
                 paramMap.get("friendCircleLocaltion") != null ?
@@ -543,7 +544,7 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     }
                                     //11.8 检测坐标【发送添加朋友申请】，避免出现：在【单个群成员简介】显示totast【对方账号异常，无法添加朋友。】，消失得很快，无法捕捉，致使本来应该在【发送页面】而实际停留在【单个群成员简介】
                                     try {
-                                        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"" + sendRequestMsgLocaltion + "\")");
+                                        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + sendRequestMsgLocaltion + "\")");
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【添加到通讯录】后，检测坐标【发送添加朋友申请】成功....");
                                         Thread.sleep(1000);
                                     } catch (Exception e) {
@@ -554,9 +555,9 @@ public class RealMachineDevices implements AddGroupMembersAsFriends {
                                     }
                                     //11.9 点击坐标【发送添加朋友申请-输入框】并输入【添加对方为好友的打招呼内容】
                                     try {
-                                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + sendRequestMsgLocaltion + "\"]/../android.widget.EditText").clear();
+                                        driver.findElementByXPath("//android.widget.TextView[contains(@text=\"" + sendRequestMsgLocaltion + "\")]/../android.widget.EditText").clear();
                                         Thread.sleep(1000);
-                                        driver.findElementByXPath("//android.widget.TextView[@text=\"" + sendRequestMsgLocaltion + "\"]/../android.widget.EditText").sendKeys(requestMsg);
+                                        driver.findElementByXPath("//android.widget.TextView[contains(@text=\"" + sendRequestMsgLocaltion + "\")]/../android.widget.EditText").sendKeys(requestMsg);
                                         logger.info("【添加群成员为好友的V群】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【发送添加朋友申请-输入框】【xpath】并填写内容成功....");
                                         Thread.sleep(1000);
                                     } catch (Exception e) {
