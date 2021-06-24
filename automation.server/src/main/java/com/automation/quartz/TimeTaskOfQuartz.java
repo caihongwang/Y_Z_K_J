@@ -336,7 +336,7 @@ public class TimeTaskOfQuartz {
     @Scheduled(cron = "0 0 5 * * ?")
     public void do_rebootAllAndroidDevices() {
         try{
-            CommandUtil.run("/opt/defaultCommodPath/rebootAllAndroidDevices.sh");
+            CommandUtil.run("sh /opt/defaultCommodPath/rebootAllAndroidDevices.sh");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -350,7 +350,7 @@ public class TimeTaskOfQuartz {
     @Scheduled(cron = "0 30 5 * * ?")
     public void do_turnOffTheScreenForAllAndroidDevices() {
         try{
-            CommandUtil.run("/opt/defaultCommodPath/turnOffTheScreenForAllAndroidDevices.sh");
+            CommandUtil.run("sh /opt/defaultCommodPath/turnOffTheScreenForAllAndroidDevices.sh");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
