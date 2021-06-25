@@ -323,38 +323,10 @@ function clickFunc_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFrien
         var automationOperation_name = "发送朋友圈";
         var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/sendFriendCircle";              //发送朋友圈
-        var currentDeviceListStr = "[\n" +
-        "    \"小米Max3_08\",\n" +
-        "    \"华为Mate8_09\",\n" +
-        "    \"华为Mate8_10\",\n" +
-        "    \"华为Mate8_11\",\n" +
-        "    \"华为Mate8_12\",\n" +
-        "    \"华为Mate8_13\",\n" +
-        "    \"华为Mate8_14\",\n" +
-        "    \"华为Mate8_15\",\n" +
-        "    \"华为Mate8海外版_16\",\n" +
-        "    \"华为Mate8_17\",\n" +
-        "    \"华为Mate8_18\",\n" +
-        "    \"华为Mate8_19\"\n" +
-        "]";
     } else if(operationId == "shareArticleToFriendCircle"){
         var automationOperation_name = "分享微信文章到微信朋友圈";
         var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
         var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareArticleToFriendCircle";    //分享微信文章到微信朋友圈
-        var currentDeviceListStr = "[\n" +
-            "    \"小米Max3_06\",\n" +
-            "    \"华为Mate8_07\",\n" +
-            "    \"华为Mate8_08\",\n" +
-            "    \"华为Mate8_09\",\n" +
-            "    \"华为Mate8_10\",\n" +
-            "    \"华为Mate8_11\",\n" +
-            "    \"华为Mate8_12\",\n" +
-            "    \"华为Mate8_13\",\n" +
-            "    \"华为Mate8海外版_14\",\n" +
-            "    \"华为Mate8_15\",\n" +
-            "    \"华为Mate8_16\",\n" +
-            "    \"华为Mate8_17\"\n" +
-            "]";
     } else if(operationId == "chatByNickName"){
         var automationOperation_name = "根据微信昵称进行聊天";
         var nickNameListStr = "[\n" + "    \"cai_hong_wang\"\n" + "]";
