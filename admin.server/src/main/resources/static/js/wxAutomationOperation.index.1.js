@@ -148,9 +148,9 @@ $(function() {
 
 
 
-    //点击 For 分享视频到朋友圈
+    //点击 For 分享视频号到朋友圈
     $("#shareVideoNumToFriendCircle").on('click', clickFunc_For_shareVideoNumToFriendCircle);
-    //表单提交 For 分享视频到朋友圈
+    //表单提交 For 分享视频号到朋友圈
     var shareVideoNumToFriendCircleModalValidate = $("#shareVideoNumToFriendCircleModal .form").validate({
         errorElement : 'span',
         errorClass : 'help-block',
@@ -373,7 +373,7 @@ function clickFunc_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFrien
 
 
 /**
- * 点击 For 分享视频到朋友圈
+ * 点击 For 分享视频号到朋友圈
  */
 function clickFunc_For_shareVideoNumToFriendCircle(){
     console.log(this);
@@ -385,8 +385,8 @@ function clickFunc_For_shareVideoNumToFriendCircle(){
     var operationTitle = operationName + ' - ' + operationTitleArr[1];
     $("#shareVideoNumToFriendCircleModal h4[class='modal-title']").html(operationTitle);
     //设置默认参数
-    var automationOperation_name = "分享视频到朋友圈";
-    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareVideoNumToFriendCircleModal";     //分享视频到朋友圈
+    var automationOperation_name = "分享视频号到朋友圈";
+    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareVideoNumToFriendCircleModal";     //分享视频号到朋友圈
     var automationOperation_shareFendCircleCentent = "恩，怎么说呢，你还是自己看吧，文字描述已无力...";
     var currentDeviceListStr = "[\n" +
         "    \"小米Max3_10\",\n" +
@@ -404,7 +404,7 @@ function clickFunc_For_shareVideoNumToFriendCircle(){
         "]";
     $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_name']").val( automationOperation_name );  //操作名称
     $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_url']").val( automationOperation_url );    //操作地址
-    $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_shareFendCircleCentent']").val( automationOperation_shareFendCircleCentent );    //分享视频到朋友圈
+    $("#shareVideoNumToFriendCircleModal .form input[name='automationOperation_shareFendCircleCentent']").val( automationOperation_shareFendCircleCentent );    //分享视频号到朋友圈
     $("#shareVideoNumToFriendCircleModal .form textarea[name='currentDeviceListStr']").val( JSON.stringify(JSON.parse(currentDeviceListStr),null,2) );//操作时间列表
     $('#shareVideoNumToFriendCircleModal').modal({backdrop: false, keyboard: false}).modal('show');
 }

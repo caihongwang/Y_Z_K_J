@@ -176,7 +176,7 @@ public class PraiseAndCommentFriendsCircleUtils {
                     Thread.sleep(60000);
 //                //测试
 //                Thread.sleep(1000);
-                    if (index > 15) {
+                    if (index > 6) {
                         break;
                     }
                     logger.info("【点赞和评论朋友圈】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】昵称【" + nickName + "】...");

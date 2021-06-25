@@ -439,7 +439,7 @@ public class RealMachineDevices implements ShareArticleToFriendCircle {
                 if (theLocaltion_X > (boundary_x2 / 2)) {
                     theLocaltion_X = boundary_x2;
                 }
-                double k = ((screenHeight/2) / (screenWidth/2));
+                double k = ( ( (3*screenHeight - 2*screenHeight) / 4 ) / ( (screenWidth - 0) / 2 ) );
                 theLocaltion_Y= k * theLocaltion_X + screenHeight / 2;    //获取直线的斜率，y = k * x + b  --->>> y = (height/width) * x + y
                 if (theLocaltion_Y > boundary_y2) {
                     theLocaltion_Y = boundary_y2;

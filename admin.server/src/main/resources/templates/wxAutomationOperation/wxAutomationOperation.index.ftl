@@ -59,12 +59,12 @@
 					<div class="info-box bg-green">
 						<span class="info-box-icon"><i class="fa fa-anchor"></i></span>
 						<div class="info-box-content">
-							<span class="info-box-number">分享视频到朋友圈</span>
+							<span class="info-box-number">分享视频号到朋友圈</span>
 							<span class="info-box-text">12台在线设备</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 100%"></div>
 							</div>
-							<span class="progress-description">在指定群聊中分享视频到朋友圈</span>
+							<span class="progress-description">在指定群聊中分享视频号到朋友圈</span>
 						</div>
 					</div>
 				</div>
@@ -366,12 +366,12 @@
 
 
 
-<!-- 模态框 For 分享视频到朋友圈 -->
+<!-- 模态框 For 分享视频号到朋友圈 -->
 <div class="modal fade" id="shareVideoNumToFriendCircleModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" name="modalTitle">分享视频到朋友圈-自动化操作</h4>
+				<h4 class="modal-title" name="modalTitle">分享视频号到朋友圈-自动化操作</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal form" role="form">

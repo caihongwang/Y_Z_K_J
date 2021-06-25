@@ -169,7 +169,7 @@ public class AgreeToJoinTheGroupUtils {
                     Thread.sleep(45000);
 //                    //测试
 //                    Thread.sleep(1000);
-                    if (index > 15) {
+                    if (index > 6) {
                         break;
                     }
                     logger.info("【同意进群】第【" + index + "】次重新执行设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】...");
