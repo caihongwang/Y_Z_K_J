@@ -77,7 +77,7 @@ public class TimeTaskOfQuartz {
                     //获取设备列表
                     LinkedList<String> currentDeviceList = Lists.newLinkedList();
                     String currentHour = new SimpleDateFormat("HH").format(new Date());
-                    currentHour = (Integer.parseInt(currentHour) - 4) + "";     //当前定时任务，选择倒退4小时的设备进行执行，从第06个小时开始执行第一个设备
+                    currentHour = (Integer.parseInt(currentHour) + 4) + "";     //当前定时任务，选择倒退4小时的设备进行执行，从第06个小时开始执行第一个设备
                     paramMap.clear();
                     paramMap.put("dicType", "deviceNameListAndLocaltion");
                     paramMap.put("dicCode", "HuaWeiListAndShareArticleToFriendCircleLocaltion");
@@ -147,7 +147,7 @@ public class TimeTaskOfQuartz {
                     //获取设备列表
                     LinkedList<String> currentDeviceList = Lists.newLinkedList();
                     String currentHour = new SimpleDateFormat("HH").format(new Date());
-                    currentHour = (Integer.parseInt(currentHour) - 2) + "";     //当前定时任务，选择倒退4小时的设备进行执行，从第08个小时开始执行第一个设备
+                    currentHour = (Integer.parseInt(currentHour) + 2) + "";     //当前定时任务，选择倒退4小时的设备进行执行，从第08个小时开始执行第一个设备
                     paramMap.clear();
                     paramMap.put("dicType", "deviceNameListAndLocaltion");
                     paramMap.put("dicCode", "HuaWeiListAndSendFriendCircleLocaltion");
