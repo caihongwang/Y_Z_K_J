@@ -358,7 +358,7 @@ function clickFunc_For_shareVideoNumToFriendCircle(){
     $("#shareVideoNumToFriendCircleModal h4[class='modal-title']").html(operationTitle);
     //设置默认参数
     var automationOperation_name = "分享视频号到朋友圈";
-    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareVideoNumToFriendCircleModal";     //分享视频号到朋友圈
+    var automationOperation_url = I18n.system_automation_url_pre + "/automation/wx/shareVideoNumToFriendCircle";     //分享视频号到朋友圈
     var automationOperation_shareFendCircleCentent = "恩，怎么说呢，你还是自己看吧，文字描述已无力...";
     var currentDeviceListStr = "[\n" +
         "    \"小米Max3_10\",\n" +
