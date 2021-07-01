@@ -284,7 +284,7 @@ public class GlobalVariableConfig {
 
         public void run() {
             String source_commondFilePath = defaultCommodPath + "/5.WebSSH_start.sh";
-            String temp_commondFilePath = defaultCommodPath + "/5.WebSSH_start" + theStfIp + ".sh";
+            String temp_commondFilePath = defaultCommodPath + "/5.WebSSH_start_" + theStfIp + ".sh";
             File temp_commondFile = new File(temp_commondFilePath);
             if (temp_commondFile.exists()) {
                 temp_commondFile.delete();
