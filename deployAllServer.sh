@@ -56,6 +56,9 @@ cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/3.Rethinkdb_start.sh 
 rm /opt/defaultCommodPath/4.STF_start.sh
 cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/4.STF_start.sh /opt/defaultCommodPath/4.STF_start.sh
 
+rm /opt/defaultCommodPath/5.WebSSH_start.sh
+cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/5.WebSSH_start.sh /opt/defaultCommodPath/5.WebSSH_start.sh
+
 rm /opt/defaultCommodPath/rebootAllAndroidDevices.sh
 cp /opt/deployAllApplication/Y_Z_K_J/automation.server/bin/rebootAllAndroidDevices.sh /opt/defaultCommodPath/rebootAllAndroidDevices.sh
 

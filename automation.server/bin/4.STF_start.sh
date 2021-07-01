@@ -1,1 +1,1 @@
-stf local --public-ip theStfIp
+stf local --public-ip theStfIp &

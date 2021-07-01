@@ -1,0 +1,1 @@
+wssh --address='theStfIp' --port=8888 &

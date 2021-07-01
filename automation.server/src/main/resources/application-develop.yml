@@ -103,6 +103,7 @@ spring:
   theStfIp: 192.168.43.181
 #  theStfIp: 192.168.43.110
   theStfPort: 7100
+  webSshPort: 8888
   theRethinkdbPort: 8080
   defaultCommodPath: /opt/defaultCommodPath
   imgFormatStr: bmp,pcx,png,jpg,jpeg,gif,tiff

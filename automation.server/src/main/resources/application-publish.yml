@@ -102,6 +102,7 @@ spring:
   appiumPortStr: 4723,4725,4727,4729,4731,4733,4735,4737,4739,4741,4743,4745,4747,4749
   theStfIp: 127.0.0.1
   theStfPort: 7100
+  webSshPort: 8888
   theRethinkdbPort: 8080
   defaultCommodPath: /opt/defaultCommodPath
   imgFormatStr: bmp,pcx,png,jpg,jpeg,gif,tiff

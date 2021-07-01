@@ -42,6 +42,9 @@ public class GlobalVariableConfig {
     @Value("${spring.theStfPort}")
     private String theStfPort;
 
+    @Value("${spring.webSshPort}")
+    private String webSshPort;
+
     @Value("${spring.theRethinkdbPort}")
     private String theRethinkdbPort;
 
@@ -123,6 +126,17 @@ public class GlobalVariableConfig {
             } else {
                 System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动....");
             }
+
+            if(!IpUtil.isLocalPortUsing(Integer.parseInt(webSshPort))){
+                WebSshThread webSshThread = new WebSshThread(theStfIp);
+                Thread C_thread = new Thread(webSshThread);
+                C_thread.start();
+                System.out.println("【webSSH】服务 IP为【" + theStfIp + "】启动成功....");
+            } else {
+                System.out.println("【webSSH】服务 IP为【" + theStfIp + "】已启动，无需再次启动....");
+            }
+
+
 
             Demonstrate_4_SendFriendCircleThread demonstrate_4_SendFriendCircleThread = new Demonstrate_4_SendFriendCircleThread();
             Thread D_thread = new Thread(demonstrate_4_SendFriendCircleThread);
@@ -257,6 +271,31 @@ public class GlobalVariableConfig {
                 e.printStackTrace();
             } finally {
 //                tempFile.delete();
+            }
+        }
+    }
+
+    public class WebSshThread implements Runnable {
+        private String theStfIp;
+
+        public WebSshThread(String theStfIp) {
+            this.theStfIp = theStfIp;
+        }
+
+        public void run() {
+            String source_commondFilePath = defaultCommodPath + "/5.WebSSH_start.sh";
+            String temp_commondFilePath = defaultCommodPath + "/5.WebSSH_start" + theStfIp + ".sh";
+            File temp_commondFile = new File(temp_commondFilePath);
+            if (temp_commondFile.exists()) {
+                temp_commondFile.delete();
+            }
+            try {
+                FileUtil.copyFile(source_commondFilePath, temp_commondFilePath);
+                FileUtil.replaceStrInFile(temp_commondFilePath, "theStfIp", theStfIp);
+                CommandUtil.run("sh " + temp_commondFilePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
             }
         }
     }
