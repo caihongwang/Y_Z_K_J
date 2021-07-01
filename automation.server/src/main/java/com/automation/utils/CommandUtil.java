@@ -37,7 +37,7 @@ public class CommandUtil {
             }
             //输出命令及结果
             System.out.println();
-            System.out.println(command);
+            System.out.println("执行命令：" + command + "   结果如下：");
             System.out.println(result);
             System.out.println();
         }
@@ -76,9 +76,12 @@ public class CommandUtil {
             }
             //输出命令及结果
             System.out.println();
+
+            System.out.print("执行命令：");
             for (String str : command) {
                 System.out.print(str + "\t");
             }
+            System.out.print("   结果如下：");
             System.out.println();
             System.out.println(result);
             System.out.println();
