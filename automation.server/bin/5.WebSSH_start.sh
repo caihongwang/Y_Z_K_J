@@ -1,1 +1,1 @@
-wssh --address='theStfIp' --port=8888 &
+wssh --address='webSshIp' --port=8888 &

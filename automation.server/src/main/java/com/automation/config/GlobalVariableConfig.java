@@ -36,8 +36,8 @@ public class GlobalVariableConfig {
     @Value("${spring.defaultCommodPath}")
     private String defaultCommodPath;
 
-    @Value("${spring.theStfIp}")
-    private String theStfIp;
+//    @Value("${spring.theStfIp}")
+//    private String theStfIp;
 
     @Value("${spring.theStfPort}")
     private String theStfPort;
@@ -119,21 +119,21 @@ public class GlobalVariableConfig {
             }
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(theStfPort))){
-                StfThread stfThread = new StfThread(theStfIp);
+                StfThread stfThread = new StfThread(IpUtil.getLocalHost());
                 Thread C_thread = new Thread(stfThread);
                 C_thread.start();
-                System.out.println("【stf】服务 IP为【" + theStfIp + "】启动成功....");
+                System.out.println("【stf】服务 IP为【" + IpUtil.getLocalHost() + "】启动成功....");
             } else {
-                System.out.println("【stf】服务 IP为【" + theStfIp + "】已启动，无需再次启动....");
+                System.out.println("【stf】服务 IP为【" + IpUtil.getLocalHost() + "】已启动，无需再次启动....");
             }
 
             if(!IpUtil.isLocalPortUsing(Integer.parseInt(webSshPort))){
-                WebSshThread webSshThread = new WebSshThread(theStfIp);
+                WebSshThread webSshThread = new WebSshThread(IpUtil.getLocalHost());
                 Thread C_thread = new Thread(webSshThread);
                 C_thread.start();
-                System.out.println("【webSSH】服务 IP为【" + theStfIp + "】启动成功....");
+                System.out.println("【webSSH】服务 IP为【" + IpUtil.getLocalHost() + "】启动成功....");
             } else {
-                System.out.println("【webSSH】服务 IP为【" + theStfIp + "】已启动，无需再次启动....");
+                System.out.println("【webSSH】服务 IP为【" + IpUtil.getLocalHost() + "】已启动，无需再次启动....");
             }
 
 
@@ -276,22 +276,22 @@ public class GlobalVariableConfig {
     }
 
     public class WebSshThread implements Runnable {
-        private String theStfIp;
+        private String webSshIp;
 
-        public WebSshThread(String theStfIp) {
-            this.theStfIp = theStfIp;
+        public WebSshThread(String webSshIp) {
+            this.webSshIp = webSshIp;
         }
 
         public void run() {
             String source_commondFilePath = defaultCommodPath + "/5.WebSSH_start.sh";
-            String temp_commondFilePath = defaultCommodPath + "/5.WebSSH_start_" + theStfIp + ".sh";
+            String temp_commondFilePath = defaultCommodPath + "/5.WebSSH_start_" + webSshIp + ".sh";
             File temp_commondFile = new File(temp_commondFilePath);
             if (temp_commondFile.exists()) {
                 temp_commondFile.delete();
             }
             try {
                 FileUtil.copyFile(source_commondFilePath, temp_commondFilePath);
-                FileUtil.replaceStrInFile(temp_commondFilePath, "theStfIp", theStfIp);
+                FileUtil.replaceStrInFile(temp_commondFilePath, "webSshIp", webSshIp);
                 CommandUtil.run("sh " + temp_commondFilePath);
             } catch (Exception e) {
                 e.printStackTrace();
