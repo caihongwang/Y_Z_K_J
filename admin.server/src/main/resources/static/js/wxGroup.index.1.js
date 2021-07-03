@@ -129,11 +129,8 @@ $(function () {
 
     // add 新增
     $(".add").click(function () {
-        clearFormValue();           //清空表单信息
-        $("#addOrUpdateModal .form").attr("operatorType", "add");                           //操作类型，新增或者删除
-        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);          //业务编码
-        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
-        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
+        var operationCode = "add";
+        clearFormValue(operationCode);      //清空表单信息，变更弹窗的显示内容
 
         // show
         $('#addOrUpdateModal').modal({backdrop: false, keyboard: false}).modal('show');
@@ -141,13 +138,8 @@ $(function () {
 
     // update 更新
     $("#job_list").on('click', '.update', function () {
-        clearFormValue();           //清空表单信息
-        $("#addOrUpdateModal .form").attr("operatorType", "update");                             //操作类型，新增或者删除
-        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
-        $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").attr("readonly", true);  //目标设备描述
-        $("#addOrUpdateModal .form input[name='nickName']").attr("readonly", true);              //目标微信群昵称
-        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
-        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
+        var operationCode = "update";
+        clearFormValue(operationCode);   //清空表单信息，变更弹窗的显示内容
 
         //对表单进行初始化赋值
         var id = $(this).parents('ul').attr("_id");
@@ -164,10 +156,11 @@ $(function () {
         $("#addOrUpdateModal .form select[name='dicStatus'] option[value=" + row.dicStatus + "]").prop('selected', true); //业务状态
         //拆分显示 dicRemark
         var dicRemark_jsonObj = JSON.parse(row.dicRemark);
-        $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").val(dicRemark_jsonObj.targetDeviceNameDesc);   //目标设备描述
+        $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").val(dicRemark_jsonObj.targetDeviceNameDesc);    //目标设备描述
         $("#addOrUpdateModal .form input[name='startAddFrirndTotalNumStr']").val(dicRemark_jsonObj.startAddFrirndTotalNumStr);   //添加好友的起始位置
-        $("#addOrUpdateModal .form input[name='nickName']").val(dicRemark_jsonObj.nickName);                           //目标微信群昵称
-        $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").val(dicRemark_jsonObj.addFrirndTotalNumStr);   //每次成功添加群成员数量
+        $("#addOrUpdateModal .form input[name='nickName']").val(dicRemark_jsonObj.nickName);                            //目标微信群昵称
+        $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").val(dicRemark_jsonObj.addFrirndTotalNumStr);    //每次成功添加群成员数量
+        $("#addOrUpdateModal .form input[name='deviceNameDesc']").val(dicRemark_jsonObj.deviceNameDesc);                //设备描述
         var groupMembersMapStr = dicRemark_jsonObj.groupMembersMapStr;
         try {
             groupMembersMapStr = groupMembersMapStr.replace(/\\/g, '');
@@ -175,6 +168,15 @@ $(function () {
         } catch (e) {
             $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").val(groupMembersMapStr);//群成员信息
         }
+        var groupNickNameMapStr = dicRemark_jsonObj.groupNickNameMapStr;
+        try {
+            groupNickNameMapStr = groupNickNameMapStr.replace(/\\/g, '');
+            $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").val(JSON.stringify(JSON.parse(groupNickNameMapStr), null, 4));//群昵称列表信息
+        } catch (e) {
+            $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").val(groupNickNameMapStr);//群昵称列表信息
+        }
+
+
         try {
             $("#addOrUpdateModal .form textarea[name='dicRemark']").val(JSON.stringify(JSON.parse(row.dicRemark), null, 4));//业务详情
         } catch (e) {
@@ -225,6 +227,7 @@ $(function () {
         });
     });
 
+    //表单提交 For 添加群成员为好友的V群
     var addOrUpdateModalValidate = $("#addOrUpdateModal .form").validate({
         errorElement: 'span',
         errorClass: 'help-block',
@@ -298,12 +301,12 @@ $(function () {
             element.parent('div').append(error);
         },
         submitHandler: function (form) {
-            var operatorType = $("#addOrUpdateModal .form").attr("operatorType");
-            console.log("operatorType = " + operatorType);
+            var operationCode = $("#addOrUpdateModal .form").attr("operationCode");
+            console.log("operationCode = " + operationCode);
             var operatorUrl;
-            if ("add" == operatorType) {
+            if ("add" == operationCode) {
                 operatorUrl = I18n.system_url_pre+"/automation/dic/addDicForAdmin";
-            } else if ("update" == operatorType) {
+            } else if ("update" == operationCode) {
                 operatorUrl = I18n.system_url_pre+"/automation/dic/updateDicForAdmin";
             }
             if (isNull(operatorUrl)) {
@@ -347,31 +350,104 @@ $(function () {
 });
 
 /**
- * 清空表单信息
+ * 清空表单信息，变更弹窗的显示内容
  */
-function clearFormValue() {
+function clearFormValue(operationCode) {
     //清空信息
-    $("#addOrUpdateModal .form input[name='dicType']").val("");           //字典类型
-    $("#addOrUpdateModal .form input[name='dicCode']").val("");           //字典编码
-    $("#addOrUpdateModal .form input[name='dicName']").val("");           //字典名称
-    $("#addOrUpdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true); //业务状态，默认正常
-    $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").val("");//目标设备描述
-    $("#addOrUpdateModal .form input[name='startAddFrirndTotalNumStr']").val("");//添加好友的起始位置
-    $("#addOrUpdateModal .form input[name='nickName']").val("");           //目标微信群昵称
-    $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").val("");//每次成功添加群成员数量
-    $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").val("");//群成员信息
-    $("#addOrUpdateModal .form textarea[name='dicRemark']").val("");       //字典详情
+    $("#addOrUpdateModal .form input[name='dicType']").val("");                                     //字典类型
+    $("#addOrUpdateModal .form input[name='dicCode']").val("");                                     //字典编码
+    $("#addOrUpdateModal .form input[name='dicName']").val("");                                     //字典名称
+    $("#addOrUpdateModal .form select[name='dicStatus'] option[value=0]").prop('selected', true);   //业务状态，默认正常
+    $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").val("");                        //目标设备描述
+    $("#addOrUpdateModal .form input[name='startAddFrirndTotalNumStr']").val("");                   //添加好友的起始位置
+    $("#addOrUpdateModal .form input[name='nickName']").val("");                                    //目标微信群昵称
+    $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").val("");                        //每次成功添加群成员数量
+    $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").val("");                       //群成员信息
+    $("#addOrUpdateModal .form input[name='deviceNameDesc']").val("");                              //设备描述
+    $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").val("");                     //群昵称列表信息
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").val("");                                //字典详情
     //删除只读属性
-    $("#addOrUpdateModal .form input[name='dicType']").removeAttr("readonly");           //字典类型
-    $("#addOrUpdateModal .form input[name='dicCode']").removeAttr("readonly");           //字典编码
-    $("#addOrUpdateModal .form input[name='dicName']").removeAttr("readonly");           //字典名称
-    $("#addOrUpdateModal .form input[name='dicStatus']").removeAttr("readonly");        //字典状态
-    $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").removeAttr("readonly");//目标设备描述
-    $("#addOrUpdateModal .form input[name='startAddFrirndTotalNumStr']").removeAttr("readonly");//添加好友的起始位置
-    $("#addOrUpdateModal .form input[name='nickName']").removeAttr("readonly");           //目标微信群昵称
-    $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").removeAttr("readonly");//每次成功添加群成员数量
-    $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").removeAttr("readonly");//群成员信息
-    $("#addOrUpdateModal .form textarea[name='dicRemark']").removeAttr("readonly");       //字典详情
+    $("#addOrUpdateModal .form input[name='dicType']").removeAttr("readonly");                      //字典类型
+    $("#addOrUpdateModal .form input[name='dicCode']").removeAttr("readonly");                      //字典编码
+    $("#addOrUpdateModal .form input[name='dicName']").removeAttr("readonly");                      //字典名称
+    $("#addOrUpdateModal .form input[name='dicStatus']").removeAttr("readonly");                    //字典状态
+    $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").removeAttr("readonly");         //目标设备描述
+    $("#addOrUpdateModal .form input[name='startAddFrirndTotalNumStr']").removeAttr("readonly");    //添加好友的起始位置
+    $("#addOrUpdateModal .form input[name='nickName']").removeAttr("readonly");                     //目标微信群昵称
+    $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").removeAttr("readonly");         //每次成功添加群成员数量
+    $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").removeAttr("readonly");        //群成员信息
+    $("#addOrUpdateModal .form input[name='deviceNameDesc']").removeAttr("readonly");               //设备描述
+    $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").removeAttr("readonly");      //群昵称列表信息
+    $("#addOrUpdateModal .form textarea[name='dicRemark']").removeAttr("readonly");                 //字典详情
+
+    //切换 添加群成员为好友的V群 或者 设备对应的所有群信息 相应的
+    var dicType = $('#dicType').children('option:selected').val();
+    console.log("dicType = " + dicType);
+    if(dicType == "addGroupMembersAsFriends"){
+        $("#addOrUpdateModal .addGroupMembersAsFriends").css("display", "block");
+        $("#addOrUpdateModal .deviceNameDescToGroupNameMapStr").css("display", "none");
+    } else if(dicType == "deviceNameDescToGroupNameMapStr"){
+        $("#addOrUpdateModal .addGroupMembersAsFriends").css("display", "none");
+        $("#addOrUpdateModal .deviceNameDescToGroupNameMapStr").css("display", "block");
+    }
+
+    //切换 弹窗中的 addOrUpdateModal
+    $("#addOrUpdateModal .form select[name='dicType']").val(dicType);
+    $("#addOrUpdateModal .form select[name='dicType']").trigger("change");
+
+    //更新弹窗的Title
+    var operationName = "新增";
+    if(operationCode == "add"){
+        operationName = "新增";
+        $("#addOrUpdateModal .form").attr("operationCode", operationCode);                           //操作类型，新增或者删除
+        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);          //业务编码
+        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);     //字典详情
+        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
+    } else if(operationCode == "update"){
+        operationName = "更新";
+        $("#addOrUpdateModal .form").attr("operationCode", "update");                             //操作类型，新增或者删除
+        $("#addOrUpdateModal .form input[name='dicCode']").attr("readonly", true);               //业务编码
+        $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").attr("readonly", true);  //目标设备描述
+        $("#addOrUpdateModal .form input[name='nickName']").attr("readonly", true);              //目标微信群昵称
+        $("#addOrUpdateModal .form input[name='deviceNameDesc']").attr("readonly", true);              //设备描述
+        $("#addOrUpdateModal .form textarea[name='dicRemark']").attr("readonly", true);          //字典详情
+        $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("新增", "更新")); //变更 modal-title
+    }
+    var operationTitle = operationName + "【" + $('#dicType').children('option:selected').html() + "】信息";
+    $("#addOrUpdateModal h4[class='modal-title']").html(operationTitle);
+}
+
+/**
+ * 微信群类别选择事件 for QueryCondition
+ * @param obj
+ */
+function changeDicTypeForQueryConditionFun(obj){
+    var dicType = $("#dicType").children('option:selected').val();
+    console.log("changeDicTypeForQueryConditionFun --->>> dicType = " + dicType);
+    if(dicType == "addGroupMembersAsFriends"){
+        $("#dicName").html("<option id='addGroupMembersAsFriends' value='添加群成员为好友的V群' selected>添加群成员为好友的V群</option>");
+    } else if(dicType == "deviceNameDescToGroupNameMapStr"){
+        $("#dicName").html("<option id='deviceNameDescToGroupNameMapStr' value='设备对应的所有群信息' selected>设备对应的所有群信息</option>");
+    }
+}
+
+
+/**
+ * 微信群类别选择事件 for addOrUpdateModal
+ * @param obj
+ */
+function changeDicTypeForAddOrUpdateModalFun(obj){
+    var dicType = $("#addOrUpdateModal .form select[name='dicType']").children('option:selected').val();
+    console.log("changeDicTypeForAddOrUpdateModalFun --->>> dicType = " + dicType);
+    if(dicType == "addGroupMembersAsFriends"){
+        $("#addOrUpdateModal .addGroupMembersAsFriends").css("display", "block");
+        $("#addOrUpdateModal .deviceNameDescToGroupNameMapStr").css("display", "none");
+        $("#addOrUpdateModal .form select[name='dicName']").html("<option id='addGroupMembersAsFriends' value='添加群成员为好友的V群' selected>添加群成员为好友的V群</option>");
+    } else if(dicType == "deviceNameDescToGroupNameMapStr"){
+        $("#addOrUpdateModal .addGroupMembersAsFriends").css("display", "none");
+        $("#addOrUpdateModal .deviceNameDescToGroupNameMapStr").css("display", "block");
+        $("#addOrUpdateModal .form select[name='dicName']").html("<option value='设备对应的所有群信息' selected>设备对应的所有群信息</option>");
+    }
 }
 
 /**
@@ -401,6 +477,7 @@ function changeDicRemark() {
     var nickName = $("#addOrUpdateModal .form input[name='nickName']").val();
     if (!isNull(nickName)) {
         dicRemark_jsonObj["nickName"] = nickName;
+        $("#addOrUpdateModal .form input[name='dicCode']").val(nickName);       //同步 业务编码
     }
     //每次成功添加群成员数量
     var addFrirndTotalNumStr = $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").val();
@@ -411,9 +488,32 @@ function changeDicRemark() {
     var groupMembersMapStr = $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").val();
     if (!isNull(groupMembersMapStr)) {
         dicRemark_jsonObj["groupMembersMapStr"] = groupMembersMapStr;
+        //重新格式化显示 群成员信息
+        try {
+            groupMembersMapStr = groupMembersMapStr.replace(/\\/g, '');
+            $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").val(JSON.stringify(JSON.parse(groupMembersMapStr), null, 4));
+        } catch (e) {
+            $("#addOrUpdateModal .form textarea[name='groupMembersMapStr']").val(groupMembersMapStr);
+        }
     }
-    //业务编码
-    $("#addOrUpdateModal .form input[name='dicCode']").val(nickName);
+    //设备描述
+    var deviceNameDesc = $("#addOrUpdateModal .form input[name='deviceNameDesc']").val();
+    if (!isNull(deviceNameDesc)) {
+        dicRemark_jsonObj["deviceNameDesc"] = deviceNameDesc;
+        $("#addOrUpdateModal .form input[name='dicCode']").val(deviceNameDesc); //同步 业务编码
+    }
+    //群昵称列表信息
+    var groupNickNameMapStr = $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").val();
+    if (!isNull(groupNickNameMapStr)) {
+        dicRemark_jsonObj["groupNickNameMapStr"] = groupNickNameMapStr;
+        //重新格式化显示 群昵称列表信息
+        try {
+            groupNickNameMapStr = groupNickNameMapStr.replace(/\\/g, '');
+            $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").val(JSON.stringify(JSON.parse(groupNickNameMapStr), null, 4));
+        } catch (e) {
+            $("#addOrUpdateModal .form textarea[name='groupNickNameMapStr']").val(groupMembersMapStr);
+        }
+    }
     //业务详情
     $("#addOrUpdateModal .form textarea[name='dicRemark']").val(JSON.stringify(dicRemark_jsonObj, null, 4));
 }

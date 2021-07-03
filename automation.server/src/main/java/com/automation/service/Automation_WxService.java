@@ -10,6 +10,14 @@ import java.util.Map;
 public interface Automation_WxService {
 
 
+
+    /**
+     * 启动appium,邀请进群
+     * @param paramMap
+     * @return
+     */
+    public MessageDTO inviteToJoinTheGroup(Map<String, Object> paramMap);
+
     /**
      * 启动appium,分享视频号到朋友圈
      * @param paramMap

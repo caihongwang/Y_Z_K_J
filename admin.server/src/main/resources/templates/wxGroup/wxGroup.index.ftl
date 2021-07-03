@@ -28,8 +28,9 @@
 			<div class="row">
 				<div class="col-xs-2">
 					<div class="input-group">
-						<select class="form-control"  id="dicType" name="dicType">
+						<select class="form-control"  id="dicType" name="dicType"  onchange="changeDicTypeForQueryConditionFun()">
 							<option value="addGroupMembersAsFriends" selected>添加群成员为好友的V群</option>
+							<option value="deviceNameDescToGroupNameMapStr" selected>设备对应的所有群信息</option>
 						</select>
 					</div>
 				</div>
@@ -37,6 +38,7 @@
 					<div class="input-group">
 						<select class="form-control"  id="dicName" name="dicName">
 							<option value="添加群成员为好友的V群" selected>添加群成员为好友的V群</option>
+							<option value="设备对应的所有群信息" selected>设备对应的所有群信息</option>
 						</select>
 					</div>
 				</div>
@@ -102,17 +104,18 @@
 				<form class="form-horizontal form" role="form">
 
 					<div class="form-group">
-						<label for="lastname" class="col-sm-2 control-label">业务类型<font
-									color="red">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">业务类型<font color="red">*</font></label>
 						<div class="col-sm-4">
-							<select class="form-control" name="dicType">
+							<select class="form-control" name="dicType" onchange="changeDicTypeForAddOrUpdateModalFun()">
 								<option value="addGroupMembersAsFriends" selected>添加群成员为好友的V群</option>
+								<option value="deviceNameDescToGroupNameMapStr" selected>设备对应的所有群信息</option>
 							</select>
 						</div>
 						<label for="lastname" class="col-sm-2 control-label">业务名称<font color="red">*</font></label>
 						<div class="col-sm-4">
 							<select class="form-control" name="dicName">
 								<option value="添加群成员为好友的V群" selected>添加群成员为好友的V群</option>
+								<option value="设备对应的所有群信息" selected>设备对应的所有群信息</option>
 							</select>
 						</div>
 					</div>
@@ -133,7 +136,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group addGroupMembersAsFriends">
 						<label for="lastname" class="col-sm-2 control-label">目标设备描述<font color="black">*</font></label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control"  name="targetDeviceNameDesc" placeholder="${I18n.system_please_input}目标设备描述" maxlength="100" onchange="changeDicRemark()">
@@ -145,7 +148,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group addGroupMembersAsFriends">
 						<label for="lastname" class="col-sm-2 control-label">目标微信群昵称<font color="black">*</font></label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control"  name="nickName" placeholder="${I18n.system_please_input}目标微信群昵称" maxlength="100" onchange="changeDicRemark()">
@@ -157,10 +160,25 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group addGroupMembersAsFriends">
 						<label for="firstname" class="col-sm-2 control-label">群成员信息<font color="black">*</font></label>
 						<div class="col-sm-10">
 							<textarea class="textarea form-control" name="groupMembersMapStr" placeholder="${I18n.system_please_input}群成员信息" maxlength="10240000" style="height: 250px; line-height: 1.2;" onchange="changeDicRemark()"></textarea>
+						</div>
+					</div>
+
+
+					<div class="form-group deviceNameDescToGroupNameMapStr">
+						<label for="lastname" class="col-sm-2 control-label">设备描述<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="deviceNameDesc" placeholder="${I18n.system_please_input}设备描述" maxlength="1000" onchange="changeDicRemark()">
+						</div>
+					</div>
+
+					<div class="form-group deviceNameDescToGroupNameMapStr">
+						<label for="firstname" class="col-sm-2 control-label">群昵称列表信息<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}群昵称列表信息" maxlength="10240000" style="height: 250px; line-height: 1.2;" onchange="changeDicRemark()"></textarea>
 						</div>
 					</div>
 

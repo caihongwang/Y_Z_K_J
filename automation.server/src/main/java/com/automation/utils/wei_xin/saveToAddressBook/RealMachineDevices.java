@@ -1,5 +1,8 @@
 package com.automation.utils.wei_xin.saveToAddressBook;
 
+import com.alibaba.fastjson.JSON;
+import com.automation.utils.EmojiUtil;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.appium.java_client.android.Activity;
@@ -13,9 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -111,6 +112,18 @@ public class RealMachineDevices implements SaveToAddressBook {
                 paramMap.get("shutDownLocaltion") != null ?
                         paramMap.get("shutDownLocaltion").toString() :
                         "已关闭";
+        //群昵称List
+        String groupNickNameMapStr =
+                paramMap.get("groupNickNameMapStr") != null ?
+                        paramMap.get("groupNickNameMapStr").toString() :
+                        "{}";
+        groupNickNameMapStr = EmojiUtil.emojiRecovery(groupNickNameMapStr);
+        LinkedHashMap<String, String> groupNickNameMap = Maps.newLinkedHashMap();
+        try {
+            groupNickNameMap = JSON.parseObject(groupNickNameMapStr, LinkedHashMap.class);
+        } catch (Exception e) {
+            //不用处理，后面会重新整理一份新的groupMembersMapStr
+        }
         //1.配置连接android驱动
         AndroidDriver driver = null;
         try {
@@ -145,7 +158,7 @@ public class RealMachineDevices implements SaveToAddressBook {
         Activity chatActivity = new Activity("com.tencent.mm", ".ui.LauncherUI");
 
         Integer theSaveToAddressBookNum = 0;
-        Set<String> chatFriendsSet = Sets.newHashSet();
+        LinkedHashSet<String> chatFriendsSet = Sets.newLinkedHashSet();
 
         //1.上滑同时检测坐标检测当前页面聊天好友信息
         int cyclesNumber = 0;       //循环下拉的次数
@@ -337,6 +350,7 @@ public class RealMachineDevices implements SaveToAddressBook {
                     Integer groupTotalNum = Integer.parseInt(groupTotalNumStr);
                     if (groupTotalNum > 0) {
                         isChatGroupFlag = true;
+                        groupNickNameMap.put(chatFriendNickName, groupTotalNum.toString());
                         logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】检测【是否为微信群】成功，【微信群】--->>>【" + chatFriendNickName + "】群成员总数为：" + groupTotalNum + "个....");
                     }
                 } catch (Exception e) {
@@ -430,6 +444,7 @@ public class RealMachineDevices implements SaveToAddressBook {
                             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+searchLocaltionStr+"】返回【微信聊天界面】成功....");
                             isBackChatPageFlag = false;
                             Thread.sleep(1000);
+                            break;
                         } catch (Exception e1) {
                             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + backChatPage_num + "】次 通过检测坐标【"+chatLocation+"】与【"+searchLocaltionStr+"】返回【微信聊天界面】均失败....");
                         }
@@ -450,6 +465,8 @@ public class RealMachineDevices implements SaveToAddressBook {
                 }
             }
         }
+        //更新群昵称List
+        paramMap.put("groupNickNameMapStr", JSON.toJSONString(groupNickNameMap));
         logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 将群保存到通讯录【" + theSaveToAddressBookNum + "】个发送成功....");
         return true;
     }
@@ -468,10 +485,10 @@ public class RealMachineDevices implements SaveToAddressBook {
             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
-        if (nickNameStr.endsWith("群")) {
-            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】末尾包含【群】对应的是【微信群昵称】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
+//        if (nickNameStr.endsWith("群")) {
+//            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】末尾包含【群】对应的是【微信群昵称】,继续下一个昵称....");
+//            isChatGroupOrChatNickFlag = false;
+//        }
         if (nickNameStr.contains("[店员消息]")) {
             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
@@ -528,6 +545,10 @@ public class RealMachineDevices implements SaveToAddressBook {
             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
+        if (nickNameStr.contains("[应用消息]")) {
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[应用消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            isChatGroupOrChatNickFlag = false;
+        }
         if (nickNameStr.contains("我通过了你的朋友验证请求")) {
             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
@@ -546,6 +567,22 @@ public class RealMachineDevices implements SaveToAddressBook {
         }
         if (nickNameStr.startsWith("移除群里")) {
             logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【*移除群里】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            isChatGroupOrChatNickFlag = false;
+        }
+        if (nickNameStr.startsWith("邀请确认")) {
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【邀请确认】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            isChatGroupOrChatNickFlag = false;
+        }
+        if (nickNameStr.startsWith("撤回")) {
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【撤回】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            isChatGroupOrChatNickFlag = false;
+        }
+        if (nickNameStr.startsWith("微信运动")) {
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【微信运动】对应的是【微信群的聊天记录】,继续下一个昵称....");
+            isChatGroupOrChatNickFlag = false;
+        }
+        if (nickNameStr.startsWith("订阅号消息")) {
+            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【订阅号消息】对应的是【微信群的聊天记录】,继续下一个昵称....");
             isChatGroupOrChatNickFlag = false;
         }
         return isChatGroupOrChatNickFlag;

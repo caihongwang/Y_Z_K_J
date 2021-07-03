@@ -25,6 +25,28 @@ public class Automation_WxController {
     @Autowired
     private Automation_WxService automation_WxService;
 
+    @RequestMapping("/inviteToJoinTheGroup")
+    @ResponseBody
+    public Map<String, Object> inviteToJoinTheGroup(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】【启动appium，邀请进群】，请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            MessageDTO messageDTO = automation_WxService.inviteToJoinTheGroup(objectParamMap);
+            resultMap.put("code", messageDTO.getCode());
+            resultMap.put("message", messageDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】【启动appium，邀请进群】 is error, paramMap : " + paramMap + ", e : ", e);
+            resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】【启动appium，邀请进群】，响应-response:" + resultMap);
+        return resultMap;
+    }
+
     @RequestMapping("/shareVideoNumToFriendCircle")
     @ResponseBody
     public Map<String, Object> shareVideoNumToFriendCircle(HttpServletRequest request) {

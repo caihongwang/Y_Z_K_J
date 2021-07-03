@@ -7,6 +7,7 @@ import com.automation.utils.wei_xin.addGroupMembersAsFriends.AddGroupMembersAsFr
 import com.automation.utils.wei_xin.agreeToFriendRequest.AgreeToFriendRequestUtils;
 import com.automation.utils.wei_xin.agreeToJoinTheGroup.AgreeToJoinTheGroupUtils;
 import com.automation.utils.wei_xin.chatByNickName.ChatByNickNameUtils;
+import com.automation.utils.wei_xin.inviteToJoinTheGroup.InviteToJoinTheGroupUtils;
 import com.automation.utils.wei_xin.praiseAndCommentFriendsCircle.PraiseAndCommentFriendsCircleUtils;
 import com.automation.utils.wei_xin.relayTheWxMessage.RelayTheWxMessageUtils;
 import com.automation.utils.wei_xin.saveToAddressBook.SaveToAddressBookUtils;
@@ -26,6 +27,31 @@ import java.util.Map;
 public class Automation_WxServiceImpl implements Automation_WxService {
 
     private static final Logger logger = LoggerFactory.getLogger(Automation_WxServiceImpl.class);
+
+    /**
+     * 邀请进群
+     * @param paramMap
+     * @throws Exception
+     */
+    @Autowired
+    private InviteToJoinTheGroupUtils inviteToJoinTheGroupUtils;
+    @Override
+    public MessageDTO inviteToJoinTheGroup(Map<String, Object> paramMap){
+        new Thread() {
+            public void run() {
+                try {
+                    inviteToJoinTheGroupUtils.inviteToJoinTheGroup(paramMap);
+                } catch (Exception e) {
+                    logger.error("【service】【启动appium，邀请进群】 is error, paramMap : " + paramMap + ", e : ", e);
+                }
+            }
+        }.start();
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setCode(Automation_Code.SUCCESS.getNo());
+        messageDTO.setMessage(Automation_Code.SUCCESS.getMessage());
+        logger.info("【service】【启动appium，邀请进群】，结果-result:" + messageDTO);
+        return messageDTO;
+    }
 
     /**
      * 启动appium，分享视频号到朋友圈

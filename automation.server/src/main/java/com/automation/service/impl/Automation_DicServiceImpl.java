@@ -2,6 +2,7 @@ package com.automation.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.automation.service.Automation_DicService;
+import com.automation.utils.TimestampUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.automation.code.Automation_Code;
@@ -48,6 +49,8 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             paramMap_temp.put("dicStatus", "0");
             Integer total = automation_DicDao.getSimpleDicTotalByCondition(paramMap_temp);
             if (total != null && total <= 0) {
+                paramMap.put("createTime", TimestampUtil.getTimestamp());
+                paramMap.put("updateTime", TimestampUtil.getTimestamp());
                 addNum = automation_DicDao.addDic(paramMap);
                 if (addNum != null && addNum > 0) {
                     boolDTO.setCode(Automation_Code.SUCCESS.getNo());

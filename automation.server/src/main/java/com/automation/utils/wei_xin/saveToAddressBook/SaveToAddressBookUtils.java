@@ -2,8 +2,11 @@ package com.automation.utils.wei_xin.saveToAddressBook;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.automation.dto.ResultDTO;
 import com.automation.service.Automation_DicService;
 import com.automation.service.Automation_MailService;
+import com.automation.utils.EmojiUtil;
+import com.automation.utils.TimestampUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.automation.config.GlobalVariableConfig;
@@ -232,11 +235,52 @@ public class SaveToAddressBookUtils {
                     logger.info("【邮件通知】【服务异常通知】将群保存到通讯录 ......");
                 } else {
                     if (isOperatedFlag) {
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
-                        logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        //获取当前设备的群昵称ListStr
+                        String groupNickNameMapStr = saveToAddressBookParam.get("groupNickNameMapStr").toString();
+                        LinkedHashMap<String, String> groupNickNameMap = JSON.parseObject(groupNickNameMapStr, LinkedHashMap.class);
+                        try {
+                            //根据设备描述获取
+                            Map<String, Object> tempMap = Maps.newHashMap();
+                            tempMap.put("dicType", "deviceNameDescToGroupNameMapStr");
+                            tempMap.put("dicName", "设备对应的所有群信息");
+                            tempMap.put("dicCode", deviceNameDesc);
+                            ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(tempMap);
+                            if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                                try{
+                                    String groupNickNameMapStr_old = resultDTO.getResultList().get(0).get("groupNickNameMapStr");
+                                    groupNickNameMapStr_old = EmojiUtil.emojiRecovery(groupNickNameMapStr_old);
+                                    LinkedHashMap<String, String> groupNickNameMap_old = JSON.parseObject(groupNickNameMapStr_old, LinkedHashMap.class);
+                                    for (Map.Entry<String, String> theMap: groupNickNameMap_old.entrySet()) {
+                                        if(!groupNickNameMap.containsKey(theMap.getKey())){
+                                            groupNickNameMap.put(theMap.getKey(), theMap.getValue());
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    //上一次的群所有信息可能会出现异常，不处理
+                                }
+                                LinkedHashMap<String, Object> dicRemarkMap = Maps.newLinkedHashMap();
+                                dicRemarkMap.put("deviceNameDesc", deviceNameDesc);
+                                dicRemarkMap.put("groupNickNameMapStr", JSON.toJSONString(groupNickNameMap));
+                                tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
+                                automation_DicService.updateDic(tempMap);   //新增当前设备的群昵称ListStr
+                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】更新-群昵称列表入库-成功....");
+                            } else {
+                                LinkedHashMap<String, Object> dicRemarkMap = Maps.newLinkedHashMap();
+                                dicRemarkMap.put("deviceNameDesc", deviceNameDesc);
+                                dicRemarkMap.put("groupNickNameMapStr", JSON.toJSONString(groupNickNameMap));
+                                tempMap.put("dicRemark", EmojiUtil.emojiConvert(JSON.toJSONString(dicRemarkMap)));
+                                automation_DicService.addDic(tempMap);      //更新当前设备的群昵称ListStr
+                                logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】保存-群昵称列表入库-成功....");
+                            }
+                        } catch (Exception e) {
+                            logger.error("【将群保存到通讯录】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】操作【" + action + "】更新当前设备的群昵称ListStr时异常，e : ", e);
+                        } finally {
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                            logger.info("【将群保存到通讯录】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】成功....");
+                        }
                     }
                 }
             } catch (Exception e) {

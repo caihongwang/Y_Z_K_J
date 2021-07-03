@@ -366,7 +366,7 @@ public class TimeTaskOfQuartz {
     @Scheduled(cron = "0 30 5 * * ?")
     public void do_turnOffTheScreenForComputer() {
         try{
-            CommandUtil.run("/opt/defaultCommodPath/turnOffTheScreenForComputer.sh");
+//            CommandUtil.run("sh /opt/defaultCommodPath/turnOffTheScreenForComputer.sh");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
