@@ -65,7 +65,7 @@ public class IpUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("本机的IP = " + localHost);
+//        System.out.println("本机的IP = " + localHost);
         return localHost;
     }
 
