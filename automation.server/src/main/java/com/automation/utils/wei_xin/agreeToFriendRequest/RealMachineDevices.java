@@ -1,5 +1,6 @@
 package com.automation.utils.wei_xin.agreeToFriendRequest;
 
+import com.automation.utils.wei_xin.WeiXinUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.appium.java_client.android.Activity;
@@ -190,7 +191,7 @@ public class RealMachineDevices implements AgreeToFriendRequest {
                         String chatFriendNickName = "未知";                  //聊天好友-昵称
                         try {
                             chatFriendNickName = webElement.findElement(By.className("android.view.View")).getAttribute("text");
-                            if (!StringUtils.isEmpty(chatFriendNickName) && isChatGroupOrChatNick(deviceNameDesc, deviceName, chatFriendNickName)) {
+                            if (!StringUtils.isEmpty(chatFriendNickName) && WeiXinUtil.isChatGroupOrChatNick(deviceNameDesc, deviceName, chatFriendNickName)) {
                                 chatFriendsSet.add(chatFriendNickName);
                             }
                         } catch (Exception e) {
@@ -533,123 +534,6 @@ public class RealMachineDevices implements AgreeToFriendRequest {
         }
         logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】操作【" + action + "】 同意好友请求【" + theAgreeNum + "】个发送成功....");
         return true;
-    }
-
-    public boolean isChatGroupOrChatNick(String deviceNameDesc, String deviceName, String nickNameStr) {
-        boolean isChatGroupOrChatNickFlag = true;
-
-        String regex = ".*\\[[0-9]*条\\].*";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(nickNameStr);
-        if (m.matches()) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[122条]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("油站科技")) {      //确保坐标：微信( 存在
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【油站科技】对应的是【自己人】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-//        if (nickNameStr.endsWith("群")) {
-//            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】末尾包含【群】对应的是【微信群昵称】,继续下一个昵称....");
-//            isChatGroupOrChatNickFlag = false;
-//        }
-        if (nickNameStr.contains("[店员消息]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[店员消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[链接]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[链接]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[图片]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[图片]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[文件]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[文件]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[视频]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[视频]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[小程序]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[小程序]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[群待办]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[群待办]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[聊天记录]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[聊天记录]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[语音]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[语音]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[语音通话]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[语音通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[视频通话]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[视频通话]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[草稿]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[草稿]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[动画表情]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[动画表情]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[有人@我]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[有人@我]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("[应用消息]")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【[应用消息]】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("我通过了你的朋友验证请求")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【我通过了你的朋友验证请求】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("与群里其他人都不是")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【与群里其他人都不是微信朋友关系】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.contains("对方为企业微信用户")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【对方为企业微信用户】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.startsWith("你已添加了")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【你已添加了*】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.startsWith("移除群里")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【*移除群里】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.startsWith("邀请确认")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【邀请确认】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.startsWith("撤回")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【撤回】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.startsWith("微信运动")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【微信运动】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        if (nickNameStr.startsWith("订阅号消息")) {
-            logger.info("【同意好友请求】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】当前昵称【" + nickNameStr + "】包含【订阅号消息】对应的是【微信群的聊天记录】,继续下一个昵称....");
-            isChatGroupOrChatNickFlag = false;
-        }
-        return isChatGroupOrChatNickFlag;
     }
 
     public static void main(String[] args) {

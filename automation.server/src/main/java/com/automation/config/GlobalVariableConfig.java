@@ -30,14 +30,8 @@ public class GlobalVariableConfig {
     @Value("${spring.imgFormatStr}")
     private String imgFormatStr;
 
-    @Value("${spring.appiumPortStr}")
-    private String appiumPortStr;
-
     @Value("${spring.defaultCommodPath}")
     private String defaultCommodPath;
-
-//    @Value("${spring.theStfIp}")
-//    private String theStfIp;
 
     @Value("${spring.theStfPort}")
     private String theStfPort;
