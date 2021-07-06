@@ -11,6 +11,11 @@ import java.util.Map;
 public interface Automation_DicDao {
 
     /**
+     * 获取所有已经添加过群成员为好友的群List
+     */
+    List<String> getAllUsedGroupNickNameList(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询字典信息For管理中心
      */
     List<Map<String, Object>> getDicListByConditionForAdmin(Map<String, Object> paramMap);

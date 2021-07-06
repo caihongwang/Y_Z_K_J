@@ -1,7 +1,9 @@
 package com.automation.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.automation.service.Automation_DicService;
+import com.automation.utils.EmojiUtil;
 import com.automation.utils.TimestampUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -45,6 +47,7 @@ public class Automation_DicServiceImpl implements Automation_DicService {
         String dicName = paramMap.get("dicName") != null ? paramMap.get("dicName").toString() : "";
         if (!"".equals(dicType) && !"".equals(dicCode) && !"".equals(dicName)) {
             Map<String, Object> paramMap_temp = Maps.newHashMap();
+            paramMap_temp.put("dicType", dicType);
             paramMap_temp.put("dicCode", dicCode);
             paramMap_temp.put("dicStatus", "0");
             Integer total = automation_DicDao.getSimpleDicTotalByCondition(paramMap_temp);
@@ -60,12 +63,10 @@ public class Automation_DicServiceImpl implements Automation_DicService {
                     boolDTO.setMessage(Automation_Code.NO_DATA_CHANGE.getMessage());
                 }
             } else {
-
                 boolDTO.setCode(Automation_Code.DIC_EXIST.getNo());
                 boolDTO.setMessage(Automation_Code.DIC_EXIST.getMessage());
             }
         } else {
-
             boolDTO.setCode(Automation_Code.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getNo());
             boolDTO.setMessage(Automation_Code.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getMessage());
         }
@@ -269,6 +270,66 @@ public class Automation_DicServiceImpl implements Automation_DicService {
         }
         logger.info("【service】【获取单一的字典列表For管理中心】，结果-result:" + resultDTO);
         return resultDTO;
+    }
+
+
+    /**
+     * 获取当前设备可以添加群成员为好友的群列表For管理中心
+     *
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO getGroupNickNameListByDeviceNameDescForAdmin(Map<String, Object> paramMap) {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        String dicCode = paramMap.get("deviceNameDesc") != null ? paramMap.get("deviceNameDesc").toString() : "";
+        //1.获取当前设备可以添加群成员为好友的群列表
+        paramMap.clear();
+        paramMap.put("dicCode", dicCode);
+        paramMap.put("dicType", "deviceNameDescToGroupNameMapStr");
+        List<Map<String, Object>> dicList = automation_DicDao.getDicListByConditionForAdmin(paramMap);
+        if (dicList != null && dicList.size() > 0) {
+            for (Map<String, Object> dicMap : dicList) {
+                String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
+                if (!"".equals(dicRemark)) {
+                    Map<String, Object> dicRemarkMap = JSONObject.parseObject(dicRemark, Map.class);
+                    dicMap.remove("dicRemark");
+                    dicMap.putAll(dicRemarkMap);
+                }
+            }
+            String groupNickNameMapStr = dicList.get(0).get("groupNickNameMapStr").toString();
+            Map<String, String> groupNickNameMapOfDevice = JSON.parseObject(groupNickNameMapStr, Map.class);
+
+            //2.获取所有的添加群成员为好友的群列表，并整理
+            List<String> allUsedGroupNickNameList = automation_DicDao.getAllUsedGroupNickNameList(paramMap);
+
+            //3.筛选出可以添加群成员为好友的群信息Map
+            Map<String, String> groupNickNameMap = Maps.newHashMap();
+            for (Map.Entry<String, String> entry : groupNickNameMapOfDevice.entrySet()) {
+                String groupNickName = entry.getKey();
+                String groupNum = entry.getValue();
+                //判断该群是否曾经被使用过
+                boolean isAddFlag = true;
+                for(String usedGroupNickName : allUsedGroupNickNameList){
+                    if(usedGroupNickName.contains(groupNickName)){
+                        isAddFlag = false;
+                        break;
+                    }
+                }
+                if(isAddFlag){
+                    groupNickNameMap.put(groupNickName, groupNum);
+                }
+            }
+            resultMapDTO.setResultListTotal(groupNickNameMap.size());
+            resultMapDTO.setResultMap(groupNickNameMap);
+            resultMapDTO.setCode(Automation_Code.SUCCESS.getNo());
+            resultMapDTO.setMessage(Automation_Code.SUCCESS.getMessage());
+        } else {
+            resultMapDTO.setCode(Automation_Code.DIC_LIST_IS_NULL.getNo());
+            resultMapDTO.setMessage(Automation_Code.DIC_LIST_IS_NULL.getMessage());
+        }
+        logger.info("【service】【活当前设备可以添加群成员为好友的群列表For管理中心】，结果-result:" + resultMapDTO);
+        return resultMapDTO;
     }
 
 }

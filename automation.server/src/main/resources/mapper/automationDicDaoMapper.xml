@@ -26,7 +26,15 @@
     </sql>
 
     <sql id="queryConditions"><!-- 查询条件 -->
-        <where>ad.dic_status='0'
+        <where>
+            <choose>
+                <when test="dicStatus != null and dicStatus != ''">
+                    ad.dic_status = #{dicStatus}
+                </when>
+                <otherwise>
+                    ad.dic_status='0'
+                </otherwise>
+            </choose>
             <if test="id != null and id != ''">
                 AND ad.id = #{id}
             </if>
@@ -72,16 +80,16 @@
         <if test="dicCode != null and dicCode != ''">
             AND dic_code = #{dicCode}
         </if>
-<!--        DELETE FROM automation_dic WHERE 1=1-->
-<!--        <if test="id != null and id != ''">-->
-<!--            AND id = #{id}-->
-<!--        </if>-->
-<!--        <if test="dicType != null and dicType != ''">-->
-<!--            AND dic_type = #{dicType}-->
-<!--        </if>-->
-<!--        <if test="dicCode != null and dicCode != ''">-->
-<!--            AND dic_code = #{dicCode}-->
-<!--        </if>-->
+        <!--        DELETE FROM automation_dic WHERE 1=1-->
+        <!--        <if test="id != null and id != ''">-->
+        <!--            AND id = #{id}-->
+        <!--        </if>-->
+        <!--        <if test="dicType != null and dicType != ''">-->
+        <!--            AND dic_type = #{dicType}-->
+        <!--        </if>-->
+        <!--        <if test="dicCode != null and dicCode != ''">-->
+        <!--            AND dic_code = #{dicCode}-->
+        <!--        </if>-->
     </delete>
 
     <update id="updateDic">
@@ -173,7 +181,7 @@
 
     <select id="getDicListByConditionForAdmin" resultType="java.util.Map">
         SELECT
-            <include refid="TColumnList"/>
+        <include refid="TColumnList"/>
         FROM automation_dic ad
         <where>1=1
             <if test="id != null and id != ''">
@@ -202,7 +210,7 @@
 
     <select id="getDicListTotalByConditionForAdmin" resultType="java.lang.Integer">
         SELECT
-            COUNT(*) total
+        COUNT(*) total
         from automation_dic ad
         <where>1=1
             <if test="id != null and id != ''">
@@ -224,6 +232,14 @@
                 AND ad.dic_status = #{dicStatus}
             </if>
         </where>
+    </select>
+
+
+    <select id="getAllUsedGroupNickNameList" resultType="java.lang.String">
+        select
+            JSON_UNQUOTE(JSON_EXTRACT(dic_remark,'$.nickName')) as "groupNickName"
+        from automation_dic
+        where dic_type = 'addGroupMembersAsFriends'
     </select>
 
 </mapper>

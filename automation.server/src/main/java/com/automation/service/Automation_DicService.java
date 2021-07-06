@@ -9,6 +9,11 @@ import java.util.Map;
 public interface Automation_DicService {
 
     /**
+     * 获取当前设备可以添加群成员为好友的群列表For管理中心
+     */
+    ResultMapDTO getGroupNickNameListByDeviceNameDescForAdmin(Map<String, Object> paramMap);
+
+    /**
      * 获取单一的字典列表For管理中心
      */
     ResultDTO getDicListByConditionForAdmin(Map<String, Object> paramMap);

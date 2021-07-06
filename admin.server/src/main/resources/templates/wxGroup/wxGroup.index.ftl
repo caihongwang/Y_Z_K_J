@@ -123,7 +123,7 @@
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">业务编码<font color="black">*</font></label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control"  name="dicCode" placeholder="${I18n.system_please_input}业务编码" maxlength="100">
+							<input type="text" class="form-control"  name="dicCode" placeholder="${I18n.system_please_input}业务编码" maxlength="100" onchange="changeDicRemark()">
 						</div>
 
 						<label for="lastname" class="col-sm-2 control-label">业务状态<font
@@ -137,21 +137,9 @@
 					</div>
 
 					<div class="form-group addGroupMembersAsFriends">
-						<label for="lastname" class="col-sm-2 control-label">目标设备描述<font color="black">*</font></label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control"  name="targetDeviceNameDesc" placeholder="${I18n.system_please_input}目标设备描述" maxlength="100" onchange="changeDicRemark()">
-						</div>
-
 						<label for="lastname" class="col-sm-2 control-label">添加好友的起始位置<font color="black">*</font></label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control"  name="startAddFrirndTotalNumStr" placeholder="${I18n.system_please_input}添加好友的起始位置" maxlength="4" onchange="changeDicRemark()">
-						</div>
-					</div>
-
-					<div class="form-group addGroupMembersAsFriends">
-						<label for="lastname" class="col-sm-2 control-label">目标微信群昵称<font color="black">*</font></label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control"  name="nickName" placeholder="${I18n.system_please_input}目标微信群昵称" maxlength="100" onchange="changeDicRemark()">
 						</div>
 
 						<label for="lastname" class="col-sm-2 control-label">每次成功添加群成员数量<font color="black">*</font></label>
@@ -161,17 +149,28 @@
 					</div>
 
 					<div class="form-group addGroupMembersAsFriends">
-						<label for="firstname" class="col-sm-2 control-label">群成员信息<font color="black">*</font></label>
+						<label for="lastname" class="col-sm-2 control-label">目标微信群昵称<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="groupMembersMapStr" placeholder="${I18n.system_please_input}群成员信息" maxlength="10240000" style="height: 250px; line-height: 1.2;" onchange="changeDicRemark()"></textarea>
+<#--							<input type="text" class="form-control"  name="nickName" placeholder="${I18n.system_please_input}目标微信群昵称" maxlength="100" onchange="changeDicRemark()">-->
+							<select class="form-control" name="nickName" onchange="changeDicRemark()">
+								<option value="选择" selected>选择</option>
+							</select>
 						</div>
 					</div>
 
-
-					<div class="form-group deviceNameDescToGroupNameMapStr">
-						<label for="lastname" class="col-sm-2 control-label">设备描述<font color="black">*</font></label>
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">目标设备描述<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  name="deviceNameDesc" placeholder="${I18n.system_please_input}设备描述" maxlength="1000" onchange="changeDicRemark()">
+							<select class="form-control" name="targetDeviceNameDesc" onchange="changeTargetDeviceNameDescForAddOrUpdateModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group addGroupMembersAsFriends">
+						<label for="firstname" class="col-sm-2 control-label">群成员信息<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="groupMembersMapStr" placeholder="${I18n.system_please_input}群成员信息" maxlength="10240000" style="height: 250px; line-height: 1.2;" onchange="changeDicRemark()"></textarea>
 						</div>
 					</div>
 

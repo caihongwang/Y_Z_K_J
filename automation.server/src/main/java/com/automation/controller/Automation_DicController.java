@@ -247,7 +247,35 @@ public class Automation_DicController {
             resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
         }
         logger.info("【controller】【获取单一的字典列表For管理中心】，响应-response:" + resultMap);
+
+
         return resultMap;
     }
+
+    @RequestMapping("/getGroupNickNameListByDeviceNameDescForAdmin")
+    @ResponseBody
+    public Map<String, Object> getGroupNickNameListByDeviceNameDescForAdmin(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】【获取当前设备可以添加群成员为好友的群列表For管理中心】，请求-paramMap:" + paramMap);
+        try {
+            Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+            ResultMapDTO resultMapDTO = automation_DicService.getGroupNickNameListByDeviceNameDescForAdmin(objectParamMap);
+            resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
+            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】【获取当前设备可以添加群成员为好友的群列表For管理中心】 is error, paramMap : " + paramMap + ", e : " + e);
+            resultMap.put("success", false);
+            resultMap.put("code", Automation_Code.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", Automation_Code.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】【获取当前设备可以添加群成员为好友的群列表For管理中心】，响应-response:" + resultMap);
+        return resultMap;
+    }
+
 
 }

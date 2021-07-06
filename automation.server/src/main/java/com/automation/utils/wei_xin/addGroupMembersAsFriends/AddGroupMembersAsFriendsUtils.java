@@ -43,7 +43,6 @@ public class AddGroupMembersAsFriendsUtils {
      * 根据微信群昵称添加群成员为好友工具for所有设备
      */
     public void addGroupMembersAsFriends(Map<String, Object> paramMap) throws Exception {
-        String nickNameListStr = paramMap.get("nickNameListStr") != null ? paramMap.get("nickNameListStr").toString() : "";
         String currentDeviceListStr = paramMap.get("currentDeviceListStr") != null ? paramMap.get("currentDeviceListStr").toString() : "";
         LinkedList<String> currentDeviceList = Lists.newLinkedList();
         try {
@@ -55,13 +54,13 @@ public class AddGroupMembersAsFriendsUtils {
                 currentDeviceList.add("小米Max3_10");
             }
         }
-        LinkedList<String> nickNameList = Lists.newLinkedList();
-        try {
-            nickNameList = JSONObject.parseObject(nickNameListStr, LinkedList.class);
-        } catch (Exception e) {
-            logger.info("解析json失败，nickNameListStr = " + nickNameListStr);
-            nickNameList = Lists.newLinkedList();
-        }
+//        LinkedList<String> nickNameList = Lists.newLinkedList();
+//        try {
+//            nickNameList = JSONObject.parseObject(nickNameListStr, LinkedList.class);
+//        } catch (Exception e) {
+//            logger.info("解析json失败，nickNameListStr = " + nickNameListStr);
+//            nickNameList = Lists.newLinkedList();
+//        }
 
         //appiumPort
         String appiumPort = null;
@@ -75,22 +74,6 @@ public class AddGroupMembersAsFriendsUtils {
         String action = "addGroupMembersAsFriends";
         //获取 添加群成员为好友的V群 设备列表和配套的坐标配置
         String deviceNameListAnddeviceLocaltionOfCode = "HuaWeiListAndAddGroupMembersAsFriendsLocaltion";
-        //获取群的昵称，循环遍历，默认发送数据库中的添加群成员为好友的V群
-        List<Map<String, String>> addGroupMembersAsFriendList = Lists.newLinkedList();
-        if (nickNameList == null || nickNameList.size() <= 0) {
-            paramMap.clear();
-            paramMap.put("dicType", "addGroupMembersAsFriends");
-            ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-            addGroupMembersAsFriendList = resultDTO.getResultList();
-        } else {
-            for (String nickName : nickNameList) {
-                paramMap.clear();
-                paramMap.put("dicType", "addGroupMembersAsFriends");
-                paramMap.put("dicCode", nickName);        //指定 某一个分享微信文章到微信朋友圈 发送
-                ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-                addGroupMembersAsFriendList.addAll(resultDTO.getResultList());
-            }
-        }
         //获取设备列表和配套的坐标配置
         paramMap.clear();
         paramMap.put("dicType", "deviceNameListAndLocaltion");
@@ -105,15 +88,23 @@ public class AddGroupMembersAsFriendsUtils {
             try {
                 //获取当前时间，用于校验【那台设备】在【当前时间】执行【当前自动化操作】
                 String currentHour = currentDevice.contains("_") ? currentDevice.split("_")[1] : null;
-                for (Map<String, String> addGroupMembersAsFriends : addGroupMembersAsFriendList) {
+                //根据当前设备描述获取对应的群信息
+                paramMap.clear();
+                paramMap.put("dicType", "addGroupMembersAsFriends");
+                paramMap.put("dicCode", currentDevice);
+                ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+                if(resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0){
+                    Map<String, String> addGroupMembersAsFriends = Maps.newHashMap();
+                    addGroupMembersAsFriends.putAll(resultDTO.getResultList().get(0));
                     Map<String, Object> addGroupMembersAsFriendsParam = Maps.newHashMap();
                     HashMap<String, Object> reboot_addGroupMembersAsFriendsParam = Maps.newHashMap();
                     try {
                         boolean isOperatedFlag = false;     //当前设备是否操作【添加群成员为好友的V群】的标志位
-                        String nickName = addGroupMembersAsFriends.get("dicCode");
-                        //根据微信群昵称添加群成员为好友.
+                        //整合所有参数到addGroupMembersAsFriendsParam
                         addGroupMembersAsFriendsParam.putAll(MapUtil.getObjectMap(addGroupMembersAsFriends));
-                        addGroupMembersAsFriendsParam.put("nickName", nickName);
+                        //获取当前群昵称
+                        String nickName = addGroupMembersAsFriends.get("nickName");
+                        //获取当前字典的ID
                         String theId = addGroupMembersAsFriendsParam.get("id").toString();
                         //获取dicRemark
                         String deviceNameAndLocaltionStr = deviceNameAndLocaltionMap.get("dicRemark") != null ? deviceNameAndLocaltionMap.get("dicRemark").toString() : "";
@@ -126,6 +117,7 @@ public class AddGroupMembersAsFriendsUtils {
                         String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");
                         List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
                         if (deviceNameList != null && deviceNameList.size() > 0) {
+                            //循环遍历所有设备，找出与参数中设备相匹配的，然后进行后续
                             for (Map<String, Object> deviceNameMap : deviceNameList) {
                                 addGroupMembersAsFriendsParam.putAll(deviceNameMap);
                                 //当前设备编码
@@ -134,10 +126,8 @@ public class AddGroupMembersAsFriendsUtils {
                                 deviceNameDesc = addGroupMembersAsFriendsParam.get("deviceNameDesc") != null ? addGroupMembersAsFriendsParam.get("deviceNameDesc").toString() : null;
                                 //当前设备执行小时
                                 deviceStartHour = deviceNameDesc.contains("_") ? deviceNameDesc.split("_")[1] : null;
-                                //目标设备描述-即群对应设备描述targetDeviceNameDesc
-                                String targetDeviceNameDesc = addGroupMembersAsFriendsParam.get("targetDeviceNameDesc") != null ? addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString() : null;
                                 //群的指定目标的设备与当前的设备不符合直接continue
-                                if (deviceStartHour == null || deviceNameDesc == null || targetDeviceNameDesc == null || !targetDeviceNameDesc.equals(deviceNameDesc)) {
+                                if (deviceStartHour == null || deviceNameDesc == null) {
                                     continue;
                                 }
 
@@ -279,7 +269,6 @@ public class AddGroupMembersAsFriendsUtils {
                                     Map<String, Object> tempMap = Maps.newHashMap();
                                     tempMap.put("id", theId);
                                     LinkedHashMap<String, Object> dicRemarkMap = Maps.newLinkedHashMap();
-                                    dicRemarkMap.put("targetDeviceNameDesc", addGroupMembersAsFriendsParam.get("targetDeviceNameDesc"));
                                     dicRemarkMap.put("startAddFrirndTotalNumStr", addGroupMembersAsFriendsParam.get("startAddFrirndTotalNumStr"));
                                     dicRemarkMap.put("nickName", nickName);
                                     dicRemarkMap.put("action", addGroupMembersAsFriendsParam.get("action"));
@@ -300,17 +289,16 @@ public class AddGroupMembersAsFriendsUtils {
                                         }
                                         automation_DicService.updateDic(tempMap);    //更新这个群信息
                                         if ("1".equals(tempMap.get("dicStatus").toString())) {            //状态为1，则认为当前群成员都已经加过一遍了，发送微信消息通知群主给该设备换群
-                                            String targetDeviceNameDesc = addGroupMembersAsFriendsParam.get("targetDeviceNameDesc").toString();
                                             //邮件通知
                                             StringBuffer mailMessageBuf = new StringBuffer();
                                             mailMessageBuf.append("蔡红旺，您好：\n");
                                             mailMessageBuf.append("        ").append("\t操作名称：添加群成员为好友的V群").append("\n");
                                             mailMessageBuf.append("        ").append("\t微信群名：").append(nickName).append("\n");
-                                            mailMessageBuf.append("        ").append("\t操作设备：").append(targetDeviceNameDesc).append("\n");
+                                            mailMessageBuf.append("        ").append("\t操作设备：").append(deviceNameDesc).append("\n");
                                             mailMessageBuf.append("        ").append("\t完成时间：").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("\n");
                                             mailMessageBuf.append("        ").append("\t完成地点：").append("北京市昌平区").append("\n");
                                             mailMessageBuf.append("        ").append("\t服务状态：").append("已完成对【" + nickName + "】添加群成员为好友.").append("\n");
-                                            mailMessageBuf.append("        ").append("\t温馨提示：").append("当前设备【" + targetDeviceNameDesc + "】已经将【" + nickName + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.").append("\n");
+                                            mailMessageBuf.append("        ").append("\t温馨提示：").append("当前设备【" + deviceNameDesc + "】已经将【" + nickName + "】群成员已全部申请添加为好友，请管理员为该设备绑定新的群进行当前自动化操作.").append("\n");
                                             paramMap.clear();
                                             paramMap.put("to", "caihongwang@dingtalk.com");
                                             paramMap.put("subject", "【服务异常通知】添加群成员为好友的V群");

@@ -242,23 +242,23 @@ public class TimeTaskOfQuartz {
                             return;
                         }
                     }
-                    //获取昵称列表
-                    List<String> nickNameList = Lists.newArrayList();
-                    {
-                        paramMap.clear();
-                        nickNameList.clear();
-                        paramMap.put("dicType", "addGroupMembersAsFriends");
-                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
-                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
-                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
-                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
-                            }
-                        }
-                    }
+//                    //获取昵称列表
+//                    List<String> nickNameList = Lists.newArrayList();
+//                    {
+//                        paramMap.clear();
+//                        nickNameList.clear();
+//                        paramMap.put("dicType", "addGroupMembersAsFriends");
+//                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+//                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+//                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+//                                nickNameList.add(sendFriendCircleMap.get("dicCode"));
+//                            }
+//                        }
+//                    }
 
                     paramMap.clear();
                     paramMap.put("currentDeviceListStr", JSONObject.toJSONString(currentDeviceList));
-                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
+//                    paramMap.put("nickNameListStr", JSONObject.toJSONString(nickNameList));
                     automation_WxService.addGroupMembersAsFriends(paramMap);
                 } catch (Exception error) {
                     error.printStackTrace();
