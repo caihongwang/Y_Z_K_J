@@ -306,19 +306,31 @@ public class Automation_DicServiceImpl implements Automation_DicService {
             //3.筛选出可以添加群成员为好友的群信息Map
             Map<String, String> groupNickNameMap = Maps.newHashMap();
             for (Map.Entry<String, String> entry : groupNickNameMapOfDevice.entrySet()) {
-                String groupNickName = entry.getKey();
-                String groupNum = entry.getValue();
-                //判断该群是否曾经被使用过
-                boolean isAddFlag = true;
-                for(String usedGroupNickName : allUsedGroupNickNameList){
-                    if(usedGroupNickName.contains(groupNickName)){
-                        isAddFlag = false;
-                        break;
+                try {
+                    String groupNickName = EmojiUtil.emojiRecovery(entry.getKey());
+                    String groupNum = entry.getValue();
+                    //判断该群是否曾经被使用过
+                    boolean isAddFlag = true;
+                    for(String usedGroupNickName : allUsedGroupNickNameList){
+                        try {
+                            usedGroupNickName = EmojiUtil.emojiRecovery(usedGroupNickName);
+                            if(usedGroupNickName.contains(groupNickName)){
+                                isAddFlag = false;
+                                break;
+                            }
+                        } catch (Exception e) {
+
+                        }
                     }
+                    if(isAddFlag){
+                        groupNickNameMap.put(groupNickName, groupNum);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                if(isAddFlag){
-                    groupNickNameMap.put(groupNickName, groupNum);
-                }
+            }
+            for (Map.Entry<String, String> entry : groupNickNameMap.entrySet()) {
+                System.out.println(entry.getKey() + "-------->>>>>" + entry.getValue());
             }
             resultMapDTO.setResultListTotal(groupNickNameMap.size());
             resultMapDTO.setResultMap(groupNickNameMap);

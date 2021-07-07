@@ -64,8 +64,8 @@
         #{dicCode},
         #{dicName},
         #{dicRemark},
-        #{createTime},
-        #{updateTime}
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
         )
     </insert>
 
