@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 真机设备 转发微信消息 策略
@@ -64,12 +65,12 @@ public class RealMachineDevices implements RelayTheWxMessage {
                         "1";
         Integer relayTheWxMessageNum = Integer.parseInt(relayTheWxMessageNumStr);
         //转发的微信群昵称List
-        String relayTargetGroupListStr =
-                paramMap.get("relayTargetGroupList") != null ?
-                        paramMap.get("relayTargetGroupList").toString() :
+        String groupNickNameMapStr =
+                paramMap.get("groupNickNameMapStr") != null ?
+                        paramMap.get("groupNickNameMapStr").toString() :
 //                        "[\"内部交流群\"]";
                         "[\"内部交流群\",\"铜仁市～思南县～车友群\",\"铜仁市～松桃县～本地油价\",\"铜仁市～碧江区～车友群\",\"铜仁市～万山区～车友群\",\"铜仁市～德江县～车友群\",\"铜仁市～印江县～车友群\",\"铜仁市～沿河县～车友群\",\"铜仁市～江口县～车友群\",\"铜仁市～松桃县～车友群\",\"铜仁市～玉屏县～车友群\"]";
-        List<String> relayTargetGroupList = JSON.parseObject(relayTargetGroupListStr, List.class);
+        Map<String, String> groupNickNameMap = JSON.parseObject(groupNickNameMapStr, Map.class);
         //微信群昵称
         String targetGroup =
                 paramMap.get("targetGroup") != null ?
@@ -171,7 +172,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
                 logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】失败，因为微信正在建立索引....");
                 if (i == 30) {
                     throw new Exception("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【搜索框】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
-                } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
+                } else if (i == 15) {        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
                     driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                     logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
                     continue;
@@ -198,7 +199,7 @@ public class RealMachineDevices implements RelayTheWxMessage {
                     logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:className/android.widget.EditText】失败....");
                     if (i == 30) {
                         throw new Exception("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】点击坐标【输入昵称到搜索框:text/搜索】与【输入昵称到搜索框:className/android.widget.EditText】均失败,请检查设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】的应用是否更新导致坐标变化等原因....");
-                    } else if(i == 15){        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
+                    } else if (i == 15) {        //当点击15次均无法成功点击坐标【搜索】，则通过重启当前应用【微信】处理
                         driver.startActivity(chatActivity);      //返回【当前页面聊天好友信息】
                         logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】第【" + i + "】次点击坐标【搜索框】失败，通过重启当前应用【微信】处理....");
                         continue;
@@ -238,10 +239,12 @@ public class RealMachineDevices implements RelayTheWxMessage {
             }
         }
         //根据 根据转发的群昵称List 进行遍历
-        Iterator<String> iterator = relayTargetGroupList.iterator();
+        Set<Map.Entry<String, String>> set = groupNickNameMap.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = set.iterator();
         while (iterator.hasNext()) {
             Integer relayNumOfOne = 0;  //一次多选，转发，最多选择9个目标群进行操作
-            String relayTargetGroup = iterator.next();
+            Map.Entry<String, String> entry = iterator.next();
+            String groupNickName = entry.getKey();
             //获取所有的微信消息RelativeLayout //android.widget.ListView/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout
             List<WebElement> chatContentRelativeLayoutList = Lists.newArrayList();
             try {
@@ -347,22 +350,22 @@ public class RealMachineDevices implements RelayTheWxMessage {
                 //点击坐标【搜索】
                 try {
                     driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").clear();
-                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").sendKeys(relayTargetGroup);
-                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】成功....");
+                    driver.findElementByAndroidUIAutomator("new UiSelector().className(\"" + editTextLocaltion + "\")").sendKeys(groupNickName);
+                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索[android.widget.EditText]并输入群名:" + groupNickName + "】成功....");
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    throw new Exception("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索[android.widget.EditText]并输入群名:" + relayTargetGroup + "】异常....");
+                    throw new Exception("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【搜索[android.widget.EditText]并输入群名:" + groupNickName + "】异常....");
                 }
                 //点击坐标【群名】           //android.widget.TextView[@text="内部交流群"]
                 try {
-                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + relayTargetGroup + "\"]").click();
-                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【群名：" + relayTargetGroup + "】【xpath】成功....");
+                    driver.findElementByXPath("//android.widget.TextView[@text=\"" + groupNickName + "\"]").click();
+                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【群名：" + groupNickName + "】【xpath】成功....");
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【群名：" + relayTargetGroup + "】【xpath】异常....");
+                    logger.info("【转发微信消息】设备描述【" + deviceNameDesc + "】设备编码【" + deviceName + "】点击坐标【群名：" + groupNickName + "】【xpath】异常....");
                 }
                 relayNumOfOne++;
-                if (relayNumOfOne >= 9 || relayNumOfOne >= relayTargetGroupList.size() || !iterator.hasNext()) {
+                if (relayNumOfOne >= 9 || relayNumOfOne >= groupNickNameMap.size() || !iterator.hasNext()) {
                     //点击坐标【发送(】
                     try {
                         driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + sendLocaltion + "\")").click();
@@ -382,7 +385,8 @@ public class RealMachineDevices implements RelayTheWxMessage {
                         break;
                     }
                 } else {
-                    relayTargetGroup = iterator.next();
+                    entry = iterator.next();
+                    groupNickName = entry.getKey();
                 }
             }
             iterator.remove();

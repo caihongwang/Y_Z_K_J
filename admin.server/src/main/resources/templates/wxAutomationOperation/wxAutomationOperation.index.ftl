@@ -211,7 +211,7 @@
 	<@netCommon.commonFooter />
 </div>
 
-<!-- 模态框 For 默认：阅读微信文章并点击广告 或者 同意好友请求 或者 将群保存到通讯录 或者 同意进群 或者 转发微信消息 -->
+<!-- 模态框 For 默认：阅读微信文章并点击广告 或者 同意好友请求 或者 将群保存到通讯录 或者 同意进群 -->
 <div class="modal fade" id="automationOperationModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -238,7 +238,8 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
@@ -303,7 +304,8 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
@@ -350,14 +352,16 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">微信号列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}微信号列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}微信号列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
@@ -411,7 +415,72 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作参数" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
+						</div>
+					</div>
+
+					<hr>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-6">
+							<button type="submit" class="btn btn-primary">${I18n.system_opt}</button>
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">${I18n.system_cancel}</button>
+							<input type="hidden" name="id">
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 模态框 For 转发微信消息 -->
+<div class="modal fade" id="relayTheWxMessageModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" name="modalTitle">转发微信消息-自动化操作</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal form" role="form">
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作名称<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_name" placeholder="${I18n.system_please_input}操作名称" readonly="true">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作地址<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  name="automationOperation_url" placeholder="${I18n.system_please_input}操作地址" maxlength="1000">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
+						<div class="col-sm-4">
+							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForRelayTheWxMessageModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-sm-2 control-label">转发群昵称列表<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}转发群昵称列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: none;">
+						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
+						<div class="col-sm-10">
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -458,14 +527,15 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">被邀请的昵称列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}被邀请的昵称列表" maxlength="10240000" style="height: 150px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}被邀请的昵称列表" maxlength="10240000" style="height: 150px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
 						<div class="col-sm-4">
-							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForAddOrUpdateModalFun()">
+							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForInviteToJoinTheGroupModalFun()">
 								<option value="选择" selected>选择</option>
 							</select>
 						</div>
@@ -474,14 +544,16 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">群昵称列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}群昵称列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}群昵称列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
 					<div class="form-group" style="display: none;">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							</textarea>
 						</div>
 					</div>
 
