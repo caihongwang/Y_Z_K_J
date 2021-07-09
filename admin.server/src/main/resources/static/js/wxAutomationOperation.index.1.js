@@ -20,7 +20,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            if(!validateJsonInput()){       //对当前的Model弹窗中Json输入框进行校验
+            if(!validateJsonInput("automationOperationModal")){       //对当前的Model弹窗中Json输入框进行校验
                 layer.open({
                     title: I18n.system_tips,
                     btn: [I18n.system_ok],
@@ -80,7 +80,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            if(!validateJsonInput()){       //对当前的Model弹窗中Json输入框进行校验
+            if(!validateJsonInput("sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal")){       //对当前的Model弹窗中Json输入框进行校验
                 layer.open({
                     title: I18n.system_tips,
                     btn: [I18n.system_ok],
@@ -137,7 +137,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            if(!validateJsonInput()){       //对当前的Model弹窗中Json输入框进行校验
+            if(!validateJsonInput("praiseAndCommentFriendsCircleModal")){       //对当前的Model弹窗中Json输入框进行校验
                 layer.open({
                     title: I18n.system_tips,
                     btn: [I18n.system_ok],
@@ -194,7 +194,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            if(!validateJsonInput()){       //对当前的Model弹窗中Json输入框进行校验
+            if(!validateJsonInput("shareVideoNumToFriendCircleModal")){       //对当前的Model弹窗中Json输入框进行校验
                 layer.open({
                     title: I18n.system_tips,
                     btn: [I18n.system_ok],
@@ -251,7 +251,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            if(!validateJsonInput()){       //对当前的Model弹窗中Json输入框进行校验
+            if(!validateJsonInput("inviteToJoinTheGroupModal")){       //对当前的Model弹窗中Json输入框进行校验
                 layer.open({
                     title: I18n.system_tips,
                     btn: [I18n.system_ok],
@@ -308,7 +308,7 @@ $(function() {
             element.parent('div').append(error);
         },
         submitHandler : function(form) {
-            if(!validateJsonInput()){       //对当前的Model弹窗中Json输入框进行校验
+            if(!validateJsonInput("relayTheWxMessageModal")){       //对当前的Model弹窗中Json输入框进行校验
                 layer.open({
                     title: I18n.system_tips,
                     btn: [I18n.system_ok],
@@ -347,99 +347,32 @@ $(function() {
     });
 });
 
-function validateJsonInput() {
+function validateJsonInput(modalId) {
     var flag = true;
-    //阅读微信文章并点击广告 或者 同意好友请求 或者 将群保存到通讯录 或者 同意进群 --->>> 操作设备列表
-    var currentDeviceListStr = $("#automationOperationModal .form textarea[name='currentDeviceListStr']").val();
-    if(!isNull(currentDeviceListStr)){
-        try {
-            $("#automationOperationModal .form textarea[name='currentDeviceListStr']").val(JSON.stringify(JSON.parse(currentDeviceListStr), null, 4));
+    var allTextareaObj = $("#"+modalId+" .form").find("textarea");
+    console.log("modalId --->>> " + modalId);
+    console.log("allTextareaObj");
+    console.log(allTextareaObj);
+    for (var index in allTextareaObj) {
+        var textareaObj = allTextareaObj[index];
+        var value = '';
+        try{
+            value = $(textareaObj).val();
         } catch (e) {
-            $("#automationOperationModal .form textarea[name='currentDeviceListStr']").val(currentDeviceListStr);
+            break;
+        }
+        console.log("value --->>> " + value);
+        console.log("name --->>> " + $(textareaObj).attr("name"));
+        try {
+            $(textareaObj).val(JSON.stringify(JSON.parse(value), null, 4));
+        } catch (e) {
+            $(textareaObj).val(value);
+            console.log("error value : " + value);
             flag = false;
+            break;
         }
     }
-    //点赞和评论朋友圈 --->>> 操作设备列表
-    var currentDeviceListStr = $("#praiseAndCommentFriendsCircleModal .form textarea[name='currentDeviceListStr']").val();
-    if(!isNull(currentDeviceListStr)){
-        console.log("aaaaaaaaa");
-        try {
-            $("#praiseAndCommentFriendsCircleModal .form textarea[name='currentDeviceListStr']").val(JSON.stringify(JSON.parse(currentDeviceListStr), null, 4));
-        } catch (e) {
-            $("#praiseAndCommentFriendsCircleModal .form textarea[name='currentDeviceListStr']").val(currentDeviceListStr);
-            flag = false;
-        }
-    }
-    //发送朋友圈 或者 根据微信昵称进行聊天 或者 分享微信文章到微信朋友圈 或者 添加群成员为好友的V群 --->>> 微信号列表
-    var nickNameListStr = $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='nickNameListStr']").val();
-    if(!isNull(nickNameListStr)){
-        try {
-            $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='nickNameListStr']").val(JSON.stringify(JSON.parse(nickNameListStr), null, 4));
-        } catch (e) {
-            $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='nickNameListStr']").val(nickNameListStr);
-            flag = false;
-        }
-    }
-    //发送朋友圈 或者 根据微信昵称进行聊天 或者 分享微信文章到微信朋友圈 或者 添加群成员为好友的V群 --->>> 操作设备列表
-    var currentDeviceListStr = $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='currentDeviceListStr']").val();
-    if(!isNull(currentDeviceListStr)){
-        try {
-            $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='currentDeviceListStr']").val(JSON.stringify(JSON.parse(currentDeviceListStr), null, 4));
-        } catch (e) {
-            $("#sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal .form textarea[name='currentDeviceListStr']").val(currentDeviceListStr);
-            flag = false;
-        }
-    }
-    //分享视频号到朋友圈 --->>> 操作设备列表
-    var currentDeviceListStr = $("#shareVideoNumToFriendCircleModal .form textarea[name='currentDeviceListStr']").val();
-    if(!isNull(currentDeviceListStr)){
-        try {
-            $("#shareVideoNumToFriendCircleModal .form textarea[name='currentDeviceListStr']").val(JSON.stringify(JSON.parse(currentDeviceListStr), null, 4));
-        } catch (e) {
-            $("#shareVideoNumToFriendCircleModal .form textarea[name='currentDeviceListStr']").val(currentDeviceListStr);
-            flag = false;
-        }
-    }
-    //转发微信消息 --->>> 操作设备列表
-    var currentDeviceListStr = $("#relayTheWxMessageModal .form textarea[name='currentDeviceListStr']").val();
-    if(!isNull(currentDeviceListStr)){
-        try {
-            $("#relayTheWxMessageModal .form textarea[name='currentDeviceListStr']").val(JSON.stringify(JSON.parse(currentDeviceListStr), null, 4));
-        } catch (e) {
-            $("#relayTheWxMessageModal .form textarea[name='currentDeviceListStr']").val(currentDeviceListStr);
-            flag = false;
-        }
-    }
-    //转发微信消息 --->>> 操作设备列表
-    var groupNickNameMapStr = $("#relayTheWxMessageModal .form textarea[name='groupNickNameMapStr']").val();
-    if(!isNull(groupNickNameMapStr)){
-        try {
-            $("#relayTheWxMessageModal .form textarea[name='groupNickNameMapStr']").val(JSON.stringify(JSON.parse(groupNickNameMapStr), null, 4));
-        } catch (e) {
-            $("#relayTheWxMessageModal .form textarea[name='groupNickNameMapStr']").val(groupNickNameMapStr);
-            flag = false;
-        }
-    }
-    //邀请进群 --->>> 被邀请的昵称列表
-    var nickNameListStr = $("#inviteToJoinTheGroupModal .form textarea[name='nickNameListStr']").val();
-    if(!isNull(nickNameListStr)){
-        try {
-            $("#inviteToJoinTheGroupModal .form textarea[name='nickNameListStr']").val(JSON.stringify(JSON.parse(nickNameListStr), null, 4));
-        } catch (e) {
-            $("#inviteToJoinTheGroupModal .form textarea[name='nickNameListStr']").val(nickNameListStr);
-            flag = false;
-        }
-    }
-    //邀请进群 --->>> 操作设备列表
-    var groupNickNameMapStr = $("#inviteToJoinTheGroupModal .form textarea[name='groupNickNameMapStr']").val();
-    if(!isNull(groupNickNameMapStr)){
-        try {
-            $("#inviteToJoinTheGroupModal .form textarea[name='groupNickNameMapStr']").val(JSON.stringify(JSON.parse(groupNickNameMapStr), null, 4));
-        } catch (e) {
-            $("#inviteToJoinTheGroupModal .form textarea[name='groupNickNameMapStr']").val(groupNickNameMapStr);
-            flag = false;
-        }
-    }
+    console.log("flag = " + flag);
     return flag;
 }
 

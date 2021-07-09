@@ -1,13 +1,20 @@
 Linux系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
 
-    1.更新软件源，sudo apt-get update
+    1.安装rethinkdb，sudo apt-get install rethinkdb，参考：https://rethinkdb.com/docs/install/ubuntu/
 
+    2.安装farm-devices，cnpm install -g @devicefarmer/stf，参考：https://www.cnblogs.com/yuyushi/p/14395582.html
 
+    3.官网：https://openstf.io/
 
 
 
 Mac系统，注：下载链接打不开时，请联系微信 cai_hongwang ，直接说问题，砸红包的会提前回复，[坏笑]
 
+    1.brew install rethinkdb graphicsmagick zeromq protobuf yasm pkg-config
+
+    2.cnpm install -g @devicefarmer/stf，参考：https://www.cnblogs.com/yuyushi/p/14395582.html
+
+    3.官网：https://openstf.io/
 
 
 
