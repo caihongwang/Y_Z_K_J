@@ -151,7 +151,6 @@
 					<div class="form-group addGroupMembersAsFriends">
 						<label for="lastname" class="col-sm-2 control-label">目标微信群昵称<font color="black">*</font></label>
 						<div class="col-sm-10">
-<#--							<input type="text" class="form-control"  name="nickName" placeholder="${I18n.system_please_input}目标微信群昵称" maxlength="100" onchange="changeDicRemark()">-->
 							<select class="form-control" name="nickName" onchange="changeDicRemark()">
 								<option value="选择" selected>选择</option>
 							</select>

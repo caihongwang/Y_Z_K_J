@@ -161,7 +161,8 @@ $(function () {
         //拆分显示 dicRemark
         var dicRemark_jsonObj = JSON.parse(row.dicRemark);
         $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").val(row.dicCode);
-        changeTargetDeviceNameDescForAddOrUpdateModalFun(dicRemark_jsonObj.nickName);       //通过触发targetDeviceNameDesc的事件函数，初始化 目标设备描述，业务编码，目标微信群昵称
+        $("#addOrUpdateModal .form select[name='nickName']").html("<option value='"+dicRemark_jsonObj.nickName+"' selected>群名："+dicRemark_jsonObj.nickName+"</option>");
+        $("#addOrUpdateModal .form select[name='nickName']").trigger("change");             //目标微信群昵称
         $("#addOrUpdateModal .form input[name='targetDeviceNameDesc']").val(dicRemark_jsonObj.targetDeviceNameDesc);    //目标设备描述
         $("#addOrUpdateModal .form input[name='startAddFrirndTotalNumStr']").val(dicRemark_jsonObj.startAddFrirndTotalNumStr);   //添加好友的起始位置
         $("#addOrUpdateModal .form input[name='addFrirndTotalNumStr']").val(dicRemark_jsonObj.addFrirndTotalNumStr);    //每次成功添加群成员数量
@@ -409,6 +410,8 @@ function clearFormValue(operationCode) {
         var targetDeviceNameDesc = $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").find("option").first().val();
         $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").val(targetDeviceNameDesc);
         $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").trigger("change");       //通过触发事件，初始化 业务编码
+
+        $("#addOrUpdateModal .form select[name='nickName']").val(nickName);
         // changeTargetDeviceNameDescForAddOrUpdateModalFun(dicRemark_jsonObj.nickName);             //通过触发targetDeviceNameDesc的事件函数，初始化 目标设备描述，业务编码，目标微信群昵称
 
         $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
