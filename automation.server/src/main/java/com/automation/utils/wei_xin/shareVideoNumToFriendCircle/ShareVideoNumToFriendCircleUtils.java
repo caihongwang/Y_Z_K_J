@@ -41,6 +41,7 @@ public class ShareVideoNumToFriendCircleUtils {
      * 分享视频号到朋友圈for所有设备
      */
     public void shareVideoNumToFriendCircle(Map<String, Object> paramMap) throws Exception {
+        String shareFendCircleCentent = paramMap.get("shareFendCircleCentent") != null ? paramMap.get("shareFendCircleCentent").toString() : "";
         String currentDeviceListStr = paramMap.get("currentDeviceListStr") != null ? paramMap.get("currentDeviceListStr").toString() : "";
         LinkedList<String> currentDeviceList = Lists.newLinkedList();
         try {
@@ -88,6 +89,7 @@ public class ShareVideoNumToFriendCircleUtils {
                     //获取设备坐标
                     String deviceLocaltionStr = deviceNameAndLocaltionJSONObject.getString("deviceLocaltion");
                     Map<String, Object> deviceLocaltionMap = JSONObject.parseObject(deviceLocaltionStr, Map.class);
+                    shareVideoNumToFriendCircleParam.put("shareFendCircleCentent", shareFendCircleCentent);
                     shareVideoNumToFriendCircleParam.putAll(deviceLocaltionMap);
                     //获取设备列表
                     String deviceNameListStr = deviceNameAndLocaltionJSONObject.getString("deviceNameList");

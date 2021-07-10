@@ -236,10 +236,18 @@
 					</div>
 
 					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
+						<div class="col-sm-10">
+							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForDefaultModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: none;">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
-							</textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -302,10 +310,18 @@
 					</div>
 
 					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
+						<div class="col-sm-10">
+							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForPraiseAndCommentFriendsCircleModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: none;">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
-							</textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -325,7 +341,7 @@
 	</div>
 </div>
 
-<!-- 模态框 For 发送朋友圈 或者 根据微信昵称进行聊天 或者 分享微信文章到微信朋友圈 或者 添加群成员为好友的V群 -->
+<!-- 模态框 For 发送朋友圈 或者 分享微信文章到微信朋友圈 或者 添加群成员为好友的V群 或者 根据微信昵称进行聊天 -->
 <div class="modal fade" id="sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircle_or_addGroupMembersAsFriends_Modal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -350,18 +366,35 @@
 					</div>
 
 					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">微信号列表<font color="red">*</font></label>
+						<div class="col-sm-10">
+							<select class="form-control" name="currentNickName" onchange="changeCurrentNickName_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircleModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: none;">
 						<label for="firstname" class="col-sm-2 control-label">微信号列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}微信号列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							<textarea class="textarea form-control" name="nickNameListStr" placeholder="${I18n.system_please_input}微信号列表" maxlength="10240000" style="height: 150px; line-height: 1.2;">
 							</textarea>
 						</div>
 					</div>
 
 					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
+						<div class="col-sm-10">
+							<select class="form-control" name="currentDevice" onchange="changeCurrentDevice_For_sendFriendCircle_or_chatByNickName_or_shareArticleToFriendCircleModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: none;">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
-							</textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -401,7 +434,7 @@
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">分享朋友圈内容<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  name="automationOperation_shareFendCircleCentent" placeholder="${I18n.system_please_input}分享朋友圈内容">
+							<input type="text" class="form-control"  name="shareFendCircleCentent" placeholder="${I18n.system_please_input}分享朋友圈内容">
 						</div>
 					</div>
 
@@ -413,10 +446,18 @@
 					</div>
 
 					<div class="form-group">
+						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
+						<div class="col-sm-10">
+							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForShareVideoNumToFriendCircleModalFun()">
+								<option value="选择" selected>选择</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group" style="display: none;">
 						<label for="firstname" class="col-sm-2 control-label">操作设备列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
-							</textarea>
+							<textarea class="textarea form-control" name="currentDeviceListStr" placeholder="${I18n.system_please_input}操作设备列表" maxlength="10240000" style="height: 250px; line-height: 1.2;"></textarea>
 						</div>
 					</div>
 
@@ -472,7 +513,7 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">转发群昵称列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}转发群昵称列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}转发群昵称列表" maxlength="10240000" style="height: 150px; line-height: 1.2;">
 							</textarea>
 						</div>
 					</div>
@@ -534,7 +575,7 @@
 
 					<div class="form-group">
 						<label for="lastname" class="col-sm-2 control-label">操作设备列表<font color="red">*</font></label>
-						<div class="col-sm-4">
+						<div class="col-sm-10">
 							<select class="form-control" name="currentDevice" onchange="changeCurrentDeviceForInviteToJoinTheGroupModalFun()">
 								<option value="选择" selected>选择</option>
 							</select>
@@ -544,7 +585,7 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-2 control-label">群昵称列表<font color="black">*</font></label>
 						<div class="col-sm-10">
-							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}群昵称列表" maxlength="10240000" style="height: 250px; line-height: 1.2;">
+							<textarea class="textarea form-control" name="groupNickNameMapStr" placeholder="${I18n.system_please_input}群昵称列表" maxlength="10240000" style="height: 150px; line-height: 1.2;">
 							</textarea>
 						</div>
 					</div>
