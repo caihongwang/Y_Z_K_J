@@ -157,6 +157,7 @@ $(function () {
         $("#addOrUpdateModal .form select[name='dicType'] option[value=" + row.dicType + "]").prop('selected', true);     //业务类型
         $("#addOrUpdateModal .form select[name='dicName'] option[value=" + row.dicName + "]").prop('selected', true);     //业务名称
         $("#addOrUpdateModal .form select[name='dicStatus'] option[value=" + row.dicStatus + "]").prop('selected', true); //业务状态
+        $("#addOrUpdateModal .form input[name='dicCode']").val(row.dicCode);                                              //业务编码
         console.log("更新中，触发 targetDeviceNameDesc .....")
         //拆分显示 dicRemark
         var dicRemark_jsonObj = JSON.parse(row.dicRemark);
@@ -411,9 +412,7 @@ function clearFormValue(operationCode) {
         $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").val(targetDeviceNameDesc);
         $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").trigger("change");       //通过触发事件，初始化 业务编码
 
-        $("#addOrUpdateModal .form select[name='nickName']").val(nickName);
-        // changeTargetDeviceNameDescForAddOrUpdateModalFun(dicRemark_jsonObj.nickName);             //通过触发targetDeviceNameDesc的事件函数，初始化 目标设备描述，业务编码，目标微信群昵称
-
+        // $("#addOrUpdateModal .form select[name='nickName']").val(nickName);
         $("#addOrUpdateModal h4[class='modal-title']").html($("#addOrUpdateModal h4[class='modal-title']").html().replace("更新", "新增")); //变更 modal-title
     } else if(operationCode == "update"){
         operationName = "更新";
@@ -465,9 +464,8 @@ function changeDicTypeForAddOrUpdateModalFun(obj){
 /**
  * 目标设备描述 选择时间 for addOrUpdateModal
  */
-function changeTargetDeviceNameDescForAddOrUpdateModalFun(nickName) {
+function changeTargetDeviceNameDescForAddOrUpdateModalFun() {
     console.log("changeTargetDeviceNameDescForAddOrUpdateModalFun --->>> 被点击...");
-    console.log("nickName = " + nickName);
     var targetDeviceNameDesc = $("#addOrUpdateModal .form select[name='targetDeviceNameDesc']").children('option:selected').val();
     console.log("targetDeviceNameDesc = " + targetDeviceNameDesc);
     $("#addOrUpdateModal .form input[name='dicCode']").val(targetDeviceNameDesc);
@@ -504,10 +502,7 @@ function changeTargetDeviceNameDescForAddOrUpdateModalFun(nickName) {
                 index++;
             }
             $("#addOrUpdateModal .form select[name='nickName']").html(optionHtml);
-            if(!isNull(nickName)){
-                $("#addOrUpdateModal .form select[name='nickName']").val(nickName);
-                $("#addOrUpdateModal .form select[name='nickName']").trigger("change");
-            }
+            $("#addOrUpdateModal .form select[name='nickName']").trigger("change");
         }
     );
 }

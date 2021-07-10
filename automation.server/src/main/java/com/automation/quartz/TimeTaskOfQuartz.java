@@ -268,10 +268,10 @@ public class TimeTaskOfQuartz {
     }
 
     /**
-     * 每周五下午15点开始执行
+     * 每周五下午23点开始执行
      * 同意好友请求
      */
-    @Scheduled(cron = "0 0 15 * * FRI")
+    @Scheduled(cron = "0 0 23 * * FRI")
     public void do_agreeToFriendRequest() {
         Date currentDate = new Date();
         if ("develop".equals(useEnvironmental)) {
@@ -296,26 +296,106 @@ public class TimeTaskOfQuartz {
             } catch (Exception e) {
                 logger.error("在hanlder中启动appium,同意好友请求-agreeToFriendRequest is error, 即将通过数据库同意好友请求 paramMap : " + JSON.toJSONString(paramMap));
                 try{
-                    paramMap.clear();
+                    //获取设备列表
                     LinkedList<String> currentDeviceList = Lists.newLinkedList();
-                    String currentDeviceListStr = "[\n" +
-                            "    \"小米Max3_10\",\n" +
-                            "    \"华为Mate8_11\",\n" +
-                            "    \"华为Mate8_12\",\n" +
-                            "    \"华为Mate8_13\",\n" +
-                            "    \"华为Mate8_14\",\n" +
-                            "    \"华为Mate8_15\",\n" +
-                            "    \"华为Mate8_16\",\n" +
-                            "    \"华为Mate8_17\",\n" +
-                            "    \"华为Mate8海外版_18\",\n" +
-                            "    \"华为Mate8_19\",\n" +
-                            "    \"华为Mate8_20\",\n" +
-                            "    \"华为Mate8_21\"\n" +
-                            "]";
-                    currentDeviceList = JSON.parseObject(currentDeviceListStr, LinkedList.class);
-                    paramMap.put("currentDeviceListStr", JSONObject.toJSONString(currentDeviceList));
-                    automation_WxService.saveToAddressBook(paramMap);            //将群保存到通讯录
-                    automation_WxService.agreeToFriendRequest(paramMap);         //同意好友请求
+                    {
+                        paramMap.clear();
+                        paramMap.put("dicType", "deviceNameListAndLocaltion");
+                        paramMap.put("dicCode", "HuaWeiListAndAgreeToFriendRequestLocaltion");
+                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+                                String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
+                                List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                                if (deviceNameList != null && deviceNameList.size() > 0) {
+                                    for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                        //当前设备描述
+                                        String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
+                                        currentDeviceList.add(deviceNameDesc);
+                                    }
+                                }
+                            }
+                        }
+                        if(currentDeviceList.size() <= 0){
+                            return;
+                        }
+                    }
+
+                    for(String currentDevice : currentDeviceList){
+                        LinkedList<String> tempList = Lists.newLinkedList();
+                        tempList.add(currentDevice);
+                        paramMap.put("currentDeviceListStr", JSONObject.toJSONString(tempList));
+                        automation_WxService.agreeToFriendRequest(paramMap);         //同意好友请求
+                        Thread.sleep(1000*10);
+                    }
+                } catch (Exception error) {
+                    error.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 每周六下午23点开始执行
+     * 将群保存到通讯录
+     */
+    @Scheduled(cron = "0 0 23 * * SAT")
+    public void do_saveToAddressBook() {
+        Date currentDate = new Date();
+        if ("develop".equals(useEnvironmental)) {
+            Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("currentDate", currentDate);
+            try {
+                paramMap.clear();
+                List<String> currentDeviceList = Lists.newArrayList();
+                paramMap.put("start", 0);
+                paramMap.put("size", 10);
+                paramMap.put("id", "13");       // jobDesc --->>> 同意好友请求
+                List<Map<String, Object>> list = xxl_JobInfoDao.getSimpleJobInfoByCondition(paramMap);
+                if (list != null && list.size() > 0) {
+                    Map<String, Object> addGroupMembersAsFriendsMap = list.get(0);
+                    String currentDeviceListStr = addGroupMembersAsFriendsMap.get("executorParam") != null ? addGroupMembersAsFriendsMap.get("executorParam").toString() : "";
+                    paramMap.clear();
+                    paramMap.put("currentDateListStr", currentDeviceListStr);
+                    automation_WxService.addGroupMembersAsFriends(paramMap);
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                logger.error("在hanlder中启动appium,同意好友请求-agreeToFriendRequest is error, 即将通过数据库同意好友请求 paramMap : " + JSON.toJSONString(paramMap));
+                try{
+                    //获取设备列表
+                    LinkedList<String> currentDeviceList = Lists.newLinkedList();
+                    {
+                        paramMap.clear();
+                        paramMap.put("dicType", "deviceNameListAndLocaltion");
+                        paramMap.put("dicCode", "HuaWeiListAndSaveToAddressBookLocaltion");
+                        ResultDTO resultDTO = automation_DicService.getSimpleDicByCondition(paramMap);
+                        if (resultDTO != null && resultDTO.getResultList() != null && resultDTO.getResultList().size() > 0) {
+                            for (Map<String, String> sendFriendCircleMap : resultDTO.getResultList()) {
+                                String deviceNameListStr = sendFriendCircleMap.get("deviceNameList");
+                                List<HashMap<String, Object>> deviceNameList = JSONObject.parseObject(deviceNameListStr, List.class);
+                                if (deviceNameList != null && deviceNameList.size() > 0) {
+                                    for (Map<String, Object> deviceNameMap : deviceNameList) {
+                                        //当前设备描述
+                                        String deviceNameDesc = deviceNameMap.get("deviceNameDesc") != null ? deviceNameMap.get("deviceNameDesc").toString() : null;
+                                        currentDeviceList.add(deviceNameDesc);
+                                    }
+                                }
+                            }
+                        }
+                        if(currentDeviceList.size() <= 0){
+                            return;
+                        }
+                    }
+
+                    for(String currentDevice : currentDeviceList){
+                        LinkedList<String> tempList = Lists.newLinkedList();
+                        tempList.add(currentDevice);
+                        paramMap.put("currentDeviceListStr", JSONObject.toJSONString(tempList));
+                        automation_WxService.saveToAddressBook(paramMap);            //将群保存到通讯录
+                        Thread.sleep(1000*10);
+                    }
                 } catch (Exception error) {
                     error.printStackTrace();
                 }
